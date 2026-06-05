@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurora Pathways — Web3 Solutions for the Decentralized Future</title>
+  <meta name="description" content="Aurora Pathways delivers cutting-edge Web3 development, smart contract engineering, and decentralized application design. Connect your wallet and explore the future.">
+
+  <!-- ========== Fonts ========== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ========== ethers.js CDN (v6) for wallet connection ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+
+  <style>
+    /* ============================================================
+       CSS RESET & GLOBAL VARIABLES
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #6366f1 30%, #06b6d4 70%, #10b981 100%);
+      --gradient-hero: linear-gradient(160deg, #0f0720 0%, #1a0a3e 25%, #0d1b3e 50%, #061a1f 75%, #0a0f1a 100%);
+      --gradient-card: linear-gradient(145deg, rgba(124, 58, 237, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+      --purple: #7c3aed;
+      --purple-light: #a78bfa;
+      --blue: #6366f1;
+      --teal: #06b6d4;
+      --green: #10b981;
+      --bg-primary: #0a0b14;
+      --bg-secondary: #11121f;
+      --bg-card: #16172b;
+      --bg-card-hover: #1c1e35;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --max-width: 1200px;
+      --nav-height: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .gradient-text, .nav-logo { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    .gradient-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section { padding: 100px 0; position: relative; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    /* ============================================================
+       NAVIGATION
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(10, 11, 20, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      transition: var(--transition);
+    }
+
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 0 24px;
+    }
+
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer; user-select: none;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+
+    /* Wallet Button in Nav */
+    .btn-wallet {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border-hover);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 0.85rem; font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-wallet:hover {
+      border-color: var(--purple);
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+    }
+
+    .btn-wallet.connected {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--green);
+    }
+
+    .btn-wallet.connected:hover {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+    }
+
+    .wallet-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #ef4444;
+      transition: var(--transition);
+    }
+
+    .btn-wallet.connected .wallet-dot { background: var(--green); }
+
+    /* Mobile Menu Toggle */
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 8px;
+    }
+
+    .nav-toggle span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text-primary); border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      background: var(--gradient-hero);
+      position: relative; overflow: hidden;
+      padding-top: var(--nav-height);
+    }
+
+    .hero::before {
+      content: ''; position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: ''; position: absolute; bottom: 10%; right: 20%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4rem);
+      line-height: 1.15; font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 540px; margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 999px;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+      transition: var(--transition);
+      border: none; font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(124, 58, 237, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hover);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--purple-light);
+    }
+
+    /* Floating orbs decoration */
+    .hero-orb {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      filter: blur(80px); opacity: 0.25;
+    }
+
+    .hero-orb-1 {
+      width: 350px; height: 350px;
+      background: var(--purple);
+      top: 25%; right: -5%; animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-orb-2 {
+      width: 250px; height: 250px;
+      background: var(--teal);
+      bottom: 20%; right: 20%; animation: float 10s ease-in-out infinite 2s;
+    }
+
+    .hero-orb-3 {
+      width: 200px; height: 200px;
+      background: var(--blue);
+      top: 50%; left: -5%; animation: float 12s ease-in-out infinite 4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-40px) scale(1.08); }
+    }
+
+    /* ============================================================
+       SERVICES SECTION
+       ============================================================ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      opacity: 0; transition: var(--transition);
+    }
+
+    .service-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-card:hover::before { opacity: 1; }
+
+    .service-icon {
+      width: 56px; height: 56px; border-radius: var(--radius-md);
+      background: var(--gradient-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .service-card h3 { font-size: 1.2rem; margin-bottom: 12px; font-weight: 600; }
+
+    .service-card p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ============================================================
+       ABOUT SECTION
+       ============================================================ */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: center; margin-top: 48px;
+    }
+
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem; font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ============================================================
+       PRICING SECTION
+       ============================================================ */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px 32px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--purple);
+      background: linear-gradient(160deg, rgba(124, 58, 237, 0.08), rgba(6, 182, 212, 0.06));
+      box-shadow: 0 0 40px rgba(124, 58, 237, 0.12);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .pricing-badge {
+      position: absolute; top: -14px; right: 24px;
+      background: var(--gradient-primary);
+      color: #fff; font-size: 0.75rem; font-weight: 700;
+      padding: 6px 16px; border-radius: 999px;
+    }
+
+    .pricing-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+
+    .price {
+      font-size: 2.8rem; font-weight: 700;
+      margin: 20px 0 8px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .price span { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
+
+    .pricing-features {
+      list-style: none; margin: 28px 0 32px;
+    }
+
+    .pricing-features li {
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.92rem; color: var(--text-secondary);
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .pricing-features li::before {
+      content: '✦'; color: var(--teal); font-size: 0.7rem;
+    }
+
+    .btn-pay {
+      width: 100%; padding: 14px;
+      border-radius: 999px;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      border: 1px solid var(--border-hover);
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+    }
+
+    .btn-pay.featured-btn {
+      background: var(--gradient-primary);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-pay:hover { transform: scale(1.03); }
+    .btn-pay.featured-btn:hover {
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.45);
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+       ============================================================ */
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      margin-top: 48px;
+    }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-group label {
+      font-size: 0.85rem; font-weight: 500; color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .form-group textarea { min-height: 140px; }
+
+    .contact-info {
+      display: flex; flex-direction: column; gap: 24px;
+      padding: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+    }
+
+    .contact-info-item { display: flex; gap: 16px; align-items: flex-start; }
+
+    .contact-info-icon {
+      width: 44px; height: 44px; border-radius: var(--radius-sm);
+      background: var(--gradient-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+
+    .contact-info-item h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .contact-info-item p { font-size: 0.88rem; color: var(--text-secondary); }
+
+    /* ============================================================
+       COINBASE COMMERCE BUTTON PLACEHOLDER
+       ============================================================ */
+    .crypto-payment-area {
+      margin-top: 40px;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      text-align: center;
+    }
+
+    .crypto-payment-area h3 { margin-bottom: 8px; }
+    .crypto-payment-area p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+
+    .coinbase-pay-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px;
+      border-radius: 999px;
+      background: #0052ff;
+      color: #fff;
+      font-size: 1rem; font-weight: 600;
+      cursor: pointer; border: none;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .coinbase-pay-btn:hover {
+      background: #0044d9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 82, 255, 0.35);
+    }
+
+    .coinbase-pay-btn img { width: 22px; height: 22px; }
+
+    .crypto-address-display {
+      margin-top: 16px;
+      padding: 8px 16px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .crypto-address-display.visible { display: inline-block; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ============================================================
+       TOAST / NOTIFICATION
+       ============================================================ */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 0.9rem; font-weight: 500;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      transform: translateY(120px); opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { border-color: #ef4444; }
+    .toast.success { border-color: var(--green); }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: var(--nav-height); left: 0; right: 0;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border);
+        padding: 16px; gap: 4px;
+      }
+      .section { padding: 72px 0; }
+      .hero { text-align: center; }
+      .hero p { margin: 0 auto 40px; }
+      .hero-buttons { justify-content: center; }
+      .hero-orb { display: none; }
+      .services-grid, .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="scrollToSection('hero')">✦ Aurora Pathways</div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#services" onclick="smoothNav('services')">Services</a></li>
+        <li><a href="#about" onclick="smoothNav('about')">About</a></li>
+        <li><a href="#pricing" onclick="smoothNav('pricing')">Pricing</a></li>
+        <li><a href="#contact" onclick="smoothNav('contact')">Contact</a></li>
+        <li>
+          <button class="btn-wallet" id="connectWalletBtn" onclick="handleWalletClick()" title="Connect Ethereum Wallet">
+            <span class="wallet-dot" id="walletDot"></span>
+            <span id="walletLabel">Connect Wallet</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="container hero-content">
+      <p class="section-label">✦ Web3 Development Studio</p>
+      <h1>
+        Build the <span class="gradient-text">Decentralized</span> Future
+      </h1>
+      <p>
+        Aurora Pathways crafts bespoke Web3 solutions — from smart contract engineering
+        to immersive dApp experiences. We bridge the gap between blockchain technology
+        and exceptional user interfaces.
+      </p>
+      <div class="hero-buttons">
+        <a href="#pricing" class="btn btn-primary">✦ Get Started</a>
+        <a href="#services" class="btn btn-outline">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES SECTION
+       ============================================================ -->
+  <section class="section" id="services">
+    <div class="container">
+      <p class="section-label">What We Do</p>
+      <h2 style="font-size:2.2rem; margin-bottom:12px;">Our <span class="gradient-text">Services</span></h2>
+      <p style="color:var(--text-secondary); max-width:520px; font-size:1.05rem;">
+        End-to-end Web3 development tailored to your vision.
+      </p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <h3>Smart Contracts</h3>
+          <p>Audited, gas-optimized Solidity contracts for ERC-20, ERC-721, ERC-1155, staking, DAOs, and custom protocols.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🖥️</div>
+          <h3>dApp Development</h3>
+          <p>Full-stack decentralized applications with wallet integration, IPFS storage, and beautiful responsive interfaces.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎨</div>
+          <h3>NFT Platforms</h3>
+          <p>Custom NFT marketplaces, minting engines, generative art collections, and royalty management systems.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⚡</div>
+          <h3>DeFi Solutions</h3>
+          <p>Yield farming, liquidity pools, automated market makers, lending protocols, and token vesting platforms.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔐</div>
+          <h3>Security Audits</h3>
+          <p>Rigorous smart contract auditing with fuzz testing, formal verification, and comprehensive vulnerability reports.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🌐</div>
+          <h3>Web3 Consulting</h3>
+          <p>Tokenomics design, go-to-market strategy, community building, and blockchain infrastructure planning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SECTION
+       ============================================================ -->
+  <section class="section" id="about" style="background:var(--bg-secondary);">
+    <div class="container">
+      <p class="section-label">Who We Are</p>
+      <div class="about-grid">
+        <div>
+          <h2 style="font-size:2.2rem; margin-bottom:20px;">
+            Pioneering <span class="gradient-text">Web3</span> Since 2021
+          </h2>
+          <p style="color:var(--text-secondary); margin-bottom:16px; line-height:1.7;">
+            Aurora Pathways is a collective of blockchain engineers, UI/UX designers, and
+            product strategists united by a singular mission: to make decentralized technology
+            accessible, beautiful, and reliable.
+          </p>
+          <p style="color:var(--text-secondary); line-height:1.7;">
+            We've shipped over 50 projects across Ethereum, Polygon, Arbitrum, and Solana —
+            from DeFi protocols managing millions in TVL to NFT collections with
+            global communities.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Projects Delivered</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">12</div>
+            <div class="stat-label">Chain Ecosystems</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">$120M+</div>
+            <div class="stat-label">Total Value Secured</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Security Incidents</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRICING SECTION
+       ============================================================ -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <p class="section-label">Pricing</p>
+      <h2 style="font-size:2.2rem; margin-bottom:12px;">
+        Transparent <span class="gradient-text">Pricing</span>
+      </h2>
+      <p style="color:var(--text-secondary); max-width:520px; font-size:1.05rem;">
+        Pay with crypto. Every plan includes wallet integration and IPFS hosting.
+      </p>
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Landing page + wallet connect</p>
+          <div class="price">2 <span>ETH</span></div>
+          <ul class="pricing-features">
+            <li>Web3 landing page design</li>
+            <li>Wallet connection (MetaMask)</li>
+            <li>IPFS deployment</li>
+            <li>Mobile responsive</li>
+            <li>1 revision cycle</li>
+          </ul>
+          <button class="btn-pay" onclick="openCoinbasePay('Starter', '2 ETH')">Pay with Crypto</button>
+        </div>
+        <!-- Professional (Featured) -->
+        <div class="pricing-card featured">
+          <span class="pricing-badge">Most Popular</span>
+          <h3>Professional</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Full dApp + smart contracts</p>
+          <div class="price">5 <span>ETH</span></div>
+          <ul class="pricing-features">
+            <li>Everything in Starter</li>
+            <li>Custom smart contract (ERC-20/721)</li>
+            <li>dApp frontend with ethers.js</li>
+            <li>Coinbase Commerce integration</li>
+            <li>ENS domain setup</li>
+            <li>3 revision cycles</li>
+            <li>30 days post-launch support</li>
+          </ul>
+          <button class="btn-pay featured-btn" onclick="openCoinbasePay('Professional', '5 ETH')">Pay with Crypto</button>
+        </div>
+        <!-- Enterprise -->
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">Custom protocol + full stack</p>
+          <div class="price">—</div>
+          <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Custom quote based on scope</p>
+          <ul class="pricing-features">
+            <li>Custom DeFi/NFT protocol</li>
+            <li>Full-stack dApp development</li>
+            <li>Security audit included</li>
+            <li>Tokenomics consulting</li>
+            <li>Ongoing maintenance</li>
+            <li>Dedicated PM &amp; team</li>
+          </ul>
+          <button class="btn-pay" onclick="scrollToSection('contact')">Contact Us</button>
+        </div>
+      </div>
+
+      <!-- Coinbase Commerce Integration Area -->
+      <div class="crypto-payment-area">
+        <h3>🌐 <span class="gradient-text">Crypto Payments</span> via Coinbase Commerce</h3>
+        <p>We accept ETH, USDC, BTC, and more through Coinbase Commerce. Click "Pay with Crypto" on any plan to continue, or use the button below for a custom payment.</p>
+        <button class="coinbase-pay-btn" onclick="openCoinbasePayDirect()">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='white'/%3E%3Cpath d='M20 4C11.16 4 4 11.16 4 20s7.16 16 16 16 16-7.16 16-16S28.84 4 20 4zm-1.24 25.6c-.56.2-1.16.28-1.8.28-2.2 0-3.96-1.08-4.88-2.92-.4-.76-.6-1.64-.6-2.56 0-1.04.24-2 .72-2.8.88-1.56 2.44-2.52 4.36-2.52.6 0 1.16.08 1.68.24v2.28c-.52-.28-1.08-.44-1.68-.44-1.28 0-2.24.68-2.68 1.76-.2.48-.28.96-.28 1.48 0 .52.08 1 .28 1.44.4 1.04 1.32 1.68 2.48 1.68.68 0 1.32-.16 1.8-.44v2.52zM24.4 30l-2.92-10.4h2.56l1.76 7.28h.04l1.76-7.28h2.56L27.24 30h-2.84z' fill='%230052ff'/%3E%3C/svg%3E" alt="Coinbase" width="22" height="22">
+          Pay with Coinbase Commerce
+        </button>
+        <div class="crypto-address-display" id="cryptoAddress">
+          <span id="cryptoAddressText">Select a plan to generate a payment link</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SECTION
+       ============================================================ -->
+  <section class="section" id="contact" style="background:var(--bg-secondary);">
+    <div class="container">
+      <p class="section-label">Get In Touch</p>
+      <h2 style="font-size:2.2rem; margin-bottom:12px;">
+        Let's <span class="gradient-text">Build</span> Together
+      </h2>
+      <p style="color:var(--text-secondary); max-width:520px; font-size:1.05rem;">
+        Ready to bring your Web3 vision to life? Drop us a message.
+      </p>
+      <div class="contact-wrapper">
+        <form class="contact-form" id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Satoshi Nakamoto" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="satoshi@web3.dev" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us about your project..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">
+            Send Message ✦
+          </button>
+        </form>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📧</div>
+            <div>
+              <h4>Email</h4>
+              <p>hello@aurorapathways.eth</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">💬</div>
+            <div>
+              <h4>Discord</h4>
+              <p>discord.gg/aurorapathways</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">🐦</div>
+            <div>
+              <h4>Twitter / X</h4>
+              <p>@AuroraPathways</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📡</div>
+            <div>
+              <h4>IPFS Site</h4>
+              <p id="ipfsInfo">ipfs.io/ipns/aurorapathways.eth</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <p>✦ Aurora Pathways &copy; 2026 — Built for Web3. Deployed on IPFS.</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       TOAST CONTAINER
+       ============================================================ -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // ==================== STATE ====================
+    let walletAddress = null;
+    let walletProvider = null;
+    let walletSigner = null;
+
+    // ==================== DOM REFS ====================
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const walletLabel = document.getElementById('walletLabel');
+    const walletDot = document.getElementById('walletDot');
+    const cryptoAddress = document.getElementById('cryptoAddress');
+    const cryptoAddressText = document.getElementById('cryptoAddressText');
+    const toast = document.getElementById('toast');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    // ==================== TOAST SYSTEM ====================
+    function showToast(message, type = '') {
+      toast.textContent = message;
+      toast.className = 'toast show ' + type;
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // ==================== WALLET CONNECTION ====================
+    async function handleWalletClick() {
+      if (walletAddress) {
+        // Already connected — copy address
+        try {
+          await navigator.clipboard.writeText(walletAddress);
+          showToast('Address copied: ' + truncateAddress(walletAddress), 'success');
+        } catch {
+          showToast('Address: ' + walletAddress, 'success');
+        }
+        return;
+      }
+
+      // Connect
+      await connectWallet();
+    }
+
+    async function connectWallet() {
+      // Check if MetaMask or another injected provider exists
+      if (typeof window.ethereum === 'undefined') {
+        showToast('No wallet detected. Please install MetaMask or use a Web3 browser.', 'error');
+        // Open MetaMask install page as fallback
+        window.open('https://metamask.io/download/', '_blank');
+        return;
+      }
+
+      try {
+        // Request account access
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        if (!accounts || accounts.length === 0) {
+          showToast('No accounts found. Please unlock your wallet.', 'error');
+          return;
+        }
+
+        walletAddress = accounts[0];
+
+        // Create ethers provider and signer
+        walletProvider = new ethers.BrowserProvider(window.ethereum);
+        walletSigner = await walletProvider.getSigner();
+
+        // Verify the address matches
+        const signerAddress = await walletSigner.getAddress();
+        if (signerAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+          walletAddress = signerAddress;
+        }
+
+        // Update UI
+        updateWalletUI();
+
+        // Try to get ENS name
+        try {
+          const ensName = await walletProvider.lookupAddress(walletAddress);
+          if (ensName) {
+            walletLabel.textContent = ensName;
+          }
+        } catch {
+          // No ENS, use truncated address
+        }
+
+        showToast('Wallet connected successfully!', 'success');
+
+        // Listen for account changes
+        window.ethereum.on('accountsChanged', handleAccountsChanged);
+        window.ethereum.on('chainChanged', () => window.location.reload());
+        window.ethereum.on('disconnect', handleDisconnect);
+
+      } catch (error) {
+        console.error('Wallet connection error:', error);
+        if (error.code === 4001) {
+          showToast('Connection rejected. Please approve the wallet request.', 'error');
+        } else {
+          showToast('Failed to connect wallet: ' + (error.reason || error.message || 'Unknown error'), 'error');
+        }
+      }
+    }
+
+    function updateWalletUI() {
+      if (walletAddress) {
+        walletLabel.textContent = truncateAddress(walletAddress);
+        connectWalletBtn.classList.add('connected');
+        walletDot.style.background = 'var(--green)';
+        connectWalletBtn.title = 'Click to copy address';
+      }
+    }
+
+    function handleAccountsChanged(accounts) {
+      if (accounts.length === 0) {
+        handleDisconnect();
+      } else {
+        walletAddress = accounts[0];
+        updateWalletUI();
+        showToast('Account changed to: ' + truncateAddress(walletAddress), 'success');
+      }
+    }
+
+    function handleDisconnect() {
+      walletAddress = null;
+      walletProvider = null;
+      walletSigner = null;
+      walletLabel.textContent = 'Connect Wallet';
+      connectWalletBtn.classList.remove('connected');
+      walletDot.style.background = '#ef4444';
+      connectWalletBtn.title = 'Connect Ethereum Wallet';
+      showToast('Wallet disconnected', '');
+    }
+
+    function truncateAddress(addr) {
+      if (!addr) return '';
+      return addr.slice(0, 6) + '...' + addr.slice(-4);
+    }
+
+    // ==================== COINBASE COMMERCE INTEGRATION ====================
+    /**
+     * Coinbase Commerce Payment Flow
+     *
+     * REPLACE THESE WITH YOUR ACTUAL COINBASE COMMERCE CHARGE URLS:
+     * 1. Go to https://commerce.coinbase.com/
+     * 2. Create a charge for each plan
+     * 3. Replace the placeholder URLs below with your hosted charge URLs
+     */
+    const PAYMENT_LINKS = {
+      'Starter': 'https://commerce.coinbase.com/checkout/YOUR_CHARGE_ID_STARTER',
+      'Professional': 'https://commerce.coinbase.com/checkout/YOUR_CHARGE_ID_PRO',
+    };
+
+    function openCoinbasePay(plan, amount) {
+      // Show the payment info
+      cryptoAddressText.textContent = `Initiating ${amount} payment for ${plan} plan via Coinbase Commerce...`;
+      cryptoAddress.classList.add('visible');
+
+      const paymentUrl = PAYMENT_LINKS[plan];
+
+      if (paymentUrl && !paymentUrl.includes('YOUR_CHARGE_ID')) {
+        // Real Coinbase Commerce checkout URL configured
+        window.open(paymentUrl, '_blank');
+        showToast(`Opening Coinbase Commerce checkout for ${plan} plan`, 'success');
+      } else {
+        // Placeholder — in production, replace with real charge ID
+        showToast(
+          `🔧 DEV MODE: ${plan} plan (${amount}) selected. Replace PAYMENT_LINKS with your Coinbase Commerce charge URLs.`,
+          ''
+        );
+        // Simulate the checkout URL that will be used
+        cryptoAddressText.textContent =
+          `Plan: ${plan} | Amount: ${amount}\n\n⚠️  Replace YOUR_CHARGE_ID in PAYMENT_LINKS object with real Coinbase Commerce charge IDs.\n\nCoinbase Commerce: https://commerce.coinbase.com/`;
+      }
+    }
+
+    function openCoinbasePayDirect() {
+      // Generic Coinbase Commerce payment — for custom amounts
+      const genericUrl = 'https://commerce.coinbase.com/checkout/YOUR_GENERIC_CHARGE_ID';
+
+      if (genericUrl.includes('YOUR_GENERIC_CHARGE_ID')) {
+        showToast(
+          '🔧 DEV MODE: Replace YOUR_GENERIC_CHARGE_ID with your Coinbase Commerce charge ID.',
+          ''
+        );
+        cryptoAddressText.textContent =
+          'Custom Payment via Coinbase Commerce\n\n⚠️  Configure your charge ID in the openCoinbasePayDirect() function.';
+        cryptoAddress.classList.add('visible');
+      } else {
+        window.open(genericUrl, '_blank');
+      }
+    }
+
+    // ==================== NAVIGATION ====================
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function smoothNav(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        // Close mobile menu
+        navLinks.classList.remove('open');
+      }
+    }
+
+    // Mobile nav toggle
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close mobile menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('open');
+      }
+    });
+
+    // ==================== CONTACT FORM ====================
+    function handleContactSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        showToast('Please fill in all fields.', 'error');
+        return;
+      }
+
+      // In a real deployment, you would send this to an API endpoint
+      // For the template, we simulate a successful submission
+      console.log('Contact form submission:', { name, email, message });
+
+      showToast('Message sent successfully! We\'ll be in touch soon. ✦', 'success');
+
+      // Reset form
+      document.getElementById('contactForm').reset();
+
+      // Hide payment address display if visible
+      cryptoAddress.classList.remove('visible');
+    }
+
+    // ==================== INITIALIZATION ====================
+    // Check if wallet was previously connected (some wallets auto-connect)
+    async function initWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts && accounts.length > 0) {
+            walletAddress = accounts[0];
+            walletProvider = new ethers.BrowserProvider(window.ethereum);
+            walletSigner = await walletProvider.getSigner();
+            updateWalletUI();
+            // Set up listeners
+            window.ethereum.on('accountsChanged', handleAccountsChanged);
+            window.ethereum.on('chainChanged', () => window.location.reload());
+            window.ethereum.on('disconnect', handleDisconnect);
+          }
+        } catch {
+          // Silently fail — user hasn't connected yet
+        }
+      }
+    }
+
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initWallet();
+      console.log('✦ Aurora Pathways — Web3 Template ready');
+      console.log('  Wallet:', walletAddress ? truncateAddress(walletAddress) : 'Not connected');
+      console.log('  ethers.js:', typeof ethers !== 'undefined' ? 'v' + ethers.version : 'not loaded');
+      console.log('  Coinbase Commerce: Configure PAYMENT_LINKS with your charge IDs');
+    });
+  </script>
+
+</body>
+</html>

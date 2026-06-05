@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways — Empowerment & Web 3.0 Innovation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="7e814b4d-aef7-483c-b947-8b9008ffc3ed" data-domains="aurorapathways.xyz"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #181820;
+    --text: #e8e8ed;
+    --text2: #9898a8;
+    --accent: #7c5cfc;
+    --accent2: #4ec9b0;
+    --accent3: #ff6b9d;
+    --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+    --glass: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.06);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Aurora background effect */
+  .aurora-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124,92,252,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 70%, rgba(78,201,176,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 40%, rgba(59,130,246,0.04) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    z-index: 100;
+    padding: 16px 0;
+  }
+
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--gradient);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(124,92,252,0.3);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+  }
+
+  .hero-content {
+    max-width: 720px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--accent2);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  h1 span {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.2rem;
+    color: var(--text2);
+    max-width: 560px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124,92,252,0.4);
+  }
+
+  .btn-secondary {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: rgba(255,255,255,0.06); }
+
+  /* Sections */
+  section { padding: 100px 0; }
+
+  .section-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    color: var(--text2);
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  /* Services Grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 36px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124,92,252,0.3);
+    box-shadow: 0 20px 60px rgba(124,92,252,0.08);
+  }
+
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .service-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .service-card p {
+    color: var(--text2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .service-card .price {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--glass-border);
+    font-size: 0.85rem;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  /* Pricing */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px 36px;
+    position: relative;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .pricing-card.featured {
+    border-color: rgba(124,92,252,0.4);
+    background: var(--surface2);
+    transform: scale(1.03);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124,92,252,0.3);
+  }
+
+  .pricing-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+
+  .pricing-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient);
+    color: white;
+    padding: 6px 20px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .pricing-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .pricing-card .price-tag {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 16px 0;
+    letter-spacing: -0.02em;
+  }
+
+  .pricing-card .price-tag span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text2);
+  }
+
+  .pricing-features {
+    list-style: none;
+    margin: 24px 0;
+  }
+
+  .pricing-features li {
+    padding: 8px 0;
+    color: var(--text2);
+    font-size: 0.95rem;
+  }
+
+  .pricing-features li::before {
+    content: '✓ ';
+    color: var(--accent2);
+    font-weight: 700;
+  }
+
+  .pricing-card .btn-primary,
+  .pricing-card .btn-secondary {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--glass-border);
+  }
+
+  .timeline-phase {
+    position: relative;
+    margin-bottom: 48px;
+  }
+
+  .timeline-phase::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 6px;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid var(--bg);
+  }
+
+  .timeline-phase h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent2);
+  }
+
+  .timeline-phase h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .timeline-phase p {
+    color: var(--text2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Contact */
+  .contact-section {
+    text-align: center;
+  }
+
+  .contact-section h2 {
+    margin-bottom: 8px;
+  }
+
+  .contact-section .section-desc {
+    margin: 0 auto 40px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--glass-border);
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text2);
+    font-size: 0.9rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { min-height: auto; padding: 140px 0 60px; }
+    section { padding: 60px 0; }
+    .pricing-card.featured { transform: none; }
+    .pricing-card.featured:hover { transform: translateY(-4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora-bg"></div>
+
+<!-- Navigation -->
+<nav>
+  <div class="container">
+    <div class="logo">Aurora Pathways</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#timeline">Process</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">Web 3.0 Innovation — Now Accessible</div>
+      <h1>Empower your business<br>for the <span>decentralized era</span></h1>
+      <p class="hero-desc">
+        We guide businesses into Web 3.0 with custom websites, blockchain integration, smart contracts, and ongoing management — built for security, transparency, and growth.
+      </p>
+      <div class="hero-buttons">
+        <a href="#pricing" class="btn-primary">View Packages</a>
+        <a href="#services" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2>Web 3.0 services that<br>actually move the needle</h2>
+    <p class="section-desc">
+      From decentralized hosting to full dApp ecosystems — we build the infrastructure that positions your business for the next internet.
+    </p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🌐</div>
+        <h3>Decentralized Websites</h3>
+        <p>Secure, censorship-resistant hosting on IPFS and blockchain platforms. Your site lives forever, not on someone else's server.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">💎</div>
+        <h3>Smart Contracts & NFTs</h3>
+        <p>Automated transactions, tokenized memberships, NFT marketplaces — programmable trust that runs 24/7 without intermediaries.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🔐</div>
+        <h3>Crypto Payment Systems</h3>
+        <p>Accept Ethereum, Solana, Polygon, and stablecoins. Global payments with near-zero fees and instant settlement.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🏗️</div>
+        <h3>Custom dApps</h3>
+        <p>Decentralized applications tailored to your operations — supply chain tracking, transparent fundraising, community governance.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h3>Workshops & Training</h3>
+        <p>Equip your team with Web 3.0 literacy. Custom workshops on blockchain, DeFi, metaverse strategy, and digital transformation.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Ongoing Management</h3>
+        <p>Analytics, updates, technical support, and new feature integration — we keep your Web 3.0 presence evolving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label">Investment</div>
+    <h2>Clear pricing.<br>No hidden gas fees.</h2>
+    <p class="section-desc">
+      One-time setup plus optional monthly management. Every package includes strategy, design, development, and launch.
+    </p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>🌐 Basic</h3>
+        <p style="color:var(--text2);font-size:0.9rem;">Decentralized presence</p>
+        <div class="price-tag">$5K–10K</div>
+        <ul class="pricing-features">
+          <li>Decentralized hosting (IPFS)</li>
+          <li>Custom Web 3.0 design</li>
+          <li>Crypto payment gateway</li>
+          <li>5-page website</li>
+          <li>30 days post-launch support</li>
+        </ul>
+        <a href="#contact" class="btn-secondary">Get Started</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <h3>⚡ Advanced</h3>
+        <p style="color:var(--text2);font-size:0.9rem;">Smart contract power</p>
+        <div class="price-tag">$10K–20K</div>
+        <ul class="pricing-features">
+          <li>Everything in Basic</li>
+          <li>Smart contract integration</li>
+          <li>NFT marketplace or memberships</li>
+          <li>Custom dApp (1 feature)</li>
+          <li>Multi-chain support</li>
+          <li>60 days post-launch support</li>
+        </ul>
+        <a href="#contact" class="btn-primary">Get Started</a>
+      </div>
+
+      <div class="pricing-card">
+        <h3>🚀 Premium</h3>
+        <p style="color:var(--text2);font-size:0.9rem;">Full ecosystem</p>
+        <div class="price-tag">$20K+</div>
+        <ul class="pricing-features">
+          <li>Everything in Advanced</li>
+          <li>Full dApp ecosystem</li>
+          <li>Metaverse connectivity</li>
+          <li>Token economy design</li>
+          <li>DAO governance setup</li>
+          <li>Ongoing management included</li>
+        </ul>
+        <a href="#contact" class="btn-secondary">Get Started</a>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:24px;color:var(--text2);font-size:0.9rem;">
+      Monthly management: $500–$2,000/mo per client — updates, analytics, and dedicated support
+    </p>
+  </div>
+</section>
+
+<!-- How We Work -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label">How We Work</div>
+    <h2>From idea to execution —<br>without the headache</h2>
+    <p class="section-desc">
+      We've refined our process to move fast without cutting corners. Here's what working with us looks like.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-phase">
+        <h3>🔍 Step 1</h3>
+        <h4>Discover</h4>
+        <p>We dig into your business — goals, bottlenecks, audience. Free 30-min session. You walk away with a clear opportunity map, whether we work together or not.</p>
+      </div>
+
+      <div class="timeline-phase">
+        <h3>📋 Step 2</h3>
+        <h4>Strategize</h4>
+        <p>Custom roadmap built for your business. We identify the highest-impact Web 3.0 plays — crypto payments, smart contracts, decentralized hosting, NFTs — and scope the work.</p>
+      </div>
+
+      <div class="timeline-phase">
+        <h3>⚡ Step 3</h3>
+        <h4>Build</h4>
+        <p>Rapid execution. Most projects ship in 2–4 weeks. You get a dedicated project lead, weekly updates, and a live preview from day one. No black boxes.</p>
+      </div>
+
+      <div class="timeline-phase">
+        <h3>🚀 Step 4</h3>
+        <h4>Launch & Grow</h4>
+        <p>Go live with full support. We handle deployment, training, and ongoing optimization. Your Web 3.0 presence evolves as your business grows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">Our Mission</div>
+    <h2>We guide individuals and organizations toward their full potential</h2>
+    <p class="section-desc">
+      At Aurora Pathways, we blend personalized strategy with cutting-edge Web 3.0 technology to empower our clients. Through compassionate support and transformative insights, we help you navigate challenges, seize opportunities, and achieve sustainable growth in the decentralized era.
+    </p>
+    <p style="color:var(--text2);max-width:600px;line-height:1.7;">
+      Founded on the belief that technology should serve people — not the other way around — we're building a future where every business has the tools to thrive in Web 3.0, regardless of their technical background.
+    </p>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="section-label">Let's Build</div>
+    <h2>Ready to enter the<br>decentralized era?</h2>
+    <p class="section-desc">
+      Book a free 30-minute consultation. We'll assess your business, identify Web 3.0 opportunities, and map out a custom roadmap.
+    </p>
+    <form name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:32px auto 0;text-align:left;">
+      <input type="hidden" name="form-name" value="consultation">
+      <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Name</label>
+        <input type="text" name="name" required style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Email</label>
+        <input type="email" name="email" required style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">What do you need help with?</label>
+        <select name="service" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+          <option>Decentralized Website</option>
+          <option>Smart Contracts / NFTs</option>
+          <option>Crypto Payment Integration</option>
+          <option>Web 3.0 Strategy Consulting</option>
+          <option>Workshop / Training</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Tell us about your project</label>
+        <textarea name="message" rows="3" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;resize:vertical;"></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="font-size:1.1rem;padding:16px 48px;width:100%;border:none;cursor:pointer;">Send →</button>
+      <p style="text-align:center;color:var(--text2);font-size:0.8rem;margin-top:12px;">Or reach us directly at <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a></p>
+    </form>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section id="portfolio" style="padding: 80px 0;">
+  <div class="container">
+    <div class="section-label">Our Work</div>
+    <h2>Web 3.0 projects that deliver results</h2>
+    <p class="section-desc">
+      Every business deserves a digital presence that's built for the next decade — not the last one.
+    </p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card">
+        <h4>🏠 Decentralized Real Estate</h4>
+        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">A boutique Austin brokerage wanted to accept crypto for earnest money and offer NFT-gated early access to hot listings.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Crypto Payments</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Gating</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">IPFS Hosted</span>
+        </div>
+      </div>
+      <div class="pricing-card">
+        <h4>🎨 Art Gallery NFT Marketplace</h4>
+        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">An East Austin art collective needed a way to sell digital editions and manage a token-gated patron membership program.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Minting</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">DAO Membership</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Royalty Splits</span>
+        </div>
+      </div>
+      <div class="pricing-card">
+        <h4>🎵 Independent Record Label</h4>
+        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">An indie label wanted transparent royalty payouts via smart contracts and limited-edition NFT music releases.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Smart Contracts</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Music</span>
+          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;color:var(--accent2);font-size:0.8rem;">Auto Royalties</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Web3 Footer -->
+<section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">📅 Book a Call Instantly</h3>
+      <p style="color: var(--text2); font-size: 0.95rem; margin-bottom: 24px;">
+        Pick a time that works — no back-and-forth email.
+      </p>
+      <div class="calendly-inline-widget" data-url="https://calendly.com/prinsog/30min" style="min-width:320px;height:630px;max-width:600px;margin:0 auto;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" style="padding: 80px 0; background: var(--surface);">
+  <div class="container">
+    <div class="section-label">Trusted By</div>
+    <h2>What our clients say</h2>
+    <p class="section-desc">Real results from businesses that made the leap into Web 3.0</p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🏠</div>
+        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"Aurora Pathways transformed our brokerage. We now close deals in crypto — clients love the speed and transparency."</p>
+        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Austin Real Estate Firm</p>
+      </div>
+      <div class="pricing-card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🎨</div>
+        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"We went from zero online sales to a thriving NFT marketplace. Our artists are earning royalties they never had before."</p>
+        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Art Collective Director</p>
+      </div>
+      <div class="pricing-card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🎵</div>
+        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"Smart-contract royalty splits changed everything. Our artists get paid the moment a track sells — no waiting, no disputes."</p>
+        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Independent Record Label</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog -->
+<section id="blog" style="padding: 80px 0;">
+  <div class="container">
+    <div class="section-label">Insights</div>
+    <h2>Web 3.0 knowledge, explained</h2>
+    <p class="section-desc">No jargon. No hype. Just actionable insights for business owners.</p>
+    <div class="services-grid" style="margin-top:40px;">
+      <div class="service-card" style="cursor:pointer;">
+        <div class="service-icon">📖</div>
+        <h3>Why Your Business Needs a Web 3.0 Website in 2026</h3>
+        <p>The internet is changing. Here's what that means for your bottom line — and why waiting costs more than acting.</p>
+        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
+      </div>
+      <div class="service-card" style="cursor:pointer;">
+        <div class="service-icon">💰</div>
+        <h3>Crypto Payments: A Practical Guide for Small Business</h3>
+        <p>Accepting crypto isn't just for tech companies. Here's how any business can start — safely and simply.</p>
+        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
+      </div>
+      <div class="service-card" style="cursor:pointer;">
+        <div class="service-icon">🔗</div>
+        <h3>NFTs Aren't Just Art — 5 Business Applications That Work</h3>
+        <p>Loyalty programs, membership cards, authenticity certificates — NFTs solve real business problems today.</p>
+        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Web3 Footer -->
+<section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">🌐 Find Us Anywhere</h3>
+      <p style="color: var(--text2); font-size: 0.95rem;">
+        Web3: <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--accent2);">aurorapathways.blockchain</code>
+        &nbsp;|&nbsp;
+        Web: <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--accent2);">aurorapathways.xyz</code>
+        &nbsp;|&nbsp;
+        <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--text2);">aurorapathways.pw</code>
+      </p>
+      <p style="color: var(--text2); font-size: 0.85rem; margin-top: 8px;">
+        Send crypto directly to <code style="background:var(--glass);padding:2px 8px;border-radius:4px;color:var(--accent2);">aurorapathways.blockchain</code>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Aurora Pathways Empowerment & Insight Solutions &copy; 2026. All rights reserved.</p>
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>
