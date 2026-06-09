@@ -664,7 +664,7 @@ body {
   <footer class="site-footer">
     <a class="footer-link" href="https://aurorapathways.xyz" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      Powered by Aurora Pathways
+      Pledgly — Keep what you earn
     </a>
   </footer>
 </div>
@@ -703,25 +703,47 @@ body {
 
 <!-- MetaMask Not Installed Error -->
 <div class="metamask-error" id="metamaskError">
-  <div class="metamask-error-card">
-    <div class="icon">🦊</div>
-    <h2>Wallet Not Found</h2>
-    <p>You need a Web3 wallet like MetaMask to use Pledgly. Install one to connect to Polygon and manage your subscriptions.</p>
-    <div class="install-links">
-      <a class="install-link" href="https://metamask.io/download/" target="_blank" rel="noopener">
+  <div class="metamask-error-card" style="max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="icon">🚀</div>
+      <h2 style="margin-bottom:6px;">New to Web3? Get started in 3 steps</h2>
+      <p style="color:var(--text-dim);font-size:0.9rem;">Pledgly runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Install a wallet</h4>
+          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent2);flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Add funds to your wallet</h4>
+          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to subscribe to creators. You can buy it directly in MetaMask or transfer from an exchange like Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Connect and start</h4>
+          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">Come back here, click "Connect Wallet," and you're in. Browse creators, subscribe, and support the people you love — directly.</p>
+        </div>
+      </div>
+    </div>
+    <div class="install-links" style="display:flex;gap:10px;">
+      <a class="install-link" href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
         <span class="link-icon">🦊</span>
-        <span>Install MetaMask <span style="color:var(--text-dim);font-size:.78rem;">(Chrome, Firefox, Brave, Edge)</span></span>
+        <span>Install MetaMask</span>
       </a>
-      <a class="install-link" href="https://rainbow.me" target="_blank" rel="noopener">
-        <span class="link-icon">🌈</span>
-        <span>Try Rainbow Wallet <span style="color:var(--text-dim);font-size:.78rem;">(Mobile & Desktop)</span></span>
-      </a>
-      <a class="install-link" href="https://www.coinbase.com/wallet" target="_blank" rel="noopener">
+      <a class="install-link" href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
         <span class="link-icon">🔵</span>
-        <span>Coinbase Wallet <span style="color:var(--text-dim);font-size:.78rem;">(Mobile & Extension)</span></span>
+        <span>Coinbase Wallet</span>
       </a>
     </div>
-    <button class="dismiss-btn" onclick="dismissMetaMaskError()">Dismiss</button>
+    <button class="dismiss-btn" onclick="dismissMetaMaskError()" style="margin-top:16px;">I'll do this later</button>
   </div>
 </div>
 

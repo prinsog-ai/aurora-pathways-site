@@ -427,24 +427,48 @@ footer .footer-logo{display:flex;align-items:center;justify-content:center;gap:6
 
 <!-- MetaMask Install Modal -->
 <div class="modal-overlay" id="metamaskModal">
-  <div class="modal" style="text-align:center;max-width:420px">
+  <div class="modal" style="text-align:left;max-width:520px">
     <button class="close" onclick="document.getElementById('metamaskModal').classList.remove('open')">&times;</button>
-    <div style="font-size:2.5rem;margin-bottom:12px">🦊</div>
-    <h2 style="margin-bottom:8px">Wallet Required</h2>
-    <p style="color:var(--text2);font-size:.9rem;margin-bottom:20px;line-height:1.6">To use Forekast, you need a Web3 wallet like MetaMask. Install one to start predicting!</p>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px">🚀</div>
+      <h2 style="margin-bottom:6px">New to Web3? Get started in 3 steps</h2>
+      <p style="color:var(--text2);font-size:.9rem;">Forekast runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Install a wallet</h4>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;font-size:.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent2);flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Add funds to your wallet</h4>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to trade on prediction markets. You can buy it directly in MetaMask or transfer from an exchange like Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Connect and start</h4>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.5;">Come back here, click "Connect Wallet," and you're in. Browse markets, make predictions, and earn when you're right.</p>
+        </div>
+      </div>
+    </div>
     <div class="metamask-banner" style="border:none;background:none;padding:0;margin:0">
-      <div class="install-links" style="flex-direction:column">
-        <a href="https://metamask.io/download/" target="_blank" rel="noopener" class="install-link">
+      <div class="install-links" style="display:flex;gap:10px;">
+        <a href="https://metamask.io/download/" target="_blank" rel="noopener" class="install-link" style="flex:1;justify-content:center;">
           🦊 Install MetaMask
         </a>
-        <a href="https://rainbow.me" target="_blank" rel="noopener" class="install-link">
-          🌈 Install Rainbow
-        </a>
-        <a href="https://phantom.app" target="_blank" rel="noopener" class="install-link">
-          👻 Install Phantom
+        <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" class="install-link" style="flex:1;justify-content:center;">
+          🔵 Coinbase Wallet
         </a>
       </div>
     </div>
+    <button class="dismiss-btn" onclick="document.getElementById('metamaskModal').classList.remove('open')" style="margin-top:16px;">I'll do this later</button>
   </div>
 </div>
 
@@ -453,7 +477,7 @@ footer .footer-logo{display:flex;align-items:center;justify-content:center;gap:6
 
 <!-- Footer -->
 <footer>
-  <div class="footer-logo">Powered by <a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Aurora Pathways</a></div>
+  <div class="footer-logo">Forekast — Predict. Trade. Win.</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>

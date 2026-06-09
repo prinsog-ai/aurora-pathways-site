@@ -322,14 +322,41 @@ footer a:hover{color:var(--accent2)}
 
 <!-- MetaMask not installed modal -->
 <div class="mm-overlay hidden" id="mmOverlay">
-  <div class="mm-modal">
-    <span class="mm-icon">🦊</span>
-    <h2>Wallet Not Found</h2>
-    <p>You need a Web3 wallet like MetaMask to use RideP2P. Install one to connect, sign transactions, and manage your rides on Polygon.</p>
-    <div class="mm-btns">
-      <a class="btn btn-primary" href="https://metamask.io/download/" target="_blank" rel="noopener" style="text-decoration:none">Install MetaMask</a>
-      <button class="btn btn-outline" onclick="closeMMModal()">Maybe Later</button>
+  <div class="mm-modal" style="max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <span class="mm-icon">🚀</span>
+      <h2 style="margin-bottom:6px;">New to Web3? Get started in 3 steps</h2>
+      <p style="color:var(--text2);font-size:0.9rem;">RideP2P runs on blockchain — but don't worry, it's simpler than it sounds.</p>
     </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Install a wallet</h4>
+          <p style="color:var(--text2);font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent2);flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Add funds to your wallet</h4>
+          <p style="color:var(--text2);font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to pay for rides. You can buy it directly in MetaMask or transfer from an exchange like Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;">Connect and start</h4>
+          <p style="color:var(--text2);font-size:0.85rem;line-height:1.5;">Come back here, click "Connect Wallet," and you're in. Find rides, post rides, and pay — all secured by escrow.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mm-btns" style="display:flex;gap:10px;">
+      <a class="btn btn-primary" href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-decoration:none;text-align:center;">🦊 Install MetaMask</a>
+      <a class="btn btn-outline" href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-decoration:none;text-align:center;">🔵 Coinbase Wallet</a>
+    </div>
+    <button class="btn btn-outline" onclick="closeMMModal()" style="margin-top:16px;width:100%;">I'll do this later</button>
   </div>
 </div>
 
@@ -338,7 +365,7 @@ footer a:hover{color:var(--accent2)}
 
 <!-- Footer -->
 <footer>
-  <p>Powered by <a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Aurora Pathways</a></p>
+  <p>RideP2P — Rides without the middleman.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
