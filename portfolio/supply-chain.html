@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supply Chain Tracker — Aurora Pathways</title>
+<meta name="description" content="Supply chain tracking demo with blockchain-verified provenance from origin to delivery. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/supply-chain">
+<meta property="og:title" content="Supply Chain Tracker — Aurora Pathways">
+<meta property="og:description" content="Supply chain tracking demo with blockchain-verified provenance from origin to delivery. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/supply-chain">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Supply Chain Tracker — Aurora Pathways">
+<meta name="twitter:description" content="Supply chain tracking demo with blockchain-verified provenance from origin to delivery. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.journey-step{display:flex;align-items:flex-start;gap:16px;padding-bottom:24px;position:relative}
+.journey-step:last-child{padding-bottom:0}
+.step-marker{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;z-index:1;position:relative}
+.step-marker.done{background:rgba(78,201,176,0.15);border:2px solid var(--success)}
+.step-marker.active{background:rgba(124,92,252,0.15);border:2px solid var(--accent);animation:pulse 2s infinite}
+.step-marker.future{background:rgba(255,255,255,0.05);border:2px solid var(--glass-border)}
+.step-content{flex:1}
+.step-title{font-weight:600;margin-bottom:4px}
+.step-detail{font-size:0.82rem;color:var(--text2);line-height:1.6}
+.step-connector{position:absolute;left:19px;top:44px;bottom:0;width:2px;background:var(--glass-border);z-index:0}
+.product-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--glass-border)}
+.product-icon{font-size:2.2rem;width:60px;height:60px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:var(--surface2)}
+.product-id{font-family:monospace;font-size:1.1rem;color:var(--accent2)}
+.fade-in{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(124,92,252,0.4)}50%{box-shadow:0 0 0 8px rgba(124,92,252,0)}}
+.scan-area{text-align:center}
+.scan-area .product-icon{font-size:3rem;width:80px;height:80px;margin:0 auto 16px auto}
+.map-viz{display:flex;align-items:center;gap:0;padding:16px 0;overflow-x:auto;font-size:0.85rem}
+.map-node{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:70px}
+.map-node .emoji{font-size:1.5rem}
+.map-node .city{color:var(--text2);font-size:0.7rem}
+.map-arrow{color:var(--accent2);font-size:1.2rem;flex-shrink:0;margin:0 -4px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<span class="badge portfolio">Supply Chain Transparency</span>
+<span class="badge portfolio" style="background:rgba(124,92,252,0.1);color:var(--accent)">⛓ Blockchain-Verified</span>
+</div>
+<h1>Supply Chain Tracker</h1>
+<p class="subtitle">End-to-end product provenance from manufacturer to consumer. Every checkpoint is timestamped and verified on-chain — immutable, transparent, and counterfeit-proof.</p>
+
+<div class="card"><h3>🗺 Journey Map</h3>
+<div class="map-viz">
+<div class="map-node"><div class="emoji">🏭</div><div class="city">Shenzhen</div></div>
+<div class="map-arrow">→</div>
+<div class="map-node"><div class="emoji">🚢</div><div class="city">Shanghai Port</div></div>
+<div class="map-arrow">→</div>
+<div class="map-node"><div class="emoji">🚚</div><div class="city">Rotterdam</div></div>
+<div class="map-arrow">→</div>
+<div class="map-node"><div class="emoji">🏪</div><div class="city">New York</div></div>
+<div class="map-arrow">→</div>
+<div class="map-node"><div class="emoji">🏠</div><div class="city">Consumer</div></div>
+</div>
+</div>
+
+<div class="card"><h3>📦 Product Journey</h3>
+<div id="journey" style="position:relative">
+<div class="step-connector" style="top:20px"></div>
+<div class="journey-step"><div class="step-marker done">🏭</div><div class="step-content"><div class="step-title">1. Manufacturer — Origin Created</div><div class="step-detail">📍 Shenzhen, CN · 2026-05-20 08:30 UTC<br>🏢 Foxconn Precision · Batch: BX-2026-05-442<br>🔗 Tx: <span style="color:var(--accent2)">0x8a3f...c21e</span> · Block: #14,203,881 · ✅ Verified</div></div></div>
+<div class="journey-step"><div class="step-marker done">🚚</div><div class="step-content"><div class="step-title">2. Distributor — Shipment Received</div><div class="step-detail">📍 Rotterdam, NL · 2026-05-27 14:15 UTC<br>🏢 EuroLogistics BV · Container: CNT-884729<br>🔗 Tx: <span style="color:var(--accent2)">0x4b7d...a93f</span> · Block: #14,312,405 · ✅ Verified</div></div></div>
+<div class="journey-step"><div class="step-marker active">🏪</div><div class="step-content"><div class="step-title">3. Retailer — Inventory Check-in</div><div class="step-detail">📍 New York, US · 2026-06-03 10:45 UTC<br>🏢 Metro Electronics · SKU: ME-44921-S<br>🔗 Tx: <span style="color:var(--accent2)">0x2e1c...f84a</span> · Block: #14,502,118 · ✅ Verified</div></div></div>
+<div class="journey-step"><div class="step-marker future">🏠</div><div class="step-content"><div class="step-title">4. Consumer — Purchase & Transfer</div><div class="step-detail">Awaiting consumer scan...</div></div></div>
+</div>
+<div style="padding-left:56px" id="consumer-action"><button class="btn btn-success" onclick="completeDelivery()" style="margin-top:8px">📱 Scan as Consumer → Transfer Ownership</button></div>
+</div>
+
+<div class="grid2">
+<div class="card"><h3>🔍 Scan Product</h3>
+<div id="scan-section">
+<div class="scan-area"><div class="product-icon">📦</div><p style="color:var(--text2);margin-bottom:16px">Scan a QR code or generate a random product to trace its full provenance trail.</p></div>
+<button class="btn btn-primary" onclick="scanProduct()" style="width:100%">🔍 Scan / Generate Product</button>
+<div id="scan-result"></div>
+</div></div>
+<div class="card"><h3>🛡 Counterfeit Check</h3>
+<p style="color:var(--text2);font-size:0.9rem;margin-bottom:12px">Enter a Product ID to verify it exists on the blockchain.</p>
+<input class="input" id="check-id" style="margin-bottom:12px" placeholder="e.g. AP-8a3f-c21e" onfocus="this.select()">
+<button class="btn btn-outline" onclick="checkProduct()" style="width:100%">Verify Authenticity</button>
+<div id="check-result" style="margin-top:12px"></div>
+<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--glass-border);font-size:0.8rem;color:var(--text2)">
+<strong style="color:var(--accent2)">Known Products:</strong><br>
+AP-8a3f-c21e · AP-4b7d-a93f · AP-2e1c-f84a
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const products = {
+  'AP-8a3f-c21e': [
+    {stage:'Manufacturer',loc:'Shenzhen, CN',time:'2026-05-20 08:30',tx:'0x8a3f4b7c1d2e9f5a6b3c8d0e1f2a3b4c5d6e7f80',org:'Foxconn Precision',note:'Batch BX-2026-05-442'},
+    {stage:'Distributor',loc:'Rotterdam, NL',time:'2026-05-27 14:15',tx:'0x4b7d3e2a1c9f8b5d6a7e3c2f1b0a9d8e7c6f5b40',org:'EuroLogistics BV',note:'Container CNT-884729'},
+    {stage:'Retailer',loc:'New York, US',time:'2026-06-03 10:45',tx:'0x2e1c5f3a8d7b6e4c9f2a1d0b3e8c7f6a5d4b3e20',org:'Metro Electronics',note:'SKU ME-44921-S'}
+  ],
+  'AP-4b7d-a93f': [
+    {stage:'Manufacturer',loc:'Tokyo, JP',time:'2026-05-22 06:00',tx:'0x4b7d9a3f1c8e2b6d5a4f3c7e0b9a1d8f2c6e3a50',org:'Sony Corp',note:'Batch SN-2026-05-118'},
+    {stage:'Distributor',loc:'Los Angeles, US',time:'2026-05-29 09:30',tx:'0x9a3f4b7d1c8e2f6a5b3c0d8e1f7a4b2c6d9e5f30',org:'WestCoast Logistics',note:'Container CTN-992104'},
+    {stage:'Retailer',loc:'Chicago, US',time:'2026-06-04 12:15',tx:'0x1c8e2f6a5b3c0d8e1f7a4b2c6d9e5f3a0b7d4c90',org:'BestBuy #442',note:'SKU BB-88129'}
+  ],
+  'AP-2e1c-f84a': [
+    {stage:'Manufacturer',loc:'Milan, IT',time:'2026-05-18 10:00',tx:'0x2e1c5f3a8d7b6e4c9f2a1d0b3e8c7f6a5d4b3e20',org:'Gucci SpA',note:'Batch GC-2026-05-330'},
+    {stage:'Distributor',loc:'London, UK',time:'2026-05-25 16:45',tx:'0x5f3a8d7b6e4c9f2a1d0b3e8c7f6a5d4b3e2c1f0a',org:'UK Luxury Distribution',note:'Container LDX-77632'},
+    {stage:'Retailer',loc:'Dubai, UAE',time:'2026-06-02 08:00',tx:'0x8d7b6e4c9f2a1d0b3e8c7f6a5d4b3e2c1f0a9b8d',org:'Dubai Mall #12',note:'SKU DM-55410'}
+  ]
+};
+
+function completeDelivery() {
+  const now = new Date().toISOString().replace('T',' ').slice(0,16);
+  const tx = '0x' + Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join('');
+  const lastStep = document.querySelector('#journey .journey-step:last-child');
+  lastStep.querySelector('.step-marker').className = 'step-marker done';
+  lastStep.querySelector('.step-marker').textContent = '🏠';
+  lastStep.querySelector('.step-content').innerHTML =
+    '<div class="step-title">4. Consumer — Ownership Transferred</div>' +
+    '<div class="step-detail">📍 User Location · ' + now + ' UTC<br>👤 Wallet: 0x' + Array.from({length:8},()=>Math.floor(Math.random()*16).toString(16)).join('') + '...<br>🔗 Tx: <span style="color:var(--accent2)">' + tx.slice(0,15) + '...</span> · Block: #' + Math.floor(Math.random()*300000+14500000) + ' · ✅ Verified</div>';
+  document.getElementById('consumer-action').innerHTML =
+    '<div class="status-bar success fade-in">🎉 Ownership transferred! Product registered to your wallet. Certificate NFT minted.</div>';
+}
+
+function scanProduct() {
+  const chars = 'abcdef0123456789';
+  const id = 'AP-' + Array.from({length:4},()=>chars[Math.floor(Math.random()*16)]).join('') + '-' + Array.from({length:4},()=>chars[Math.floor(Math.random()*16)]).join('');
+  const types = ['📱 Smartphone','👜 Luxury Handbag','📺 OLED TV','👟 Sneakers','⌚ Smartwatch','💻 Laptop','🎧 Headphones'];
+  const t = types[Math.floor(Math.random()*types.length)];
+  const name = t.slice(3); const icon = t.slice(0,2);
+  const origins = ['Shenzhen, CN','Tokyo, JP','Seoul, KR','Milan, IT','Ho Chi Minh, VN','Taipei, TW','Bangalore, IN'];
+  const origin = origins[Math.floor(Math.random()*origins.length)];
+  const now = new Date();
+  const steps = [
+    {stage:'Manufacturer',loc:origin,time:new Date(now-14*86400000).toISOString().replace('T',' ').slice(0,19),tx:'0x'+Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join(''),org:origin.split(',')[0]+' Factory',note:'Batch BX-'+now.getFullYear()+'-'+(now.getMonth()+1)+'-'+Math.floor(Math.random()*900+100)},
+    {stage:'Distributor',loc:'Rotterdam, NL',time:new Date(now-7*86400000).toISOString().replace('T',' ').slice(0,19),tx:'0x'+Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join(''),org:'EuroLogistics BV',note:'Container CNT-'+Math.floor(Math.random()*900000+100000)},
+    {stage:'Retailer',loc:'New York, US',time:new Date(now-1*86400000).toISOString().replace('T',' ').slice(0,19),tx:'0x'+Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join(''),org:'Metro Electronics',note:'SKU ME-'+Math.floor(Math.random()*90000+10000)+'-S'}
+  ];
+  products[id] = steps;
+  const emojis = ['🏭','🚚','🏪'];
+  let html = '<div class="status-bar success fade-in" style="margin-top:0">📦 Product scanned: <strong>' + name + '</strong> — <span class="product-id">' + id + '</span></div>';
+  html += '<div class="product-header fade-in" style="margin-top:12px"><div class="product-icon">'+icon+'</div><div><strong>'+name+'</strong><br><span class="product-id">'+id+'</span></div></div>';
+  html += '<div style="position:relative">';
+  steps.forEach((s,i)=>{
+    const blockNum = Math.floor(Math.random()*500000+14000000);
+    html += '<div class="journey-step fade-in"><div class="step-marker done">'+emojis[i]+'</div><div class="step-content"><div class="step-title">'+(i+1)+'. '+s.stage+'</div><div class="step-detail">📍 '+s.loc+' · '+s.time+' UTC<br>🏢 '+s.org+' · '+s.note+'<br>🔗 Tx: <span style="color:var(--accent2)">'+s.tx.slice(0,15)+'...</span> · Block: #'+blockNum+' · ✅ Verified</div></div></div>';
+  });
+  html += '</div>';
+  document.getElementById('scan-result').innerHTML = html;
+  document.getElementById('check-id').value = id;
+}
+
+function checkProduct() {
+  const id = document.getElementById('check-id').value.trim();
+  const result = document.getElementById('check-result');
+  if (!id) { result.innerHTML = '<div class="status-bar pending">⚠️ Enter a Product ID above to verify</div>'; return; }
+  if (products[id]) {
+    const s = products[id];
+    result.innerHTML =
+      '<div class="status-bar success fade-in">✅ <strong>Authentic</strong> — ' + s.length + ' on-chain checkpoints · Origin: ' + s[0].loc + ' · Last: ' + s[s.length-1].stage + ' at ' + s[s.length-1].loc + '</div>';
+  } else {
+    result.innerHTML =
+      '<div class="status-bar pending fade-in">❌ <strong>Counterfeit Alert</strong> — Product ID <code>' + id + '</code> does not exist on-chain. This item may be counterfeit.</div>';
+  }
+}
+</script>
+</body>
+</html>

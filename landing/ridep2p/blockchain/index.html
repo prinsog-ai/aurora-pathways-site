@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ridep2p — Decentralized Ride Protocol</title>
+<meta name="description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97%. Built on Base L2.">
+<link rel="canonical" href="https://aurorapathways.xyz/landing/ridep2p/blockchain/">
+<meta property="og:title" content="Ridep2p — Decentralized Ride Protocol">
+<meta property="og:description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97%. Built on Base L2.">
+<meta property="og:url" content="https://aurorapathways.xyz/landing/ridep2p/blockchain/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ridep2p — Decentralized Ride Protocol">
+<meta name="twitter:description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97%. Built on Base L2.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--green:#22c55e}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Inter',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--glass-border);background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
+nav .logo{font-weight:800;font-size:1.1rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+nav .nav-right{display:flex;align-items:center;gap:12px}
+.badge-web3{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;background:rgba(78,201,176,0.12);color:var(--accent2);border:1px solid rgba(78,201,176,0.2)}
+.badge-web3 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+#connectBtn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;border:1px solid var(--accent);background:rgba(124,92,252,0.1);color:var(--accent);transition:all 0.2s}
+#connectBtn:hover{background:rgba(124,92,252,0.2)}
+#connectBtn.connected{background:rgba(34,197,94,0.1);border-color:var(--green);color:var(--green)}
+.hero{text-align:center;padding:80px 24px 60px}
+.hero .badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:24px;background:rgba(124,92,252,0.15);color:var(--accent)}
+.hero h1{font-size:3.5rem;font-weight:800;margin-bottom:12px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .tagline{color:var(--text2);font-size:1.2rem;margin-bottom:32px;line-height:1.6}
+.features{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto 40px}
+.feature{background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:20px;width:140px;transition:transform 0.2s}
+.feature:hover{transform:translateY(-2px);border-color:rgba(124,92,252,0.3)}
+.feature .icon{font-size:1.5rem;margin-bottom:8px}
+.feature .stat{font-size:1.3rem;font-weight:700;color:var(--accent2)}
+.feature .label{font-size:0.8rem;color:var(--text2)}
+.chains{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.chain-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:600;background:var(--glass);border:1px solid var(--glass-border);color:var(--text2)}
+.chain-badge.active{background:rgba(78,201,176,0.1);border-color:rgba(78,201,176,0.3);color:var(--accent2)}
+.connected-only{display:none;max-width:800px;margin:0 auto 40px;padding:0 24px}
+.connected-only.visible{display:block}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.status-item{background:var(--surface);border:1px solid var(--glass-border);border-radius:10px;padding:16px;text-align:center}
+.status-item .s-label{font-size:0.75rem;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.status-item .s-value{font-size:1.1rem;font-weight:700;color:var(--accent2)}
+.status-item .s-value.dim{color:var(--text2)}
+.contracts{max-width:800px;margin:0 auto 60px;padding:0 24px}
+.contracts h2{font-size:1.5rem;margin-bottom:8px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.contracts .subtitle{color:var(--text2);font-size:0.9rem;margin-bottom:24px}
+.contract-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.contract-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:20px;transition:all 0.2s}
+.contract-card:hover{border-color:rgba(124,92,252,0.3);transform:translateY(-2px)}
+.contract-card .c-icon{font-size:1.5rem;margin-bottom:10px}
+.contract-card .c-name{font-weight:700;font-size:1rem;margin-bottom:4px}
+.contract-card .c-type{color:var(--text2);font-size:0.8rem;margin-bottom:10px}
+.contract-card .c-stats{display:flex;gap:16px;font-size:0.8rem}
+.contract-card .c-stats span{display:flex;align-items:center;gap:4px}
+.contract-card .c-stat-val{color:var(--accent2);font-weight:600}
+.contract-card .c-link{display:inline-block;margin-top:12px;font-size:0.8rem;color:var(--accent);text-decoration:none;font-weight:600}
+.contract-card .c-link:hover{text-decoration:underline}
+.cta{text-align:center;padding:0 24px 80px}
+.btn{display:inline-block;padding:14px 32px;border-radius:10px;font-weight:600;font-size:1rem;text-decoration:none;transition:all 0.2s;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff;border:none}.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text);margin-left:12px}
+footer{text-align:center;padding:32px 24px;border-top:1px solid var(--glass-border);color:var(--text2);font-size:0.8rem}
+footer a{color:var(--accent2);text-decoration:none}
+footer .domain-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+footer .domain-links a{color:var(--text2);text-decoration:none;font-size:0.8rem}
+footer .domain-links a:hover{color:var(--accent2)}
+@media(max-width:600px){.hero h1{font-size:2.2rem}.features{gap:12px}.feature{width:120px;padding:16px}.contract-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Ridep2p</div>
+  <div class="nav-right">
+    <div class="badge-web3"><span class="dot"></span>Web3 Native</div>
+    <button id="connectBtn" onclick="connectWallet()"><span>🔌</span> Connect Wallet</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="badge">Built by Aurora Pathways</div>
+  <h1>Ridep2p</h1>
+  <p class="tagline">Decentralized ride protocol.<br>Peer-to-peer. USDC payments. No corporate commission.</p>
+  <div class="features">
+    <div class="feature"><div class="icon">🚗</div><div class="stat">0%</div><div class="label">Commission</div></div>
+    <div class="feature"><div class="icon">⚡</div><div class="stat">Instant</div><div class="label">Settlement</div></div>
+    <div class="feature"><div class="icon">🔒</div><div class="stat">Escrow</div><div class="label">Protected</div></div>
+  </div>
+</section>
+
+<section class="chains">
+  <div class="chain-badge active">🔷 Polygon</div>
+  <div class="chain-badge active">🔵 Base</div>
+  <div class="chain-badge">🟣 Arbitrum</div>
+  <div class="chain-badge">🟠 Optimism</div>
+</section>
+
+<div class="connected-only" id="connectedSection">
+  <section class="status-bar" style="max-width:800px;margin:0 auto 40px;padding:0 24px">
+    <div class="status-grid">
+      <div class="status-item"><div class="s-label">Network</div><div class="s-value" id="networkDisplay">—</div></div>
+      <div class="status-item"><div class="s-label">Wallet</div><div class="s-value" id="addrDisplay" style="font-family:monospace;font-size:0.8rem">—</div></div>
+      <div class="status-item"><div class="s-label">Balance</div><div class="s-value dim" id="balanceDisplay">Connect for testnet</div></div>
+    </div>
+  </section>
+</div>
+
+<section class="contracts">
+  <h2>Live Contracts</h2>
+  <p class="subtitle">Production-ready Solidity. 133 tests passing. Multi-chain deployable.</p>
+  <div class="contract-grid">
+    <div class="contract-card"><div class="c-icon">💳</div><div class="c-name">Aurora Payments</div><div class="c-type">Payment Splitter · USDC/USDT/DAI</div><div class="c-stats"><span>✅ <span class="c-stat-val">12</span> tests</span><span>🔒 <span class="c-stat-val">ReentrancyGuard</span></span></div><a href="#" class="c-link">View on PolygonScan ↗</a></div>
+    <div class="contract-card"><div class="c-icon">🔓</div><div class="c-name">Aurora Vesting</div><div class="c-type">Linear Vesting · Cliff · Revocable</div><div class="c-stats"><span>✅ <span class="c-stat-val">37</span> tests</span><span>📈 <span class="c-stat-val">Linear</span></span></div><a href="#" class="c-link">View on PolygonScan ↗</a></div>
+    <div class="contract-card"><div class="c-icon">🪙</div><div class="c-name">Aurora Token</div><div class="c-type">ERC-20 · Mintable · Burnable · 1B Cap</div><div class="c-stats"><span>✅ <span class="c-stat-val">35</span> tests</span><span>⛽ <span class="c-stat-val">~45K</span> gas</span></div><a href="#" class="c-link">View on PolygonScan ↗</a></div>
+    <div class="contract-card"><div class="c-icon">🏛️</div><div class="c-name">Aurora Governance</div><div class="c-type">Governor · Timelock · Treasury</div><div class="c-stats"><span>✅ <span class="c-stat-val">49</span> tests</span><span>🗳️ <span class="c-stat-val">DAO-ready</span></span></div><a href="#" class="c-link">View on PolygonScan ↗</a></div>
+  </div>
+</section>
+
+<section class="cta">
+  <a href="https://aurorapathways.xyz/portfolio/ridep2p.html" class="btn btn-primary">View Full Demo</a>
+  <a href="https://aurorapathways.xyz" class="btn btn-outline">Aurora Pathways</a>
+</section>
+
+<footer>
+  <div class="domain-links"><a href="https://ridep2p.xyz">ridep2p.xyz</a><span>·</span><a href="#">ridep2p.blockchain</a><span>·</span><a href="https://aurorapathways.xyz">aurorapathways.xyz</a></div>
+  <p>Built on Polygon & Base · Powered by Aurora Pathways</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+let provider,signer,address;
+async function connectWallet(){
+  if(typeof window.ethereum==='undefined'){alert('No wallet detected. Install MetaMask or use a Web3 browser.');return}
+  try{
+    provider=new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send('eth_requestAccounts',[]);
+    signer=provider.getSigner();
+    address=await signer.getAddress();
+    const network=await provider.getNetwork();
+    const btn=document.getElementById('connectBtn');
+    btn.innerHTML='<span>🟢</span> '+address.slice(0,6)+'...'+address.slice(-4);
+    btn.classList.add('connected');
+    btn.onclick=disconnectWallet;
+    document.getElementById('addrDisplay').textContent=address.slice(0,8)+'...'+address.slice(-6);
+    document.getElementById('networkDisplay').textContent=network.name||'Chain ID '+network.chainId;
+    document.getElementById('connectedSection').classList.add('visible');
+    try{const b=await provider.getBalance(address);document.getElementById('balanceDisplay').textContent=parseFloat(ethers.utils.formatEther(b)).toFixed(4)+' MATIC';document.getElementById('balanceDisplay').classList.remove('dim')}catch(e){document.getElementById('balanceDisplay').textContent='Testnet only'}
+  }catch(e){console.error('Connection failed:',e)}
+}
+function disconnectWallet(){address=null;provider=null;signer=null;const btn=document.getElementById('connectBtn');btn.innerHTML='<span>🔌</span> Connect Wallet';btn.classList.remove('connected');btn.onclick=connectWallet;document.getElementById('connectedSection').classList.remove('visible')}
+if(window.ethereum){window.ethereum.on('accountsChanged',()=>disconnectWallet());window.ethereum.on('chainChanged',()=>disconnectWallet())}
+</script>
+</body>
+</html>

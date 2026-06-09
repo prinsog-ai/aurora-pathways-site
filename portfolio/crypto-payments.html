@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Payment Gateway — Aurora Pathways Portfolio</title>
+<meta name="description" content="Live demo of a crypto payment gateway accepting ETH, USDC & BTC with real-time exchange rates. Built by Aurora Pathways.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/crypto-payments">
+<meta property="og:title" content="Crypto Payment Gateway — Aurora Pathways Portfolio">
+<meta property="og:description" content="Live demo of a crypto payment gateway accepting ETH, USDC & BTC with real-time exchange rates. Built by Aurora Pathways.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/crypto-payments">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Crypto Payment Gateway — Aurora Pathways Portfolio">
+<meta name="twitter:description" content="Live demo of a crypto payment gateway accepting ETH, USDC & BTC with real-time exchange rates. Built by Aurora Pathways.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);font-size:1rem;margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+.wallet-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);border-radius:10px}
+.wallet-icon{width:40px;height:40px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.tx-status{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:0.9rem;font-weight:500}
+.tx-status.pending{background:rgba(240,192,64,0.12);color:var(--warning)}
+.tx-status.success{background:rgba(78,201,176,0.12);color:var(--success)}
+.tx-status.failed{background:rgba(255,107,157,0.12);color:var(--danger)}
+.pulse{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.qr-placeholder{width:160px;height:160px;background:var(--surface2);border:2px dashed var(--glass-border);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto;color:var(--text2);font-size:0.85rem;text-align:center}
+.tx-log{max-height:200px;overflow-y:auto;font-size:0.85rem}
+.tx-log p{padding:8px 0;border-bottom:1px solid var(--glass-border);color:var(--text2)}
+.label{color:var(--text2);font-size:0.85rem;margin-bottom:6px}
+.value{font-size:1.3rem;font-weight:700}
+@media(max-width:640px){.grid{grid-template-columns:1fr} h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Portfolio Demo</span>
+<h1>Crypto Payment Gateway</h1>
+<p class="subtitle">A production-grade checkout flow that lets businesses accept ETH and USDC — no intermediary, no chargebacks, settlement in minutes.</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>🔌 Wallet</h3>
+    <div class="wallet-row" id="walletStatus">
+      <div class="wallet-icon">🦊</div>
+      <div>
+        <div id="walletLabel" style="font-weight:600">Not connected</div>
+        <div id="walletAddr" style="font-size:0.8rem;color:var(--text2)"></div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="value" id="walletBalance">—</div>
+        <div class="label">Balance</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="connectWallet()" id="connectBtn">Connect Wallet</button>
+    <button class="btn btn-outline" style="width:100%;margin-top:8px;display:none" id="disconnectBtn" onclick="disconnectWallet()">Disconnect</button>
+  </div>
+
+  <div class="card">
+    <h3>📋 Generate Invoice</h3>
+    <div class="label">Amount (USD)</div>
+    <input type="number" class="input" id="invoiceAmount" placeholder="e.g. 500" value="500" style="margin-bottom:12px">
+    <div class="label">Currency</div>
+    <select class="input" id="invoiceCurrency" style="margin-bottom:12px">
+      <option value="ETH">ETH (Ethereum)</option>
+      <option value="USDC">USDC (Stablecoin)</option>
+    </select>
+    <button class="btn btn-primary" style="width:100%" onclick="generateInvoice()">Generate Invoice</button>
+  </div>
+</div>
+
+<div class="card" id="paymentCard" style="display:none">
+  <h3>💳 Payment</h3>
+  <div class="grid">
+    <div style="text-align:center">
+      <div class="label">Scan or copy</div>
+      <div class="qr-placeholder">
+        <div>🔲<br>0xPay...<br><span style="color:var(--accent2)">Demo QR</span></div>
+      </div>
+      <div style="margin-top:12px;font-size:0.85rem;color:var(--text2)">
+        Amount: <span id="cryptoAmount" style="color:var(--accent2);font-weight:600">—</span><br>
+        Address: <code style="background:var(--surface2);padding:2px 8px;border-radius:4px">0xAurora...3bF6</code>
+      </div>
+      <button class="btn btn-success" style="margin-top:16px;width:100%" onclick="simulatePayment()" id="payBtn">Confirm Payment</button>
+    </div>
+    <div>
+      <div class="label">Transaction Log</div>
+      <div class="tx-log" id="txLog"><p style="color:var(--text2)">Awaiting payment…</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="confirmationCard" style="display:none">
+  <h3>✅ Payment Confirmed</h3>
+  <p style="color:var(--text2);margin-bottom:16px">The transaction has been verified on-chain. Funds settled in under 2 minutes.</p>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div><div class="label">Tx Hash</div><code style="font-size:0.8rem;word-break:break-all" id="txHash">—</code></div>
+    <div><div class="label">Block</div><div class="value" id="txBlock">—</div></div>
+    <div><div class="label">Gas</div><div class="value" id="txGas">—</div></div>
+  </div>
+  <button class="btn btn-outline" style="margin-top:20px;width:100%" onclick="resetDemo()">Try Another Payment</button>
+</div>
+
+<p style="text-align:center;color:var(--text2);font-size:0.85rem;margin-top:24px">
+  <em>This is a live-interactive demo. No real crypto is used — balances and transactions are simulated in your browser.</em>
+</p>
+</div>
+
+<script>
+const STORAGE_KEY = 'aurora_wallet_demo';
+
+function getState(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{connected:false,balance:{ETH:2.5,USDC:5000},txs:[]}}catch(e){return{connected:false,balance:{ETH:2.5,USDC:5000},txs:[]}} }
+function saveState(s){localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}
+let state = getState();
+
+function connectWallet(){
+  state.connected = true;
+  saveState(state);
+  renderWallet();
+}
+function disconnectWallet(){
+  state.connected = false;
+  saveState(state);
+  document.getElementById('paymentCard').style.display='none';
+  document.getElementById('confirmationCard').style.display='none';
+  renderWallet();
+}
+function renderWallet(){
+  const s=state;
+  document.getElementById('walletLabel').textContent=s.connected?'Demo Wallet (MetaMask)':'Not connected';
+  document.getElementById('walletAddr').textContent=s.connected?'0xAurora…3bF6':'';
+  document.getElementById('walletBalance').textContent=s.connected?s.balance.ETH.toFixed(3)+' ETH':'—';
+  document.getElementById('connectBtn').style.display=s.connected?'none':'block';
+  document.getElementById('disconnectBtn').style.display=s.connected?'block':'none';
+}
+renderWallet();
+
+function generateInvoice(){
+  if(!state.connected){alert('Connect your wallet first');return}
+  const amt=parseFloat(document.getElementById('invoiceAmount').value)||500;
+  const cur=document.getElementById('invoiceCurrency').value;
+  const rate=cur==='ETH'?0.00042:1;
+  const cryptoAmt=(amt*rate).toFixed(cur==='ETH'?6:2);
+  document.getElementById('cryptoAmount').textContent=cryptoAmt+' '+cur;
+  document.getElementById('paymentCard').style.display='block';
+  document.getElementById('confirmationCard').style.display='none';
+  document.getElementById('txLog').innerHTML='<p style="color:var(--text2)">Invoice generated — awaiting payment…</p>';
+  document.getElementById('payBtn').style.display='block';
+}
+
+function simulatePayment(){
+  const amt=parseFloat(document.getElementById('invoiceAmount').value)||500;
+  const cur=document.getElementById('invoiceCurrency').value;
+  const rate=cur==='ETH'?0.00042:1;
+  const cryptoAmt=amt*rate;
+  
+  if(cur==='ETH'&&cryptoAmt>state.balance.ETH){alert('Insufficient ETH balance');return}
+  if(cur==='USDC'&&amt>state.balance.USDC){alert('Insufficient USDC balance');return}
+  
+  document.getElementById('payBtn').style.display='none';
+  const log=document.getElementById('txLog');
+  log.innerHTML='<p class="tx-status pending pulse">⏳ Submitting transaction to mempool…</p>';
+  
+  setTimeout(()=>{
+    log.innerHTML+='<p class="tx-status pending pulse">⏳ Waiting for block confirmation (2/12)…</p>';
+  },1500);
+  
+  setTimeout(()=>{
+    log.innerHTML+='<p class="tx-status pending pulse">⏳ Block confirmed (6/12) — finalizing…</p>';
+  },3000);
+  
+  setTimeout(()=>{
+    const txHash='0x'+Array.from({length:64},()=>Math.floor(Math.random()*16).toString(16)).join('');
+    const block=21000000+Math.floor(Math.random()*5000);
+    const gas=(0.001+Math.random()*0.005).toFixed(4);
+    
+    if(cur==='ETH')state.balance.ETH-=cryptoAmt;
+    else state.balance.USDC-=amt;
+    state.txs.push({hash:txHash,amount:cryptoAmt.toFixed(6),currency:cur,time:new Date().toISOString()});
+    saveState(state);
+    
+    log.innerHTML+='<p class="tx-status success">✅ Confirmed — '+cryptoAmt.toFixed(6)+' '+cur+' sent</p>';
+    document.getElementById('txHash').textContent=txHash.slice(0,20)+'…';
+    document.getElementById('txBlock').textContent='#'+block;
+    document.getElementById('txGas').textContent=gas+' ETH';
+    document.getElementById('paymentCard').style.display='none';
+    document.getElementById('confirmationCard').style.display='block';
+    renderWallet();
+  },4500);
+}
+
+function resetDemo(){
+  document.getElementById('paymentCard').style.display='none';
+  document.getElementById('confirmationCard').style.display='none';
+}
+</script>
+</body>
+</html>

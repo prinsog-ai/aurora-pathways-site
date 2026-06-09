@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPFS Deployment Tracker — Aurora Pathways Portfolio</title>
+<meta name="description" content="IPFS deployment tracker demo. Pin, verify & monitor decentralized file deployments via Pinata. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/ipfs-deploy">
+<meta property="og:title" content="IPFS Deployment Tracker — Aurora Pathways Portfolio">
+<meta property="og:description" content="IPFS deployment tracker demo. Pin, verify & monitor decentralized file deployments via Pinata. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/ipfs-deploy">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IPFS Deployment Tracker — Aurora Pathways Portfolio">
+<meta name="twitter:description" content="IPFS deployment tracker demo. Pin, verify & monitor decentralized file deployments via Pinata. Aurora Pathways portfolio.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+.upload-zone{border:2px dashed var(--glass-border);border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all 0.2s}
+.upload-zone:hover{border-color:var(--accent2);background:rgba(78,201,176,0.04)}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:12px}
+/* Steps */
+.steps{margin-top:20px}
+.step{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid var(--glass-border);opacity:0.3;transition:all 0.3s}
+.step.complete{opacity:1}
+.step.active{opacity:1}
+.step-icon{width:36px;height:36px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:all 0.3s}
+.step.complete .step-icon{background:var(--success);color:#000}
+.step.active .step-icon{background:var(--accent);color:#fff;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.step-body{flex:1}
+.step-body h4{font-size:0.95rem;margin-bottom:4px}
+.step-body p{font-size:0.85rem;color:var(--text2)}
+/* CID */
+.cid-box{background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;padding:16px;margin-top:16px;word-break:break-all;font-family:monospace;font-size:0.85rem}
+.cid-box .label{color:var(--text2);font-size:0.8rem;margin-bottom:4px}
+/* Gateways */
+.gateway-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.gateway{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--glass-border)}
+.gateway .name{font-weight:600;font-size:0.9rem}
+.gateway .url{font-size:0.8rem;color:var(--text2)}
+.gateway .status{font-size:0.8rem;padding:4px 10px;border-radius:6px}
+.gateway .status.live{background:rgba(78,201,176,0.15);color:var(--success)}
+.gateway .status.pending{background:rgba(240,192,64,0.15);color:#f0c040}
+/* Info box */
+.info-box{background:rgba(124,92,252,0.06);border:1px solid rgba(124,92,252,0.15);border-radius:12px;padding:24px;margin-top:20px}
+.info-box h4{color:var(--accent);margin-bottom:12px}
+.info-box p{font-size:0.9rem;color:var(--text2);line-height:1.6}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Portfolio Demo</span>
+<h1>IPFS Deployment Tracker</h1>
+<p class="subtitle">Decentralized hosting puts your content on a global peer-to-peer network — no single server, no single point of failure, no censorship.</p>
+
+<div class="grid2">
+  <div class="card">
+    <h3>📤 Upload Content</h3>
+    <div class="upload-zone" id="uploadZone" onclick="simulateUpload()">
+      <div class="icon">☁️</div>
+      <p style="font-weight:600;margin-bottom:4px">Click to upload</p>
+      <p style="color:var(--text2);font-size:0.85rem">HTML, CSS, JS, images, or any static file</p>
+    </div>
+    <div id="fileInfo" style="display:none;margin-top:16px;padding:12px;background:var(--surface2);border-radius:8px">
+      <span id="fileName" style="font-weight:600"></span>
+      <span style="color:var(--text2);margin-left:8px;font-size:0.85rem" id="fileSize"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Deployment Steps</h3>
+    <div class="steps">
+      <div class="step" id="step1"><div class="step-icon">1</div><div class="step-body"><h4>Content Chunking</h4><p>File split into IPFS blocks using content-addressed DAG</p></div></div>
+      <div class="step" id="step2"><div class="step-icon">2</div><div class="step-body"><h4>CID Generation</h4><p>Unique content identifier computed from file hash</p></div></div>
+      <div class="step" id="step3"><div class="step-icon">3</div><div class="step-body"><h4>Network Propagation</h4><p>Blocks distributed across IPFS peers globally</p></div></div>
+      <div class="step" id="step4"><div class="step-icon">4</div><div class="step-body"><h4>Pinning Service</h4><p>Content pinned to Pinata for guaranteed availability</p></div></div>
+      <div class="step" id="step5"><div class="step-icon">5</div><div class="step-body"><h4>Gateway Ready</h4><p>Live on 4+ gateways worldwide</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="resultsCard" style="display:none">
+  <h3>🔗 Content Identifier (CID)</h3>
+  <div class="cid-box">
+    <div class="label">CIDv1</div>
+    <div id="cidDisplay" style="color:var(--accent2)">—</div>
+  </div>
+
+  <h3 style="margin-top:24px">🌐 Gateway URLs</h3>
+  <div class="gateway-list" id="gatewayList">
+    <div class="gateway"><span class="name">IPFS.io</span><span class="url">ipfs.io/ipfs/…</span><span class="status pending">loading</span></div>
+    <div class="gateway"><span class="name">Cloudflare IPFS</span><span class="url">cloudflare-ipfs.com/ipfs/…</span><span class="status pending">loading</span></div>
+    <div class="gateway"><span class="name">Pinata Gateway</span><span class="url">gateway.pinata.cloud/ipfs/…</span><span class="status pending">loading</span></div>
+    <div class="gateway"><span class="name">dweb.link</span><span class="url">dweb.link/ipfs/…</span><span class="status pending">loading</span></div>
+  </div>
+
+  <div class="info-box">
+    <h4>🛡️ Why This Matters</h4>
+    <p>Traditional hosting puts your website on one company's server. If they go down, censor you, or get hacked — your site is gone. IPFS distributes your content across thousands of nodes worldwide. No single point of failure. No single authority can take it down. <strong>That's the decentralized web.</strong></p>
+  </div>
+</div>
+
+<button class="btn btn-outline" id="resetBtn" style="display:none;margin:0 auto;display:none" onclick="resetDemo()">Deploy Another File</button>
+</div>
+
+<script>
+function hash(str){
+  let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0}
+  return Math.abs(h).toString(16).padStart(8,'0');
+}
+
+function simulateUpload(){
+  const names=['landing-page.html','token-gate.html','brand-assets.zip','dao-dashboard.js','whitepaper-v2.pdf'];
+  const sizes=['28 KB','142 KB','3.2 MB','67 KB','890 KB'];
+  const idx=Math.floor(Math.random()*names.length);
+  const cid='bafybeig'+hash(names[idx]+Date.now())+Array.from({length:39},()=>Math.floor(Math.random()*16).toString(16)).join('');
+  
+  document.getElementById('fileName').textContent=names[idx];
+  document.getElementById('fileSize').textContent=sizes[idx];
+  document.getElementById('fileInfo').style.display='block';
+  document.getElementById('cidDisplay').textContent=cid;
+  
+  const urls=[
+    'ipfs.io/ipfs/'+cid.slice(0,12)+'…',
+    'cloudflare-ipfs.com/ipfs/'+cid.slice(0,12)+'…',
+    'gateway.pinata.cloud/ipfs/'+cid.slice(0,12)+'…',
+    'dweb.link/ipfs/'+cid.slice(0,12)+'…'
+  ];
+  
+  resetDemo();
+  document.getElementById('resultsCard').style.display='block';
+  document.getElementById('resetBtn').style.display='block';
+  
+  const steps=[1,2,3,4,5];
+  const gateways=document.querySelectorAll('.gateway .url');
+  const statuses=document.querySelectorAll('.gateway .status');
+  
+  gateways.forEach((g,i)=>{g.textContent=urls[i];statuses[i].textContent='loading';statuses[i].className='status pending'});
+  
+  steps.forEach((s,i)=>{
+    setTimeout(()=>{
+      document.getElementById('step'+s).classList.add('active');
+      setTimeout(()=>{
+        document.getElementById('step'+s).classList.remove('active');
+        document.getElementById('step'+s).classList.add('complete');
+      },800+i*200);
+    },i*1000);
+  });
+  
+  setTimeout(()=>{
+    statuses.forEach(s=>{s.textContent='live ✓';s.className='status live'});
+  },6000);
+}
+
+function resetDemo(){
+  document.querySelectorAll('.step').forEach(s=>{s.classList.remove('active','complete')});
+  document.getElementById('fileInfo').style.display='none';
+  document.getElementById('resultsCard').style.display='none';
+  document.getElementById('resetBtn').style.display='none';
+}
+</script>
+</body>
+</html>

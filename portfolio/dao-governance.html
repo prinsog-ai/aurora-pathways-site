@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAO Governance — Aurora Pathways</title>
+<meta name="description" content="DAO governance demo with proposal creation, on-chain voting & treasury management. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/dao-governance">
+<meta property="og:title" content="DAO Governance — Aurora Pathways">
+<meta property="og:description" content="DAO governance demo with proposal creation, on-chain voting & treasury management. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/dao-governance">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DAO Governance — Aurora Pathways">
+<meta name="twitter:description" content="DAO governance demo with proposal creation, on-chain voting & treasury management. Aurora Pathways portfolio.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+.badge.active{background:rgba(78,201,176,0.15);color:var(--accent2)}
+.badge.passed{background:rgba(124,92,252,0.15);color:var(--accent)}
+.badge.rejected{background:rgba(255,107,157,0.15);color:var(--accent3)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}.btn-success:hover{opacity:0.9}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-sm{padding:8px 16px;font-size:0.85rem}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.bar{height:8px;border-radius:4px;margin-top:4px;transition:width 0.5s}
+.bar.for{background:var(--success)}.bar.against{background:var(--danger)}
+.tx-log{max-height:200px;overflow-y:auto;font-family:monospace;font-size:0.8rem}
+.tx-log div{padding:4px 0;border-bottom:1px solid var(--glass-border)}
+.quorum-bar{height:4px;background:var(--surface2);border-radius:2px;margin-top:6px}
+.quorum-fill{height:100%;border-radius:2px;background:var(--accent);transition:width 0.5s}
+.mini-stat{text-align:center;padding:16px;background:var(--surface2);border-radius:10px}
+.mini-stat .val{font-size:1.5rem;font-weight:700;color:var(--accent2)}
+.mini-stat .lbl{font-size:0.8rem;color:var(--text2);margin-top:4px}
+.tab{display:inline-block;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:0.9rem;margin-right:8px;background:var(--surface2);color:var(--text2);transition:all 0.2s}
+.tab.active{background:var(--accent);color:#fff}
+.proposal{padding:16px 0;border-bottom:1px solid var(--glass-border)}
+.proposal:last-child{border:none}
+.proposal h4{font-size:1rem;margin-bottom:4px}
+.proposal .meta{font-size:0.8rem;color:var(--text2)}
+.progress{display:flex;align-items:center;gap:12px;margin-top:8px}
+.progress .pct{font-size:0.9rem;font-weight:600;min-width:40px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Live Demo</span>
+<h1>🏗️ DAO Governance</h1>
+<p class="subtitle">Community-governed protocols. Propose, vote, execute — all on-chain. Built with AuroraGovernor (OZ Governor) + AuroraTreasury (multi-sig). 49/49 tests passing.</p>
+
+<!-- Stats Bar -->
+<div class="grid3">
+<div class="mini-stat"><div class="val" id="totalMembers">1,247</div><div class="lbl">Token Holders</div></div>
+<div class="mini-stat"><div class="val" id="totalProposals">12</div><div class="lbl">Proposals</div></div>
+<div class="mini-stat"><div class="val" id="treasuryBalance">$384,200</div><div class="lbl">Treasury (Multi-Sig)</div></div>
+</div>
+
+<!-- Tabs -->
+<div style="margin:32px 0 20px;">
+<span class="tab active" onclick="switchTab('proposals')" id="tab-proposals">📋 Proposals</span>
+<span class="tab" onclick="switchTab('treasury')" id="tab-treasury">💰 Treasury</span>
+<span class="tab" onclick="switchTab('members')" id="tab-members">👥 Members</span>
+</div>
+
+<!-- Proposals Panel -->
+<div id="panel-proposals">
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+<h3 style="margin:0;">Active Proposals</h3>
+<button class="btn btn-primary btn-sm" onclick="createProposal()">+ New Proposal</button>
+</div>
+<div id="proposalList"></div>
+</div>
+<div class="card"><h3>📜 Transaction Log</h3><div class="tx-log" id="txLog"><div>Governor deployed — 0x8f3C...6A063</div><div>Timelock initialized — 2 day delay</div><div>Treasury multi-sig — 2 of 3 threshold</div></div></div>
+</div>
+
+<!-- Treasury Panel -->
+<div id="panel-treasury" style="display:none;">
+<div class="card">
+<h3>Multi-Sig Treasury</h3>
+<p style="color:var(--text2);margin-bottom:16px;">Threshold: 2 of 3 signers required to execute transactions</p>
+<div class="grid2">
+<div style="text-align:center;padding:20px;background:var(--surface2);border-radius:10px;">
+<div style="font-size:1.2rem;font-weight:700;">👤 0x1a2b...3c4d</div>
+<div style="color:var(--accent2);font-size:0.85rem;margin-top:4px;">Signer 1 (Owner)</div>
+</div>
+<div style="text-align:center;padding:20px;background:var(--surface2);border-radius:10px;">
+<div style="font-size:1.2rem;font-weight:700;">👤 0x5e6f...7g8h</div>
+<div style="color:var(--accent2);font-size:0.85rem;margin-top:4px;">Signer 2</div>
+</div>
+<div style="text-align:center;padding:20px;background:var(--surface2);border-radius:10px;">
+<div style="font-size:1.2rem;font-weight:700;">👤 0x9i0j...1k2l</div>
+<div style="color:var(--accent2);font-size:0.85rem;margin-top:4px;">Signer 3</div>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Pending Transactions</h3>
+<div id="treasuryTxs"></div>
+</div>
+</div>
+
+<!-- Members Panel -->
+<div id="panel-members" style="display:none;">
+<div class="card">
+<h3>Token Holders</h3>
+<div style="display:flex;flex-direction:column;gap:12px;" id="memberList"></div>
+</div>
+</div>
+
+</div>
+
+<script>
+// State
+let tokenBalance = 5000;
+let proposals = [
+  {id:1,title:"Allocate $50K USDC to Development Fund",creator:"0x1a2b...3c4d",for:3420,against:890,status:"active",ends:"2d 14h"},
+  {id:2,title:"Add Base Chain Support for AuroraToken",creator:"0x5e6f...7g8h",for:2100,against:1200,status:"active",ends:"1d 6h"},
+  {id:3,title:"Reduce Proposal Threshold to 0.5%",creator:"0x9i0j...1k2l",for:4500,against:200,status:"passed",ends:"Ended"},
+  {id:4,title:"Hire Security Auditor for Contracts",creator:"0x1a2b...3c4d",for:890,against:3100,status:"rejected",ends:"Ended"},
+];
+let treasuryTxs = [
+  {id:1,to:"Dev Wallet",amount:"$5,000 USDC",confirmations:2,needed:2,status:"ready"},
+  {id:2,to:"Marketing Agency",amount:"$12,000 USDC",confirmations:1,needed:2,status:"pending"},
+];
+let members = [
+  {addr:"0x1a2b...3c4d",balance:25000,pct:"25.0%"},
+  {addr:"0x5e6f...7g8h",balance:18000,pct:"18.0%"},
+  {addr:"0x9i0j...1k2l",balance:12000,pct:"12.0%"},
+  {addr:"0x3m4n...5o6p",balance:8000,pct:"8.0%"},
+  {addr:"0x7q8r...9s0t",balance:5000,pct:"5.0%"},
+];
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  ['proposals','treasury','members'].forEach(t=>document.getElementById('panel-'+t).style.display='none');
+  document.getElementById('panel-'+tab).style.display='block';
+}
+
+function renderProposals(){
+  let html='';
+  proposals.forEach(p=>{
+    let total = p.for + p.against || 1;
+    let forPct = Math.round(p.for/total*100);
+    html+=`<div class="proposal">
+      <h4>#${p.id} — ${p.title}</h4>
+      <div class="meta">Proposed by ${p.creator} · Ends: ${p.ends} · <span class="badge ${p.status}">${p.status}</span></div>
+      <div class="progress">
+        <span style="color:var(--success);">✓ ${p.for.toLocaleString()}</span>
+        <div style="flex:1;height:6px;background:var(--surface2);border-radius:3px;position:relative;">
+          <div class="bar for" style="position:absolute;left:0;width:${forPct}%"></div>
+        </div>
+        <span style="color:var(--danger);">✗ ${p.against.toLocaleString()}</span>
+        <span class="pct" style="color:${forPct>50?'var(--success)':'var(--danger)'}">${forPct}%</span>
+      </div>
+      ${p.status==='active'?`<div style="margin-top:8px;display:flex;gap:8px;">
+        <button class="btn btn-success btn-sm" onclick="vote(${p.id},'for')">Vote For</button>
+        <button class="btn btn-danger btn-sm" onclick="vote(${p.id},'against')">Vote Against</button>
+      </div>`:''}
+    </div>`;
+  });
+  document.getElementById('proposalList').innerHTML=html;
+}
+
+function vote(id,side){
+  let p = proposals.find(x=>x.id===id);
+  if(!p||p.status!=='active')return;
+  let amount=Math.floor(Math.random()*tokenBalance*0.3)+50;
+  if(side==='for')p.for+=amount;else p.against+=amount;
+  addLog(`Voted ${side} on proposal #${id} — ${amount} AURA (${tokenBalance.toLocaleString()} balance)`);
+  renderProposals();
+}
+
+function createProposal(){
+  let title=prompt('Proposal title:');
+  if(!title)return;
+  let id = proposals.length+1;
+  proposals.unshift({id,title,creator:'0x'+Math.random().toString(16).slice(2,10)+'...'+Math.random().toString(16).slice(2,6),for:0,against:0,status:'active',ends:'3d 0h'});
+  addLog(`New proposal created: #${id} — "${title}"`);
+  document.getElementById('totalProposals').textContent=proposals.length;
+  renderProposals();
+}
+
+function renderTreasury(){
+  let html='';
+  treasuryTxs.forEach(tx=>{
+    html+=`<div style="padding:12px 0;border-bottom:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;">
+      <div><strong>TX #${tx.id}</strong> — Send ${tx.amount} to ${tx.to}</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:0.85rem;">Confirmations: ${tx.confirmations}/${tx.needed}</span>
+        <button class="btn ${tx.status==='ready'?'btn-success':'btn-outline'} btn-sm" onclick="confirmTx(${tx.id})" ${tx.status==='ready'?'':'disabled'}>${tx.status==='ready'?'Execute':'Sign'}</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('treasuryTxs').innerHTML=html;
+}
+
+function confirmTx(id){
+  let tx = treasuryTxs.find(x=>x.id===id);
+  if(!tx)return;
+  tx.confirmations++;
+  if(tx.confirmations>=tx.needed)tx.status='ready';
+  addLog(`Transaction #${id} confirmed (${tx.confirmations}/${tx.needed}) — ${tx.status==='ready'?'READY TO EXECUTE':'awaiting more signatures'}`);
+  renderTreasury();
+}
+
+function renderMembers(){
+  let html='';
+  members.forEach(m=>{
+    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface2);border-radius:8px;">
+      <span style="font-family:monospace;">${m.addr}</span>
+      <span style="color:var(--accent2);font-weight:600;">${m.balance.toLocaleString()} AURA (${m.pct})</span>
+    </div>`;
+  });
+  document.getElementById('memberList').innerHTML=html;
+}
+
+function addLog(msg){
+  let log=document.getElementById('txLog');
+  let d=new Date();
+  log.innerHTML='<div>[<span style="color:var(--text2)">'+d.toLocaleTimeString()+'</span>] '+msg+'</div>'+log.innerHTML;
+}
+
+// Init
+renderProposals();
+renderTreasury();
+renderMembers();
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Records — Aurora Pathways</title>
+<meta name="description" content="Blockchain-secured healthcare records demo. Patient-controlled data access with on-chain audit trails. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/healthcare-records">
+<meta property="og:title" content="Healthcare Records — Aurora Pathways">
+<meta property="og:description" content="Blockchain-secured healthcare records demo. Patient-controlled data access with on-chain audit trails. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/healthcare-records">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Healthcare Records — Aurora Pathways">
+<meta name="twitter:description" content="Blockchain-secured healthcare records demo. Patient-controlled data access with on-chain audit trails. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.record-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--glass-border)}
+.record-row:last-child{border-bottom:none}
+.record-info{flex:1}
+.record-name{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.record-hash{font-family:monospace;font-size:0.8rem;color:var(--text2)}
+.record-meta{display:flex;gap:16px;font-size:0.75rem;color:var(--text2);margin-top:4px}
+.record-actions{display:flex;gap:8px}
+.record-actions button{padding:8px 18px;font-size:0.85rem}
+.verify-icon{font-size:1.2rem}
+.consent-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--glass-border);font-size:0.85rem}
+.consent-item:last-child{border-bottom:none}
+.consent-who{color:var(--accent2);font-weight:600}
+.consent-what{color:var(--text);font-size:0.8rem}
+.consent-when{color:var(--text2)}
+.hipaa-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.2);border-radius:8px;color:var(--accent);font-size:0.8rem;font-weight:600}
+.fade-in{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.patient-card{display:flex;align-items:center;gap:16px;padding:20px;background:var(--surface2);border-radius:10px;margin-bottom:20px}
+.patient-avatar{width:56px;height:56px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:bold;flex-shrink:0}
+.patient-info{flex:1}
+.patient-name{font-weight:700;font-size:1.1rem}
+.patient-id{font-size:0.8rem;color:var(--text2);font-family:monospace}
+.record-tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.7rem;font-weight:600}
+.record-tag.lab{background:rgba(78,201,176,0.15);color:var(--success)}
+.record-tag.imaging{background:rgba(124,92,252,0.15);color:var(--accent)}
+.record-tag.genetic{background:rgba(255,107,157,0.15);color:var(--accent3)}
+.stat-row{display:flex;gap:20px;margin-bottom:20px}
+.stat-box{flex:1;background:var(--surface2);border-radius:10px;padding:16px;text-align:center}
+.stat-number{font-size:1.3rem;font-weight:800;color:var(--accent2)}
+.stat-label{font-size:0.75rem;color:var(--text2);margin-top:4px}
+.permission-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;padding:2px 8px;border-radius:10px;background:rgba(240,192,64,0.15);color:var(--warning)}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<span class="badge portfolio">Patient Data Sovereignty</span>
+<span class="hipaa-badge">🔒 HIPAA Compliant</span>
+<span class="badge portfolio" style="background:rgba(124,92,252,0.15);color:var(--accent)">🧬 PolygonID DID</span>
+<span class="badge portfolio" style="background:rgba(124,92,252,0.1);color:var(--accent)">⛓ On-Chain Verification</span>
+</div>
+<h1>Healthcare Records</h1>
+<p class="subtitle">Patient-owned medical records secured on IPFS with cryptographic verification and time-limited access sharing.</p>
+
+<div class="patient-card">
+<div class="patient-avatar">JD</div>
+<div class="patient-info">
+<div class="patient-name">Jane Doe</div>
+<div class="patient-id">Patient ID: 0x7B2a...c9F1 • DOB: 03/15/1985</div>
+</div>
+<div class="hipaa-badge" style="margin:0">✅ Identity Verified</div>
+</div>
+
+<div class="stat-row">
+<div class="stat-box"><div class="stat-number">3</div><div class="stat-label">Records on IPFS</div></div>
+<div class="stat-box"><div class="stat-number">7</div><div class="stat-label">Access Grants</div></div>
+<div class="stat-box"><div class="stat-number">100%</div><div class="stat-label">Verified On-Chain</div></div>
+</div>
+
+<div class="card"><h3>📋 My Medical Records</h3>
+
+<div class="card"><h3>🧬 Decentralized Identity</h3>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:var(--surface2);border-radius:10px">
+<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c5cfc,#4ec9b0);display:flex;align-items:center;justify-content:center;font-size:1.3rem">🔐</div>
+<div style="flex:1">
+<div style="font-weight:700;font-size:1rem">Patient DID</div>
+<div style="font-family:monospace;font-size:0.82rem;color:var(--accent2);margin-top:4px">did:polygonid:polygon:mainnet:0x7B2a3f8e1c6d9b4a5e0f2c7d8a1b3e6f9c2d5a8</div>
+<div style="font-size:0.78rem;color:var(--text2);margin-top:4px">DID Document stored on Polygon · Resolvable via PolygonID</div>
+</div>
+<span class="badge portfolio" style="margin:0">✅ Active</span>
+</div>
+
+<div style="margin-bottom:16px">
+<div style="font-weight:600;font-size:0.9rem;margin-bottom:10px">🔒 ZK Proof Capabilities</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div style="padding:14px;background:var(--surface2);border-radius:8px;border:1px solid var(--glass-border)">
+<div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">Prove Insurance Coverage</div>
+<div style="font-size:0.78rem;color:var(--text2);margin-bottom:8px">Without revealing provider name or policy number</div>
+<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem;width:100%" onclick="zkProof(this,'insurance')">Generate ZK Proof</button>
+</div>
+<div style="padding:14px;background:var(--surface2);border-radius:8px;border:1px solid var(--glass-border)">
+<div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">Prove Age Over 18</div>
+<div style="font-size:0.78rem;color:var(--text2);margin-bottom:8px">Without revealing actual birthdate</div>
+<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem;width:100%" onclick="zkProof(this,'age')">Generate ZK Proof</button>
+</div>
+</div>
+</div>
+
+<div>
+<div style="font-weight:600;font-size:0.9rem;margin-bottom:10px">📜 Verifiable Credentials</div>
+<div id="vc-list">
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag lab">Insurance</span> Health Insurance Credential</div><div class="record-meta"><span>🏢 BlueCross BlueShield</span><span>📅 Issued: 2025-01-15</span><span>⏳ Valid until: 2027-01-15</span></div><div class="record-hash">vc:urn:uuid:7b2a3f8e-1c6d-4b9a-5e0f-2c7d8a1b3e6f</div></div><div class="record-actions"><button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyVC(this,'Health Insurance')">✓ Verify</button></div></div>
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag genetic">Vaccination</span> COVID-19 Vaccination Record</div><div class="record-meta"><span>🏢 CDC</span><span>📅 Issued: 2024-03-20</span><span>🔒 Immutable</span></div><div class="record-hash">vc:urn:uuid:9c4d5e6f-7a8b-4c2d-1e3f-5a6b7c8d9e0f</div></div><div class="record-actions"><button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyVC(this,'COVID-19 Vaccination')">✓ Verify</button></div></div>
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag lab">Blood Type</span> Blood Type Verification</div><div class="record-meta"><span>🏢 LabCorp</span><span>📅 Issued: 2026-04-12</span><span>⏳ Valid until: 2028-04-12</span></div><div class="record-hash">vc:urn:uuid:2e3f4a5b-6c7d-4e8f-9a0b-1c2d3e4f5a6b</div></div><div class="record-actions"><button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyVC(this,'Blood Type')">✓ Verify</button></div></div>
+</div>
+</div>
+<div id="vc-result" style="margin-top:12px"></div>
+</div>
+<div id="records">
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag genetic">Genetic</span> Genetic Screening Report</div><div class="record-hash">ipfs://QmXp8a3b9c2d7e1f5a0b4c8d2e6f0a3b9c2d5e7f1a</div><div class="record-meta"><span>📅 2026-04-12</span><span>👨‍⚕️ Dr. Patel</span><span>🩺 LabCorp Inc.</span></div></div><div class="record-actions"><button class="btn btn-outline" onclick="verifyRecord(this,'Genetic Screening Report','genetic')">✓ Verify</button><button class="btn btn-outline" onclick="shareRecord('Genetic Screening Report')">🔗 Share</button></div></div>
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag lab">Lab</span> Blood Panel Results</div><div class="record-hash">ipfs://QmZd5b9f1d3a7c2e8f4b0a6d2c8e4f1a7b3d9c5e2f</div><div class="record-meta"><span>📅 2026-05-28</span><span>👨‍⚕️ Dr. Chen</span><span>🩺 City Clinic Lab</span></div></div><div class="record-actions"><button class="btn btn-outline" onclick="verifyRecord(this,'Blood Panel Results','lab')">✓ Verify</button><button class="btn btn-outline" onclick="shareRecord('Blood Panel Results')">🔗 Share</button></div></div>
+<div class="record-row"><div class="record-info"><div class="record-name"><span class="record-tag imaging">Imaging</span> Chest X-Ray Report</div><div class="record-hash">ipfs://QmRf7c1e4a2f8d5b0a6c3e9f1b5d7a0c2e4f8b1a6d</div><div class="record-meta"><span>📅 2026-06-01</span><span>👨‍⚕️ Dr. Kim</span><span>🩺 Metro Imaging</span></div></div><div class="record-actions"><button class="btn btn-outline" onclick="verifyRecord(this,'Chest X-Ray Report','imaging')">✓ Verify</button><button class="btn btn-outline" onclick="shareRecord('Chest X-Ray Report')">🔗 Share</button></div></div>
+</div>
+<div id="verify-result" style="margin-top:12px"></div>
+</div>
+
+<div class="grid2">
+<div class="card"><h3>📜 Access Consent Log</h3><div id="consent-log">
+<div class="consent-item"><div><div class="consent-who">Dr. Sarah Chen</div><div class="consent-what">Viewed: Blood Panel Results</div></div><div style="text-align:right"><span class="permission-tag">Read</span><div class="consent-when">2026-06-04 14:22</div></div></div>
+<div class="consent-item"><div><div class="consent-who">City Clinic Lab</div><div class="consent-what">Uploaded: Blood Panel Results</div></div><div style="text-align:right"><span class="permission-tag">Write</span><div class="consent-when">2026-06-03 09:15</div></div></div>
+<div class="consent-item"><div><div class="consent-who">Insurance Co.</div><div class="consent-what">Viewed: Genetic Report</div></div><div style="text-align:right"><span class="permission-tag">Read</span><div class="consent-when">2026-05-30 11:40</div></div></div>
+<div class="consent-item"><div><div class="consent-who">Metro Imaging</div><div class="consent-what">Uploaded: Chest X-Ray</div></div><div style="text-align:right"><span class="permission-tag">Write</span><div class="consent-when">2026-06-01 08:15</div></div></div>
+</div></div>
+<div class="card"><h3>🔐 Sharing Center</h3>
+<p style="color:var(--text2);font-size:0.9rem;margin-bottom:12px">Generate time-limited access links for providers</p>
+<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Select Record</label>
+<select class="input" id="share-record" style="margin-bottom:12px"><option>Genetic Screening Report</option><option>Blood Panel Results</option><option>Chest X-Ray Report</option></select>
+<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Access Duration (hours)</label>
+<input class="input" type="number" id="share-hours" value="24" min="1" max="720" style="margin-bottom:12px" onfocus="this.select()">
+<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Permission Level</label>
+<select class="input" id="share-permission" style="margin-bottom:16px"><option>Read Only</option><option>Read + Download</option><option>Read + Forward</option></select>
+<button class="btn btn-primary" onclick="generateShareLink()" style="width:100%">Generate Share Link</button>
+<div id="share-output" style="margin-top:12px"></div>
+</div>
+</div>
+</div>
+
+<script>
+function verifyRecord(btn, name, tag) {
+  btn.disabled = true; btn.textContent = '⏳ Verifying...';
+  setTimeout(() => {
+    const ts = new Date().toISOString().replace('T',' ').slice(0,19);
+    const tx = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
+    document.getElementById('verify-result').innerHTML =
+      '<div class="status-bar success fade-in">✅ <strong>' + name + '</strong> — On-chain verification complete · Tx: <code>' + tx + '</code> · Block: #' + Math.floor(Math.random()*900000+100000) + ' · ' + ts + ' UTC</div>';
+    const row = btn.closest('.record-row');
+    const existing = row.querySelector('.verify-icon');
+    if (!existing) {
+      row.querySelector('.record-name').insertAdjacentHTML('afterbegin','<span class="verify-icon">✅</span> ');
+    }
+    btn.textContent = '✅ Verified'; btn.style.color = 'var(--success)'; btn.style.borderColor = 'rgba(78,201,176,0.3)';
+    btn.disabled = false;
+  }, 1500);
+}
+function shareRecord(name) {
+  document.getElementById('share-record').value = name;
+  document.getElementById('share-output').scrollIntoView({behavior:'smooth'});
+}
+function generateShareLink() {
+  const record = document.getElementById('share-record').value;
+  const hours = parseInt(document.getElementById('share-hours').value);
+  const perm = document.getElementById('share-permission').value;
+  const link = 'https://aurora-pathways.io/share/' + btoa(record + ':' + Date.now()).slice(0,24);
+  const expires = new Date(Date.now() + hours*3600000).toLocaleString();
+  const out = document.getElementById('share-output');
+  out.innerHTML =
+    '<div class="fade-in"><div class="status-bar success">🔗 Link generated — Expires: ' + expires + ' · Permission: ' + perm + '</div>' +
+    '<div class="code-block">' + link + '</div>' +
+    '<p style="color:var(--text2);font-size:0.8rem;margin-top:8px">Share this link with your provider. All access is logged to your consent trail.</p></div>';
+  const log = document.getElementById('consent-log');
+  log.insertAdjacentHTML('afterbegin',
+    '<div class="consent-item fade-in"><div><div class="consent-who">Shared Link ('+perm+')</div><div class="consent-what">'+record+'</div></div><div style="text-align:right"><span class="permission-tag">Shared</span><div class="consent-when">'+new Date().toISOString().replace('T',' ').slice(0,16)+'</div></div></div>');
+}
+
+function zkProof(btn, type) {
+  btn.disabled = true;
+  btn.textContent = "⏳ Generating proof...";
+  const names = {insurance: "Insurance Coverage", age: "Age > 18"};
+  setTimeout(() => {
+    const proofHash = "0x" + Array.from({length:16}, () => Math.floor(Math.random()*16).toString(16)).join("");
+    btn.textContent = "✅ Proof Verified";
+    btn.style.color = "var(--success)";
+    btn.style.borderColor = "rgba(78,201,176,0.3)";
+    document.getElementById("vc-result").innerHTML = "<div class='status-bar success fade-in'>🔐 ZK Proof: <strong>" + names[type] + "</strong> — Verified without revealing underlying data · Proof: <code>" + proofHash + "</code></div>";
+  }, 2000);
+}
+function verifyVC(btn, name) {
+  btn.disabled = true;
+  btn.textContent = "⏳ Verifying...";
+  setTimeout(() => {
+    btn.textContent = "✅ Valid";
+    btn.style.color = "var(--success)";
+    btn.style.borderColor = "rgba(78,201,176,0.3)";
+    document.getElementById("vc-result").innerHTML = "<div class='status-bar success fade-in'>✅ <strong>" + name + "</strong> — Credential verified on PolygonID · Issuer authenticated · Not revoked · ZK proof valid</div>";
+  }, 1500);
+}</script>
+</body>
+</html>

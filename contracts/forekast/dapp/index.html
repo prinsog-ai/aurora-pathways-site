@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forekast — Prediction Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--card:#12121a;--card2:#1a1a28;--border:#2a2a3a;
+  --accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;
+  --text:#e8e8f0;--text2:#9898b0;--text3:#686880;
+  --yes:#4ec9b0;--no:#ff6b9d;
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;display:flex;flex-direction:column}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Layout */
+.app{max-width:1200px;margin:0 auto;padding:0 20px;flex:1}
+
+/* Header */
+header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:800;font-size:1.3rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:8px}
+.logo svg{width:28px;height:28px}
+nav{display:flex;gap:4px}
+nav button{background:none;border:none;color:var(--text2);font-family:inherit;font-size:.88rem;font-weight:500;padding:8px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s ease}
+nav button:hover{color:var(--text);background:rgba(124,92,252,.08)}
+nav button.active{color:var(--accent);background:rgba(124,92,252,.12)}
+.wallet-btn{background:linear-gradient(135deg,var(--accent),#6044e0);color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-family:inherit;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .25s ease;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.wallet-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,92,252,.35)}
+.wallet-btn.connected{background:rgba(78,201,176,.15);color:var(--accent2);border:1px solid rgba(78,201,176,.3)}
+.wallet-btn .spinner{width:14px;height:14px}
+
+/* Pages */
+.page{display:none;padding:32px 0 60px;animation:fadeIn .3s ease}
+.page.active{display:block}
+.page-title{font-size:1.8rem;font-weight:800;margin-bottom:6px}
+.page-sub{color:var(--text2);margin-bottom:28px;font-size:.95rem}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .25s ease}
+.card:hover{border-color:rgba(124,92,252,.3);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+
+/* Market Grid */
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+.market-card{cursor:pointer;position:relative;overflow:hidden}
+.market-card .category{display:inline-block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+.cat-crypto{background:rgba(124,92,252,.15);color:var(--accent)}
+.cat-politics{background:rgba(255,107,157,.15);color:var(--accent3)}
+.cat-sports{background:rgba(78,201,176,.15);color:var(--accent2)}
+.cat-tech{background:rgba(255,180,50,.15);color:#ffb432}
+.cat-other{background:rgba(150,150,180,.15);color:#aaa}
+.market-card .question{font-weight:600;font-size:1.05rem;margin-bottom:14px;line-height:1.4}
+.market-card .pool{color:var(--text2);font-size:.82rem;margin-bottom:14px}
+.market-card .pool strong{color:var(--text);font-weight:600}
+.market-card .prices{display:flex;gap:10px;margin-bottom:12px}
+.price-pill{flex:1;text-align:center;padding:10px;border-radius:var(--radius-sm);font-weight:700;font-size:1.1rem}
+.price-yes{background:rgba(78,201,176,.1);color:var(--yes);border:1px solid rgba(78,201,176,.2)}
+.price-no{background:rgba(255,107,157,.1);color:var(--no);border:1px solid rgba(255,107,157,.2)}
+.price-pill small{display:block;font-size:.68rem;font-weight:500;opacity:.7;margin-bottom:2px}
+.market-card .deadline{font-size:.78rem;color:var(--text2)}
+.market-card .resolved-badge{position:absolute;top:16px;right:16px;font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:20px}
+.badge-resolved{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-expired{background:rgba(255,107,157,.1);color:var(--accent3)}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:scaleIn .25s ease}
+.modal h2{font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.modal .close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text2);font-size:1.4rem;cursor:pointer;padding:4px;transition:color .2s}
+.modal .close:hover{color:var(--text)}
+.modal .detail-cat{display:inline-block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:20px;margin-bottom:16px}
+.modal .pool-total{font-size:.9rem;color:var(--text2);margin-bottom:20px}
+.modal .pool-total strong{color:var(--text);font-size:1.2rem}
+.modal .big-prices{display:flex;gap:12px;margin-bottom:20px}
+.big-price{flex:1;text-align:center;padding:16px;border-radius:var(--radius-sm);font-size:1.6rem;font-weight:800}
+.big-yes{background:rgba(78,201,176,.1);color:var(--yes);border:2px solid rgba(78,201,176,.25)}
+.big-no{background:rgba(255,107,157,.1);color:var(--no);border:2px solid rgba(255,107,157,.25)}
+.big-price small{display:block;font-size:.72rem;font-weight:500;opacity:.7;margin-bottom:4px}
+.modal .trade-section{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:16px}
+.modal .trade-section h3{font-size:.9rem;font-weight:600;margin-bottom:12px}
+.modal .side-toggle{display:flex;gap:6px;margin-bottom:14px}
+.side-toggle button{flex:1;padding:10px;border:2px solid var(--border);background:var(--card);color:var(--text2);border-radius:var(--radius-sm);font-family:inherit;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s ease}
+.side-toggle button.active-yes{border-color:var(--yes);color:var(--yes);background:rgba(78,201,176,.08)}
+.side-toggle button.active-no{border-color:var(--no);color:var(--no);background:rgba(255,107,157,.08)}
+.input-group{display:flex;gap:8px;align-items:center}
+.input-group input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-family:inherit;font-size:1rem;outline:none;transition:border-color .2s}
+.input-group input:focus{border-color:var(--accent)}
+.input-group .max-btn{background:rgba(124,92,252,.12);color:var(--accent);border:none;padding:10px 14px;border-radius:var(--radius-sm);font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer;transition:background .2s}
+.input-group .max-btn:hover{background:rgba(124,92,252,.22)}
+.modal .your-position{font-size:.85rem;color:var(--text2);margin-bottom:14px;padding:12px;background:var(--card2);border-radius:var(--radius-sm)}
+.modal .your-position span{font-weight:600;color:var(--text)}
+.action-btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;transition:all .25s ease;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.action-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn-buy-yes{background:linear-gradient(135deg,var(--yes),#38a89d);color:#0a0a0f}
+.btn-buy-no{background:linear-gradient(135deg,var(--no),#e0507a);color:#fff}
+.btn-approve{background:linear-gradient(135deg,var(--accent),#6044e0);color:#fff}
+.btn-claim{background:linear-gradient(135deg,#ffb432,#e09020);color:#0a0a0f}
+.btn-resolve{background:linear-gradient(135deg,var(--accent2),#38a89d);color:#0a0a0f}
+.action-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+
+/* Positions Page */
+.positions-grid{display:grid;gap:14px}
+.position-card{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.position-card .pos-info{flex:1;min-width:200px}
+.position-card .pos-info h3{font-weight:600;font-size:1rem;margin-bottom:4px}
+.position-card .pos-info .pos-detail{font-size:.82rem;color:var(--text2)}
+.position-card .pos-actions{display:flex;gap:8px;align-items:center}
+.pos-amount{font-weight:700;font-size:1.1rem}
+.pos-yes{color:var(--yes)}
+.pos-no{color:var(--no)}
+
+/* Create Market */
+.create-form{max-width:560px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-weight:600;font-size:.88rem;margin-bottom:6px;color:var(--text2)}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239898b0'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-group .hint{font-size:.78rem;color:var(--text2);margin-top:4px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.preview-box{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px}
+.preview-box h3{font-size:.9rem;font-weight:600;margin-bottom:8px;color:var(--accent)}
+
+/* Get USDC */
+.usdc-info{max-width:600px}
+.usdc-info .step{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
+.usdc-info .step-num{width:36px;height:36px;min-width:36px;background:linear-gradient(135deg,var(--accent),#6044e0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff}
+.usdc-info .step-text h3{font-weight:600;margin-bottom:4px}
+.usdc-info .step-text p{font-size:.88rem;color:var(--text2);line-height:1.5}
+.usdc-info .step-text a{color:var(--accent)}
+
+/* Toast */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:300;display:flex;flex-direction:column;gap:8px;max-width:400px}
+.toast{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 20px;font-size:.88rem;box-shadow:0 8px 30px rgba(0,0,0,.4);animation:slideInRight .3s ease;display:flex;align-items:center;gap:10px;min-width:280px}
+.toast.success{border-color:rgba(78,201,176,.4);background:linear-gradient(135deg,var(--card),rgba(78,201,176,.06))}
+.toast.error{border-color:rgba(255,107,157,.4);background:linear-gradient(135deg,var(--card),rgba(255,107,157,.06))}
+.toast.info{border-color:rgba(124,92,252,.4);background:linear-gradient(135deg,var(--card),rgba(124,92,252,.06))}
+.toast .toast-icon{font-size:1.1rem;flex-shrink:0}
+.toast .toast-msg{flex:1}
+.toast.hiding{animation:slideOutRight .3s ease forwards}
+.toast .toast-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:1rem;padding:2px;flex-shrink:0;transition:color .2s}
+.toast .toast-close:hover{color:var(--text)}
+@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideOutRight{from{transform:translateX(0);opacity:1}to{transform:translateX(100%);opacity:0}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* Empty state */
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty svg{width:48px;height:48px;margin-bottom:16px;opacity:.4}
+.empty p{font-size:.95rem}
+
+/* Loading */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle}
+.spinner-lg{width:32px;height:32px;border-width:3px}
+.spinner-accent{border-color:rgba(124,92,252,.2);border-top-color:var(--accent)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Overlay loading */
+.loading-overlay{position:absolute;inset:0;background:rgba(10,10,15,.85);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;z-index:10;backdrop-filter:blur(2px)}
+
+/* Status bar */
+.status-bar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem}
+.status-bar .net{display:flex;align-items:center;gap:6px}
+.status-bar .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);transition:background .3s}
+.status-bar .dot.wrong{background:var(--accent3)}
+.status-bar .count{color:var(--text2)}
+
+/* Address display with copy */
+.address-display{display:flex;align-items:center;gap:6px}
+.copy-btn{background:none;border:1px solid rgba(78,201,176,.3);color:var(--accent2);border-radius:6px;padding:4px 8px;font-size:.72rem;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.copy-btn:hover{background:rgba(78,201,176,.1);border-color:rgba(78,201,176,.5)}
+.copy-btn.copied{background:rgba(78,201,176,.15);border-color:var(--accent2)}
+
+/* MetaMask install banner */
+.metamask-banner{background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;margin:20px auto;max-width:480px}
+.metamask-banner h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.metamask-banner p{color:var(--text2);font-size:.88rem;margin-bottom:16px;line-height:1.6}
+.metamask-banner .install-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.metamask-banner .install-link{display:flex;align-items:center;gap:6px;padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.82rem;font-weight:600;transition:all .2s}
+.metamask-banner .install-link:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+
+/* Footer */
+footer{text-align:center;padding:24px 20px;border-top:1px solid var(--border);font-size:.82rem;color:var(--text2)}
+footer a{color:var(--accent);font-weight:600;transition:color .2s}
+footer a:hover{color:var(--accent2);text-decoration:none}
+footer .footer-logo{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px}
+
+/* Responsive */
+@media(max-width:768px){
+  .header-inner{flex-wrap:wrap}
+  nav{order:3;width:100%;justify-content:center}
+  .market-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .modal{padding:20px}
+  .big-prices{flex-direction:column}
+}
+
+@media(max-width:480px){
+  .header-inner{padding:12px 14px;gap:10px}
+  .logo{font-size:1.1rem}
+  nav button{padding:6px 10px;font-size:.8rem}
+  .wallet-btn{padding:8px 14px;font-size:.8rem}
+  .app{padding:0 14px}
+  .page{padding:20px 0 40px}
+  .page-title{font-size:1.4rem}
+  .page-sub{font-size:.88rem;margin-bottom:20px}
+  .market-grid{gap:14px}
+  .card{padding:16px}
+  .market-card .question{font-size:.95rem}
+  .price-pill{padding:8px;font-size:1rem}
+  .modal{padding:16px;border-radius:12px}
+  .modal h2{font-size:1.1rem}
+  .big-price{font-size:1.3rem;padding:12px}
+  .trade-section{padding:14px}
+  .input-group input{padding:10px 12px;font-size:.95rem}
+  .action-btn{padding:12px;font-size:.95rem}
+  .toast-container{bottom:16px;right:16px;left:16px;max-width:none}
+  .toast{min-width:auto}
+  .address-display{font-size:.78rem}
+  .usdc-info .step{gap:12px}
+  .usdc-info .step-num{width:30px;height:30px;min-width:30px;font-size:.78rem}
+  .status-bar{flex-direction:column;align-items:flex-start}
+}
+
+@media(max-width:375px){
+  .header-inner{padding:10px 10px;gap:8px}
+  .logo{font-size:1rem}
+  .logo svg{width:22px;height:22px}
+  nav{gap:2px}
+  nav button{padding:5px 8px;font-size:.75rem}
+  .wallet-btn{padding:7px 10px;font-size:.75rem}
+  .app{padding:0 10px}
+  .page-title{font-size:1.2rem}
+  .card{padding:14px}
+  .market-card .question{font-size:.9rem}
+  .prices{gap:6px}
+  .price-pill{padding:7px 4px;font-size:.9rem}
+  .modal{padding:14px;max-height:95vh}
+  .big-price{font-size:1.1rem;padding:10px}
+  .side-toggle button{padding:8px;font-size:.82rem}
+  .form-group input,.form-group select,.form-group textarea{padding:10px 12px;font-size:.9rem}
+  .action-btn{padding:11px;font-size:.88rem}
+  .metamask-banner{padding:18px 14px}
+  .metamask-banner .install-links{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-inner">
+  <div class="logo">
+    <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="url(#g1)" stroke-width="2"/><path d="M9 14l3.5 3.5L19 10.5" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g1" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#4ec9b0"/></linearGradient></defs></svg>
+    Forekast
+  </div>
+  <nav id="mainNav">
+    <button class="active" data-page="browse">Markets</button>
+    <button data-page="positions">My Positions</button>
+    <button data-page="create">Create</button>
+    <button data-page="usdc">Get USDC</button>
+  </nav>
+  <div class="address-display" id="walletArea">
+    <button class="wallet-btn" id="connectBtn" onclick="toggleWallet()">Connect Wallet</button>
+  </div>
+</div>
+</header>
+
+<div class="app">
+
+  <!-- Browse Markets -->
+  <div class="page active" id="page-browse">
+    <div class="status-bar">
+      <div class="net"><div class="dot" id="netDot"></div><span id="netLabel">Not connected</span></div>
+      <div class="count" id="marketCount">Loading markets...</div>
+    </div>
+    <div id="marketsGrid" class="market-grid"></div>
+    <div class="empty" id="emptyMarkets" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <p>No markets found. Be the first to <a href="#" onclick="switchPage('create')">create one</a>!</p>
+    </div>
+  </div>
+
+  <!-- My Positions -->
+  <div class="page" id="page-positions">
+    <h1 class="page-title">My Positions</h1>
+    <p class="page-sub">Track your predictions and claim winnings</p>
+    <div id="positionsGrid" class="positions-grid"></div>
+    <div class="empty" id="emptyPositions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+      <p id="emptyPosText">Connect your wallet to see your positions</p>
+    </div>
+  </div>
+
+  <!-- Create Market -->
+  <div class="page" id="page-create">
+    <h1 class="page-title">Create Market</h1>
+    <p class="page-sub">Set up a new prediction market with initial liquidity</p>
+    <div class="create-form">
+      <div class="form-group">
+        <label>Question</label>
+        <textarea id="createQuestion" placeholder="e.g. Will ETH be above $5,000 by Dec 31, 2026?" rows="2"></textarea>
+        <div class="hint">Clear, specific, and verifiable questions work best</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="createCategory">
+            <option value="Crypto">Crypto</option>
+            <option value="Politics">Politics</option>
+            <option value="Sports">Sports</option>
+            <option value="Tech">Tech</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Deadline</label>
+          <input type="datetime-local" id="createDeadline">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Initial Yes (USDC)</label>
+          <input type="number" id="createYes" placeholder="100" min="1" step="0.01">
+          <div class="hint">Sets initial YES price via liquidity</div>
+        </div>
+        <div class="form-group">
+          <label>Initial No (USDC)</label>
+          <input type="number" id="createNo" placeholder="100" min="1" step="0.01">
+          <div class="hint">Sets initial NO price via liquidity</div>
+        </div>
+      </div>
+      <div class="preview-box" id="createPreview" style="display:none">
+        <h3>Market Preview</h3>
+        <div id="previewContent"></div>
+      </div>
+      <button class="action-btn btn-approve" id="createBtn" onclick="createMarket()" disabled>Connect Wallet First</button>
+    </div>
+  </div>
+
+  <!-- Get USDC -->
+  <div class="page" id="page-usdc">
+    <h1 class="page-title">Get USDC on Polygon</h1>
+    <p class="page-sub">You need USDC on Polygon to participate in prediction markets</p>
+    <div class="usdc-info">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <h3>Bridge from another chain</h3>
+          <p>Use <a href="https://jumper.exchange" target="_blank" rel="noopener">Jumper Exchange</a>, <a href="https://stargate.finance" target="_blank" rel="noopener">Stargate</a>, or <a href="https://www.orbiter.finance" target="_blank" rel="noopener">Orbiter Finance</a> to bridge USDC from Ethereum, Arbitrum, Base, or other chains to Polygon.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <h3>Buy on a CEX and withdraw</h3>
+          <p>Purchase USDC on exchanges like Coinbase, Kraken, or Binance, then withdraw directly to your Polygon wallet. Select <strong>Polygon (MATIC)</strong> as the network when withdrawing.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <h3>Swap on a DEX</h3>
+          <p>If you have MATIC or other tokens on Polygon, swap them for USDC on <a href="https://app.uniswap.org" target="_blank" rel="noopener">Uniswap</a>, <a href="https://quickswap.exchange" target="_blank" rel="noopener">QuickSwap</a>, or <a href="https://app.sushi.com" target="_blank" rel="noopener">SushiSwap</a>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <h3>Verify your USDC</h3>
+          <p>The USDC contract on Polygon is <a href="https://polygonscan.com/address/0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359" target="_blank" rel="noopener">0x3c499c...c3359</a>. Always verify the contract address before transacting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Market Detail Modal -->
+<div class="modal-overlay" id="marketModal">
+  <div class="modal" id="modalContent">
+    <button class="close" onclick="closeModal()">&times;</button>
+    <div id="detailCat" class="detail-cat"></div>
+    <h2 id="detailQuestion"></h2>
+    <div class="pool-total">Total Pool: <strong id="detailPool"></strong> USDC</div>
+    <div class="big-prices">
+      <div class="big-price big-yes" id="detailYes"><small>YES</small>--</div>
+      <div class="big-price big-no" id="detailNo"><small>NO</small>--</div>
+    </div>
+    <div id="detailDeadline" style="font-size:.82rem;color:var(--text2);margin-bottom:16px"></div>
+    <div id="yourPosition" class="your-position" style="display:none"></div>
+    <div id="resolvedInfo" style="display:none;margin-bottom:16px;padding:14px;background:var(--card2);border-radius:var(--radius-sm);font-size:.9rem"></div>
+    <div id="tradeSection" class="trade-section">
+      <h3>Trade Shares</h3>
+      <div class="side-toggle">
+        <button class="active-yes" id="sideYes" onclick="setTradeSide(true)">Buy YES</button>
+        <button id="sideNo" onclick="setTradeSide(false)">Buy NO</button>
+      </div>
+      <div class="input-group">
+        <input type="number" id="tradeAmount" placeholder="0.00" min="0" step="0.01" oninput="updateTradePreview()">
+        <button class="max-btn" onclick="setMaxTrade()">MAX</button>
+      </div>
+      <div id="tradePreview" style="font-size:.82rem;color:var(--text2);margin-top:8px"></div>
+      <div id="tradeActions"></div>
+    </div>
+    <div id="adminSection" style="display:none;margin-top:10px">
+      <button class="action-btn btn-resolve" id="resolveBtn" onclick="resolveMarket()">Resolve Market</button>
+    </div>
+  </div>
+</div>
+
+<!-- MetaMask Install Modal -->
+<div class="modal-overlay" id="metamaskModal">
+  <div class="modal" style="text-align:center;max-width:420px">
+    <button class="close" onclick="document.getElementById('metamaskModal').classList.remove('open')">&times;</button>
+    <div style="font-size:2.5rem;margin-bottom:12px">🦊</div>
+    <h2 style="margin-bottom:8px">Wallet Required</h2>
+    <p style="color:var(--text2);font-size:.9rem;margin-bottom:20px;line-height:1.6">To use Forekast, you need a Web3 wallet like MetaMask. Install one to start predicting!</p>
+    <div class="metamask-banner" style="border:none;background:none;padding:0;margin:0">
+      <div class="install-links" style="flex-direction:column">
+        <a href="https://metamask.io/download/" target="_blank" rel="noopener" class="install-link">
+          🦊 Install MetaMask
+        </a>
+        <a href="https://rainbow.me" target="_blank" rel="noopener" class="install-link">
+          🌈 Install Rainbow
+        </a>
+        <a href="https://phantom.app" target="_blank" rel="noopener" class="install-link">
+          👻 Install Phantom
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">Powered by <a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Aurora Pathways</a></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+// === CONSTANTS ===
+const CONTRACT_ADDRESS = '0xaf9bed2b629b1e239f54b7ba07750b41a7fed210';
+const USDC_ADDRESS = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359';
+const CHAIN_ID = 137;
+const RPC_URL = 'https://polygon-bor-rpc.publicnode.com';
+const EXPLORER = 'https://polygonscan.com';
+
+const FOREKAST_ABI = [
+  "function createMarket(string question, string category, uint256 deadline, uint256 initialYes, uint256 initialNo) returns (uint256)",
+  "function buyShares(uint256 marketId, bool isYes, uint256 amount)",
+  "function resolveMarket(uint256 marketId, bool outcome)",
+  "function claimWinnings(uint256 marketId)",
+  "function withdrawPlatformFees()",
+  "function getMarketInfo(uint256 marketId) view returns (address creator, string question, string category, uint256 totalYes, uint256 totalNo, uint256 deadline, bool resolved, bool outcome, uint256 totalPool)",
+  "function marketCount() view returns (uint256)",
+  "function userShares(uint256 marketId, address user) view returns (uint256 yesShares, uint256 noShares, bool claimed)",
+  "function owner() view returns (address)"
+];
+
+const ERC20_ABI = [
+  "function approve(address spender, uint256 amount) returns (bool)",
+  "function allowance(address owner, address spender) view returns (uint256)",
+  "function balanceOf(address account) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+// === STATE ===
+let provider = null;
+let signer = null;
+let userAddress = null;
+let readContract = null;
+let writeContract = null;
+let usdcRead = null;
+let usdcWrite = null;
+let markets = [];
+let currentMarketId = null;
+let tradeSide = true; // true = yes, false = no
+let isCorrectChain = false;
+
+// === INIT ===
+document.addEventListener('DOMContentLoaded', async () => {
+  // Read-only provider
+  readContract = new ethers.Contract(CONTRACT_ADDRESS, FOREKAST_ABI, new ethers.providers.JsonRpcProvider(RPC_URL));
+  usdcRead = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, new ethers.providers.JsonRpcProvider(RPC_URL));
+
+  // Nav
+  document.querySelectorAll('#mainNav button').forEach(btn => {
+    btn.addEventListener('click', () => switchPage(btn.dataset.page));
+  });
+
+  // Create form preview
+  ['createQuestion','createCategory','createDeadline','createYes','createNo'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCreatePreview);
+  });
+
+  // Auto-connect if previously connected
+  if (window.ethereum && localStorage.getItem('forekast_connected')) {
+    try { await connectWallet(); } catch(e) {}
+  }
+
+  await loadMarkets();
+});
+
+// === NAVIGATION ===
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#mainNav button[data-page="${page}"]`).classList.add('active');
+  if (page === 'positions') loadPositions();
+}
+
+// === WALLET ===
+async function toggleWallet() {
+  if (userAddress) {
+    disconnectWallet();
+  } else {
+    await connectWallet();
+  }
+}
+
+function setWalletLoading(loading) {
+  const btn = document.getElementById('connectBtn');
+  if (loading) {
+    btn.innerHTML = '<span class="spinner" style="width:14px;height:14px;border-width:2px"></span> Connecting…';
+    btn.disabled = true;
+  } else {
+    btn.disabled = false;
+  }
+}
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    document.getElementById('metamaskModal').classList.add('open');
+    return;
+  }
+  try {
+    setWalletLoading(true);
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    signer = provider.getSigner();
+    userAddress = await signer.getAddress();
+
+    writeContract = new ethers.Contract(CONTRACT_ADDRESS, FOREKAST_ABI, signer);
+    usdcWrite = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, signer);
+
+    localStorage.setItem('forekast_connected', '1');
+
+    // Check chain
+    const network = await provider.getNetwork();
+    isCorrectChain = network.chainId === CHAIN_ID;
+    updateNetStatus();
+
+    if (!isCorrectChain) {
+      await switchToPolygon();
+    }
+
+    updateWalletUI();
+
+    document.getElementById('createBtn').textContent = 'Create Market';
+    document.getElementById('createBtn').disabled = false;
+
+    // Listen for account/chain changes
+    window.ethereum.on('accountsChanged', () => location.reload());
+    window.ethereum.on('chainChanged', () => location.reload());
+
+    const short = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
+    toast('Wallet connected: ' + short, 'success');
+    await loadMarkets();
+  } catch(e) {
+    setWalletLoading(false);
+    const btn = document.getElementById('connectBtn');
+    btn.textContent = 'Connect Wallet';
+    btn.disabled = false;
+    toast('Connection failed: ' + (e.reason || e.message), 'error');
+  }
+}
+
+function updateWalletUI() {
+  const area = document.getElementById('walletArea');
+  const short = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
+  area.innerHTML = `
+    <span style="font-size:.82rem;color:var(--accent2);font-weight:500">${short}</span>
+    <button class="copy-btn" onclick="copyAddress()" title="Copy address">
+      <span id="copyIcon">📋</span> Copy
+    </button>
+    <button class="wallet-btn connected" id="connectBtn" onclick="toggleWallet()">Disconnect</button>
+  `;
+}
+
+async function copyAddress() {
+  if (!userAddress) return;
+  try {
+    await navigator.clipboard.writeText(userAddress);
+    const btn = document.querySelector('.copy-btn');
+    btn.classList.add('copied');
+    document.getElementById('copyIcon').textContent = '✅';
+    btn.querySelector('span:last-child') || (btn.innerHTML = '✅ Copied');
+    btn.innerHTML = '✅ Copied';
+    toast('Address copied!', 'success');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<span id="copyIcon">📋</span> Copy';
+    }, 2000);
+  } catch(e) {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = userAddress;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Address copied!', 'success');
+  }
+}
+
+function disconnectWallet() {
+  provider = null;
+  signer = null;
+  userAddress = null;
+  writeContract = null;
+  usdcWrite = null;
+  isCorrectChain = false;
+  localStorage.removeItem('forekast_connected');
+
+  const area = document.getElementById('walletArea');
+  area.innerHTML = '<button class="wallet-btn" id="connectBtn" onclick="toggleWallet()">Connect Wallet</button>';
+
+  document.getElementById('createBtn').textContent = 'Connect Wallet First';
+  document.getElementById('createBtn').disabled = true;
+  updateNetStatus();
+  toast('Wallet disconnected', 'info');
+}
+
+async function switchToPolygon() {
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x' + CHAIN_ID.toString(16) }]
+    });
+    isCorrectChain = true;
+    updateNetStatus();
+  } catch(e) {
+    if (e.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId: '0x' + CHAIN_ID.toString(16),
+            chainName: 'Polygon Mainnet',
+            nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+            rpcUrls: ['https://polygon-bor-rpc.publicnode.com'],
+            blockExplorerUrls: ['https://polygonscan.com']
+          }]
+        });
+        isCorrectChain = true;
+        updateNetStatus();
+      } catch(e2) {
+        toast('Failed to add Polygon network', 'error');
+      }
+    }
+  }
+}
+
+function updateNetStatus() {
+  const dot = document.getElementById('netDot');
+  const label = document.getElementById('netLabel');
+  if (!userAddress) {
+    dot.className = 'dot';
+    label.textContent = 'Not connected';
+  } else if (isCorrectChain) {
+    dot.className = 'dot';
+    label.textContent = 'Polygon Mainnet';
+  } else {
+    dot.className = 'dot wrong';
+    label.textContent = 'Wrong network — switch to Polygon';
+  }
+}
+
+// === LOAD MARKETS ===
+async function loadMarkets() {
+  try {
+    const count = await readContract.marketCount();
+    const total = count.toNumber();
+    document.getElementById('marketCount').textContent = total + ' market' + (total !== 1 ? 's' : '');
+
+    markets = [];
+    // Load in parallel batches of 10
+    for (let i = 0; i < total; i += 10) {
+      const batch = [];
+      for (let j = i; j < Math.min(i + 10, total); j++) {
+        batch.push(loadMarket(j));
+      }
+      const results = await Promise.allSettled(batch);
+      results.forEach(r => { if (r.status === 'fulfilled' && r.value) markets.push(r.value); });
+    }
+
+    renderMarkets();
+  } catch(e) {
+    console.error('loadMarkets error:', e);
+    document.getElementById('marketCount').textContent = 'Error loading markets';
+  }
+}
+
+async function loadMarket(id) {
+  try {
+    const info = await readContract.getMarketInfo(id);
+    const totalYes = parseFloat(ethers.utils.formatUnits(info.totalYes, 6));
+    const totalNo = parseFloat(ethers.utils.formatUnits(info.totalNo, 6));
+    const totalPool = parseFloat(ethers.utils.formatUnits(info.totalPool, 6));
+    const yesPrice = (totalYes + totalNo) > 0 ? totalYes / (totalYes + totalNo) : 0.5;
+    const noPrice = 1 - yesPrice;
+
+    return {
+      id,
+      creator: info.creator,
+      question: info.question,
+      category: info.category,
+      totalYes,
+      totalNo,
+      totalPool,
+      deadline: info.deadline.toNumber(),
+      resolved: info.resolved,
+      outcome: info.outcome,
+      yesPrice,
+      noPrice
+    };
+  } catch(e) {
+    return null;
+  }
+}
+
+function renderMarkets() {
+  const grid = document.getElementById('marketsGrid');
+  const empty = document.getElementById('emptyMarkets');
+
+  if (markets.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+
+  // Sort by pool size descending
+  const sorted = [...markets].sort((a, b) => b.totalPool - a.totalPool);
+
+  grid.innerHTML = sorted.map(m => {
+    const catClass = 'cat-' + (m.category || 'other').toLowerCase();
+    const isExpired = m.deadline * 1000 < Date.now();
+    const deadlineStr = formatDeadline(m.deadline);
+    let badge = '';
+    if (m.resolved) badge = `<div class="resolved-badge badge-resolved">Resolved: ${m.outcome ? 'YES' : 'NO'}</div>`;
+    else if (isExpired) badge = `<div class="resolved-badge badge-expired">Expired</div>`;
+
+    return `
+      <div class="card market-card" onclick="openMarket(${m.id})">
+        ${badge}
+        <div class="category ${catClass}">${escHtml(m.category || 'Other')}</div>
+        <div class="question">${escHtml(m.question)}</div>
+        <div class="pool">Pool: <strong>$${m.totalPool.toFixed(2)}</strong></div>
+        <div class="prices">
+          <div class="price-pill price-yes"><small>YES</small>${(m.yesPrice * 100).toFixed(1)}¢</div>
+          <div class="price-pill price-no"><small>NO</small>${(m.noPrice * 100).toFixed(1)}¢</div>
+        </div>
+        <div class="deadline">${m.resolved ? 'Resolved' : (isExpired ? 'Ended ' : 'Ends ') + deadlineStr}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === MARKET DETAIL MODAL ===
+async function openMarket(id) {
+  currentMarketId = id;
+  const m = markets.find(x => x.id === id);
+  if (!m) return;
+
+  const catClass = 'cat-' + (m.category || 'other').toLowerCase();
+  document.getElementById('detailCat').className = 'detail-cat ' + catClass;
+  document.getElementById('detailCat').textContent = m.category || 'Other';
+  document.getElementById('detailQuestion').textContent = m.question;
+  document.getElementById('detailPool').textContent = '$' + m.totalPool.toFixed(2);
+  document.getElementById('detailYes').innerHTML = `<small>YES</small>${(m.yesPrice * 100).toFixed(1)}¢`;
+  document.getElementById('detailNo').innerHTML = `<small>NO</small>${(m.noPrice * 100).toFixed(1)}¢`;
+
+  const isExpired = m.deadline * 1000 < Date.now();
+  document.getElementById('detailDeadline').textContent = (m.resolved ? 'Resolved' : (isExpired ? 'Ended ' : 'Ends ')) + formatDeadline(m.deadline) +
+    ` · Created by ${m.creator.slice(0,6)}...${m.creator.slice(-4)}`;
+
+  // User position
+  const posDiv = document.getElementById('yourPosition');
+  const tradeDiv = document.getElementById('tradeSection');
+  const resolvedDiv = document.getElementById('resolvedInfo');
+  const adminDiv = document.getElementById('adminSection');
+
+  posDiv.style.display = 'none';
+  resolvedDiv.style.display = 'none';
+  adminDiv.style.display = 'none';
+
+  if (userAddress && signer) {
+    try {
+      const pos = await readContract.userShares(id, userAddress);
+      const yes = parseFloat(ethers.utils.formatUnits(pos.yesShares, 6));
+      const no = parseFloat(ethers.utils.formatUnits(pos.noShares, 6));
+      const claimed = pos.claimed;
+
+      if (yes > 0 || no > 0 || claimed) {
+        posDiv.style.display = 'block';
+        let posHtml = '';
+        if (yes > 0) posHtml += `<span class="pos-yes">${yes.toFixed(2)} YES</span> shares · `;
+        if (no > 0) posHtml += `<span class="pos-no">${no.toFixed(2)} NO</span> shares · `;
+        if (claimed) posHtml += 'Winnings claimed';
+        posDiv.innerHTML = `Your position: ${posHtml}`;
+      }
+    } catch(e) {}
+  }
+
+  // Resolved info & claim
+  if (m.resolved) {
+    resolvedDiv.style.display = 'block';
+    resolvedDiv.innerHTML = `✅ Market resolved: <strong>${m.outcome ? 'YES' : 'NO'}</strong> won`;
+    if (userAddress) {
+      try {
+        const pos = await readContract.userShares(id, userAddress);
+        const winningShares = m.outcome ? parseFloat(ethers.utils.formatUnits(pos.yesShares, 6)) : parseFloat(ethers.utils.formatUnits(pos.noShares, 6));
+        if (winningShares > 0 && !pos.claimed) {
+          resolvedDiv.innerHTML += `<br><button class="action-btn btn-claim" style="margin-top:12px" onclick="claimWinnings()">Claim Winnings</button>`;
+        } else if (pos.claimed) {
+          resolvedDiv.innerHTML += `<br><em style="color:var(--text2)">You already claimed your winnings</em>`;
+        }
+      } catch(e) {}
+    }
+  } else if (isExpired && userAddress) {
+    // Check if user is creator or owner → can resolve
+    try {
+      const owner = await readContract.owner();
+      if (owner.toLowerCase() === userAddress.toLowerCase() || m.creator.toLowerCase() === userAddress.toLowerCase()) {
+        adminDiv.style.display = 'block';
+      }
+    } catch(e) {}
+  }
+
+  // Trade section visibility
+  tradeDiv.style.display = m.resolved ? 'none' : 'block';
+  if (!m.resolved) {
+    setTradeSide(true);
+    document.getElementById('tradeAmount').value = '';
+    document.getElementById('tradePreview').textContent = '';
+    updateTradeActions();
+  }
+
+  document.getElementById('marketModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('marketModal').classList.remove('open');
+  currentMarketId = null;
+}
+
+document.getElementById('marketModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('marketModal')) closeModal();
+});
+
+function setTradeSide(isYes) {
+  tradeSide = isYes;
+  const sy = document.getElementById('sideYes');
+  const sn = document.getElementById('sideNo');
+  sy.className = isYes ? 'active-yes' : '';
+  sn.className = !isYes ? 'active-no' : '';
+  updateTradeActions();
+  updateTradePreview();
+}
+
+function updateTradeActions() {
+  const div = document.getElementById('tradeActions');
+  if (!userAddress) {
+    div.innerHTML = `<button class="action-btn btn-approve" onclick="connectWallet()">Connect Wallet to Trade</button>`;
+  } else {
+    const btnClass = tradeSide ? 'btn-buy-yes' : 'btn-buy-no';
+    const label = tradeSide ? 'Buy YES Shares' : 'Buy NO Shares';
+    div.innerHTML = `<button class="action-btn ${btnClass}" onclick="executeBuy()">${label}</button>`;
+  }
+}
+
+function updateTradePreview() {
+  const amount = parseFloat(document.getElementById('tradeAmount').value) || 0;
+  const m = markets.find(x => x.id === currentMarketId);
+  if (!m || amount <= 0) {
+    document.getElementById('tradePreview').textContent = '';
+    return;
+  }
+  const price = tradeSide ? m.yesPrice : m.noPrice;
+  const shares = amount / price;
+  document.getElementById('tradePreview').textContent = `≈ ${shares.toFixed(2)} ${tradeSide ? 'YES' : 'NO'} shares at ${(price * 100).toFixed(1)}¢ each`;
+}
+
+async function setMaxTrade() {
+  if (!userAddress || !signer) return;
+  try {
+    const bal = await usdcRead.balanceOf(userAddress);
+    document.getElementById('tradeAmount').value = ethers.utils.formatUnits(bal, 6);
+    updateTradePreview();
+  } catch(e) {}
+}
+
+// === LOADING HELPERS ===
+function showBtnLoading(btn, text) {
+  btn._originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner" style="width:16px;height:16px;border-width:2px"></span> ${text}`;
+}
+
+function hideBtnLoading(btn) {
+  if (btn._originalText) {
+    btn.innerHTML = btn._originalText;
+    btn.disabled = false;
+  }
+}
+
+// === EXECUTE BUY ===
+async function executeBuy() {
+  if (!userAddress || !signer) { await connectWallet(); return; }
+  if (!isCorrectChain) { await switchToPolygon(); return; }
+
+  const amount = parseFloat(document.getElementById('tradeAmount').value);
+  if (!amount || amount <= 0) { toast('Enter an amount', 'error'); return; }
+
+  const amountWei = ethers.utils.parseUnits(amount.toString(), 6);
+
+  const buyBtn = document.querySelector('#tradeActions .action-btn');
+  try {
+    // Check allowance
+    const allowance = await usdcRead.allowance(userAddress, CONTRACT_ADDRESS);
+    if (allowance.lt(amountWei)) {
+      showBtnLoading(buyBtn, 'Approving USDC…');
+      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, ethers.constants.MaxUint256);
+      showBtnLoading(buyBtn, 'Confirming approval…');
+      await tx.wait();
+      toast('USDC approved!', 'success');
+    }
+
+    showBtnLoading(buyBtn, `Buying ${tradeSide ? 'YES' : 'NO'} shares…`);
+    const tx = await writeContract.buyShares(currentMarketId, tradeSide, amountWei);
+    showBtnLoading(buyBtn, 'Confirming transaction…');
+    await tx.wait();
+    toast('Shares purchased!', 'success');
+    hideBtnLoading(buyBtn);
+    await loadMarkets();
+    openMarket(currentMarketId);
+  } catch(e) {
+    hideBtnLoading(buyBtn);
+    toast('Transaction failed: ' + (e.reason || e.data?.message || e.message), 'error');
+  }
+}
+
+// === CLAIM WINNINGS ===
+async function claimWinnings() {
+  if (!userAddress || !signer) return;
+  const claimBtn = event?.target?.closest('.action-btn');
+  try {
+    if (claimBtn) showBtnLoading(claimBtn, 'Claiming…');
+    toast('Claiming winnings...', 'info');
+    const tx = await writeContract.claimWinnings(currentMarketId);
+    await tx.wait();
+    toast('Winnings claimed!', 'success');
+    if (claimBtn) hideBtnLoading(claimBtn);
+    await loadMarkets();
+    openMarket(currentMarketId);
+  } catch(e) {
+    if (claimBtn) hideBtnLoading(claimBtn);
+    toast('Claim failed: ' + (e.reason || e.message), 'error');
+  }
+}
+
+// === RESOLVE MARKET ===
+async function resolveMarket() {
+  if (!userAddress || !signer) return;
+  const m = markets.find(x => x.id === currentMarketId);
+  if (!m) return;
+
+  const outcome = confirm(`Resolve this market?\n\n"${m.question}"\n\nClick OK for YES outcome, Cancel for NO outcome.`);
+  const resolveBtn = document.getElementById('resolveBtn');
+  try {
+    showBtnLoading(resolveBtn, 'Resolving…');
+    toast('Resolving market...', 'info');
+    const tx = await writeContract.resolveMarket(currentMarketId, outcome);
+    await tx.wait();
+    toast('Market resolved!', 'success');
+    hideBtnLoading(resolveBtn);
+    await loadMarkets();
+    openMarket(currentMarketId);
+  } catch(e) {
+    hideBtnLoading(resolveBtn);
+    toast('Resolve failed: ' + (e.reason || e.message), 'error');
+  }
+}
+
+// === CREATE MARKET ===
+function updateCreatePreview() {
+  const q = document.getElementById('createQuestion').value.trim();
+  const cat = document.getElementById('createCategory').value;
+  const deadline = document.getElementById('createDeadline').value;
+  const yes = parseFloat(document.getElementById('createYes').value) || 0;
+  const no = parseFloat(document.getElementById('createNo').value) || 0;
+  const box = document.getElementById('createPreview');
+
+  if (!q && !deadline && !yes && !no) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+
+  const total = yes + no;
+  const yesP = total > 0 ? (yes / total * 100).toFixed(1) : '50.0';
+  const noP = total > 0 ? (no / total * 100).toFixed(1) : '50.0';
+  const dlStr = deadline ? new Date(deadline).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
+
+  document.getElementById('previewContent').innerHTML = `
+    <div style="margin-bottom:8px"><strong>${escHtml(q) || '...'}</strong></div>
+    <div style="font-size:.82rem;color:var(--text2);margin-bottom:10px">Category: ${cat} · Deadline: ${dlStr}</div>
+    <div style="display:flex;gap:10px">
+      <div class="price-pill price-yes" style="flex:1"><small>YES</small>${yesP}¢</div>
+      <div class="price-pill price-no" style="flex:1"><small>NO</small>${noP}¢</div>
+    </div>
+    <div style="font-size:.82rem;color:var(--text2);margin-top:8px">Initial pool: $${total.toFixed(2)} USDC</div>
+  `;
+}
+
+async function createMarket() {
+  if (!userAddress || !signer) { await connectWallet(); return; }
+  if (!isCorrectChain) { await switchToPolygon(); return; }
+
+  const question = document.getElementById('createQuestion').value.trim();
+  const category = document.getElementById('createCategory').value;
+  const deadlineStr = document.getElementById('createDeadline').value;
+  const yesAmt = parseFloat(document.getElementById('createYes').value) || 0;
+  const noAmt = parseFloat(document.getElementById('createNo').value) || 0;
+
+  if (!question) { toast('Enter a question', 'error'); return; }
+  if (question.length < 10) { toast('Question too short', 'error'); return; }
+  if (!deadlineStr) { toast('Set a deadline', 'error'); return; }
+  const deadline = Math.floor(new Date(deadlineStr).getTime() / 1000);
+  if (deadline <= Math.floor(Date.now() / 1000)) { toast('Deadline must be in the future', 'error'); return; }
+  if (yesAmt <= 0 || noAmt <= 0) { toast('Initial liquidity must be positive', 'error'); return; }
+
+  const total = ethers.utils.parseUnits((yesAmt + noAmt).toFixed(6), 6);
+
+  const createBtn = document.getElementById('createBtn');
+  try {
+    // Check allowance
+    const allowance = await usdcRead.allowance(userAddress, CONTRACT_ADDRESS);
+    if (allowance.lt(total)) {
+      showBtnLoading(createBtn, 'Approving USDC…');
+      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, ethers.constants.MaxUint256);
+      await tx.wait();
+      toast('USDC approved!', 'success');
+    }
+
+    const yesWei = ethers.utils.parseUnits(yesAmt.toFixed(6), 6);
+    const noWei = ethers.utils.parseUnits(noAmt.toFixed(6), 6);
+
+    showBtnLoading(createBtn, 'Creating market…');
+    const tx = await writeContract.createMarket(question, category, deadline, yesWei, noWei);
+    await tx.wait();
+    toast('Market created!', 'success');
+
+    // Clear form
+    document.getElementById('createQuestion').value = '';
+    document.getElementById('createYes').value = '';
+    document.getElementById('createNo').value = '';
+    document.getElementById('createPreview').style.display = 'none';
+
+    createBtn.innerHTML = 'Create Market';
+    createBtn.disabled = false;
+
+    switchPage('browse');
+    await loadMarkets();
+  } catch(e) {
+    createBtn.innerHTML = 'Create Market';
+    createBtn.disabled = false;
+    toast('Create failed: ' + (e.reason || e.data?.message || e.message), 'error');
+  }
+}
+
+// === POSITIONS ===
+async function loadPositions() {
+  const grid = document.getElementById('positionsGrid');
+  const empty = document.getElementById('emptyPositions');
+  const emptyText = document.getElementById('emptyPosText');
+
+  if (!userAddress) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    emptyText.textContent = 'Connect your wallet to see your positions';
+    return;
+  }
+
+  empty.style.display = 'none';
+  grid.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner spinner-lg spinner-accent"></div><div style="color:var(--text2);margin-top:12px;font-size:.88rem">Loading positions…</div></div>';
+
+  // Make sure markets are loaded
+  if (markets.length === 0) await loadMarkets();
+
+  const positions = [];
+  for (const m of markets) {
+    try {
+      const pos = await readContract.userShares(m.id, userAddress);
+      const yes = parseFloat(ethers.utils.formatUnits(pos.yesShares, 6));
+      const no = parseFloat(ethers.utils.formatUnits(pos.noShares, 6));
+      if (yes > 0 || no > 0) {
+        positions.push({ market: m, yes, no, claimed: pos.claimed });
+      }
+    } catch(e) {}
+  }
+
+  if (positions.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    emptyText.textContent = 'No positions found. Browse markets to start predicting!';
+    return;
+  }
+
+  grid.innerHTML = positions.map(p => {
+    const m = p.market;
+    let potential = '';
+    if (m.resolved) {
+      const winSide = m.outcome ? p.yes : p.no;
+      const totalPool = m.totalPool;
+      const winShares = m.outcome ? m.totalYes : m.totalNo;
+      const payout = winShares > 0 && winSide > 0 ? (winSide / winShares) * totalPool : 0;
+      if (p.claimed) {
+        potential = `<span style="color:var(--accent2)">Claimed</span>`;
+      } else if ((m.outcome && p.yes > 0) || (!m.outcome && p.no > 0)) {
+        potential = `<button class="action-btn btn-claim" style="width:auto;padding:8px 16px;font-size:.82rem" onclick="currentMarketId=${m.id};claimWinnings()">Claim $${payout.toFixed(2)}</button>`;
+      } else {
+        potential = `<span style="color:var(--accent3)">Lost</span>`;
+      }
+    } else {
+      // Potential winnings estimate
+      const yesWin = p.yes > 0 ? (p.yes / m.totalYes) * m.totalPool : 0;
+      const noWin = p.no > 0 ? (p.no / m.totalNo) * m.totalPool : 0;
+      potential = `<span style="color:var(--text2)">If YES wins: $${yesWin.toFixed(2)} · If NO wins: $${noWin.toFixed(2)}</span>`;
+    }
+
+    return `
+      <div class="card position-card" onclick="openMarket(${m.id})" style="cursor:pointer">
+        <div class="pos-info">
+          <h3>${escHtml(m.question)}</h3>
+          <div class="pos-detail">
+            ${p.yes > 0 ? `<span class="pos-yes">${p.yes.toFixed(2)} YES</span>` : ''}
+            ${p.no > 0 ? `<span class="pos-no">${p.no.toFixed(2)} NO</span>` : ''}
+            · Pool: $${m.totalPool.toFixed(2)}
+            ${m.resolved ? ' · <strong>Resolved ' + (m.outcome ? 'YES' : 'NO') + '</strong>' : ''}
+          </div>
+        </div>
+        <div class="pos-actions">${potential}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === HELPERS ===
+function formatDeadline(ts) {
+  const d = new Date(ts * 1000);
+  const now = Date.now();
+  const diff = ts * 1000 - now;
+
+  if (diff > 0) {
+    if (diff < 3600000) return `in ${Math.ceil(diff/60000)}m`;
+    if (diff < 86400000) return `in ${Math.ceil(diff/3600000)}h`;
+    return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  }
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// === TOAST SYSTEM ===
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  el.innerHTML = `
+    <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+    <span class="toast-msg">${escHtml(msg)}</span>
+    <button class="toast-close" onclick="dismissToast(this.parentElement)">&times;</button>
+  `;
+
+  container.appendChild(el);
+
+  // Auto-dismiss
+  const timer = setTimeout(() => dismissToast(el), 5000);
+  el._timer = timer;
+}
+
+function dismissToast(el) {
+  if (!el || el.classList.contains('hiding')) return;
+  clearTimeout(el._timer);
+  el.classList.add('hiding');
+  setTimeout(() => el.remove(), 300);
+}
+</script>
+</body>
+</html>

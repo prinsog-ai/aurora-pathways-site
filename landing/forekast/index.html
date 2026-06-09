@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forekast — Decentralized Prediction Markets</title>
+<link rel="canonical" href="https://aurorapathways.xyz/landing/forekast/">
+<meta property="og:title" content="Forekast — Decentralized Prediction Markets">
+<meta property="og:description" content="Create any prediction market. Trade YES/NO tokens. Multi-oracle resolution. Built on Base L2.">
+<meta property="og:url" content="https://aurorapathways.xyz/landing/forekast/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Forekast — Decentralized Prediction Markets">
+<meta name="twitter:description" content="Create any prediction market. Trade YES/NO tokens. Multi-oracle resolution. Built on Base L2.">
+
+<meta name="description" content="Create any prediction market. Trade YES/NO tokens. Multi-oracle resolution. Nobody controls the outcome. Built on Base L2.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#0f0f16;--surface2:#15151f;--text:#e8e8ed;--text2:#8a8a9a;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#4ec9b0 0%,#3b82f6 50%,#7c5cfc 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--radius:20px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;overflow-x:hidden}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(78,201,176,0.08) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 80% 70%,rgba(59,130,246,0.06) 0%,transparent 60%),radial-gradient(ellipse 70% 50% at 20% 50%,rgba(124,92,252,0.05) 0%,transparent 60%)}
+section{padding:100px 0;position:relative}
+.section-divider{position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:2px;background:var(--gradient);border-radius:2px;opacity:0.5}
+.section-label{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent2);margin-bottom:18px;display:inline-block;padding:6px 14px;background:rgba(78,201,176,0.08);border-radius:100px}
+h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.08}
+h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.2}
+.section-desc{color:var(--text2);font-size:1.1rem;max-width:560px;margin-bottom:48px;line-height:1.7}
+.btn{display:inline-block;padding:15px 34px;border-radius:100px;font-weight:600;font-size:1rem;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
+.btn-primary{background:var(--gradient);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(78,201,176,0.35)}
+.btn-secondary{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);color:var(--text);backdrop-filter:blur(10px)}.btn-secondary:hover{background:rgba(255,255,255,0.08)}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:100;padding:16px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.35rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-btn{background:var(--gradient);color:#fff;border:none;padding:9px 22px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
+.nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(78,201,176,0.3)}
+.hero{min-height:90vh;display:flex;align-items:center;padding-top:80px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(78,201,176,0.1);border:1px solid rgba(78,201,176,0.2);padding:8px 18px;border-radius:100px;font-size:0.85rem;color:var(--accent2);margin-bottom:28px;font-weight:500}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-desc{font-size:1.15rem;color:var(--text2);max-width:540px;margin-bottom:36px;line-height:1.7}
+.stat-row{display:flex;gap:40px;flex-wrap:wrap;margin:32px 0}
+.stat-item{text-align:left}.stat-value{font-size:2rem;font-weight:800;color:var(--accent2)}.stat-label{font-size:0.85rem;color:var(--text2);margin-top:4px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:36px;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s}
+.card:hover{transform:translateY(-4px);border-color:rgba(78,201,176,0.2);box-shadow:0 20px 50px rgba(0,0,0,0.2)}
+.card-icon{font-size:2rem;margin-bottom:18px}
+.card h3{font-size:1.2rem;font-weight:600;margin-bottom:12px}
+.card p{color:var(--text2);font-size:0.93rem;line-height:1.65}
+.feature-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px;text-align:center;transition:transform 0.3s,border-color 0.3s}
+.feature-card:hover{transform:translateY(-4px);border-color:rgba(78,201,176,0.2)}
+.feature-card .icon{font-size:2.4rem;margin-bottom:16px}
+.feature-card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px}
+.feature-card p{color:var(--text2);font-size:0.88rem;line-height:1.6}
+.comparison{width:100%;border-collapse:collapse;margin-top:32px}
+.comparison th{text-align:left;padding:16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.9rem}
+.comparison td{padding:14px 16px;border-bottom:1px solid var(--glass-border);font-size:0.93rem}
+.comparison .highlight{color:var(--accent2);font-weight:600}
+.comparison .dim{color:var(--text3)}
+.how-step{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px}
+.how-num{min-width:44px;height:44px;background:rgba(78,201,176,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--accent2);flex-shrink:0}
+.how-content h4{font-size:1.05rem;margin-bottom:6px}
+.how-content p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+.cta-section{text-align:center;background:var(--surface);padding:80px 0;border-top:1px solid var(--glass-border)}
+.tech-tag{display:inline-block;background:rgba(78,201,176,0.1);padding:5px 12px;border-radius:6px;font-size:0.8rem;color:var(--accent2);font-weight:500;margin-right:8px;margin-bottom:8px}
+footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;border-top:1px solid var(--glass-border)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}}
+</style>
+</head>
+<body>
+<div class="aurora-bg"></div>
+
+<nav>
+  <div class="container">
+    <a href="https://aurorapathways.xyz" class="logo">Aurora Pathways</a>
+    <a href="https://aurorapathways.xyz#contact" class="nav-btn">Get in Touch</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Built by Aurora Pathways</div>
+    <h1><span>Forekast</span></h1>
+    <p class="hero-desc">Prediction markets where nobody controls the outcome. Create any market. Trade YES/NO tokens. Multiple oracles resolve the truth. No CEO can flip the switch.</p>
+    <div class="stat-row">
+      <div class="stat-item"><div class="stat-value">Any</div><div class="stat-label">Market you want<br>to create</div></div>
+      <div class="stat-item"><div class="stat-value">Multi</div><div class="stat-label">Oracle resolution<br>no single source of truth</div></div>
+      <div class="stat-item"><div class="stat-value">$0.02</div><div class="stat-label">Gas per trade<br>on Base L2</div></div>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="https://aurorapathways.xyz/portfolio/forekast.html" class="btn btn-primary">View Full Demo</a>
+      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary">Book a Call</a>
+      <a href="https://forekast-dapp.netlify.app" class="btn btn-primary" style="background:linear-gradient(135deg,#ff6b9d 0%,#7c5cfc 100%)">🚀 Launch dApp</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">The Problem</div>
+    <h2 class="reveal">Prediction markets are<br>only as fair as the referee</h2>
+    <p class="section-desc reveal">Polymarket can freeze markets. Kalshi can pause trading. Every centralized prediction platform has a kill switch — and someone holding it. When the outcome is contested, whoever controls the platform decides what's "true."</p>
+    <div class="grid2 reveal">
+      <div class="card">
+        <div class="card-icon">🎲</div>
+        <h3>Centralized = controlled</h3>
+        <p>One company decides which markets exist, when they resolve, and what counts as the correct outcome. That's not a prediction market. That's a casino with a house edge.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔮</div>
+        <h3>Forekast removes the referee</h3>
+        <p>Markets resolve through multiple independent oracles. If they disagree, token holders vote. No single entity can rig the outcome. The market is the authority.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Features</div>
+    <h2 class="reveal">Markets that can't<br>be manipulated</h2>
+    <div class="grid3" style="margin-top:40px;">
+      <div class="feature-card reveal">
+        <div class="icon">🎯</div>
+        <h4>Create Any Market</h4>
+        <p>Sports, politics, crypto prices, science, entertainment. If there's a yes/no question, there's a market for it.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔮</div>
+        <h4>Multi-Oracle Resolution</h4>
+        <p>Chainlink, UMA, and custom oracles all submit the outcome. Consensus required. No single source of truth.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔐</div>
+        <h4>Immutable Settlement</h4>
+        <p>Once a market resolves, it's final. Nobody can appeal. Nobody can reverse. The blockchain says what happened.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">💰</div>
+        <h4>Liquidity Incentives</h4>
+        <p>Provide liquidity to markets and earn fees. Early LPs get bonus rewards. Markets need depth — you provide it.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">⚖️</div>
+        <h4>Dispute Resolution</h4>
+        <p>Oracles disagree? Token holders vote. The majority decides. Transparent. Auditable. No backroom deal.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🎟️</div>
+        <h4>Conditional Tokens</h4>
+        <p>Trade YES and NO tokens independently. Hedge your positions. Combine markets into complex predictions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="reveal">Create. Trade. Resolve.<br>No referee needed.</h2>
+    <div style="max-width:600px;margin-top:36px;">
+      <div class="how-step reveal">
+        <div class="how-num">1</div>
+        <div class="how-content"><h4>Someone creates a market</h4><p>Propose a question: "Will Bitcoin hit $200K by December 2026?" Set the resolution date. Choose oracles. Fund initial liquidity.</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">2</div>
+        <div class="how-content"><h4>Traders buy YES or NO tokens</h4><p>Prices reflect collective belief. YES at $0.65 means the market thinks there's a 65% chance. Trade anytime before resolution.</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">3</div>
+        <div class="how-content"><h4>Resolution date arrives</h4><p>Oracles report the outcome. Multiple sources confirm. Consensus is validated on-chain.</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">4</div>
+        <div class="how-content"><h4>Winners get paid. Losers don't.</h4><p>Correct token holders redeem for $1.00 each. Wrong token holders get nothing. Smart contract handles everything.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Comparison</div>
+    <h2 class="reveal">Forekast vs centralized markets</h2>
+    <div style="overflow-x:auto;">
+      <table class="comparison">
+        <tr><th></th><th>Forekast</th><th>Polymarket</th><th>Kalshi</th></tr>
+        <tr><td>Market creation</td><td class="highlight">Anyone can create</td><td class="dim">Permissioned</td><td class="dim">CFTC regulated only</td></tr>
+        <tr><td>Resolution authority</td><td class="highlight">Multi-oracle consensus</td><td class="dim">UMA + Polymarket</td><td class="dim">Kalshi decides</td></tr>
+        <tr><td>Censorship resistance</td><td class="highlight">Fully on-chain</td><td class="dim">Can freeze markets</td><td class="dim">Can freeze markets</td></tr>
+        <tr><td>Fees</td><td class="highlight">3% per trade</td><td class="dim">0% (US only)</td><td class="dim">Varies</td></tr>
+        <tr><td>Global access</td><td class="highlight">Anyone, anywhere</td><td class="dim">VPN blocked</td><td class="dim">US only</td></tr>
+        <tr><td>Oracle disputes</td><td class="highlight">Token-holder vote</td><td class="dim">UMA only</td><td class="dim">Kalshi review</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Smart Contracts</div>
+    <h2 class="reveal">The code is the<br>rulebook</h2>
+    <p class="section-desc reveal">Forekast's logic lives entirely in smart contracts on Base L2. Read them. Audit them. The rules can't change mid-game.</p>
+    <div class="grid3">
+      <div class="card reveal">
+        <h3>MarketFactory.sol</h3>
+        <p>Create prediction markets with custom parameters — resolution date, oracle set, initial liquidity. Factory pattern keeps gas low.</p>
+        <div style="margin-top:12px;"><span class="tech-tag">Factory</span><span class="tech-tag">Gas optimized</span></div>
+      </div>
+      <div class="card reveal">
+        <h3>ConditionalTokens.sol</h3>
+        <p>ERC-1155 tokens representing market positions. YES and NO are separate tokens. Tradeable. Composable. Standard interface.</p>
+        <div style="margin-top:12px;"><span class="tech-tag">ERC-1155</span><span class="tech-tag">Composable</span></div>
+      </div>
+      <div class="card reveal">
+        <h3>OracleHub.sol</h3>
+        <p>Aggregates reports from Chainlink, UMA, and custom oracles. Requires N-of-M consensus. Built-in dispute window with token-weighted arbitration.</p>
+        <div style="margin-top:12px;"><span class="tech-tag">Multi-oracle</span><span class="tech-tag">Dispute-ready</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 class="reveal">Markets without gatekeepers.</h2>
+    <p class="section-desc reveal" style="margin:16px auto 36px;">Create any prediction market. Trade freely. Let the truth settle on-chain. No CEO. No kill switch. No override.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://aurorapathways.xyz/portfolio/forekast.html" class="btn btn-primary reveal">View Full Demo</a>
+      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary reveal">Build a Market</a>
+    </div>
+    <p style="margin-top:20px;color:var(--text2);font-size:0.85rem;" class="reveal">forekast.xyz &nbsp;·&nbsp; forekast.blockchain &nbsp;·&nbsp; Built by Aurora Pathways</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container"><p>Forekast — a protocol by Aurora Pathways &copy; 2026</p></div>
+</footer>
+
+<script>
+const observer=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+</script>
+</body>
+</html>

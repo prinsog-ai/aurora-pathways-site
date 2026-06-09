@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasklync V2 — Decentralized Freelance Escrow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--accent:#7c5cfc;
+  --accent2:#4ec9b0;--accent3:#ff6b9d;--text:#e0e0e8;--text2:#8888a0;
+  --success:#4ec9b0;--error:#ff6b6b;--warn:#ffd93d;
+  --radius:12px;--radius-sm:8px;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,textarea,select{font-family:inherit;outline:none}
+::selection{background:var(--accent);color:#fff}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Toast */
+#toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;max-width:380px;width:calc(100% - 40px)}
+.toast{padding:14px 20px;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;animation:slideIn .3s ease;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast.success{background:rgba(78,201,176,.18);border-color:var(--success)}
+.toast.error{background:rgba(255,107,107,.18);border-color:var(--error)}
+.toast.info{background:rgba(124,92,252,.18);border-color:var(--accent)}
+.toast.warning{background:rgba(255,217,61,.18);border-color:var(--warn)}
+.toast .toast-icon{font-size:16px;flex-shrink:0}
+.toast .toast-dismiss{margin-left:auto;cursor:pointer;opacity:.5;transition:opacity .2s;flex-shrink:0;padding:0 2px}
+.toast .toast-dismiss:hover{opacity:1}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fadeOut{to{transform:translateX(120%);opacity:0}}
+
+/* Spinner */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
+.spinner-lg{width:40px;height:40px;border-width:3px}
+.spinner-accent{border-color:rgba(124,92,252,.25);border-top-color:var(--accent)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Layout */
+.app-container{max-width:1280px;margin:0 auto;padding:0 20px}
+
+/* Header */
+header{padding:16px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;padding:0 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:#fff}
+.logo svg{width:32px;height:32px}
+.logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chain-badge{background:rgba(124,92,252,.12);border:1px solid rgba(124,92,252,.3);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--accent);transition:all .3s ease}
+.chain-badge.wrong{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3);color:var(--error)}
+.btn{padding:10px 20px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;transition:all .25s ease;position:relative;overflow:hidden}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#6b4ce0;transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,92,252,.35)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
+.btn-success{background:var(--accent2);color:#0a0a0f}
+.btn-danger{background:var(--accent3);color:#fff}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-xs{padding:4px 10px;font-size:11px}
+.btn-icon{display:inline-flex;align-items:center;gap:6px}
+
+/* Copy button */
+.copy-btn{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text2);padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;gap:4px;line-height:1}
+.copy-btn:hover{background:rgba(255,255,255,.12);color:var(--text);border-color:var(--accent)}
+.copy-btn.copied{color:var(--accent2);border-color:var(--accent2);background:rgba(78,201,176,.1)}
+
+/* Wallet address display */
+.wallet-addr-wrap{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+
+/* Nav tabs */
+.nav-tabs{display:flex;gap:4px;padding:20px 0;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-tab{padding:10px 20px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;font-weight:500;font-size:14px;color:var(--text2);background:transparent;transition:all .25s ease;white-space:nowrap;border-bottom:2px solid transparent}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-tab.active{color:var(--accent);background:rgba(124,92,252,.08);border-bottom-color:var(--accent)}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;padding:24px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;transition:all .3s ease}
+.stat-card:hover{border-color:rgba(124,92,252,.3);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.stat-value{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Search bar */
+.search-bar{display:flex;gap:12px;padding:20px 0;flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:200px;padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;transition:border-color .2s ease}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--text2)}
+select.filter-select{padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;cursor:pointer;transition:border-color .2s ease}
+select.filter-select:focus{border-color:var(--accent)}
+
+/* Job cards */
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding-bottom:24px}
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .3s ease;cursor:pointer;position:relative;overflow:hidden}
+.job-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(124,92,252,.12)}
+.job-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.job-card-title{font-weight:600;font-size:16px;color:#fff;flex:1;margin-right:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.status-badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;transition:all .2s ease}
+.status-0{background:rgba(124,92,252,.15);color:var(--accent)}
+.status-1{background:rgba(255,217,61,.15);color:var(--warn)}
+.status-2{background:rgba(78,201,176,.15);color:var(--success)}
+.status-3{background:rgba(255,107,107,.15);color:var(--error)}
+.status-4{background:rgba(255,107,157,.15);color:var(--accent3)}
+.job-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text2);margin-bottom:12px}
+.job-meta span{display:flex;align-items:center;gap:4px}
+.job-amount{font-size:20px;font-weight:700;color:var(--accent2)}
+.job-category{font-size:12px;padding:3px 8px;background:rgba(124,92,252,.1);border-radius:4px;color:var(--accent)}
+.job-deadline{font-size:12px;color:var(--text2)}
+.milestone-mini-bar{height:4px;background:var(--border);border-radius:2px;margin-top:12px;overflow:hidden}
+.milestone-mini-bar .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .5s ease}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;justify-content:center;align-items:flex-start;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(8px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);max-width:720px;width:100%;padding:32px;position:relative;animation:modalIn .3s ease}
+@keyframes modalIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s ease}
+.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
+.modal h2{font-size:22px;font-weight:700;color:#fff;margin-bottom:20px}
+.modal h3{font-size:16px;font-weight:600;color:var(--accent);margin:20px 0 10px}
+
+/* Form */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;transition:border-color .2s ease,box-shadow .2s ease}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,252,.12)}
+.form-group textarea{resize:vertical;min-height:80px}
+
+/* Milestone builder */
+.milestone-builder{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin:12px 0}
+.milestone-row{display:flex;gap:10px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.milestone-row .form-group{margin-bottom:0;flex:1;min-width:120px}
+.milestone-row .form-group:last-child{flex:0 0 40px}
+.remove-ms{background:rgba(255,107,107,.15);color:var(--error);border:1px solid rgba(255,107,107,.3);border-radius:var(--radius-sm);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s ease}
+.remove-ms:hover{background:rgba(255,107,107,.3);transform:scale(1.1)}
+.add-ms{margin-top:8px}
+.milestone-total{text-align:right;font-weight:600;color:var(--accent2);margin-top:8px;font-size:14px}
+
+/* Milestones in detail */
+.milestone-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;transition:border-color .2s ease}
+.milestone-item:hover{border-color:rgba(124,92,252,.25)}
+.milestone-info{flex:1}
+.milestone-desc{font-weight:500;font-size:14px}
+.milestone-amt{font-size:13px;color:var(--accent2);font-weight:600}
+.milestone-status{font-size:11px;padding:3px 8px;border-radius:10px;font-weight:600}
+.ms-0{background:rgba(124,92,252,.15);color:var(--accent)}
+.ms-1{background:rgba(78,201,176,.15);color:var(--success)}
+.ms-2{background:rgba(255,107,107,.15);color:var(--error)}
+
+/* Progress bar */
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:8px 0}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .6s ease}
+
+/* Applicant list */
+.applicant-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;flex-wrap:wrap;gap:8px;transition:all .2s ease}
+.applicant-row:hover{border-color:rgba(124,92,252,.2);background:rgba(255,255,255,.05)}
+.applicant-addr{font-family:monospace;font-size:13px;color:var(--text)}
+.applicant-rep{font-size:12px;color:var(--text2)}
+
+/* Stars */
+.stars{display:flex;gap:4px}
+.star{font-size:22px;color:var(--border);cursor:pointer;transition:color .15s ease,transform .15s ease}
+.star.filled{color:var(--warn)}
+.star:hover{color:var(--warn);transform:scale(1.15)}
+
+/* Reputation badge */
+.rep-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.rep-badge .stars{pointer-events:none}
+.rep-badge .star{font-size:14px;cursor:default}
+
+/* Dispute */
+.dispute-box{background:rgba(255,107,157,.05);border:1px solid rgba(255,107,157,.2);border-radius:var(--radius-sm);padding:16px;margin-top:12px}
+.vote-bar{display:flex;gap:8px;margin-top:10px}
+.vote-btn{flex:1}
+
+/* Tab content */
+.tab-content{display:none;min-height:400px;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+
+/* Faucet */
+.faucet-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:480px;margin:24px auto;text-align:center;transition:border-color .3s ease}
+.faucet-card:hover{border-color:rgba(124,92,252,.3)}
+.faucet-card h3{font-size:18px;color:#fff;margin-bottom:8px}
+.faucet-card p{font-size:13px;color:var(--text2);margin-bottom:16px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px;text-align:center}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 20px}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.footer-links a{font-size:13px;color:var(--text2);transition:color .2s ease}
+.footer-links a:hover{color:var(--accent)}
+.footer-brand{font-size:13px;color:var(--text2);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.footer-brand a{font-weight:600;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;transition:opacity .2s}
+.footer-brand a:hover{opacity:.8;-webkit-text-fill-color:transparent}
+.footer-brand .ap-logo{width:18px;height:18px;vertical-align:middle;display:inline-block}
+
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty-state svg{width:64px;height:64px;margin-bottom:16px;opacity:.3}
+.empty-state h3{font-size:18px;color:var(--text);margin-bottom:8px}
+
+/* Confirm modal */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:10001;display:flex;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(8px);animation:fadeIn .2s ease}
+.confirm-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:420px;width:100%;text-align:center;animation:modalIn .25s ease}
+.confirm-box h3{color:#fff;font-size:18px;margin-bottom:12px}
+.confirm-box p{color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.5}
+.confirm-actions{display:flex;gap:12px;justify-content:center}
+.confirm-actions .btn{flex:1}
+
+/* MetaMask install prompt */
+.mm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:10002;display:flex;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(10px);animation:fadeIn .2s ease}
+.mm-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:36px;max-width:460px;width:100%;text-align:center;animation:modalIn .3s ease}
+.mm-box .mm-icon{width:72px;height:72px;margin:0 auto 20px;background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.15));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px}
+.mm-box h3{color:#fff;font-size:20px;margin-bottom:12px}
+.mm-box p{color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.6}
+.mm-box .mm-actions{display:flex;flex-direction:column;gap:10px}
+.mm-box .mm-close{color:var(--text2);font-size:13px;cursor:pointer;margin-top:8px;transition:color .2s}
+.mm-box .mm-close:hover{color:var(--text)}
+
+/* Responsive: 768px */
+@media(max-width:768px){
+  .header-inner{flex-wrap:wrap;gap:8px}
+  .nav-tabs{gap:2px;padding:12px 0}
+  .nav-tab{padding:8px 12px;font-size:12px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .jobs-grid{grid-template-columns:1fr}
+  .search-bar{flex-direction:column}
+  .modal{padding:20px;margin-top:20px}
+  .milestone-row{flex-direction:column}
+}
+
+/* Responsive: 375px */
+@media(max-width:375px){
+  .header-inner{padding:0 12px;gap:6px}
+  .logo{font-size:17px;gap:8px}
+  .logo svg{width:26px;height:26px}
+  .logo > span:nth-child(2){font-size:9px;padding:1px 6px}
+  .header-right{gap:6px}
+  .chain-badge{padding:4px 8px;font-size:10px}
+  .btn-sm{padding:5px 10px;font-size:11px}
+  .app-container{padding:0 12px}
+  .nav-tabs{padding:10px 0;gap:2px}
+  .nav-tab{padding:7px 10px;font-size:11px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:16px 0}
+  .stat-card{padding:14px}
+  .stat-value{font-size:22px}
+  .stat-label{font-size:10px;letter-spacing:.5px}
+  .search-bar{gap:8px;padding:12px 0}
+  .search-input{min-width:100%;padding:8px 12px;font-size:13px}
+  select.filter-select{padding:8px 12px;font-size:13px;width:100%}
+  .jobs-grid{gap:10px}
+  .job-card{padding:14px}
+  .job-card-title{font-size:14px}
+  .job-amount{font-size:17px}
+  .job-meta{gap:8px;font-size:11px}
+  .modal{padding:16px;margin:10px;border-radius:var(--radius-sm)}
+  .modal h2{font-size:18px}
+  .modal h3{font-size:14px}
+  .form-group input,.form-group textarea,.form-group select{padding:8px 12px;font-size:13px}
+  .milestone-row{gap:8px}
+  .milestone-row .form-group{min-width:100%}
+  .milestone-row .form-group:last-child{flex:0 0 32px}
+  .remove-ms{width:32px;height:32px;font-size:16px}
+  .faucet-card{padding:16px;margin:16px auto}
+  .faucet-card h3{font-size:16px}
+  footer{padding:16px 0;margin-top:24px}
+  .footer-links{gap:12px}
+  .footer-links a{font-size:11px}
+  .footer-brand{font-size:11px;flex-direction:column;gap:4px}
+  .toast{font-size:12px;padding:10px 14px}
+  #toast-container{top:12px;right:12px;left:12px;width:auto;max-width:none}
+  .confirm-box,.mm-box{padding:24px 20px}
+  .confirm-actions{flex-direction:column}
+  .vote-bar{flex-direction:column}
+  .milestone-item{flex-direction:column;align-items:flex-start}
+  .applicant-row{flex-direction:column;align-items:flex-start}
+  .addr-trunc{max-width:80px}
+  .wallet-addr-wrap{font-size:10px}
+}
+
+/* Address truncation */
+.addr{font-family:monospace;font-size:13px}
+.addr-trunc{display:inline-block;max-width:120px;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}
+
+/* Loading skeleton */
+.skeleton{background:linear-gradient(90deg,var(--card) 25%,rgba(255,255,255,.04) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius-sm)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Misc */
+.hidden{display:none!important}
+.text-accent{color:var(--accent)}
+.text-accent2{color:var(--accent2)}
+.text-accent3{color:var(--accent3)}
+.text-sm{font-size:12px}
+.text-xs{font-size:11px}
+.mt-2{margin-top:8px}
+.mt-4{margin-top:16px}
+.mb-2{margin-bottom:8px}
+.mb-4{margin-bottom:16px}
+.flex{display:flex}
+.gap-2{gap:8px}
+.gap-3{gap:12px}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.flex-wrap{flex-wrap:wrap}
+.w-full{width:100%}
+</style>
+</head>
+<body>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Header -->
+<header>
+<div class="header-inner">
+  <div class="logo">
+    <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="url(#g)" stroke-width="2.5"/><path d="M10 16l4 4 8-8" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#4ec9b0"/></linearGradient></defs></svg>
+    <span>Tasklync</span>
+    <span style="font-size:11px;background:rgba(78,201,176,.15);color:var(--accent2);padding:2px 8px;border-radius:10px;font-weight:600">V2</span>
+  </div>
+  <div class="header-right">
+    <div id="chain-badge" class="chain-badge hidden"></div>
+    <div id="balance-display" class="text-sm text-accent2 hidden"></div>
+    <div id="wallet-addr-display" class="wallet-addr-wrap hidden">
+      <span id="wallet-addr-text" style="font-family:monospace;font-size:12px;color:var(--text)"></span>
+      <button id="copy-addr-btn" class="copy-btn" onclick="copyAddress()" title="Copy address">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span id="copy-addr-label">Copy</span>
+      </button>
+    </div>
+    <button id="connect-btn" class="btn btn-primary btn-sm" onclick="connectWallet()">
+      Connect Wallet
+    </button>
+  </div>
+</div>
+</header>
+
+<!-- Main App -->
+<div class="app-container">
+
+  <!-- Nav Tabs -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button class="nav-tab" onclick="switchTab('browse')">🔍 Browse Jobs</button>
+    <button class="nav-tab" onclick="switchTab('create')">➕ Create Job</button>
+    <button class="nav-tab" onclick="switchTab('myjobs')">👤 My Jobs</button>
+    <button class="nav-tab" onclick="switchTab('faucet')">🚰 USDC Faucet</button>
+  </div>
+
+  <!-- Dashboard Tab -->
+  <div id="tab-dashboard" class="tab-content active">
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-value" id="stat-total">—</div><div class="stat-label">Total Jobs</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-open">—</div><div class="stat-label">Open</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-progress">—</div><div class="stat-label">In Progress</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-completed">—</div><div class="stat-label">Completed</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-tvl">—</div><div class="stat-label">TVL (USDC)</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-fee">—</div><div class="stat-label">Platform Fee</div></div>
+    </div>
+    <div id="reputation-card" class="hidden" style="max-width:400px;margin:0 auto">
+      <div class="stat-card">
+        <div class="stat-label mb-2">Your Reputation</div>
+        <div id="my-stars" class="stars" style="justify-content:center"></div>
+        <div id="my-completed-jobs" class="text-sm text-accent2 mt-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browse Jobs Tab -->
+  <div id="tab-browse" class="tab-content">
+    <div class="search-bar">
+      <input type="text" class="search-input" id="search-input" placeholder="Search jobs by description..." oninput="filterJobs()">
+      <select class="filter-select" id="filter-category" onchange="filterJobs()">
+        <option value="">All Categories</option>
+        <option value="Development">Development</option>
+        <option value="Design">Design</option>
+        <option value="Writing">Writing</option>
+        <option value="Marketing">Marketing</option>
+        <option value="General">General</option>
+      </select>
+      <select class="filter-select" id="filter-status" onchange="filterJobs()">
+        <option value="">All Statuses</option>
+        <option value="0">Open</option>
+        <option value="1">In Progress</option>
+        <option value="2">Completed</option>
+        <option value="3">Cancelled</option>
+        <option value="4">Disputed</option>
+      </select>
+      <select class="filter-select" id="sort-by" onchange="filterJobs()">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="highest">Highest Amount</option>
+        <option value="lowest">Lowest Amount</option>
+      </select>
+    </div>
+    <div id="jobs-loading" class="empty-state">
+      <div class="spinner spinner-lg spinner-accent"></div>
+      <p class="mt-2">Loading jobs...</p>
+    </div>
+    <div id="jobs-grid" class="jobs-grid"></div>
+    <div id="jobs-empty" class="empty-state hidden">
+      <h3>No jobs found</h3>
+      <p>Try adjusting your filters or create a new job.</p>
+    </div>
+    <div id="load-more-wrap" class="hidden" style="text-align:center;padding:20px">
+      <button class="btn btn-secondary" onclick="loadMoreJobs()">Load More</button>
+    </div>
+  </div>
+
+  <!-- Create Job Tab -->
+  <div id="tab-create" class="tab-content">
+    <div style="max-width:600px;margin:0 auto;padding:24px 0">
+      <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:24px">Create a New Job</h2>
+      <form id="create-form" onsubmit="createJob(event)">
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="create-desc" placeholder="Describe the work to be done..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="create-category" required>
+            <option value="">Select category</option>
+            <option value="Development">Development</option>
+            <option value="Design">Design</option>
+            <option value="Writing">Writing</option>
+            <option value="Marketing">Marketing</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Deadline</label>
+          <input type="datetime-local" id="create-deadline" required>
+        </div>
+
+        <h3>Milestones</h3>
+        <p class="text-sm text-accent2 mb-2">Break the job into milestones. Funds are locked in escrow and released per-milestone.</p>
+        <div class="milestone-builder" id="milestone-builder">
+          <div id="milestones-list"></div>
+          <button type="button" class="btn btn-secondary btn-sm add-ms" onclick="addMilestoneRow()">+ Add Milestone</button>
+          <div class="milestone-total">Total: <span id="ms-total">0.00</span> USDC</div>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Token</label>
+          <input type="text" value="USDC (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)" disabled style="opacity:.6">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full mt-4" id="create-submit">
+          Create Job & Lock Escrow
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- My Jobs Tab -->
+  <div id="tab-myjobs" class="tab-content">
+    <div id="myjobs-connect-msg" class="empty-state">
+      <h3>Connect Your Wallet</h3>
+      <p>Connect your wallet to see your jobs.</p>
+    </div>
+    <div id="myjobs-loading" class="empty-state hidden">
+      <div class="spinner spinner-lg spinner-accent"></div>
+      <p class="mt-2">Loading your jobs...</p>
+    </div>
+    <div id="myjobs-grid" class="jobs-grid hidden"></div>
+    <div id="myjobs-empty" class="empty-state hidden">
+      <h3>No jobs yet</h3>
+      <p>You haven't created or applied to any jobs.</p>
+    </div>
+  </div>
+
+  <!-- Faucet Tab -->
+  <div id="tab-faucet" class="tab-content">
+    <div class="faucet-card">
+      <h3>🚰 MockUSDC Faucet</h3>
+      <p>Get free test USDC tokens on Polygon to try Tasklync.</p>
+      <div class="form-group">
+        <label>Amount (USDC)</label>
+        <input type="number" id="faucet-amount" value="1000" min="1" max="100000" step="1">
+      </div>
+      <button class="btn btn-primary w-full" onclick="mintTokens()" id="faucet-btn">
+        Mint Test USDC
+      </button>
+      <div id="faucet-balance" class="mt-4 text-sm text-accent2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Job Detail Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="job-modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content">
+      <div class="empty-state"><div class="spinner spinner-lg spinner-accent"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="https://aurorapathways.xyz" target="_blank">Aurora Pathways</a>
+      <a id="footer-contract-link" href="https://polygonscan.com/address/0x801Ad724446727f4021f7E9C08F95Ecbd9fE7190" target="_blank">Contract on Polygonscan</a>
+      <a id="footer-usdc-link" href="https://polygonscan.com/address/0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359" target="_blank">USDC on Polygonscan</a>
+      <a href="https://aurorapathways.xyz" target="_blank">Contact</a>
+    </div>
+    <div class="footer-brand">
+      <span>Powered by</span>
+      <a href="https://aurorapathways.xyz" target="_blank" rel="noopener">
+        <svg class="ap-logo" viewBox="0 0 32 32" fill="none" style="display:inline;vertical-align:middle;margin-right:2px"><circle cx="16" cy="16" r="12" stroke="url(#fg)" stroke-width="2"/><path d="M10 16l4 4 8-8" stroke="url(#fg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="fg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#4ec9b0"/></linearGradient></defs></svg>
+        Aurora Pathways
+      </a>
+      <span>· Tasklync V2 on Polygon</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── Constants ───────────────────────────────────────────────────────────────
+const TASKLYNC_ADDR = '0x801Ad724446727f4021f7E9C08F95Ecbd9fE7190';
+const USDC_ADDR = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359';
+const AMOY_CHAIN_ID = 137;
+const AMOY_RPC = 'https://polygon-bor-rpc.publicnode.com';
+const EXPLORER = 'https://polygonscan.com';
+
+const STATUS_NAMES = ['Open','In Progress','Completed','Cancelled','Disputed'];
+const MS_STATUS_NAMES = ['Pending','Released','Disputed'];
+const CATEGORIES = ['Development','Design','Writing','Marketing','General'];
+
+const TASKLYNC_ABI = [
+  "function createJob(address _token, string _description, string _category, uint256 _deadline, tuple(string description, uint256 amount)[] _milestones) returns (uint256)",
+  "function applyToJob(uint256 _jobId) external",
+  "function acceptFreelancer(uint256 _jobId, address _freelancer) external",
+  "function completeJob(uint256 _jobId) external",
+  "function cancelJob(uint256 _jobId) external",
+  "function claimRefund(uint256 _jobId) external",
+  "function disputeJob(uint256 _jobId) external",
+  "function voteDispute(uint256 _jobId, bool _payFreelancer) external",
+  "function releaseMilestone(uint256 _jobId, uint256 _milestoneIndex) external",
+  "function rateFreelancer(uint256 _jobId, uint256 _rating) external",
+  "function getJob(uint256 _jobId) view returns (address client, address freelancer, address token, uint256 totalAmount, string description, string category, uint8 status, uint256 createdAt, uint256 deadline, uint256 releasedAmount)",
+  "function getJobs(uint256 _offset, uint256 _limit) view returns (uint256[] ids, address[] clients, address[] freelancers, address[] tokens, uint256[] amounts, string[] descriptions, string[] categories, uint8[] statuses, uint256[] createdAts, uint256[] deadlines)",
+  "function getApplicants(uint256 _jobId) view returns (address[])",
+  "function getMilestone(uint256 _jobId, uint256 _milestoneId) view returns (string description, uint256 amount, uint8 status)",
+  "function getReputation(address _freelancer) view returns (uint256 completedJobs, uint256 averageRating)",
+  "function getDisputeVotes(uint256 _jobId) view returns (uint256 votesForFreelancer, uint256 votesForClient)",
+  "function jobCount() view returns (uint256)",
+  "function platformFee() view returns (uint256)",
+  "function isJuror(address) view returns (bool)",
+  "event JobCreated(uint256 indexed jobId, address indexed client, address token, uint256 totalAmount, string description, string category)",
+  "event JobApplied(uint256 indexed jobId, address indexed freelancer)",
+  "event FreelancerAccepted(uint256 indexed jobId, address indexed freelancer)",
+  "event JobCompleted(uint256 indexed jobId)",
+  "event JobCancelled(uint256 indexed jobId)",
+  "event MilestoneReleased(uint256 indexed jobId, uint256 indexed milestoneIndex, uint256 amount)",
+  "event JobDisputed(uint256 indexed jobId)",
+  "event DisputeVoted(uint256 indexed jobId, address indexed juror, bool payFreelancer)",
+  "event RefundClaimed(uint256 indexed jobId, address indexed claimant, uint256 amount)",
+  "event FreelancerRated(uint256 indexed jobId, address indexed freelancer, uint256 rating)"
+];
+
+const USDC_ABI = [
+  "function mint(address to, uint256 amount) external",
+  "function balanceOf(address) view returns (uint256)",
+  "function approve(address spender, uint256 amount) returns (bool)",
+  "function allowance(address owner, address spender) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let provider, signer, userAddr, tasklync, usdc;
+let allJobs = [], filteredJobs = [];
+let jobOffset = 0;
+const PAGE_SIZE = 20;
+let milestoneCount = 0;
+let selectedRating = 0;
+let isJuror = false;
+
+// ─── Toast ───────────────────────────────────────────────────────────────────
+function toast(msg, type='info', duration=5000) {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = {success:'✓',error:'✕',info:'ℹ',warning:'⚠'};
+  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span><span class="toast-dismiss" onclick="this.parentElement.remove()">✕</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.animation='fadeOut .3s ease forwards';setTimeout(()=>t.remove(),300)}, duration);
+}
+
+// ─── Confirm Dialog ──────────────────────────────────────────────────────────
+function showConfirm(message, detail) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.className = 'confirm-overlay';
+    overlay.innerHTML = `
+      <div class="confirm-box">
+        <h3>⚠️ Confirm Action</h3>
+        <p>${message}${detail ? '<br><small style="color:var(--text2)">' + detail + '</small>' : ''}</p>
+        <div class="confirm-actions">
+          <button class="btn btn-secondary" id="confirm-cancel">Cancel</button>
+          <button class="btn btn-primary" id="confirm-ok">Confirm</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#confirm-cancel').onclick = () => { overlay.remove(); resolve(false); };
+    overlay.querySelector('#confirm-ok').onclick = () => { overlay.remove(); resolve(true); };
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) { overlay.remove(); resolve(false); } });
+  });
+}
+
+// ─── MetaMask Install Prompt ─────────────────────────────────────────────────
+function showMetaMaskPrompt() {
+  const overlay = document.createElement('div');
+  overlay.className = 'mm-overlay';
+  overlay.innerHTML = `
+    <div class="mm-box">
+      <div class="mm-icon">🦊</div>
+      <h3>Wallet Not Detected</h3>
+      <p>To use Tasklync, you need a Web3 wallet like <strong>MetaMask</strong>, <strong>Rabby</strong>, or <strong>Coinbase Wallet</strong>. Install one to connect and start using decentralized freelance escrow.</p>
+      <div class="mm-actions">
+        <a href="https://metamask.io/download/" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;text-align:center;display:block">
+          🦊 Install MetaMask
+        </a>
+        <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" class="btn btn-secondary" style="text-decoration:none;text-align:center;display:block">
+          🔵 Coinbase Wallet
+        </a>
+      </div>
+      <div class="mm-close" onclick="this.closest('.mm-overlay').remove()">Dismiss</div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.remove(); });
+}
+
+// ─── Copy Address ────────────────────────────────────────────────────────────
+async function copyAddress() {
+  if(!userAddr) return;
+  try {
+    await navigator.clipboard.writeText(userAddr);
+    const label = document.getElementById('copy-addr-label');
+    const btn = document.getElementById('copy-addr-btn');
+    label.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { label.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    toast('Address copied to clipboard','success',2000);
+  } catch(e) {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = userAddr;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Address copied','success',2000);
+  }
+}
+
+// ─── Tab Switching ───────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if(name==='dashboard') loadDashboard();
+  if(name==='browse') { jobOffset=0; allJobs=[]; loadJobs(); }
+  if(name==='myjobs') loadMyJobs();
+  if(name==='faucet') loadFaucetBalance();
+  if(name==='create') { if(!userAddr){toast('Connect wallet first','warning');switchTabByName('browse');} }
+}
+
+function switchTabByName(name) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>{if(t.textContent.toLowerCase().includes(name==='dashboard'?'dashboard':name==='browse'?'browse':name==='create'?'create':name==='myjobs'?'my jobs':'faucet'))t.classList.add('active')});
+}
+
+// ─── Wallet ──────────────────────────────────────────────────────────────────
+async function connectWallet() {
+  if(!window.ethereum) {
+    showMetaMaskPrompt();
+    return;
+  }
+  const btn = document.getElementById('connect-btn');
+  const origText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Connecting...';
+  try {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    signer = await provider.getSigner();
+    userAddr = await signer.getAddress();
+
+    // Check chain
+    const network = await provider.getNetwork();
+    if(Number(network.chainId) !== AMOY_CHAIN_ID) {
+      await switchToAmoy();
+    }
+
+    tasklync = new ethers.Contract(TASKLYNC_ADDR, TASKLYNC_ABI, signer);
+    usdc = new ethers.Contract(USDC_ADDR, USDC_ABI, signer);
+
+    // Check juror status
+    try { isJuror = await tasklync.isJuror(userAddr); } catch(e) { isJuror = false; }
+
+    updateUI();
+    toast('Wallet connected: '+ userAddr.slice(0,6)+'...'+userAddr.slice(-4), 'success');
+    loadDashboard();
+  } catch(e) {
+    console.error(e);
+    toast('Connection failed: '+(e.message||e),'error');
+  } finally {
+    btn.disabled = false;
+    if(!userAddr) btn.innerHTML = origText;
+  }
+}
+
+async function switchToAmoy() {
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x'+AMOY_CHAIN_ID.toString(16) }]
+    });
+  } catch(e) {
+    if(e.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: '0x'+AMOY_CHAIN_ID.toString(16),
+          chainName: 'Polygon Mainnet',
+          nativeCurrency: { name:'POL',symbol:'POL',decimals:18 },
+          rpcUrls: [AMOY_RPC],
+          blockExplorerUrls: [EXPLORER]
+        }]
+      });
+    }
+  }
+}
+
+function updateUI() {
+  const btn = document.getElementById('connect-btn');
+  const badge = document.getElementById('chain-badge');
+  const bal = document.getElementById('balance-display');
+  const addrWrap = document.getElementById('wallet-addr-display');
+  const addrText = document.getElementById('wallet-addr-text');
+
+  if(userAddr) {
+    btn.innerHTML = userAddr.slice(0,6)+'...'+userAddr.slice(-4);
+    btn.onclick = ()=>{};
+    badge.classList.remove('hidden');
+    badge.textContent = 'Polygon';
+    badge.classList.remove('wrong');
+    bal.classList.remove('hidden');
+    addrWrap.classList.remove('hidden');
+    addrText.textContent = userAddr.slice(0,6)+'...'+userAddr.slice(-4);
+    updateBalance();
+    loadMyReputation();
+  }
+}
+
+async function updateBalance() {
+  try {
+    const bal = await usdc.balanceOf(userAddr);
+    document.getElementById('balance-display').textContent = parseFloat(ethers.formatUnits(bal,6)).toFixed(2)+' USDC';
+  } catch(e) {}
+}
+
+async function loadMyReputation() {
+  if(!userAddr) return;
+  try {
+    const [completed, avgRating] = await tasklync.getReputation(userAddr);
+    const card = document.getElementById('reputation-card');
+    card.classList.remove('hidden');
+    const starsDiv = document.getElementById('my-stars');
+    const rating = Number(avgRating)/100;
+    starsDiv.innerHTML = renderStarsHTML(rating);
+    document.getElementById('my-completed-jobs').textContent = Number(completed)+' completed jobs · '+rating.toFixed(1)+' avg rating';
+  } catch(e) {}
+}
+
+function renderStarsHTML(rating, interactive=false) {
+  let html = '';
+  for(let i=1;i<=5;i++) {
+    const filled = i <= Math.round(rating);
+    html += `<span class="star ${filled?'filled':''}" ${interactive?`onclick="setRating(${i})" onmouseenter="previewRating(${i})" onmouseleave="previewRating(0)"`:''}>★</span>`;
+  }
+  return html;
+}
+
+// ─── Dashboard ───────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const count = Number(await tasklync.jobCount());
+    document.getElementById('stat-total').textContent = count;
+
+    if(count === 0) {
+      document.getElementById('stat-open').textContent = '0';
+      document.getElementById('stat-progress').textContent = '0';
+      document.getElementById('stat-completed').textContent = '0';
+      document.getElementById('stat-tvl').textContent = '0.00';
+      const fee = Number(await tasklync.platformFee());
+      document.getElementById('stat-fee').textContent = (fee/100).toFixed(1)+'%';
+      return;
+    }
+
+    // Load all jobs for stats
+    let open=0, progress=0, completed=0, tvl=0n;
+    const batchSize = 50;
+    for(let offset=0; offset<count; offset+=batchSize) {
+      const limit = Math.min(batchSize, count-offset);
+      const data = await tasklync.getJobs(offset, limit);
+      for(let i=0;i<data.ids.length;i++) {
+        const s = Number(data.statuses[i]);
+        if(s===0) open++;
+        if(s===1) progress++;
+        if(s===2) completed++;
+        // TVL = totalAmount - releasedAmount for InProgress jobs
+        if(s===1) tvl += data.amounts[i]; // simplified: show locked amount
+      }
+    }
+    document.getElementById('stat-open').textContent = open;
+    document.getElementById('stat-progress').textContent = progress;
+    document.getElementById('stat-completed').textContent = completed;
+    document.getElementById('stat-tvl').textContent = parseFloat(ethers.formatUnits(tvl,6)).toFixed(2);
+    const fee = Number(await tasklync.platformFee());
+    document.getElementById('stat-fee').textContent = (fee/100).toFixed(1)+'%';
+  } catch(e) {
+    console.error('Dashboard error:',e);
+    toast('Failed to load dashboard','error');
+  }
+}
+
+// ─── Load Jobs ───────────────────────────────────────────────────────────────
+async function loadJobs() {
+  const grid = document.getElementById('jobs-grid');
+  const loading = document.getElementById('jobs-loading');
+  const empty = document.getElementById('jobs-empty');
+  const loadMore = document.getElementById('load-more-wrap');
+
+  loading.classList.remove('hidden');
+  empty.classList.add('hidden');
+  grid.innerHTML = '';
+
+  try {
+    const count = Number(await tasklync.jobCount());
+    if(count === 0) {
+      loading.classList.add('hidden');
+      empty.classList.remove('hidden');
+      return;
+    }
+
+    // Load page
+    const start = jobOffset;
+    const end = Math.min(start + PAGE_SIZE, count);
+    if(start >= count) {
+      loading.classList.add('hidden');
+      empty.classList.remove('hidden');
+      return;
+    }
+
+    const data = await tasklync.getJobs(start, end - start);
+    for(let i=0; i<data.ids.length; i++) {
+      allJobs.push({
+        id: Number(data.ids[i]),
+        client: data.clients[i],
+        freelancer: data.freelancers[i],
+        token: data.tokens[i],
+        totalAmount: data.amounts[i],
+        description: data.descriptions[i],
+        category: data.categories[i],
+        status: Number(data.statuses[i]),
+        createdAt: Number(data.createdAts[i]),
+        deadline: Number(data.deadlines[i])
+      });
+    }
+
+    jobOffset = end;
+    filteredJobs = [...allJobs];
+    filterJobs();
+    loading.classList.add('hidden');
+    if(end < count) loadMore.classList.remove('hidden');
+    else loadMore.classList.add('hidden');
+  } catch(e) {
+    console.error('Load jobs error:',e);
+    loading.innerHTML='<p style="color:var(--error)">Failed to load jobs. Check your network connection.</p>';
+  }
+}
+
+function loadMoreJobs() {
+  loadJobs();
+}
+
+function filterJobs() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const cat = document.getElementById('filter-category').value;
+  const status = document.getElementById('filter-status').value;
+  const sort = document.getElementById('sort-by').value;
+
+  filteredJobs = allJobs.filter(j => {
+    if(search && !j.description.toLowerCase().includes(search)) return false;
+    if(cat && j.category !== cat) return false;
+    if(status !== '' && j.status !== Number(status)) return false;
+    return true;
+  });
+
+  // Sort
+  if(sort==='newest') filteredJobs.sort((a,b)=>b.createdAt-a.createdAt);
+  if(sort==='oldest') filteredJobs.sort((a,b)=>a.createdAt-b.createdAt);
+  if(sort==='highest') filteredJobs.sort((a,b)=>Number(b.totalAmount-a.totalAmount));
+  if(sort==='lowest') filteredJobs.sort((a,b)=>Number(a.totalAmount-b.totalAmount));
+
+  renderJobCards(filteredJobs, 'jobs-grid');
+
+  const empty = document.getElementById('jobs-empty');
+  if(filteredJobs.length===0) empty.classList.remove('hidden');
+  else empty.classList.add('hidden');
+}
+
+function renderJobCards(jobs, containerId) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = '';
+
+  jobs.forEach(j => {
+    const card = document.createElement('div');
+    card.className = 'job-card';
+    card.onclick = ()=>openJobDetail(j.id);
+
+    const amount = parseFloat(ethers.formatUnits(j.totalAmount,6));
+    const deadlineStr = j.deadline > 0 ? new Date(j.deadline*1000).toLocaleDateString() : 'No deadline';
+    const isPastDeadline = j.deadline > 0 && j.deadline*1000 < Date.now();
+
+    card.innerHTML = `
+      <div class="job-card-header">
+        <div class="job-card-title">${escHtml(j.description)}</div>
+        <span class="status-badge status-${j.status}">${STATUS_NAMES[j.status]}</span>
+      </div>
+      <div class="flex gap-2 mb-2">
+        <span class="job-category">${escHtml(j.category)}</span>
+        ${isPastDeadline && j.status<2 ? '<span class="status-badge status-3">Overdue</span>' : ''}
+      </div>
+      <div class="job-meta">
+        <span>🆔 #${j.id}</span>
+        <span>👤 ${j.client.slice(0,6)}...${j.client.slice(-4)}</span>
+        <span>📅 ${deadlineStr}</span>
+      </div>
+      <div class="job-amount">${amount.toFixed(2)} USDC</div>
+      ${j.status===1 ? '<div class="milestone-mini-bar"><div class="fill" style="width:0%"></div></div>' : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ─── Job Detail Modal ────────────────────────────────────────────────────────
+async function openJobDetail(jobId) {
+  const overlay = document.getElementById('modal-overlay');
+  const content = document.getElementById('modal-content');
+  overlay.classList.add('open');
+  content.innerHTML = '<div class="empty-state"><div class="spinner spinner-lg spinner-accent"></div></div>';
+
+  try {
+    const job = await tasklync.getJob(jobId);
+    const applicants = await tasklync.getApplicants(jobId);
+
+    const client = job[0];
+    const freelancer = job[1];
+    const token = job[2];
+    const totalAmount = job[3];
+    const description = job[4];
+    const category = job[5];
+    const status = Number(job[6]);
+    const createdAt = Number(job[7]);
+    const deadline = Number(job[8]);
+    const releasedAmount = job[9];
+
+    const amount = parseFloat(ethers.formatUnits(totalAmount,6));
+    const released = parseFloat(ethers.formatUnits(releasedAmount,6));
+    const progress = amount > 0 ? (released/amount*100) : 0;
+    const isClient = userAddr && userAddr.toLowerCase() === client.toLowerCase();
+    const isFreelancer = userAddr && userAddr.toLowerCase() === freelancer.toLowerCase();
+    const hasFreelancer = freelancer !== ethers.ZeroAddress;
+    const isPastDeadline = deadline > 0 && deadline*1000 < Date.now();
+
+    // Load milestones
+    let milestones = [];
+    let msIndex = 0;
+    while(true) {
+      try {
+        const ms = await tasklync.getMilestone(jobId, msIndex);
+        milestones.push({description: ms[0], amount: ms[1], status: Number(ms[2])});
+        msIndex++;
+      } catch(e) { break; }
+    }
+
+    // Load reputation if freelancer exists
+    let repHTML = '';
+    if(hasFreelancer) {
+      try {
+        const [comp, avg] = await tasklync.getReputation(freelancer);
+        const r = Number(avg)/100;
+        repHTML = `<div class="rep-badge">⭐ ${r.toFixed(1)} · ${Number(comp)} completed</div>`;
+      } catch(e) {}
+    }
+
+    // Dispute votes
+    let votesHTML = '';
+    if(status === 4) {
+      try {
+        const votes = await tasklync.getDisputeVotes(jobId);
+        votesHTML = `
+          <div class="dispute-box">
+            <h3>⚖️ Dispute Active</h3>
+            <p class="text-sm">Jury voting is open. Jurors can vote to pay the freelancer or refund the client.</p>
+            <div class="vote-bar">
+              <div style="flex:1;text-align:center">
+                <div class="text-accent2" style="font-size:20px;font-weight:700">${Number(votes[0])}</div>
+                <div class="text-xs">For Freelancer</div>
+              </div>
+              <div style="flex:1;text-align:center">
+                <div class="text-accent3" style="font-size:20px;font-weight:700">${Number(votes[1])}</div>
+                <div class="text-xs">For Client</div>
+              </div>
+            </div>
+            ${isJuror ? `
+              <div class="flex gap-2 mt-4">
+                <button class="btn btn-success flex-1 btn-sm" onclick="voteDispute(${jobId},true)">Vote: Pay Freelancer</button>
+                <button class="btn btn-danger flex-1 btn-sm" onclick="voteDispute(${jobId},false)">Vote: Refund Client</button>
+              </div>
+            ` : '<p class="text-xs mt-2" style="color:var(--text2)">Only jury members can vote.</p>'}
+          </div>
+        `;
+      } catch(e) {}
+    }
+
+    // Milestones HTML
+    let milestonesHTML = '';
+    if(milestones.length > 0) {
+      milestonesHTML = '<h3>📋 Milestones</h3>';
+      if(status === 1) {
+        milestonesHTML += `<div class="progress-bar"><div class="fill" style="width:${progress.toFixed(1)}%"></div></div>
+        <div class="text-xs text-accent2 mb-2">${released.toFixed(2)} / ${amount.toFixed(2)} USDC released (${progress.toFixed(1)}%)</div>`;
+      }
+      milestonesHTML += '<div class="mb-4">';
+      milestones.forEach((ms, idx) => {
+        const msAmt = parseFloat(ethers.formatUnits(ms.amount,6));
+        milestonesHTML += `
+          <div class="milestone-item">
+            <div class="milestone-info">
+              <div class="milestone-desc">M${idx+1}: ${escHtml(ms.description)}</div>
+              <div class="milestone-amt">${msAmt.toFixed(2)} USDC</div>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span class="milestone-status ms-${ms.status}">${MS_STATUS_NAMES[ms.status]}</span>
+              ${isClient && status===1 && ms.status===0 ? `<button class="btn btn-success btn-xs" onclick="releaseMilestone(${jobId},${idx})">Release</button>` : ''}
+              ${status===1 && ms.status===0 ? `<button class="btn btn-danger btn-xs" onclick="disputeMilestone(${jobId})">Dispute</button>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      milestonesHTML += '</div>';
+    }
+
+    // Applicants HTML
+    let applicantsHTML = '';
+    if(applicants.length > 0 && isClient && status === 0) {
+      applicantsHTML = '<h3>👥 Applicants ('+applicants.length+')</h3><div class="mb-4">';
+      for(const addr of applicants) {
+        let repInfo = '';
+        try {
+          const [c, r] = await tasklync.getReputation(addr);
+          const rating = Number(r)/100;
+          repInfo = `<span class="applicant-rep">${renderStarsHTML(rating)} · ${Number(c)} jobs</span>`;
+        } catch(e) {}
+        applicantsHTML += `
+          <div class="applicant-row">
+            <div>
+              <span class="addr">${addr.slice(0,8)}...${addr.slice(-6)}</span>
+              ${repInfo}
+            </div>
+            <button class="btn btn-success btn-xs" onclick="acceptFreelancer(${jobId},'${addr}')">Accept</button>
+          </div>
+        `;
+      }
+      applicantsHTML += '</div>';
+    }
+
+    // Rating HTML
+    let ratingHTML = '';
+    if(isClient && status === 2 && hasFreelancer) {
+      ratingHTML = `
+        <h3>⭐ Rate Freelancer</h3>
+        <div class="mb-4">
+          <div id="rating-stars" class="stars">${renderStarsHTML(0,true)}</div>
+          <button class="btn btn-primary btn-sm mt-2" onclick="rateFreelancer(${jobId})">Submit Rating</button>
+        </div>
+      `;
+    }
+
+    // Action buttons
+    let actionsHTML = '<div class="flex gap-2 flex-wrap mt-4">';
+    if(isClient && status === 0) {
+      actionsHTML += `<button class="btn btn-danger btn-sm" onclick="cancelJob(${jobId})">Cancel Job</button>`;
+    }
+    if(userAddr && status === 0 && !isClient && !applicants.map(a=>a.toLowerCase()).includes(userAddr?.toLowerCase||'')) {
+      actionsHTML += `<button class="btn btn-primary btn-sm" onclick="applyToJob(${jobId})">Apply</button>`;
+    }
+    if(isClient && status === 1) {
+      actionsHTML += `<button class="btn btn-success btn-sm" onclick="completeJob(${jobId})">Mark Complete</button>`;
+    }
+    if((isClient || isFreelancer) && status === 1 && isPastDeadline) {
+      actionsHTML += `<button class="btn btn-danger btn-sm" onclick="claimRefund(${jobId})">Claim Refund</button>`;
+    }
+    if((isClient || isFreelancer) && status === 1) {
+      actionsHTML += `<button class="btn btn-sm" style="background:var(--accent3);color:#fff" onclick="disputeJob(${jobId})">Dispute</button>`;
+    }
+    actionsHTML += '</div>';
+
+    // Full modal content
+    content.innerHTML = `
+      <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <h2 style="margin-bottom:0;flex:1">Job #${jobId}</h2>
+        <span class="status-badge status-${status}">${STATUS_NAMES[status]}</span>
+      </div>
+
+      <p style="font-size:15px;color:var(--text);margin-bottom:16px">${escHtml(description)}</p>
+
+      <div class="flex gap-2 flex-wrap mb-4">
+        <span class="job-category">${escHtml(category)}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px">
+        <div><div class="text-xs text-accent2">Total Amount</div><div class="text-accent2" style="font-size:18px;font-weight:700">${amount.toFixed(2)} USDC</div></div>
+        <div><div class="text-xs text-accent2">Released</div><div style="font-size:18px;font-weight:600">${released.toFixed(2)} USDC</div></div>
+        <div><div class="text-xs text-accent2">Client</div><div class="addr">${client.slice(0,8)}...${client.slice(-6)}</div></div>
+        <div><div class="text-xs text-accent2">Freelancer</div><div class="addr">${hasFreelancer ? freelancer.slice(0,8)+'...'+freelancer.slice(-6) : 'Not assigned'}</div></div>
+        <div><div class="text-xs text-accent2">Deadline</div><div>${deadline > 0 ? new Date(deadline*1000).toLocaleString() : 'None'}</div></div>
+        <div><div class="text-xs text-accent2">Created</div><div>${new Date(createdAt*1000).toLocaleString()}</div></div>
+      </div>
+
+      ${repHTML}
+      ${milestonesHTML}
+      ${applicantsHTML}
+      ${votesHTML}
+      ${ratingHTML}
+      ${actionsHTML}
+
+      <div class="mt-4" style="text-align:right">
+        <a href="${EXPLORER}/address/${TASKLYNC_ADDR}" target="_blank" class="text-xs">View on Polygonscan ↗</a>
+      </div>
+    `;
+  } catch(e) {
+    console.error('Job detail error:',e);
+    content.innerHTML = `<div class="empty-state"><h3>Failed to load job #${jobId}</h3><p class="text-sm">${escHtml(e.message||'Unknown error')}</p></div>`;
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+// ─── Contract Actions ────────────────────────────────────────────────────────
+async function createJob(e) {
+  e.preventDefault();
+  if(!userAddr) { toast('Connect wallet first','warning'); return; }
+
+  const desc = document.getElementById('create-desc').value.trim();
+  const category = document.getElementById('create-category').value;
+  const deadlineInput = document.getElementById('create-deadline').value;
+
+  if(!desc || !category || !deadlineInput) { toast('Fill all fields','warning'); return; }
+
+  const deadline = Math.floor(new Date(deadlineInput).getTime()/1000);
+  if(deadline <= Math.floor(Date.now()/1000)) { toast('Deadline must be in the future','warning'); return; }
+
+  // Gather milestones
+  const rows = document.querySelectorAll('.milestone-row');
+  const milestones = [];
+  let totalAmount = 0n;
+
+  for(const row of rows) {
+    const msDesc = row.querySelector('.ms-desc').value.trim();
+    const msAmt = parseFloat(row.querySelector('.ms-amt').value);
+    if(!msDesc || isNaN(msAmt) || msAmt <= 0) { toast('Fill all milestone fields correctly','warning'); return; }
+    const msAmtWei = ethers.parseUnits(msAmt.toString(), 6);
+    milestones.push({ description: msDesc, amount: msAmtWei });
+    totalAmount += msAmtWei;
+  }
+
+  if(milestones.length === 0) { toast('Add at least one milestone','warning'); return; }
+
+  const btn = document.getElementById('create-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Approving USDC...';
+
+  try {
+    // Check USDC balance
+    const balance = await usdc.balanceOf(userAddr);
+    if(balance < totalAmount) {
+      toast('Insufficient USDC balance. Need '+ethers.formatUnits(totalAmount,6)+' USDC','error');
+      btn.disabled = false;
+      btn.textContent = 'Create Job & Lock Escrow';
+      return;
+    }
+
+    // Check allowance
+    const allowance = await usdc.allowance(userAddr, TASKLYNC_ADDR);
+    if(allowance < totalAmount) {
+      toast('Approving USDC spend...','info');
+      btn.innerHTML = '<span class="spinner"></span> Approving USDC...';
+      const approveTx = await usdc.approve(TASKLYNC_ADDR, totalAmount);
+      await approveTx.wait();
+      toast('USDC approved!','success');
+    }
+
+    btn.innerHTML = '<span class="spinner"></span> Creating job...';
+    toast('Creating job with escrow...','info');
+
+    const tx = await tasklync.createJob(USDC_ADDR, desc, category, deadline, milestones);
+    toast('Transaction sent! Waiting for confirmation...','info');
+    const receipt = await tx.wait();
+
+    toast('Job created successfully! 🎉','success');
+
+    // Reset form
+    document.getElementById('create-form').reset();
+    document.getElementById('milestones-list').innerHTML = '';
+    milestoneCount = 0;
+    addMilestoneRow();
+    updateBalance();
+
+    // Switch to browse
+    setTimeout(()=>{switchTabByName('browse');jobOffset=0;allJobs=[];loadJobs()},1500);
+  } catch(e) {
+    console.error('Create job error:',e);
+    toast('Transaction failed: '+(e.reason||e.message||'Unknown error'),'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Create Job & Lock Escrow';
+  }
+}
+
+async function applyToJob(jobId) {
+  if(!userAddr) { toast('Connect wallet first','warning'); return; }
+  try {
+    toast('Applying to job...','info');
+    const tx = await tasklync.applyToJob(jobId);
+    await tx.wait();
+    toast('Applied successfully!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Apply failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function acceptFreelancer(jobId, freelancer) {
+  try {
+    toast('Accepting freelancer...','info');
+    const tx = await tasklync.acceptFreelancer(jobId, freelancer);
+    await tx.wait();
+    toast('Freelancer accepted!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Accept failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function completeJob(jobId) {
+  try {
+    toast('Marking job as complete...','info');
+    const tx = await tasklync.completeJob(jobId);
+    await tx.wait();
+    toast('Job marked as complete!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Complete failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function cancelJob(jobId) {
+  const confirmed = await showConfirm('Cancel this job?','Remaining escrowed funds will be returned to the client.');
+  if(!confirmed) return;
+  try {
+    toast('Cancelling job...','info');
+    const tx = await tasklync.cancelJob(jobId);
+    await tx.wait();
+    toast('Job cancelled.','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Cancel failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function claimRefund(jobId) {
+  const confirmed = await showConfirm('Claim refund?','This action can only be performed after the deadline has passed.');
+  if(!confirmed) return;
+  try {
+    toast('Claiming refund...','info');
+    const tx = await tasklync.claimRefund(jobId);
+    await tx.wait();
+    toast('Refund claimed!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Refund failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function releaseMilestone(jobId, msIndex) {
+  try {
+    toast('Releasing milestone payment...','info');
+    const tx = await tasklync.releaseMilestone(jobId, msIndex);
+    await tx.wait();
+    toast('Milestone released!','success');
+    openJobDetail(jobId);
+    updateBalance();
+  } catch(e) {
+    toast('Release failed: '+(e.reason||e.message),'error');
+  }
+}
+
+function disputeMilestone(jobId) {
+  disputeJob(jobId);
+}
+
+async function disputeJob(jobId) {
+  const confirmed = await showConfirm('Open a dispute?','A jury will vote on the outcome of this job.');
+  if(!confirmed) return;
+  try {
+    toast('Opening dispute...','info');
+    const tx = await tasklync.disputeJob(jobId);
+    await tx.wait();
+    toast('Dispute opened!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Dispute failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function voteDispute(jobId, payFreelancer) {
+  try {
+    toast('Casting vote...','info');
+    const tx = await tasklync.voteDispute(jobId, payFreelancer);
+    await tx.wait();
+    toast('Vote cast!','success');
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Vote failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function rateFreelancer(jobId) {
+  if(selectedRating < 1 || selectedRating > 5) { toast('Select a rating first','warning'); return; }
+  try {
+    toast('Submitting rating...','info');
+    const tx = await tasklync.rateFreelancer(jobId, selectedRating);
+    await tx.wait();
+    toast('Rating submitted!','success');
+    selectedRating = 0;
+    openJobDetail(jobId);
+  } catch(e) {
+    toast('Rating failed: '+(e.reason||e.message),'error');
+  }
+}
+
+function setRating(n) { selectedRating = n; }
+function previewRating(n) {
+  if(n === 0 && selectedRating > 0) n = selectedRating;
+  const stars = document.querySelectorAll('#rating-stars .star');
+  stars.forEach((s,i) => {
+    s.classList.toggle('filled', i < (n||selectedRating));
+  });
+}
+
+// ─── My Jobs ─────────────────────────────────────────────────────────────────
+async function loadMyJobs() {
+  if(!userAddr) {
+    document.getElementById('myjobs-connect-msg').classList.remove('hidden');
+    document.getElementById('myjobs-loading').classList.add('hidden');
+    document.getElementById('myjobs-grid').classList.add('hidden');
+    document.getElementById('myjobs-empty').classList.add('hidden');
+    return;
+  }
+
+  document.getElementById('myjobs-connect-msg').classList.add('hidden');
+  document.getElementById('myjobs-loading').classList.remove('hidden');
+  document.getElementById('myjobs-grid').classList.add('hidden');
+  document.getElementById('myjobs-empty').classList.add('hidden');
+
+  try {
+    const count = Number(await tasklync.jobCount());
+    const myJobs = [];
+    const batchSize = 50;
+
+    for(let offset=0; offset<count; offset+=batchSize) {
+      const limit = Math.min(batchSize, count-offset);
+      const data = await tasklync.getJobs(offset, limit);
+      for(let i=0; i<data.ids.length; i++) {
+        const client = data.clients[i].toLowerCase();
+        const freelancer = data.freelancers[i].toLowerCase();
+        if(client === userAddr.toLowerCase() || freelancer === userAddr.toLowerCase()) {
+          myJobs.push({
+            id: Number(data.ids[i]),
+            client: data.clients[i],
+            freelancer: data.freelancers[i],
+            token: data.tokens[i],
+            totalAmount: data.amounts[i],
+            description: data.descriptions[i],
+            category: data.categories[i],
+            status: Number(data.statuses[i]),
+            createdAt: Number(data.createdAts[i]),
+            deadline: Number(data.deadlines[i]),
+            role: client === userAddr.toLowerCase() ? 'Client' : 'Freelancer'
+          });
+        }
+      }
+    }
+
+    document.getElementById('myjobs-loading').classList.add('hidden');
+
+    if(myJobs.length === 0) {
+      document.getElementById('myjobs-empty').classList.remove('hidden');
+      return;
+    }
+
+    const grid = document.getElementById('myjobs-grid');
+    grid.classList.remove('hidden');
+    grid.innerHTML = '';
+
+    myJobs.sort((a,b)=>b.createdAt-a.createdAt).forEach(j => {
+      const amount = parseFloat(ethers.formatUnits(j.totalAmount,6));
+      const card = document.createElement('div');
+      card.className = 'job-card';
+      card.onclick = ()=>openJobDetail(j.id);
+      card.innerHTML = `
+        <div class="job-card-header">
+          <div class="job-card-title">${escHtml(j.description)}</div>
+          <span class="status-badge status-${j.status}">${STATUS_NAMES[j.status]}</span>
+        </div>
+        <div class="flex gap-2 mb-2">
+          <span class="job-category">${escHtml(j.category)}</span>
+          <span style="font-size:11px;padding:3px 8px;background:rgba(124,92,252,.15);border-radius:4px;color:var(--accent);font-weight:600">${j.role}</span>
+        </div>
+        <div class="job-meta">
+          <span>🆔 #${j.id}</span>
+          <span>📅 ${j.deadline>0?new Date(j.deadline*1000).toLocaleDateString():'No deadline'}</span>
+        </div>
+        <div class="job-amount">${amount.toFixed(2)} USDC</div>
+      `;
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    console.error('My jobs error:',e);
+    document.getElementById('myjobs-loading').innerHTML='<p style="color:var(--error)">Failed to load jobs.</p>';
+  }
+}
+
+// ─── Faucet ──────────────────────────────────────────────────────────────────
+async function mintTokens() {
+  if(!userAddr) { toast('Connect wallet first','warning'); return; }
+  const amount = parseFloat(document.getElementById('faucet-amount').value);
+  if(isNaN(amount) || amount <= 0) { toast('Enter a valid amount','warning'); return; }
+
+  const btn = document.getElementById('faucet-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Minting...';
+
+  try {
+    const amountWei = ethers.parseUnits(amount.toString(), 6);
+    const tx = await usdc.mint(userAddr, amountWei);
+    await tx.wait();
+    toast(`Minted ${amount} USDC! 🎉`,'success');
+    updateBalance();
+    loadFaucetBalance();
+  } catch(e) {
+    toast('Mint failed: '+(e.reason||e.message),'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Mint Test USDC';
+  }
+}
+
+async function loadFaucetBalance() {
+  if(!userAddr) return;
+  try {
+    const bal = await usdc.balanceOf(userAddr);
+    document.getElementById('faucet-balance').textContent = 'Your balance: '+parseFloat(ethers.formatUnits(bal,6)).toFixed(2)+' USDC';
+  } catch(e) {}
+}
+
+// ─── Milestone Builder ───────────────────────────────────────────────────────
+function addMilestoneRow() {
+  milestoneCount++;
+  const list = document.getElementById('milestones-list');
+  const row = document.createElement('div');
+  row.className = 'milestone-row';
+  row.id = 'ms-row-'+milestoneCount;
+  row.innerHTML = `
+    <div class="form-group">
+      <label>Milestone ${milestoneCount} Description</label>
+      <input type="text" class="ms-desc" placeholder="e.g. Frontend mockups" required>
+    </div>
+    <div class="form-group">
+      <label>Amount (USDC)</label>
+      <input type="number" class="ms-amt" placeholder="500" min="0.01" step="0.01" required oninput="updateMsTotal()">
+    </div>
+    <button type="button" class="remove-ms" onclick="removeMilestoneRow(${milestoneCount})">✕</button>
+  `;
+  list.appendChild(row);
+}
+
+function removeMilestoneRow(id) {
+  const row = document.getElementById('ms-row-'+id);
+  if(row) row.remove();
+  updateMsTotal();
+}
+
+function updateMsTotal() {
+  const amts = document.querySelectorAll('.ms-amt');
+  let total = 0;
+  amts.forEach(a => { const v = parseFloat(a.value); if(!isNaN(v)) total += v; });
+  document.getElementById('ms-total').textContent = total.toFixed(2);
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function shortenAddr(a) {
+  if(!a || a.length < 10) return a||'';
+  return a.slice(0,6)+'...'+a.slice(-4);
+}
+
+// ─── Auto-connect on page load ───────────────────────────────────────────────
+window.addEventListener('load', async () => {
+  // Add initial milestone
+  addMilestoneRow();
+
+  // Set min date for deadline
+  const dl = document.getElementById('create-deadline');
+  if(dl) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    dl.min = now.toISOString().slice(0,16);
+  }
+
+  // Auto-connect if MetaMask already authorized
+  if(window.ethereum) {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if(accounts.length > 0) {
+        await connectWallet();
+      }
+    } catch(e) {}
+  }
+
+  // Listen for account/chain changes
+  if(window.ethereum) {
+    window.ethereum.on('accountsChanged', () => { location.reload(); });
+    window.ethereum.on('chainChanged', () => { location.reload(); });
+  }
+});
+</script>
+</body>
+</html>

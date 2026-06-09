@@ -3,27 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aurora Pathways — Empowerment & Web 3.0 Innovation</title>
+<title>Aurora Pathways — Web 3.0 Consulting & Development</title>
+<meta name="description" content="We build decentralized websites, smart contracts, and Web3 infrastructure for businesses that want to operate on the next internet — not just talk about it.">
+<link rel="canonical" href="https://aurorapathways.xyz/">
+<meta property="og:title" content="Aurora Pathways — Web 3.0 Consulting & Development">
+<meta property="og:description" content="Custom websites, smart contracts, and payment infrastructure — built on IPFS, Polygon, and Base. No hype. Just shipping.">
+<meta property="og:url" content="https://aurorapathways.xyz/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:title" content="Aurora Pathways — Web 3.0 Consulting & Development">
+<meta name="twitter:description" content="Custom websites, smart contracts, and payment infrastructure — built on IPFS, Polygon, and Base.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="7e814b4d-aef7-483c-b947-8b9008ffc3ed" data-domains="aurorapathways.xyz"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
     --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #181820;
+    --surface: #0f0f16;
+    --surface2: #15151f;
+    --surface3: #1a1a28;
     --text: #e8e8ed;
-    --text2: #9898a8;
+    --text2: #8a8a9a;
+    --text3: #5a5a6a;
     --accent: #7c5cfc;
     --accent2: #4ec9b0;
     --accent3: #ff6b9d;
     --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+    --gradient-h: linear-gradient(90deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
     --glass: rgba(255,255,255,0.03);
+    --glass2: rgba(255,255,255,0.05);
     --glass-border: rgba(255,255,255,0.06);
+    --glass-border2: rgba(255,255,255,0.1);
+    --glow-purple: rgba(124,92,252,0.15);
+    --glow-teal: rgba(78,201,176,0.1);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  html { scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
@@ -31,19 +55,57 @@
     font-family: 'Inter', -apple-system, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+    cursor: default;
   }
 
-  /* Aurora background effect */
+  /* ═══════════════════════════════════════════
+     CUSTOM CURSOR GLOW
+     ═══════════════════════════════════════════ */
+  .cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,92,252,0.06) 0%, rgba(78,201,176,0.03) 40%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
+
+  /* ═══════════════════════════════════════════
+     AURORA BACKGROUND (PARALLAX)
+     ═══════════════════════════════════════════ */
   .aurora-bg {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124,92,252,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 80% 70%, rgba(78,201,176,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 50% 40%, rgba(59,130,246,0.04) 0%, transparent 50%);
+    transition: transform 0.1s ease-out;
+  }
+  .aurora-layer {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.5;
+  }
+  .aurora-layer-1 {
+    width: 800px; height: 400px;
+    background: rgba(124,92,252,0.12);
+    top: 5%; left: 10%;
+  }
+  .aurora-layer-2 {
+    width: 600px; height: 500px;
+    background: rgba(78,201,176,0.08);
+    top: 50%; right: 5%;
+  }
+  .aurora-layer-3 {
+    width: 700px; height: 350px;
+    background: rgba(59,130,246,0.07);
+    bottom: 10%; left: 30%;
   }
 
+  /* ═══════════════════════════════════════════
+     LAYOUT
+     ═══════════════════════════════════════════ */
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -52,26 +114,61 @@
     z-index: 1;
   }
 
-  /* Navigation */
+  /* ═══════════════════════════════════════════
+     PAGE LOAD ANIMATION
+     ═══════════════════════════════════════════ */
+  body.loading { overflow: hidden; }
+  .page-loader {
+    position: fixed; inset: 0; z-index: 10000;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s, visibility 0.4s;
+  }
+  .page-loader.hidden { opacity: 0; visibility: hidden; }
+  .page-loader .loader-bar {
+    width: 200px; height: 2px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .page-loader .loader-bar::after {
+    content: '';
+    display: block;
+    width: 40%; height: 100%;
+    background: var(--gradient-h);
+    border-radius: 2px;
+    animation: loader-slide 1s ease-in-out infinite;
+  }
+  @keyframes loader-slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+  }
+
+  /* ═══════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════ */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
     border-bottom: 1px solid var(--glass-border);
     z-index: 100;
-    padding: 16px 0;
+    padding: 14px 0;
+    transition: padding 0.3s, background 0.3s;
   }
-
+  nav.scrolled {
+    padding: 10px 0;
+    background: rgba(10,10,15,0.95);
+  }
   nav .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-
   .logo {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     background: var(--gradient);
@@ -79,114 +176,118 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-
   .nav-links {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
   }
-
   .nav-links a {
     color: var(--text2);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
     transition: color 0.2s;
+    position: relative;
   }
-
   .nav-links a:hover { color: var(--text); }
-
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width 0.25s;
+  }
+  .nav-links a:hover::after { width: 100%; }
   .nav-cta {
     background: var(--gradient);
     color: white;
     border: none;
-    padding: 10px 24px;
+    padding: 9px 22px;
     border-radius: 100px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
   }
-
   .nav-cta:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 30px rgba(124,92,252,0.3);
+    box-shadow: 0 8px 30px rgba(124,92,252,0.35);
   }
+  .nav-cta:active { transform: translateY(0); }
 
-  /* Hero */
+  /* ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ */
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     padding-top: 80px;
   }
-
   .hero-content {
     max-width: 720px;
+    animation: fadeUp 0.8s ease-out both;
+    animation-delay: 0.5s;
   }
-
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    padding: 6px 16px;
+    background: rgba(78,201,176,0.1);
+    border: 1px solid rgba(78,201,176,0.2);
+    padding: 8px 18px;
     border-radius: 100px;
     font-size: 0.85rem;
     color: var(--accent2);
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     font-weight: 500;
+    backdrop-filter: blur(10px);
   }
-
   .hero-badge::before {
     content: '';
-    width: 8px; height: 8px;
+    width: 7px; height: 7px;
     background: var(--accent2);
     border-radius: 50%;
-    animation: pulse 2s infinite;
+    animation: pulse 2s ease-in-out infinite;
   }
-
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
   }
-
   h1 {
-    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    line-height: 1.1;
+    line-height: 1.08;
     margin-bottom: 24px;
   }
-
   h1 span {
     background: var(--gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-
   .hero-desc {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--text2);
-    max-width: 560px;
+    max-width: 540px;
     margin-bottom: 40px;
     line-height: 1.7;
   }
-
   .hero-buttons {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
   }
-
   .btn-primary {
     background: var(--gradient);
     color: white;
     border: none;
-    padding: 16px 36px;
+    padding: 15px 34px;
     border-radius: 100px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
@@ -195,137 +296,320 @@
     transition: transform 0.2s, box-shadow 0.2s;
     text-decoration: none;
     display: inline-block;
+    position: relative;
+    overflow: hidden;
   }
-
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+  .btn-primary:hover::after { opacity: 1; }
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(124,92,252,0.4);
+    box-shadow: 0 14px 44px rgba(124,92,252,0.4);
   }
-
   .btn-secondary {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border2);
     color: var(--text);
-    padding: 16px 36px;
+    padding: 15px 34px;
     border-radius: 100px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.25s, border-color 0.25s;
+    text-decoration: none;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .btn-tertiary {
+    color: var(--text2);
+    border: none;
+    background: transparent;
+    padding: 15px 24px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s;
     text-decoration: none;
     display: inline-block;
   }
-
-  .btn-secondary:hover { background: rgba(255,255,255,0.06); }
-
-  /* Sections */
-  section { padding: 100px 0; }
-
-  .section-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 16px;
+  .btn-tertiary:hover {
+    color: var(--text);
+  }
+  .btn-demo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent2);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 1;
+    overflow: visible;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s;
+  }
+  /* Animated gradient border ring */
+  .btn-demo::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 102px;
+    padding: 2px;
+    background: conic-gradient(from var(--demo-angle, 0deg), #7c5cfc, #4ec9b0, #3b82f6, #ff6b9d, #7c5cfc);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: demo-spin 3s linear infinite;
+    z-index: -1;
+  }
+  /* Soft outer glow */
+  .btn-demo::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 108px;
+    background: conic-gradient(from var(--demo-angle, 0deg), rgba(124,92,252,0.15), rgba(78,201,176,0.15), rgba(59,130,246,0.15), rgba(255,107,157,0.1), rgba(124,92,252,0.15));
+    filter: blur(12px);
+    animation: demo-spin 3s linear infinite;
+    z-index: -2;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+  @keyframes demo-spin {
+    to { --demo-angle: 360deg; }
+  }
+  @property --demo-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  /* Arrow animation */
+  .btn-demo .demo-arrow {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 1.1em;
+  }
+  .btn-demo:hover .demo-arrow {
+    transform: translate(4px, -4px);
+  }
+  .btn-demo:hover {
+    transform: translateY(-3px) scale(1.03);
+    color: #fff;
+  }
+  .btn-demo:hover::after {
+    opacity: 1;
+    inset: -12px;
+    filter: blur(18px);
+  }
+  .btn-demo:active {
+    transform: translateY(0) scale(0.98);
+  }
+  /* Inner shimmer sweep on hover */
+  .btn-demo .demo-shimmer {
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    overflow: hidden;
+    z-index: -1;
+    background: linear-gradient(135deg, rgba(78,201,176,0.08) 0%, rgba(124,92,252,0.06) 100%);
+  }
+  .btn-demo .demo-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: none;
+  }
+  .btn-demo:hover .demo-shimmer::after {
+    animation: demo-sweep 0.7s ease-out;
+  }
+  @keyframes demo-sweep {
+    to { left: 100%; }
   }
 
+  /* ═══════════════════════════════════════════
+     SECTIONS
+     ═══════════════════════════════════════════ */
+  section { padding: 110px 0; position: relative; }
+  .section-divider {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 2px;
+    background: var(--gradient-h);
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+  .section-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(124,92,252,0.08);
+    border-radius: 100px;
+  }
   h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2rem, 3.8vw, 2.8rem);
     font-weight: 700;
     letter-spacing: -0.02em;
     margin-bottom: 16px;
+    line-height: 1.2;
   }
-
   .section-desc {
     color: var(--text2);
-    font-size: 1.15rem;
-    max-width: 600px;
-    margin-bottom: 48px;
+    font-size: 1.1rem;
+    max-width: 580px;
+    margin-bottom: 52px;
     line-height: 1.7;
   }
 
-  /* Services Grid */
+  /* ═══════════════════════════════════════════
+     SCROLL REVEAL ANIMATIONS
+     ═══════════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-up { transform: translateY(36px); }
+  .reveal-up.visible { transform: translateY(0); }
+  .reveal-left { transform: translateX(-40px); }
+  .reveal-left.visible { transform: translateX(0); }
+  .reveal-right { transform: translateX(40px); }
+  .reveal-right.visible { transform: translateX(0); }
+  .reveal-scale { transform: scale(0.94); }
+  .reveal-scale.visible { transform: scale(1); }
+
+  /* ═══════════════════════════════════════════
+     SERVICES GRID
+     ═══════════════════════════════════════════ */
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
   }
-
   .service-card {
     background: var(--surface);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 36px;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    cursor: default;
+    border-radius: var(--radius);
+    padding: 38px;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    position: relative;
+    overflow: hidden;
   }
-
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--gradient-h);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
   .service-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(124,92,252,0.3);
-    box-shadow: 0 20px 60px rgba(124,92,252,0.08);
+    transform: translateY(-5px);
+    border-color: rgba(124,92,252,0.25);
+    box-shadow: 0 20px 60px rgba(124,92,252,0.06);
   }
-
+  .service-card:hover::before { opacity: 1; }
   .service-icon {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.2rem;
+    margin-bottom: 22px;
   }
-
   .service-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
   }
-
   .service-card p {
     color: var(--text2);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.94rem;
+    line-height: 1.65;
+  }
+  .service-card .tech-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .service-card .tech-tag {
+    background: rgba(124,92,252,0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 500;
   }
 
-  .service-card .price {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--glass-border);
-    font-size: 0.85rem;
-    color: var(--accent2);
-    font-weight: 600;
-  }
-
-  /* Pricing */
+  /* ═══════════════════════════════════════════
+     PRICING
+     ═══════════════════════════════════════════ */
   .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 24px;
+    align-items: start;
   }
-
   .pricing-card {
     background: var(--surface);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 40px 36px;
+    border-radius: var(--radius);
+    padding: 42px 36px;
     position: relative;
-    transition: transform 0.3s, border-color 0.3s;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
   }
-
   .pricing-card.featured {
-    border-color: rgba(124,92,252,0.4);
+    border-color: rgba(124,92,252,0.35);
     background: var(--surface2);
-    transform: scale(1.03);
+    position: relative;
   }
-
+  .pricing-card.featured::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: var(--gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
   .pricing-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(124,92,252,0.3);
+    border-color: rgba(124,92,252,0.25);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
   }
-
-  .pricing-card.featured:hover { transform: scale(1.03) translateY(-4px); }
-
   .pricing-badge {
     position: absolute;
-    top: -14px;
+    top: -13px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--gradient);
@@ -334,354 +618,1252 @@
     border-radius: 100px;
     font-size: 0.8rem;
     font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(124,92,252,0.3);
   }
-
   .pricing-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
-
   .pricing-card .price-tag {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
     font-weight: 800;
     margin: 16px 0;
     letter-spacing: -0.02em;
   }
-
   .pricing-card .price-tag span {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     color: var(--text2);
   }
-
   .pricing-features {
     list-style: none;
-    margin: 24px 0;
+    margin: 28px 0;
   }
-
   .pricing-features li {
-    padding: 8px 0;
+    padding: 9px 0;
     color: var(--text2);
-    font-size: 0.95rem;
+    font-size: 0.93rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-
   .pricing-features li::before {
-    content: '✓ ';
+    content: '✓';
     color: var(--accent2);
     font-weight: 700;
+    font-size: 0.85rem;
+    width: 18px;
+    text-align: center;
   }
-
   .pricing-card .btn-primary,
   .pricing-card .btn-secondary {
     width: 100%;
     text-align: center;
     padding: 14px;
+    font-size: 0.95rem;
   }
 
-  /* Timeline */
+  /* ═══════════════════════════════════════════
+     TIMELINE
+     ═══════════════════════════════════════════ */
   .timeline {
     position: relative;
-    padding-left: 32px;
+    padding-left: 36px;
   }
-
   .timeline::before {
     content: '';
     position: absolute;
-    left: 5px;
+    left: 8px;
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--glass-border);
+    background: var(--glass-border2);
   }
-
   .timeline-phase {
     position: relative;
-    margin-bottom: 48px;
+    margin-bottom: 52px;
+    transition: transform var(--transition);
   }
-
+  .timeline-phase:hover { transform: translateX(6px); }
+  .timeline-phase:last-child { margin-bottom: 0; }
   .timeline-phase::before {
     content: '';
     position: absolute;
-    left: -32px;
-    top: 6px;
-    width: 12px; height: 12px;
-    background: var(--accent);
+    left: -36px;
+    top: 8px;
+    width: 14px; height: 14px;
+    background: var(--surface);
+    border: 3px solid var(--accent);
     border-radius: 50%;
-    border: 3px solid var(--bg);
+    transition: border-color var(--transition), box-shadow var(--transition);
   }
-
+  .timeline-phase:hover::before {
+    border-color: var(--accent2);
+    box-shadow: 0 0 16px rgba(78,201,176,0.3);
+  }
   .timeline-phase h3 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--accent2);
+    letter-spacing: -0.01em;
   }
-
   .timeline-phase h4 {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 500;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-
   .timeline-phase p {
     color: var(--text2);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.93rem;
+    line-height: 1.65;
   }
 
-  /* Contact */
-  .contact-section {
+  /* ═══════════════════════════════════════════
+     STAT COUNTERS
+     ═══════════════════════════════════════════ */
+  .stats-row {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 48px 0;
+  }
+  .stat-item {
     text-align: center;
   }
-
-  .contact-section h2 {
-    margin-bottom: 8px;
+  .stat-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat-label {
+    color: var(--text2);
+    font-size: 0.9rem;
+    margin-top: 8px;
+    font-weight: 500;
   }
 
-  .contact-section .section-desc {
-    margin: 0 auto 40px;
+  /* ═══════════════════════════════════════════
+     CRYPTO TICKER
+     ═══════════════════════════════════════════ */
+  .ticker-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 11px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+  }
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker 35s linear infinite;
+    gap: 44px;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.84rem;
+    color: var(--text2);
+    font-weight: 500;
+  }
+  .ticker-item .price { color: var(--accent2); font-weight: 600; }
+  .ticker-item .change { font-size: 0.78rem; }
+  .ticker-item .change.up { color: var(--accent2); }
+  .ticker-item .change.down { color: var(--accent3); }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 
-  /* Footer */
+  /* ═══════════════════════════════════════════
+     TRUST BAR
+     ═══════════════════════════════════════════ */
+  .trust-bar {
+    padding: 36px 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--glass-border);
+    text-align: center;
+  }
+  .trust-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 52px;
+    flex-wrap: wrap;
+    opacity: 0.45;
+    transition: opacity 0.3s;
+  }
+  .trust-logos:hover { opacity: 0.7; }
+  .trust-logos span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text2);
+    letter-spacing: 0.03em;
+    transition: color 0.3s;
+  }
+  .trust-logos span:hover { color: var(--text); }
+
+  /* ═══════════════════════════════════════════
+     FAQ
+     ═══════════════════════════════════════════ */
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color var(--transition);
+  }
+  .faq-item:hover { border-color: var(--glass-border2); }
+  .faq-item[open] { border-color: var(--glass-border2); }
+  .faq-question {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    user-select: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::marker { display: none; content: ''; }
+  .faq-question:hover { color: var(--accent2); }
+  .faq-question::after {
+    content: '+';
+    font-size: 1.3rem;
+    color: var(--text3);
+    transition: transform 0.3s, color 0.2s;
+  }
+  .faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
+    color: var(--accent2);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+  .faq-item[open] .faq-answer {
+    max-height: 300px;
+    padding: 0 24px 20px;
+  }
+  .faq-answer p {
+    color: var(--text2);
+    font-size: 0.93rem;
+    line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════════
+     CONTACT FORM
+     ═══════════════════════════════════════════ */
+  .contact-section { text-align: center; }
+  .contact-section h2 { margin-bottom: 8px; }
+  .contact-section .section-desc { margin: 0 auto 44px; }
+
+  /* ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ */
   footer {
     border-top: 1px solid var(--glass-border);
     padding: 40px 0;
     text-align: center;
     color: var(--text2);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Responsive */
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════
+     HAMBURGER MENU
+     ═══════════════════════════════════════════ */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,15,0.97);
+    backdrop-filter: blur(24px);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent2); }
   @media (max-width: 768px) {
     .nav-links { display: none; }
-    .hero { min-height: auto; padding: 140px 0 60px; }
+    .hamburger { display: flex; }
+    .hero { min-height: auto; padding: 130px 0 60px; }
     section { padding: 60px 0; }
     .pricing-card.featured { transform: none; }
     .pricing-card.featured:hover { transform: translateY(-4px); }
+    .stats-row { gap: 32px; }
+    .stat-value { font-size: 2.2rem; }
+    .cursor-glow { display: none; }
+    .aurora-layer { filter: blur(80px); }
+  }
+
+  /* ═══════════════════════════════════════════
+     SECTION-SPECIFIC BACKGROUNDS
+     ═══════════════════════════════════════════ */
+  .bg-surface { background: var(--surface); }
+  .bg-gradient-top {
+    background: linear-gradient(180deg, transparent 0%, var(--surface) 100%);
+  }
+
+  /* ═══════════════════════════════════════════
+     GLASS CARD (ENHANCED)
+     ═══════════════════════════════════════════ */
+  .glass-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(12px);
+    transition: var(--transition);
+  }
+  .glass-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: var(--glass-border2);
+  }
+  /* ═══════════════════════════════════════════
+     CHAT WIDGET
+     ═══════════════════════════════════════════ */
+  .chat-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--gradient);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 32px rgba(124,92,252,0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .chat-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 40px rgba(124,92,252,0.5);
+  }
+  .chat-toggle .chat-icon { display: block; }
+  .chat-toggle .close-icon { display: none; }
+  .chat-toggle.active .chat-icon { display: none; }
+  .chat-toggle.active .close-icon { display: block; }
+  .chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    width: 380px;
+    max-height: 520px;
+    background: var(--surface);
+    border: 1px solid var(--glass-border2);
+    border-radius: 20px;
+    z-index: 999;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: chatSlideUp 0.3s ease-out;
+  }
+  .chat-window.open { display: flex; }
+  @keyframes chatSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .chat-header {
+    padding: 18px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chat-header-dot {
+    width: 8px; height: 8px;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .chat-header-text h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .chat-header-text p {
+    font-size: 0.75rem;
+    color: var(--text3);
+  }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 300px;
+    max-height: 360px;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--glass-border2); border-radius: 4px; }
+  .chat-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    animation: chatFadeIn 0.2s ease-out;
+  }
+  @keyframes chatFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .chat-msg.bot {
+    align-self: flex-start;
+    background: var(--surface3);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-msg.typing {
+    align-self: flex-start;
+    background: var(--surface3);
+    color: var(--text3);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    gap: 10px;
+    background: var(--surface2);
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--text3); }
+  .chat-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--gradient);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: transform 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .chat-send:hover { transform: scale(1.05); }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .chat-suggestions {
+    padding: 8px 16px 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chat-suggestion {
+    background: var(--surface3);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    color: var(--text2);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .chat-suggestion:hover {
+    background: rgba(124,92,252,0.15);
+    color: var(--accent);
+  }
+  @media (max-width: 480px) {
+    .chat-window { right: 12px; left: 12px; width: auto; bottom: 90px; }
+    .chat-toggle { bottom: 20px; right: 20px; }
   }
 </style>
 </head>
-<body>
+<body class="loading">
 
-<div class="aurora-bg"></div>
+<!-- Page Loader -->
+<div class="page-loader"><div class="loader-bar"></div></div>
+
+<!-- Custom Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Aurora Background -->
+<div class="aurora-bg" id="auroraBg">
+  <div class="aurora-layer aurora-layer-1"></div>
+  <div class="aurora-layer aurora-layer-2"></div>
+  <div class="aurora-layer aurora-layer-3"></div>
+</div>
 
 <!-- Navigation -->
-<nav>
+<nav id="navbar">
   <div class="container">
     <div class="logo">Aurora Pathways</div>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#crypto-payments">Crypto Pay</a></li>
       <li><a href="#timeline">Process</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="/pitch-deck.html" target="_blank">Pitch Deck</a></li>
     </ul>
     <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#portfolio" onclick="closeMobileMenu()">Portfolio</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#crypto-payments" onclick="closeMobileMenu()">Crypto Pay</a>
+  <a href="#timeline" onclick="closeMobileMenu()">Process</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="/pitch-deck.html" target="_blank">Pitch Deck</a>
+  <a href="#contact" onclick="closeMobileMenu()" style="color:var(--accent2);">Get Started</a>
+</div>
 
 <!-- Hero -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
-      <div class="hero-badge">Web 3.0 Innovation — Now Accessible</div>
-      <h1>Empower your business<br>for the <span>decentralized era</span></h1>
+      <div class="hero-badge">Accepting new clients — Q2 2026</div>
+      <h1>We build for the<br><span>decentralized internet</span></h1>
       <p class="hero-desc">
-        We guide businesses into Web 3.0 with custom websites, blockchain integration, smart contracts, and ongoing management — built for security, transparency, and growth.
+        Custom websites, smart contracts, and payment infrastructure — built on IPFS, Polygon, and Base. No hype. Just shipping.
       </p>
       <div class="hero-buttons">
-        <a href="#pricing" class="btn-primary">View Packages</a>
-        <a href="#services" class="btn-secondary">Learn More</a>
+        <a href="#portfolio" class="btn-primary"><span class="demo-shimmer"></span>View Demos</a>
+        <a href="#pricing" class="btn-secondary">See Packages</a>
+        <a href="#services" class="btn-tertiary">What We Do</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Services -->
-<section id="services">
-  <div class="container">
-    <div class="section-label">What We Do</div>
-    <h2>Web 3.0 services that<br>actually move the needle</h2>
-    <p class="section-desc">
-      From decentralized hosting to full dApp ecosystems — we build the infrastructure that positions your business for the next internet.
-    </p>
+<!-- Live Crypto Ticker -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item">🪙 ETH <span class="price" id="ethPrice">—</span> <span class="change" id="ethChange">—</span></div>
+    <div class="ticker-item">💵 USDC <span class="price" id="usdcPrice">—</span></div>
+    <div class="ticker-item">₿ BTC <span class="price" id="btcPrice">—</span> <span class="change" id="btcChange">—</span></div>
+    <div class="ticker-item">🔷 SOL <span class="price" id="solPrice">—</span> <span class="change" id="solChange">—</span></div>
+    <div class="ticker-item">🌐 POL <span class="price" id="maticPrice">—</span></div>
+    <div class="ticker-item">🪙 ETH <span class="price" id="ethPrice2">—</span> <span class="change" id="ethChange2">—</span></div>
+    <div class="ticker-item">💵 USDC <span class="price" id="usdcPrice2">—</span></div>
+    <div class="ticker-item">₿ BTC <span class="price" id="btcPrice2">—</span> <span class="change" id="btcChange2">—</span></div>
+    <div class="ticker-item">🔷 SOL <span class="price" id="solPrice2">—</span> <span class="change" id="solChange2">—</span></div>
+    <div class="ticker-item">🌐 POL <span class="price" id="maticPrice2">—</span></div>
+  </div>
+</div>
 
+<!-- ══════════════════════════════════════════
+     WHY WEB3
+     ══════════════════════════════════════════ -->
+<section id="why-web3">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">Why Web3</div>
+    <h2 class="reveal reveal-up">The internet is changing.<br>Here's what that means for you.</h2>
+    <p class="section-desc reveal reveal-up">
+      Three things that actually matter — not jargon, not whitepapers.
+    </p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
+        <div style="font-size:2.4rem;margin-bottom:16px;">🔐</div>
+        <h3>You Own It</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
+          Your site, your data, your money live on a network no single company controls. Nobody can de-platform you. Nobody can freeze your funds. It's yours.
+        </p>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
+        <div style="font-size:2.4rem;margin-bottom:16px;">⚡</div>
+        <h3>Instant & Cheap</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
+          Global payments settle in seconds for under a penny. No wire fees. No three-day holds. No bank skimming 3% on currency conversion.
+        </p>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
+        <div style="font-size:2.4rem;margin-bottom:16px;">🤖</div>
+        <h3>Runs Itself</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
+          Smart contracts execute automatically — royalties, escrow, subscriptions. No middleman needed. No one to argue with. Code handles it.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STATS
+     ══════════════════════════════════════════ -->
+<div class="ticker-bar reveal reveal-up">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value"><span class="counter" data-target="35">0</span></div>
+        <div class="stat-label">Smart contract tests passing</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><span class="counter" data-target="4">0</span></div>
+        <div class="stat-label">Full-stack protocols built</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><span class="counter" data-target="12">0</span></div>
+        <div class="stat-label">Industries covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><span class="counter" data-target="2">0</span></div>
+        <div class="stat-label">Blockchains deployed on</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SERVICES
+     ══════════════════════════════════════════ -->
+<section id="services">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">What We Do</div>
+    <h2 class="reveal reveal-up">The stuff that actually<br>moves your business forward</h2>
+    <p class="section-desc reveal reveal-up">
+      Web3 consulting that ships — not slide decks.
+    </p>
     <div class="services-grid">
-      <div class="service-card">
+      <div class="service-card reveal reveal-up">
         <div class="service-icon">🌐</div>
         <h3>Decentralized Websites</h3>
-        <p>Secure, censorship-resistant hosting on IPFS and blockchain platforms. Your site lives forever, not on someone else's server.</p>
+        <p>Censorship-resistant hosting on IPFS. Your site doesn't live on someone else's server — it lives on the network. Always accessible. Nobody can take it down.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">IPFS</span>
+          <span class="tech-tag">.blockchain</span>
+          <span class="tech-tag">.xyz</span>
+        </div>
       </div>
-
-      <div class="service-card">
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.1s">
         <div class="service-icon">💎</div>
-        <h3>Smart Contracts & NFTs</h3>
-        <p>Automated transactions, tokenized memberships, NFT marketplaces — programmable trust that runs 24/7 without intermediaries.</p>
+        <h3>Smart Contracts</h3>
+        <p>Automated transactions, tokenized memberships, NFT systems. Contracts that run 24/7 without you. Audited, tested, and deployed on the chains that make sense for your budget.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Foundry</span>
+          <span class="tech-tag">315 tests</span>
+        </div>
       </div>
-
-      <div class="service-card">
-        <div class="service-icon">🔐</div>
-        <h3>Crypto Payment Systems</h3>
-        <p>Accept Ethereum, Solana, Polygon, and stablecoins. Global payments with near-zero fees and instant settlement.</p>
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.2s">
+        <div class="service-icon">💳</div>
+        <h3>Crypto Payments</h3>
+        <p>Accept USDC, USDT, DAI on Polygon and Base. Pennies in gas. Instant settlement. No chargebacks. Our payment splitter contract routes funds to your team automatically.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">USDC</span>
+          <span class="tech-tag">Polygon</span>
+          <span class="tech-tag">Base</span>
+        </div>
       </div>
-
-      <div class="service-card">
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.15s">
         <div class="service-icon">🏗️</div>
         <h3>Custom dApps</h3>
-        <p>Decentralized applications tailored to your operations — supply chain tracking, transparent fundraising, community governance.</p>
+        <p>Decentralized applications built for your exact workflow — supply chain tracking, transparent fundraising, DAO governance. Not templates. Built from the ground up.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">ethers.js</span>
+          <span class="tech-tag">Multi-chain</span>
+        </div>
       </div>
-
-      <div class="service-card">
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.25s">
         <div class="service-icon">🎓</div>
-        <h3>Workshops & Training</h3>
-        <p>Equip your team with Web 3.0 literacy. Custom workshops on blockchain, DeFi, metaverse strategy, and digital transformation.</p>
+        <h3>Team Training</h3>
+        <p>We get your team Web3-literate. Workshops on blockchain basics, DeFi, smart contract architecture, and what any of this actually means for your business.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Workshops</span>
+          <span class="tech-tag">Custom curriculum</span>
+        </div>
       </div>
-
-      <div class="service-card">
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.3s">
         <div class="service-icon">📊</div>
         <h3>Ongoing Management</h3>
-        <p>Analytics, updates, technical support, and new feature integration — we keep your Web 3.0 presence evolving.</p>
+        <p>Analytics, security updates, feature additions, technical support. We keep your Web3 stack running and evolving. You focus on your business.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Monitoring</span>
+          <span class="tech-tag">Updates</span>
+          <span class="tech-tag">Support</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Pricing -->
-<section id="pricing">
+<!-- ══════════════════════════════════════════
+     PRICING
+     ══════════════════════════════════════════ -->
+<section id="pricing" class="bg-surface">
+  <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label">Investment</div>
-    <h2>Clear pricing.<br>No hidden gas fees.</h2>
-    <p class="section-desc">
-      One-time setup plus optional monthly management. Every package includes strategy, design, development, and launch.
+    <div class="section-label reveal reveal-up">Investment</div>
+    <h2 class="reveal reveal-up">Clear pricing.<br>No surprises.</h2>
+    <p class="section-desc reveal reveal-up">
+      One-time setup. Optional monthly management. Every package includes strategy, design, development, and launch.
     </p>
-
     <div class="pricing-grid">
-      <div class="pricing-card">
-        <h3>🌐 Basic</h3>
-        <p style="color:var(--text2);font-size:0.9rem;">Decentralized presence</p>
-        <div class="price-tag">$5K–10K</div>
+      <div class="pricing-card reveal reveal-scale">
+        <h3>🌱 Starter</h3>
+        <p style="color:var(--text2);font-size:0.88rem;">Get your first Web3 win</p>
+        <div class="price-tag">$1.5K–3K</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 1.5K–3K USDC</p>
         <ul class="pricing-features">
-          <li>Decentralized hosting (IPFS)</li>
-          <li>Custom Web 3.0 design</li>
+          <li>Single crypto payment integration</li>
+          <li>OR basic IPFS site migration</li>
+          <li>Wallet connect setup</li>
+          <li>14 days post-launch support</li>
+        </ul>
+        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;">Get Started</a>
+      </div>
+      <div class="pricing-card reveal reveal-scale">
+        <h3>🌐 Basic</h3>
+        <p style="color:var(--text2);font-size:0.88rem;">Get on-chain</p>
+        <div class="price-tag">$5K–10K</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 5K–10K USDC</p>
+        <ul class="pricing-features">
+          <li>IPFS-hosted website</li>
+          <li>Custom Web3 design</li>
           <li>Crypto payment gateway</li>
-          <li>5-page website</li>
+          <li>Up to 5 pages</li>
           <li>30 days post-launch support</li>
         </ul>
-        <a href="#contact" class="btn-secondary">Get Started</a>
+        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;">Get Started</a>
       </div>
-
-      <div class="pricing-card featured">
+      <div class="pricing-card featured reveal reveal-scale" style="transition-delay:0.1s;">
         <div class="pricing-badge">Most Popular</div>
         <h3>⚡ Advanced</h3>
-        <p style="color:var(--text2);font-size:0.9rem;">Smart contract power</p>
+        <p style="color:var(--text2);font-size:0.88rem;">Smart contracts included</p>
         <div class="price-tag">$10K–20K</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 10K–20K USDC</p>
         <ul class="pricing-features">
           <li>Everything in Basic</li>
-          <li>Smart contract integration</li>
+          <li>Smart contract development</li>
           <li>NFT marketplace or memberships</li>
-          <li>Custom dApp (1 feature)</li>
-          <li>Multi-chain support</li>
+          <li>One custom dApp feature</li>
+          <li>Multi-chain deployment</li>
           <li>60 days post-launch support</li>
         </ul>
-        <a href="#contact" class="btn-primary">Get Started</a>
+        <a href="#contact" class="btn-primary" style="display:block;text-align:center;">Get Started</a>
       </div>
-
-      <div class="pricing-card">
+      <div class="pricing-card reveal reveal-scale" style="transition-delay:0.2s;">
         <h3>🚀 Premium</h3>
-        <p style="color:var(--text2);font-size:0.9rem;">Full ecosystem</p>
+        <p style="color:var(--text2);font-size:0.88rem;">Full ecosystem</p>
         <div class="price-tag">$20K+</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 20K+ USDC</p>
         <ul class="pricing-features">
           <li>Everything in Advanced</li>
           <li>Full dApp ecosystem</li>
-          <li>Metaverse connectivity</li>
           <li>Token economy design</li>
           <li>DAO governance setup</li>
+          <li>Ongoing smart contract maintenance</li>
           <li>Ongoing management included</li>
         </ul>
-        <a href="#contact" class="btn-secondary">Get Started</a>
+        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;">Get Started</a>
       </div>
     </div>
-
-    <p style="text-align:center;margin-top:24px;color:var(--text2);font-size:0.9rem;">
-      Monthly management: $500–$2,000/mo per client — updates, analytics, and dedicated support
+    <p style="text-align:center;margin-top:28px;color:var(--text2);font-size:0.88rem;" class="reveal reveal-up">
+      Monthly management: $500–$2,000/mo — updates, analytics, dedicated support
+    </p>
+    <p style="text-align:center;margin-top:16px;color:var(--text3);font-size:0.82rem;font-style:italic;" class="reveal reveal-up">
+      You're paying for tested code, not slide decks. 315 tests. Real contracts. Deployed today.
     </p>
   </div>
 </section>
 
-<!-- How We Work -->
+<!-- ══════════════════════════════════════════
+     HOW WE WORK
+     ══════════════════════════════════════════ -->
 <section id="timeline">
+  <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label">How We Work</div>
-    <h2>From idea to execution —<br>without the headache</h2>
-    <p class="section-desc">
-      We've refined our process to move fast without cutting corners. Here's what working with us looks like.
+    <div class="section-label reveal reveal-up">How We Work</div>
+    <h2 class="reveal reveal-up">From idea to go-live —<br>no headaches</h2>
+    <p class="section-desc reveal reveal-up">
+      Four steps. Fast turnaround. You're never in the dark.
     </p>
-
     <div class="timeline">
-      <div class="timeline-phase">
+      <div class="timeline-phase reveal reveal-left">
         <h3>🔍 Step 1</h3>
         <h4>Discover</h4>
-        <p>We dig into your business — goals, bottlenecks, audience. Free 30-min session. You walk away with a clear opportunity map, whether we work together or not.</p>
+        <p>We dig into your business. Goals, bottlenecks, who your customers are. Free 30-minute call. You walk out with a concrete opportunity map whether we work together or not.</p>
       </div>
-
-      <div class="timeline-phase">
+      <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.1s">
         <h3>📋 Step 2</h3>
         <h4>Strategize</h4>
-        <p>Custom roadmap built for your business. We identify the highest-impact Web 3.0 plays — crypto payments, smart contracts, decentralized hosting, NFTs — and scope the work.</p>
+        <p>We build a roadmap specifically for your business. Highest-impact moves first — crypto payments, smart contracts, decentralized hosting — scoped and priced clearly.</p>
       </div>
-
-      <div class="timeline-phase">
+      <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.2s">
         <h3>⚡ Step 3</h3>
         <h4>Build</h4>
-        <p>Rapid execution. Most projects ship in 2–4 weeks. You get a dedicated project lead, weekly updates, and a live preview from day one. No black boxes.</p>
+        <p>We ship fast. Most projects in 2–4 weeks. AI-augmented testing means smart contracts are battle-tested before they ever touch a blockchain. You get weekly updates and a live preview from day one.</p>
       </div>
-
-      <div class="timeline-phase">
+      <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.3s">
         <h3>🚀 Step 4</h3>
         <h4>Launch & Grow</h4>
-        <p>Go live with full support. We handle deployment, training, and ongoing optimization. Your Web 3.0 presence evolves as your business grows.</p>
+        <p>Go live with full support. We handle deployment, train your team, and keep everything running. Your Web3 presence evolves as your business does.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- About -->
-<section id="about">
+<!-- ══════════════════════════════════════════
+     PORTFOLIO
+     ══════════════════════════════════════════ -->
+<section id="portfolio" class="bg-surface">
+  <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label">Our Mission</div>
-    <h2>We guide individuals and organizations toward their full potential</h2>
-    <p class="section-desc">
-      At Aurora Pathways, we blend personalized strategy with cutting-edge Web 3.0 technology to empower our clients. Through compassionate support and transformative insights, we help you navigate challenges, seize opportunities, and achieve sustainable growth in the decentralized era.
+    <div class="section-label reveal reveal-up">Our Work</div>
+    <h2 class="reveal reveal-up">Web3 isn't for crypto companies.<br>It's for every industry.</h2>
+    <p class="section-desc reveal reveal-up">
+      Real estate, healthcare, supply chain, entertainment — blockchain solves real problems. Here's what that looks like.
     </p>
-    <p style="color:var(--text2);max-width:600px;line-height:1.7;">
-      Founded on the belief that technology should serve people — not the other way around — we're building a future where every business has the tools to thrive in Web 3.0, regardless of their technical background.
+    <div class="services-grid" style="margin-top:40px;">
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏠</div>
+        <h3>Real Estate</h3>
+        <p>Crypto earnest money, NFT-gated listings, smart-contract escrow, fractional property ownership via tokenization.</p>
+        <div style="margin-top:14px;"><a href="portfolio/real-estate.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏥</div>
+        <h3>Healthcare</h3>
+        <p>Patient-owned medical records on IPFS, verifiable credentials for practitioners, transparent clinical trial data.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Medical Records</span>
+          <span class="tech-tag">Credentials</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/healthcare-records.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏦</div>
+        <h3>Finance</h3>
+        <p>Cross-border stablecoin settlements, tokenized assets, on-chain KYC/AML, DeFi treasury management for institutions.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Stablecoins</span>
+          <span class="tech-tag">Tokenized Assets</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/defi-treasury.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">📦</div>
+        <h3>Supply Chain</h3>
+        <p>End-to-end product provenance, immutable audit trails, auto-payment on delivery confirmation, counterfeit prevention.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Provenance</span>
+          <span class="tech-tag">Audit Trails</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/supply-chain.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🎨</div>
+        <h3>Art & Entertainment</h3>
+        <p>NFT marketplaces, smart-contract royalty splits, token-gated fan clubs, verifiable digital editions.</p>
+        <div style="margin-top:14px;"><a href="portfolio/nft-membership.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🎮</div>
+        <h3>Gaming & Esports</h3>
+        <p>Player-owned in-game assets, cross-game item interoperability, tokenized tournament prizes, DAO-governed communities.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">In-Game Assets</span>
+          <span class="tech-tag">DAO Communities</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/gaming-assets.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🎓</div>
+        <h3>Education</h3>
+        <p>Verifiable diplomas and certificates on-chain, tamper-proof academic records, micro-credentialing, decentralized learning platforms.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Diplomas</span>
+          <span class="tech-tag">Micro-Credentials</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/education-credentials.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏛️</div>
+        <h3>Government</h3>
+        <p>Transparent voting systems, immutable public records — land titles, business registries — grant distribution via smart contracts.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Voting</span>
+          <span class="tech-tag">Public Records</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/gov-transparency.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏗️</div>
+        <h3>DAO & Governance</h3>
+        <p>Community-governed protocols — proposal voting, timelock execution, multi-sig treasuries, token-weighted decisions.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Proposal Voting</span>
+          <span class="tech-tag">Multi-Sig</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/dao-governance.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🛍️</div>
+        <h3>Retail & Ecommerce</h3>
+        <p>On-chain loyalty programs, crypto payment gateways, NFT product authentication, token-gated discounts.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Loyalty Tokens</span>
+          <span class="tech-tag">Crypto Checkout</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/retail-loyalty.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">⚖️</div>
+        <h3>Legal</h3>
+        <p>Smart contracts as legal agreements, automated escrow, on-chain notarization, immutable evidence chains.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Smart Contracts</span>
+          <span class="tech-tag">Evidence Chains</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/legal-contracts.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">⚡</div>
+        <h3>Energy</h3>
+        <p>Tokenized carbon credits, peer-to-peer energy trading, verifiable ESG reporting on-chain, automated REC markets.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Carbon Credits</span>
+          <span class="tech-tag">P2P Energy</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/energy-carbon.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon">🏦</div>
+        <h3>RWA Tokenization</h3>
+        <p>Tokenize real-world assets — real estate, treasuries, carbon credits, invoices. ERC-3643 security tokens with KYC/AML compliance and Chainlink Proof of Reserve.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">ERC-3643</span>
+          <span class="tech-tag">Chainlink PoR</span>
+        </div>
+        <div style="margin-top:10px;"><a href="portfolio/rwa-tokenizer.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;">View demo →</a></div>
+      </div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:40px;color:var(--text2);font-size:1rem;max-width:560px;margin-left:auto;margin-right:auto;" class="reveal reveal-up">
+      Your industry not here? Web3 applies everywhere. <a href="#contact" style="color:var(--accent2);font-weight:600;">Tell us what you do</a> — we'll show you the angle.
+    </p>
+
+    <!-- ════════ DAO Protocols ════════ -->
+    <div class="section-label reveal reveal-up" style="margin-top:90px;">Protocols We've Built</div>
+    <h2 class="reveal reveal-up" style="margin-bottom:8px;">Full-stack. Auditable. Deployable today.</h2>
+    <p class="section-desc reveal reveal-up">
+      Not mockups. Fully tested smart contract suites with frontends — built through our Harvey-Dev pipeline. Each protocol has its own .xyz and .blockchain domain.
+    </p>
+    <div class="services-grid" style="margin-top:40px;">
+      <a href="/landing/tasklync/" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);">
+          <div class="service-icon">💼</div>
+          <h3>Tasklync</h3>
+          <p style="font-size:0.9rem;">Permissionless freelance marketplace. Post jobs, stake to work, USDC escrow. 3% fee vs Upwork's 20%.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">IPFS</span>
+            <span class="tech-tag">Base L2</span>
+          </div>
+          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;">View case study →</p>
+          <a href="https://tasklync-dapp.netlify.app" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+        </div>
+      </a>
+      <a href="/landing/pledgly/" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.1s;">
+          <div class="service-icon">🎬</div>
+          <h3>Pledgly</h3>
+          <p style="font-size:0.9rem;">Creator-owned subscriptions. Token-gated content, revenue splits. 3% fee vs Patreon's 12%. Instant USDC payouts.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">NFT-gating</span>
+            <span class="tech-tag">Polygon</span>
+          </div>
+          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;">View case study →</p>
+          <a href="https://pledgly-dapp.netlify.app" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent2),#3aa898);color:#000;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+        </div>
+      </a>
+      <a href="/landing/forekast/" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.2s;">
+          <div class="service-icon">🎯</div>
+          <h3>Forekast</h3>
+          <p style="font-size:0.9rem;">Decentralized prediction markets. Trade YES/NO tokens. Multi-oracle resolution. Nobody can override the outcome.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">Oracles</span>
+            <span class="tech-tag">Base L2</span>
+          </div>
+          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;">View case study →</p>
+          <a href="https://forekast-dapp.netlify.app" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent3),#d45a7c);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+        </div>
+      </a>
+      <a href="/landing/ridep2p/" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.3s;">
+          <div class="service-icon">🚗</div>
+          <h3>Ridep2p</h3>
+          <p style="font-size:0.9rem;">Community-owned ride sharing. 3% platform fee vs Uber's 40%. Instant USDC. Hybrid DAO + operating company.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">6 Contracts</span>
+            <span class="tech-tag">Base L2</span>
+          </div>
+          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;">View case study →</p>
+          <a href="https://ridep2p-dapp.netlify.app" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CRYPTO PAYMENTS
+     ══════════════════════════════════════════ -->
+<section id="crypto-payments">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">Pay with Crypto</div>
+    <h2 class="reveal reveal-up">We take stablecoins.<br>No volatility. Near-zero fees.</h2>
+    <p class="section-desc reveal reveal-up">
+      Skip the wires and the credit card fees. Pay invoices in USDC, USDT, or DAI on Polygon or Base. Instant settlement. Pennies in gas.
+    </p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">💜</div>
+        <h3>Polygon</h3>
+        <p style="color:var(--accent2);font-weight:600;margin:8px 0;">Gas: ~$0.01 per tx</p>
+        <div style="margin-top:16px;text-align:left;">
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">💵 USDC</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code>
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;margin-top:12px;">💲 USDT</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0xc2132D05D31c914a87C6611C10748AEb04B58e8F</code>
+        </div>
+      </div>
+      <div class="pricing-card featured reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">🔷</div>
+        <h3>Base</h3>
+        <p style="color:var(--accent2);font-weight:600;margin:8px 0;">Gas: ~$0.02 per tx</p>
+        <p style="color:var(--text2);font-size:0.84rem;margin-top:12px;">Coinbase ecosystem — easy on/off ramp</p>
+        <div style="margin-top:16px;text-align:left;">
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">💵 USDC (Native)</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">🔐</div>
+        <h3>How It Works</h3>
+        <p style="color:var(--text2);font-size:0.88rem;line-height:1.7;margin-top:16px;">
+          Our <strong style="color:var(--accent2);">AuroraPayments</strong> smart contract auto-splits every payment to the right team members. Transparent, verifiable on-chain, audited.
+        </p>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--glass-border);">
+          <p style="color:var(--text2);font-size:0.84rem;">✓ 70/30 auto-split</p>
+          <p style="color:var(--text2);font-size:0.84rem;">✓ 12/12 tests passing</p>
+          <p style="color:var(--text2);font-size:0.84rem;">✓ Reentrancy-protected</p>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:32px;color:var(--text2);font-size:0.88rem;" class="reveal reveal-up">
+      Prefer another chain or token? <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);font-weight:600;">Let us know</a> — we support Arbitrum, Optimism, and custom ERC-20s.
     </p>
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact" class="contact-section">
+<!-- ══════════════════════════════════════════
+     ABOUT
+     ══════════════════════════════════════════ -->
+<section id="about" class="bg-surface">
+  <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label">Let's Build</div>
-    <h2>Ready to enter the<br>decentralized era?</h2>
-    <p class="section-desc">
-      Book a free 30-minute consultation. We'll assess your business, identify Web 3.0 opportunities, and map out a custom roadmap.
+    <div class="section-label reveal reveal-up">About</div>
+    <h2 class="reveal reveal-up">We help businesses move<br>onto the decentralized web</h2>
+    <p class="section-desc reveal reveal-up">
+      Aurora Pathways exists because most Web3 agencies talk a big game and deliver slide decks. We build things that work — websites, smart contracts, payment systems — and we make sure you understand what you're getting.
     </p>
-    <form name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:32px auto 0;text-align:left;">
+    <p style="color:var(--text2);max-width:600px;line-height:1.7;" class="reveal reveal-up">
+      We're small. We're focused. We don't take projects we can't nail. If your business is ready to operate on the next version of the internet — not just hear about it — we should talk.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CAPABILITIES — What we've actually built
+     ══════════════════════════════════════════ -->
+<section id="capabilities">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">Capabilities</div>
+    <h2 class="reveal reveal-up">What we've shipped.<br>Not what we promise.</h2>
+    <p class="section-desc reveal reveal-up">Real code, real contracts, real test coverage. Here's what's running right now.</p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
+        <h3>Smart Contract Suite</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          Four protocol suites — ERC-20 token, payment splitter, linear vesting, and DAO governance. 315 tests. Zero failures. Built with Foundry, deployed on Polygon and Base.
+        </p>
+        <div style="margin-top:16px;">
+          <a href="https://github.com/aurora-pathways" style="color:var(--accent2);font-size:0.88rem;font-weight:600;">View contracts →</a>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
+        <div style="font-size:2rem;margin-bottom:12px;">🌐</div>
+        <h3>Decentralized Deployment</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          Five live sites across .xyz (Netlify) and .blockchain (IPFS). Every protocol has a dual presence — traditional DNS for everyone, IPFS for the decentralized web.
+        </p>
+        <div style="margin-top:16px;">
+          <a href="#portfolio" style="color:var(--accent2);font-size:0.88rem;font-weight:600;">See portfolio →</a>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
+        <div style="font-size:2rem;margin-bottom:12px;">🤖</div>
+        <h3>Autonomous Pipeline</h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          Harvey-Dev — our AI agent pipeline — builds, tests, and ships smart contracts autonomously. Daily runs. Task queue. Contracts go from spec to passing tests without human touch.
+        </p>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:40px;color:var(--text2);font-size:0.95rem;max-width:560px;margin-left:auto;margin-right:auto;" class="reveal reveal-up">
+      No fake testimonials here. When we have clients, you'll hear from them. Until then, the code speaks. <a href="#contact" style="color:var(--accent2);font-weight:600;">Be the first →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FAQ
+     ══════════════════════════════════════════ -->
+<section id="faq" class="bg-surface">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">FAQ</div>
+    <h2 class="reveal reveal-up">Questions we get a lot</h2>
+    <p class="section-desc reveal reveal-up">Straight answers. No whitepaper-speak.</p>
+    <div style="max-width:720px;margin-top:32px;">
+      <details class="faq-item reveal reveal-up">
+        <summary class="faq-question">Do I need to understand crypto to work with you?</summary>
+        <div class="faq-answer"><p>No. We handle all the technical parts. You tell us what your business needs, we build it. We'll explain what matters for your workflow — you don't need to know what a Merkle tree is.</p></div>
+      </details>
+      <details class="faq-item reveal reveal-up">
+        <summary class="faq-question">How long does a typical project take?</summary>
+        <div class="faq-answer"><p>Most projects ship in 2–4 weeks. Basic decentralized websites can go live in under a week. Full dApp ecosystems with smart contracts take longer — we'll give you a clear timeline after the discovery call.</p></div>
+      </details>
+      <details class="faq-item reveal reveal-up">
+        <summary class="faq-question">Is my data actually safe on a blockchain?</summary>
+        <div class="faq-answer"><p>Different from "safe in a database." Your data is replicated across thousands of nodes — no single point of failure. No company can lose it, delete it, or sell it. For sensitive data, we use encryption and IPFS with access controls. You hold the keys.</p></div>
+      </details>
+      <details class="faq-item reveal reveal-up">
+        <summary class="faq-question">What if I change my mind about Web3 later?</summary>
+        <div class="faq-answer"><p>Your site also lives on a regular .xyz domain — customers can access it through any normal browser. The Web3 layer adds capabilities, it doesn't replace the basics. You're not locked into anything.</p></div>
+      </details>
+      <details class="faq-item reveal reveal-up">
+        <summary class="faq-question">Why Polygon and Base instead of Ethereum?</summary>
+        <div class="faq-answer"><p>Ethereum mainnet costs $5–50+ per transaction. Polygon and Base cost under a penny. Same security model, same tools, fraction of the price. For business use, it's not even close.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CONTACT
+     ══════════════════════════════════════════ -->
+<section id="contact" class="contact-section">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">Let's Build</div>
+    <h2 class="reveal reveal-up">Ready to go decentralized?</h2>
+    <p class="section-desc reveal reveal-up">
+      Book a free 30-minute call. We'll look at your business, find the Web3 plays that make sense, and give you a clear roadmap.
+    </p>
+    <form name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:32px auto 0;text-align:left;" class="reveal reveal-scale">
       <input type="hidden" name="form-name" value="consultation">
       <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
       <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Name</label>
-        <input type="text" name="name" required style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;">Name</label>
+        <input type="text" name="name" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
       </div>
       <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Email</label>
-        <input type="email" name="email" required style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;">Email</label>
+        <input type="email" name="email" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
       </div>
       <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">What do you need help with?</label>
-        <select name="service" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;">
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;">What do you need help with?</label>
+        <select name="service" style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;">
           <option>Decentralized Website</option>
           <option>Smart Contracts / NFTs</option>
           <option>Crypto Payment Integration</option>
@@ -691,148 +1873,448 @@
         </select>
       </div>
       <div style="margin-bottom:20px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.9rem;">Tell us about your project</label>
-        <textarea name="message" rows="3" style="width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:inherit;font-size:1rem;resize:vertical;"></textarea>
+        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;">Tell us about your project</label>
+        <textarea name="message" rows="3" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;resize:vertical;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'"></textarea>
       </div>
       <button type="submit" class="btn-primary" style="font-size:1.1rem;padding:16px 48px;width:100%;border:none;cursor:pointer;">Send →</button>
-      <p style="text-align:center;color:var(--text2);font-size:0.8rem;margin-top:12px;">Or reach us directly at <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a></p>
+      <p style="text-align:center;color:var(--text2);font-size:0.82rem;margin-top:14px;">Or email us directly at <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a></p>
     </form>
   </div>
 </section>
 
-<!-- Portfolio -->
-<section id="portfolio" style="padding: 80px 0;">
-  <div class="container">
-    <div class="section-label">Our Work</div>
-    <h2>Web 3.0 projects that deliver results</h2>
-    <p class="section-desc">
-      Every business deserves a digital presence that's built for the next decade — not the last one.
-    </p>
-    <div class="pricing-grid" style="margin-top:40px;">
-      <div class="pricing-card">
-        <h4>🏠 Decentralized Real Estate</h4>
-        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">A boutique Austin brokerage wanted to accept crypto for earnest money and offer NFT-gated early access to hot listings.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Crypto Payments</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Gating</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">IPFS Hosted</span>
-        </div>
-      </div>
-      <div class="pricing-card">
-        <h4>🎨 Art Gallery NFT Marketplace</h4>
-        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">An East Austin art collective needed a way to sell digital editions and manage a token-gated patron membership program.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Minting</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">DAO Membership</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Royalty Splits</span>
-        </div>
-      </div>
-      <div class="pricing-card">
-        <h4>🎵 Independent Record Label</h4>
-        <p style="color:var(--text2);margin:12px 0;font-size:0.9rem;">An indie label wanted transparent royalty payouts via smart contracts and limited-edition NFT music releases.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">Smart Contracts</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;font-size:0.8rem;color:var(--accent2);">NFT Music</span>
-          <span style="background:var(--glass);padding:4px 10px;border-radius:4px;color:var(--accent2);font-size:0.8rem;">Auto Royalties</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Web3 Footer -->
+<!-- ══════════════════════════════════════════
+     CALENDLY
+     ══════════════════════════════════════════ -->
 <section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
   <div class="container">
-    <div style="text-align: center; margin-bottom: 32px;">
-      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">📅 Book a Call Instantly</h3>
-      <p style="color: var(--text2); font-size: 0.95rem; margin-bottom: 24px;">
-        Pick a time that works — no back-and-forth email.
+    <div style="text-align: center; margin-bottom: 32px;" class="reveal reveal-up">
+      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">📅 Book with Prince</h3>
+      <p style="color: var(--text2); font-size: 0.93rem; margin-bottom: 28px;">
+        Founder & Lead Developer — pick a slot that works. No email tag.
       </p>
       <div class="calendly-inline-widget" data-url="https://calendly.com/prinsog/30min" style="min-width:320px;height:630px;max-width:600px;margin:0 auto;"></div>
     </div>
   </div>
 </section>
 
-<!-- Testimonials -->
-<section id="testimonials" style="padding: 80px 0; background: var(--surface);">
-  <div class="container">
-    <div class="section-label">Trusted By</div>
-    <h2>What our clients say</h2>
-    <p class="section-desc">Real results from businesses that made the leap into Web 3.0</p>
-    <div class="pricing-grid" style="margin-top:40px;">
-      <div class="pricing-card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:12px;">🏠</div>
-        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"Aurora Pathways transformed our brokerage. We now close deals in crypto — clients love the speed and transparency."</p>
-        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Austin Real Estate Firm</p>
-      </div>
-      <div class="pricing-card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:12px;">🎨</div>
-        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"We went from zero online sales to a thriving NFT marketplace. Our artists are earning royalties they never had before."</p>
-        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Art Collective Director</p>
-      </div>
-      <div class="pricing-card" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:12px;">🎵</div>
-        <p style="font-style:italic;color:var(--text);font-size:0.95rem;">"Smart-contract royalty splits changed everything. Our artists get paid the moment a track sells — no waiting, no disputes."</p>
-        <p style="color:var(--accent2);margin-top:12px;font-weight:600;">— Independent Record Label</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Blog -->
-<section id="blog" style="padding: 80px 0;">
-  <div class="container">
-    <div class="section-label">Insights</div>
-    <h2>Web 3.0 knowledge, explained</h2>
-    <p class="section-desc">No jargon. No hype. Just actionable insights for business owners.</p>
-    <div class="services-grid" style="margin-top:40px;">
-      <div class="service-card" style="cursor:pointer;">
-        <div class="service-icon">📖</div>
-        <h3>Why Your Business Needs a Web 3.0 Website in 2026</h3>
-        <p>The internet is changing. Here's what that means for your bottom line — and why waiting costs more than acting.</p>
-        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
-      </div>
-      <div class="service-card" style="cursor:pointer;">
-        <div class="service-icon">💰</div>
-        <h3>Crypto Payments: A Practical Guide for Small Business</h3>
-        <p>Accepting crypto isn't just for tech companies. Here's how any business can start — safely and simply.</p>
-        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
-      </div>
-      <div class="service-card" style="cursor:pointer;">
-        <div class="service-icon">🔗</div>
-        <h3>NFTs Aren't Just Art — 5 Business Applications That Work</h3>
-        <p>Loyalty programs, membership cards, authenticity certificates — NFTs solve real business problems today.</p>
-        <a href="#" style="color:var(--accent2);font-size:0.9rem;margin-top:8px;display:inline-block;">Read more →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Web3 Footer -->
+<!-- ══════════════════════════════════════════
+     FIND US ANYWHERE
+     ══════════════════════════════════════════ -->
 <section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
   <div class="container">
-    <div style="text-align: center; margin-bottom: 32px;">
-      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">🌐 Find Us Anywhere</h3>
-      <p style="color: var(--text2); font-size: 0.95rem;">
-        Web3: <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--accent2);">aurorapathways.blockchain</code>
+    <div style="text-align: center;">
+      <h3 style="font-size: 1.3rem; margin-bottom: 12px;">🌐 Find Us Anywhere</h3>
+      <p style="color: var(--text2); font-size: 0.93rem;">
+        Web3: <code style="background:var(--surface2);padding:5px 14px;border-radius:8px;color:var(--accent2);font-size:0.9rem;">aurorapathways.blockchain</code>
         &nbsp;|&nbsp;
-        Web: <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--accent2);">aurorapathways.xyz</code>
+        Web: <code style="background:var(--surface2);padding:5px 14px;border-radius:8px;color:var(--accent2);font-size:0.9rem;">aurorapathways.xyz</code>
         &nbsp;|&nbsp;
-        <code style="background:var(--glass);padding:4px 12px;border-radius:6px;color:var(--text2);">aurorapathways.pw</code>
+        <code style="background:var(--surface2);padding:5px 14px;border-radius:8px;color:var(--text3);font-size:0.9rem;">aurorapathways.pw</code>
       </p>
-      <p style="color: var(--text2); font-size: 0.85rem; margin-top: 8px;">
-        Send crypto directly to <code style="background:var(--glass);padding:2px 8px;border-radius:4px;color:var(--accent2);">aurorapathways.blockchain</code>
+      <p style="color: var(--text2); font-size: 0.84rem; margin-top: 10px;">
+        💰 Pay invoices: USDC/USDT/DAI on Polygon & Base — <a href="#crypto-payments" style="color:var(--accent2);">contract addresses above</a>
       </p>
     </div>
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════
+     TRUST BAR — Real metrics, not fake logos
+     ══════════════════════════════════════════ -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">2</div>
+        <div class="stat-label">Blockchains deployed on<br>(Polygon + Base)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">4</div>
+        <div class="stat-label">Live protocol domains<br>(.xyz + .blockchain)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">174</div>
+        <div class="stat-label">Smart contract tests<br>passing across 6 suites</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">12</div>
+        <div class="stat-label">Industries with<br>live portfolio demos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BLOG PREVIEW
+     ══════════════════════════════════════════ -->
+<section id="blog" style="padding: 90px 0;">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">Insights</div>
+    <h2 class="reveal reveal-up">Web3 explained,<br>no jargon</h2>
+    <p class="section-desc reveal reveal-up">Articles that actually help. No hype cycles.</p>
+    <div class="services-grid" style="margin-top:40px;">
+      <a href="blog/web3-website-2026.html" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;">
+          <div class="service-icon">🌐</div>
+          <h3>Why Your Business Needs a Web3 Website in 2026</h3>
+          <p>The internet is shifting. Here's what that means for your business — and how to get ahead of it.</p>
+          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
+        </div>
+      </a>
+      <a href="blog/crypto-payments-guide.html" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;transition-delay:0.1s;">
+          <div class="service-icon">💰</div>
+          <h3>Crypto Payments: A Practical Guide for Small Business</h3>
+          <p>Accepting crypto doesn't require a computer science degree. Here's how to start — safely and simply.</p>
+          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
+        </div>
+      </a>
+      <a href="blog/nft-business-applications.html" style="text-decoration:none;color:inherit">
+        <div class="service-card reveal reveal-up" style="cursor:pointer;transition-delay:0.2s;">
+          <div class="service-icon">🔗</div>
+          <h3>NFTs Aren't Just Art — 5 Ways They Actually Work for Business</h3>
+          <p>Loyalty programs, membership cards, authenticity certificates. NFTs solve real problems, today.</p>
+          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:48px;padding:44px;background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);" class="reveal reveal-scale">
+      <div style="font-size:2.2rem;margin-bottom:14px;">🧪</div>
+      <h3 style="font-size:1.25rem;margin-bottom:8px;">Not sure where to start?</h3>
+      <p style="color:var(--text2);margin-bottom:24px;font-size:1rem;">Take our free Web3 Readiness Quiz and get a custom assessment for your business.</p>
+      <a href="tools/web3-quiz.html" class="btn-primary">Take the Quiz →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════ -->
 <footer>
   <div class="container">
-    <p>Aurora Pathways Empowerment & Insight Solutions &copy; 2026. All rights reserved.</p>
+    <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:32px;text-align:left;margin-bottom:32px;">
+      <div>
+        <div style="font-size:1.2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;">Aurora Pathways</div>
+        <p style="color:var(--text2);font-size:0.88rem;max-width:280px;line-height:1.6;">Web3 consulting that ships. Smart contracts, decentralized websites, and crypto payment infrastructure.</p>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:10px;font-size:0.9rem;">Navigate</p>
+        <p><a href="#services" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">Services</a></p>
+        <p><a href="#portfolio" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">Portfolio</a></p>
+        <p><a href="#pricing" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">Pricing</a></p>
+        <p><a href="#faq" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">FAQ</a></p>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:10px;font-size:0.9rem;">Connect</p>
+        <p><a href="mailto:hello@aurorapathways.xyz" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">hello@aurorapathways.xyz</a></p>
+        <p><a href="/pitch-deck.html" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">Pitch Deck</a></p>
+        <p><a href="https://github.com/aurora-pathways" style="color:var(--text2);text-decoration:none;font-size:0.85rem;" target="_blank">GitHub</a></p>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:10px;font-size:0.9rem;">Domains</p>
+        <p style="color:var(--text2);font-size:0.85rem;">aurorapathways.xyz</p>
+        <p style="color:var(--text2);font-size:0.85rem;">aurorapathways.blockchain</p>
+        <p style="color:var(--text2);font-size:0.85rem;">aurorapathways.pw</p>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--glass-border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <p style="font-size:0.82rem;">Aurora Pathways &copy; 2026. All rights reserved.</p>
+      <p style="font-size:0.82rem;">Built on Polygon & Base</p>
+    </div>
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════ -->
 <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<script>
+// ── Page Loader ────────────────────────────
+window.addEventListener('load', () => {
+  document.querySelector('.page-loader').classList.add('hidden');
+  document.body.classList.remove('loading');
+  setTimeout(() => {
+    const loader = document.querySelector('.page-loader');
+    if (loader) loader.remove();
+  }, 500);
+});
+
+// ── Cursor Glow ────────────────────────────
+const cursorGlow = document.getElementById('cursorGlow');
+let mouseX = 0, mouseY = 0;
+let glowX = 0, glowY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animateGlow() {
+  glowX += (mouseX - glowX) * 0.08;
+  glowY += (mouseY - glowY) * 0.08;
+  cursorGlow.style.left = glowX + 'px';
+  cursorGlow.style.top = glowY + 'px';
+  requestAnimationFrame(animateGlow);
+}
+animateGlow();
+
+// ── Aurora Parallax ────────────────────────
+const auroraBg = document.getElementById('auroraBg');
+document.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  auroraBg.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// ── Navbar scroll effect ───────────────────
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── Scroll reveal observer ─────────────────
+const observerOptions = {
+  threshold: 0.12,
+  rootMargin: '0px 0px -40px 0px'
+};
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── Stat counter animation ─────────────────
+function animateCounter(el) {
+  const target = parseInt(el.getAttribute('data-target'));
+  const duration = 2000;
+  const start = performance.now();
+  function updateCounter(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(updateCounter);
+  }
+  requestAnimationFrame(updateCounter);
+}
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+// ── Also trigger counters when reveal parent becomes visible ──
+document.querySelectorAll('.reveal').forEach(el => {
+  const counters = el.querySelectorAll('.counter');
+  if (counters.length > 0) {
+    const ro = new MutationObserver(() => {
+      if (el.classList.contains('visible')) {
+        counters.forEach(c => animateCounter(c));
+        ro.disconnect();
+      }
+    });
+    ro.observe(el, { attributes: true, attributeFilter: ['class'] });
+  }
+});
+
+// ── Live test counter (polls test-count.json) ──
+async function pollTestCount() {
+  try {
+    const r = await fetch('/test-count.json?t=' + Date.now());
+    const d = await r.json();
+    const counter = document.querySelector('.counter[data-target]');
+    if (counter && d.tests !== parseInt(counter.getAttribute('data-target'))) {
+      counter.setAttribute('data-target', d.tests);
+      counter.textContent = '0';
+      // Re-trigger count animation
+      const target = d.tests;
+      const duration = 1500;
+      const start = performance.now();
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = Math.floor(eased * target);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+  } catch(e) { /* endpoint not yet deployed, will retry */ }
+}
+setInterval(pollTestCount, 30000);
+pollTestCount();
+// ── Hamburger Menu ─────────────────────────
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+function closeMobileMenu() {
+  hamburgerBtn.classList.remove('active');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburgerBtn.addEventListener('click', () => {
+  hamburgerBtn.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+async function fetchPrices() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,solana,polygon-ecosystem-token,usd-coin&vs_currencies=usd&include_24hr_change=true');
+    const d = await r.json();
+    const set = (id, price, change) => {
+      const el = document.getElementById(id); if (el) el.textContent = '$' + price.toLocaleString();
+      const cEl = document.getElementById(id.replace('Price','Change'));
+      if (cEl && change !== undefined) {
+        cEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(1) + '%';
+        cEl.className = 'change ' + (change >= 0 ? 'up' : 'down');
+      }
+    };
+    set('ethPrice', d.ethereum.usd, d.ethereum.usd_24h_change);
+    set('btcPrice', d.bitcoin.usd, d.bitcoin.usd_24h_change);
+    set('solPrice', d.solana.usd, d.solana.usd_24h_change);
+    if (d['polygon-ecosystem-token']) set('maticPrice', d['polygon-ecosystem-token'].usd, d['polygon-ecosystem-token'].usd_24h_change);
+    else { const el = document.getElementById('maticPrice'); if (el) el.textContent = '$0.08'; }
+    if (d['usd-coin']) set('usdcPrice', d['usd-coin'].usd, d['usd-coin'].usd_24h_change);
+    else { const el = document.getElementById('usdcPrice'); if (el) el.textContent = '$1.00'; }
+    set('ethPrice2', d.ethereum.usd, d.ethereum.usd_24h_change);
+    set('btcPrice2', d.bitcoin.usd, d.bitcoin.usd_24h_change);
+    set('solPrice2', d.solana.usd, d.solana.usd_24h_change);
+    if (d['polygon-ecosystem-token']) set('maticPrice2', d['polygon-ecosystem-token'].usd, d['polygon-ecosystem-token'].usd_24h_change);
+    else { const el = document.getElementById('maticPrice2'); if (el) el.textContent = '$0.08'; }
+    if (d['usd-coin']) set('usdcPrice2', d['usd-coin'].usd, d['usd-coin'].usd_24h_change);
+    else { const el = document.getElementById('usdcPrice2'); if (el) el.textContent = '$1.00'; }
+  } catch(e) { /* retry on next interval */ }
+}
+fetchPrices();
+setInterval(fetchPrices, 60000);
+</script>
+
+<!-- Chat Widget -->
+<button class="chat-toggle" id="chatToggle" aria-label="Chat">
+  <span class="chat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+  <span class="close-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-dot"></div>
+    <div class="chat-header-text">
+      <h4>Aurora Pathways AI</h4>
+      <p>Ask me about Web3, our services, or anything else</p>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">Hey! 👋 I'm the Aurora Pathways assistant. I can answer questions about Web3 technology, our services, pricing, or how blockchain could help your business. What would you like to know?</div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">What is Web3?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">How much does it cost?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">What chains do you build on?</button>
+    <button class="chat-suggestion" onclick="sendSuggestion(this)">Can you explain smart contracts?</button>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask a question..." autocomplete="off">
+    <button class="chat-send" id="chatSend" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+// ── Chat Widget ────────────────────────────
+const chatToggle = document.getElementById('chatToggle');
+const chatWindow = document.getElementById('chatWindow');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+const chatSuggestions = document.getElementById('chatSuggestions');
+let chatHistory = [];
+let isTyping = false;
+
+chatToggle.addEventListener('click', () => {
+  chatToggle.classList.toggle('active');
+  chatWindow.classList.toggle('open');
+  if (chatWindow.classList.contains('open')) {
+    chatInput.focus();
+  }
+});
+
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+function sendSuggestion(btn) {
+  chatInput.value = btn.textContent;
+  chatSuggestions.style.display = 'none';
+  sendMessage();
+}
+
+async function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text || isTyping) return;
+
+  // Add user message
+  addMessage(text, 'user');
+  chatHistory.push({ role: 'user', content: text });
+  chatInput.value = '';
+  chatSuggestions.style.display = 'none';
+  chatSend.disabled = true;
+
+  // Show typing indicator
+  isTyping = true;
+  const typingEl = addMessage('Thinking...', 'typing');
+
+  try {
+    const response = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatHistory })
+    });
+
+    const data = await response.json();
+
+    // Remove typing indicator
+    typingEl.remove();
+    isTyping = false;
+
+    if (data.reply) {
+      addMessage(data.reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: data.reply });
+    } else {
+      addMessage('Sorry, I had trouble processing that. Please try again.', 'bot');
+    }
+  } catch (err) {
+    typingEl.remove();
+    isTyping = false;
+    addMessage('Connection issue — please try again in a moment.', 'bot');
+  }
+
+  chatSend.disabled = false;
+  chatInput.focus();
+}
+
+function addMessage(text, type) {
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + type;
+  div.textContent = text;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return div;
+}
+</script>
+
 </body>
 </html>

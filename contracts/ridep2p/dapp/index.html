@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RideP2P — Decentralized Ride Sharing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--card:#12121a;--card2:#1a1a26;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--text:#e0e0e8;--text2:#8888a0;--border:#2a2a3a;--radius:12px}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;display:flex;flex-direction:column}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:inherit;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:8px;font-size:.95rem;width:100%;transition:border-color .25s ease,box-shadow .25s ease}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,252,.15);outline:none}
+
+/* Navbar */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:8px}
+.logo{font-weight:800;font-size:1.2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.nav-tabs{display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tabs button{background:none;color:var(--text2);padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:500;transition:color .2s,background .2s;white-space:nowrap;flex-shrink:0}
+.nav-tabs button:hover,.nav-tabs button.active{color:var(--text);background:var(--card)}
+.wallet-area{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.wallet-btn{background:linear-gradient(135deg,var(--accent),#6a4cdc);color:#fff;padding:8px 20px;border-radius:8px;font-weight:600;font-size:.85rem;transition:transform .2s,box-shadow .2s,opacity .2s;white-space:nowrap;position:relative;display:inline-flex;align-items:center;gap:6px}
+.wallet-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,92,252,.3)}
+.wallet-btn.connected{background:linear-gradient(135deg,var(--accent2),#3a9d8e)}
+.wallet-btn .spinner{border-top-color:#fff}
+.copy-btn{background:var(--card2);border:1px solid var(--border);color:var(--text2);width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;transition:color .2s,border-color .2s,transform .2s;flex-shrink:0}
+.copy-btn:hover{color:var(--accent2);border-color:var(--accent2);transform:scale(1.08)}
+.copy-btn:active{transform:scale(.95)}
+
+/* Layout */
+.container{max-width:1200px;margin:0 auto;padding:24px;flex:1}
+.page{display:none;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:16px}
+.page-sub{color:var(--text2);margin-bottom:24px;font-size:.95rem}
+
+/* Grid */
+.ride-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.ride-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease;cursor:pointer;position:relative}
+.ride-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.1)}
+.ride-route{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:600;font-size:1.05rem}
+.ride-route .arrow{color:var(--accent)}
+.ride-meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.ride-meta span{font-size:.82rem;color:var(--text2);display:flex;align-items:center;gap:4px}
+.ride-meta span .icon{font-size:1rem}
+.ride-price{font-size:1.2rem;font-weight:700;color:var(--accent2)}
+.ride-driver{font-size:.82rem;color:var(--text2);margin-top:8px}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:600;text-transform:uppercase;transition:opacity .2s}
+.badge-open{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-full{background:rgba(255,107,157,.15);color:var(--accent3)}
+.badge-completed{background:rgba(136,136,160,.15);color:var(--text2)}
+.badge-cancelled{background:rgba(255,80,80,.15);color:#ff5050}
+.badge-disputed{background:rgba(255,180,0,.15);color:#ffb400}
+.badge-driver{background:rgba(124,92,252,.15);color:var(--accent)}
+.badge-rider{background:rgba(78,201,176,.15);color:var(--accent2)}
+
+/* Detail modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .25s ease}
+.modal-overlay.hidden{display:none;opacity:0}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal h2{margin-bottom:16px}
+.modal .field{margin-bottom:12px}
+.modal .field label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.modal .field .value{font-size:1rem;font-weight:500;word-break:break-all}
+.modal-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.btn{padding:10px 20px;border-radius:8px;font-weight:600;font-size:.9rem;transition:transform .2s,box-shadow .2s,opacity .2s;position:relative;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6a4cdc);color:#fff}
+.btn-danger{background:linear-gradient(135deg,var(--accent3),#d44);color:#fff}
+.btn-success{background:linear-gradient(135deg,var(--accent2),#3a9d8e);color:#fff}
+.btn-outline{background:none;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.close-btn{position:absolute;top:12px;right:16px;background:none;color:var(--text2);font-size:1.4rem;line-height:1;transition:color .2s}
+.close-btn:hover{color:var(--text)}
+
+/* Post ride form */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:560px;transition:border-color .25s}
+.form-card:focus-within{border-color:rgba(124,92,252,.3)}
+.form-row{margin-bottom:16px}
+.form-row label{display:block;font-size:.82rem;color:var(--text2);margin-bottom:6px;font-weight:500}
+.form-row .hint{font-size:.75rem;color:var(--text2);margin-top:4px}
+
+/* Tabs within my rides */
+.my-tabs{display:flex;gap:4px;margin-bottom:20px}
+.my-tabs button{background:var(--card);color:var(--text2);padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:500;border:1px solid var(--border);transition:color .2s,border-color .2s,background .2s}
+.my-tabs button.active{color:var(--text);border-color:var(--accent);background:rgba(124,92,252,.1)}
+
+/* Toast */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:300;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 20px;font-size:.85rem;min-width:280px;max-width:380px;animation:toastIn .35s cubic-bezier(.21,1.02,.73,1);pointer-events:auto;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast.exiting{animation:toastOut .3s ease forwards}
+.toast .toast-icon{font-size:1.1rem;flex-shrink:0}
+.toast .toast-body{flex:1;line-height:1.4}
+.toast .toast-close{background:none;color:var(--text2);font-size:1rem;padding:0 0 0 8px;flex-shrink:0;transition:color .2s}
+.toast .toast-close:hover{color:var(--text)}
+.toast .toast-progress{position:absolute;bottom:0;left:0;height:2px;border-radius:0 0 10px 10px;animation:toastProgress 5s linear forwards}
+.toast.success{border-color:var(--accent2)}.toast.success .toast-progress{background:var(--accent2)}
+.toast.error{border-color:var(--accent3)}.toast.error .toast-progress{background:var(--accent3)}
+.toast.info{border-color:var(--accent)}.toast.info .toast-progress{background:var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.95)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
+@keyframes toastProgress{from{width:100%}to{width:0%}}
+
+/* Loading */
+.spinner{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+.spinner-sm{width:14px;height:14px;border-width:2px}
+.spinner-light{border-color:rgba(255,255,255,.3);border-top-color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent));background-size:200%;border-radius:2px;animation:shimmer 1.5s infinite;margin-bottom:20px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Loading overlay for page */
+.page-loading{display:flex;align-items:center;justify-content:center;padding:60px 20px;gap:10px;color:var(--text2);font-size:.9rem}
+
+/* Empty state */
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty .icon{font-size:3rem;margin-bottom:12px}
+
+/* USDC page */
+.usdc-info{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;transition:border-color .25s,transform .25s}
+.usdc-info:hover{border-color:rgba(124,92,252,.3)}
+.usdc-info h3{color:var(--accent2);margin-bottom:8px}
+.usdc-info p{color:var(--text2);font-size:.9rem;margin-bottom:8px}
+.usdc-info code{background:var(--bg);padding:2px 8px;border-radius:4px;font-size:.82rem;color:var(--accent);word-break:break-all}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.82rem;margin-right:8px;flex-shrink:0}
+
+/* Stars */
+.stars{display:inline-flex;gap:2px}
+.stars .star{color:var(--text2);font-size:.9rem;transition:color .15s}
+.stars .star.filled{color:#fbbf24}
+
+/* MetaMask error modal */
+.mm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px}
+.mm-overlay.hidden{display:none}
+.mm-modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;max-width:420px;width:100%;text-align:center;animation:modalIn .3s ease}
+.mm-modal .mm-icon{font-size:3.5rem;margin-bottom:16px;display:block}
+.mm-modal h2{margin-bottom:8px;font-size:1.3rem}
+.mm-modal p{color:var(--text2);font-size:.9rem;margin-bottom:20px;line-height:1.6}
+.mm-modal .mm-btns{display:flex;flex-direction:column;gap:8px}
+.mm-modal .mm-btns .btn{justify-content:center;width:100%}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:20px 24px;text-align:center;margin-top:auto}
+footer p{font-size:.82rem;color:var(--text2)}
+footer a{color:var(--accent);font-weight:600;transition:color .2s}
+footer a:hover{color:var(--accent2)}
+
+/* Responsive */
+@media(max-width:640px){
+  nav{padding:0 12px}
+  .nav-inner{height:auto;flex-wrap:wrap;padding:8px 0;gap:8px}
+  .nav-tabs{gap:0;order:3;width:100%;justify-content:center}
+  .nav-tabs button{padding:6px 10px;font-size:.78rem}
+  .wallet-area{order:2}
+  .wallet-btn{padding:6px 14px;font-size:.78rem}
+  .ride-grid{grid-template-columns:1fr}
+  .container{padding:16px}
+  h1{font-size:1.4rem}
+  .modal{padding:20px;margin:8px}
+  .toast-container{right:12px;left:12px;bottom:16px}
+  .toast{min-width:auto;width:100%}
+}
+
+@media(max-width:375px){
+  nav{padding:0 8px}
+  .nav-inner{gap:6px}
+  .logo{font-size:1rem}
+  .nav-tabs button{padding:5px 7px;font-size:.72rem}
+  .wallet-btn{padding:5px 10px;font-size:.72rem}
+  .wallet-btn .addr-text{display:none}
+  .container{padding:12px}
+  h1{font-size:1.2rem}
+  .page-sub{font-size:.85rem}
+  .ride-card{padding:16px}
+  .ride-route{font-size:.95rem}
+  .ride-price{font-size:1.05rem}
+  .ride-meta{gap:8px}
+  .ride-meta span{font-size:.78rem}
+  .form-card{padding:16px}
+  .modal{padding:16px;max-height:85vh}
+  .modal h2{font-size:1.1rem}
+  .modal .field .value{font-size:.9rem}
+  .modal-actions{gap:6px}
+  .modal-actions .btn{padding:8px 14px;font-size:.82rem}
+  .usdc-info{padding:16px}
+  .usdc-info h3{font-size:.95rem}
+  .usdc-info p{font-size:.82rem}
+  .usdc-info code{font-size:.75rem;word-break:break-all}
+  .toast-container{right:8px;left:8px;bottom:12px}
+  .toast{min-width:auto;padding:10px 14px;font-size:.8rem}
+  .copy-btn{width:26px;height:26px;font-size:.7rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="logo">RideP2P</div>
+    <div class="nav-tabs">
+      <button class="active" onclick="showPage('browse')">Browse</button>
+      <button onclick="showPage('myrides')">My Rides</button>
+      <button onclick="showPage('post')">Post Ride</button>
+      <button onclick="showPage('usdc')">Get USDC</button>
+    </div>
+    <div class="wallet-area">
+      <button class="wallet-btn" id="walletBtn" onclick="connectWallet()"><span>Connect Wallet</span></button>
+      <button class="copy-btn" id="copyAddrBtn" onclick="copyAddress()" title="Copy address" style="display:none">📋</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Browse -->
+  <div class="page active" id="page-browse">
+    <h1>Find a Ride</h1>
+    <p class="page-sub">Browse available rides on Polygon. Pay with USDC, fully on-chain.</p>
+    <div class="loading-bar" id="browseLoading"></div>
+    <div class="ride-grid" id="rideGrid"></div>
+    <div class="empty" id="browseEmpty" style="display:none">
+      <div class="icon">🚗</div>
+      <p>No rides available yet. Be the first to post one!</p>
+    </div>
+  </div>
+
+  <!-- My Rides -->
+  <div class="page" id="page-myrides">
+    <h1>My Rides</h1>
+    <p class="page-sub">Manage your posted and booked rides.</p>
+    <div class="my-tabs">
+      <button class="active" onclick="showMyTab('booked')">Booked</button>
+      <button onclick="showMyTab('posted')">Posted</button>
+    </div>
+    <div id="myBookedGrid" class="ride-grid"></div>
+    <div id="myPostedGrid" class="ride-grid"></div>
+    <div class="empty" id="myEmpty" style="display:none">
+      <div class="icon">📋</div>
+      <p>No rides to show. Connect your wallet to see your rides.</p>
+    </div>
+  </div>
+
+  <!-- Post Ride -->
+  <div class="page" id="page-post">
+    <h1>Post a Ride</h1>
+    <p class="page-sub">Offer seats to riders. You'll receive USDC when the ride is completed.</p>
+    <div class="form-card">
+      <div class="form-row">
+        <label>Origin</label>
+        <input type="text" id="postOrigin" placeholder="e.g. New York, NY">
+      </div>
+      <div class="form-row">
+        <label>Destination</label>
+        <input type="text" id="postDest" placeholder="e.g. Boston, MA">
+      </div>
+      <div class="form-row">
+        <label>Departure Time</label>
+        <input type="datetime-local" id="postDeparture">
+      </div>
+      <div class="form-row">
+        <label>Price per Seat (USDC)</label>
+        <input type="number" id="postPrice" placeholder="15.00" min="0" step="0.01">
+      </div>
+      <div class="form-row">
+        <label>Available Seats</label>
+        <input type="number" id="postSeats" placeholder="3" min="1" max="20">
+      </div>
+      <button class="btn btn-primary" id="postBtn" onclick="postRide()" style="width:100%;margin-top:8px;justify-content:center">Create Ride</button>
+      <p class="hint" style="margin-top:12px;font-size:.78rem;color:var(--text2)">You must be a verified driver to post rides. Contact the admin to get verified.</p>
+    </div>
+  </div>
+
+  <!-- Get USDC -->
+  <div class="page" id="page-usdc">
+    <h1>Get USDC on Polygon</h1>
+    <p class="page-sub">You need USDC on Polygon to book rides. Here's how to get it.</p>
+
+    <div class="usdc-info">
+      <h3><span class="step-num">1</span> Transfer from an Exchange</h3>
+      <p>Withdraw USDC from Coinbase, Binance, or Kraken directly to your wallet on the <strong>Polygon</strong> network.</p>
+      <p>USDC contract: <code>0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code></p>
+    </div>
+
+    <div class="usdc-info">
+      <h3><span class="step-num">2</span> Bridge from Ethereum</h3>
+      <p>Use the <a href="https://portal.polygon.technology/bridge" target="_blank">Polygon Portal Bridge</a> to bridge USDC from Ethereum to Polygon.</p>
+    </div>
+
+    <div class="usdc-info">
+      <h3><span class="step-num">3</span> Swap MATIC for USDC</h3>
+      <p>If you have MATIC, swap it for USDC on <a href="https://app.uniswap.org" target="_blank">Uniswap</a> or <a href="https://quickswap.exchange" target="_blank">QuickSwap</a>.</p>
+    </div>
+
+    <div class="usdc-info">
+      <h3>Contract Addresses (Polygon Mainnet)</h3>
+      <p>RideP2P: <code>0x53CC770f789CF8Af1489f7aCfdC70AF2C638Dcc8</code></p>
+      <p>USDC: <code>0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code></p>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent">
+    <button class="close-btn" onclick="closeModal()">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- MetaMask not installed modal -->
+<div class="mm-overlay hidden" id="mmOverlay">
+  <div class="mm-modal">
+    <span class="mm-icon">🦊</span>
+    <h2>Wallet Not Found</h2>
+    <p>You need a Web3 wallet like MetaMask to use RideP2P. Install one to connect, sign transactions, and manage your rides on Polygon.</p>
+    <div class="mm-btns">
+      <a class="btn btn-primary" href="https://metamask.io/download/" target="_blank" rel="noopener" style="text-decoration:none">Install MetaMask</a>
+      <button class="btn btn-outline" onclick="closeMMModal()">Maybe Later</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toasts"></div>
+
+<!-- Footer -->
+<footer>
+  <p>Powered by <a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Aurora Pathways</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+const CONTRACT_ADDR = '0x53CC770f789CF8Af1489f7aCfdC70AF2C638Dcc8';
+const USDC_ADDR = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359';
+const CHAIN_ID = '0x89';
+const RPC = 'https://polygon-bor-rpc.publicnode.com';
+
+const CONTRACT_ABI = [
+  "function createRide(string origin, string destination, uint256 departure, uint256 pricePerSeat, uint256 seats) external",
+  "function bookRide(uint256 rideId, uint256 seats) external",
+  "function completeRide(uint256 rideId) external",
+  "function cancelBooking(uint256 rideId) external",
+  "function cancelRide(uint256 rideId) external",
+  "function disputeRide(uint256 rideId) external",
+  "function resolveDispute(uint256 rideId, bool payDriver) external",
+  "function rateRider(uint256 rideId, address rider, uint256 rating) external",
+  "function rateDriver(uint256 rideId, uint256 rating) external",
+  "function verifyDriver(address driver) external",
+  "function getRide(uint256 rideId) external view returns (tuple(uint256 id, address driver, string origin, string destination, uint256 departure, uint256 pricePerSeat, uint256 totalSeats, uint256 bookedSeats, uint256 status, uint256 escrow, uint256 disputeDeadline))",
+  "function rideCount() external view returns (uint256)",
+  "function getDriverRating(address driver) external view returns (uint256 total, uint256 count)",
+  "function isDriverVerified(address driver) external view returns (bool)",
+  "event RideCreated(uint256 indexed rideId, address indexed driver, string origin, string destination, uint256 departure, uint256 pricePerSeat, uint256 totalSeats)",
+  "event RideBooked(uint256 indexed rideId, address indexed rider, uint256 seats, uint256 totalCost)",
+  "event RideCompleted(uint256 indexed rideId)",
+  "event RideCancelled(uint256 indexed rideId)",
+  "event BookingCancelled(uint256 indexed rideId, address indexed rider, uint256 refundAmount)",
+  "event RideDisputed(uint256 indexed rideId, address indexed disputer)",
+  "event DisputeResolved(uint256 indexed rideId, bool payDriver)",
+  "event DriverRated(uint256 indexed rideId, address indexed driver, uint256 rating)",
+  "event RiderRated(uint256 indexed rideId, address indexed rider, uint256 rating)"
+];
+
+const USDC_ABI = [
+  "function approve(address spender, uint256 amount) external returns (bool)",
+  "function allowance(address owner, address spender) external view returns (uint256)",
+  "function balanceOf(address account) external view returns (uint256)",
+  "function decimals() external view returns (uint8)"
+];
+
+// Ride status enum
+const STATUS = {Open:0, Full:1, Completed:2, Cancelled:3, Disputed:4};
+
+let provider, signer, contract, usdc, account, readContract, readProvider;
+let allRides = [];
+
+// --- Init ---
+async function init() {
+  readProvider = new ethers.providers.JsonRpcProvider(RPC);
+  readContract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, readProvider);
+  await loadRides();
+}
+
+// --- Wallet ---
+async function connectWallet() {
+  if (!window.ethereum) {
+    document.getElementById('mmOverlay').classList.remove('hidden');
+    return;
+  }
+  const btn = document.getElementById('walletBtn');
+  const origHTML = btn.innerHTML;
+  try {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner spinner-sm spinner-light"></span><span>Connecting…</span>';
+    await window.ethereum.request({method:'wallet_addEthereumChain',params:[{
+      chainId:CHAIN_ID, chainName:'Polygon Mainnet',
+      nativeCurrency:{name:'MATIC',symbol:'MATIC',decimals:18},
+      rpcUrls:['https://polygon-bor-rpc.publicnode.com'],
+      blockExplorerUrls:['https://polygonscan.com']
+    }]});
+    await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:CHAIN_ID}]});
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    signer = provider.getSigner();
+    account = await signer.getAddress();
+    contract = new ethers.Contract(CONTRACT_ADDR, CONTRACT_ABI, signer);
+    usdc = new ethers.Contract(USDC_ADDR, USDC_ABI, signer);
+    const shortAddr = account.slice(0,6)+'...'+account.slice(-4);
+    btn.innerHTML = '<span class="addr-text">'+shortAddr+'</span>';
+    btn.classList.add('connected');
+    btn.disabled = false;
+    document.getElementById('copyAddrBtn').style.display = 'inline-flex';
+    window.ethereum.on('accountsChanged',()=>window.location.reload());
+    toast('Wallet connected','success');
+    await loadRides();
+  } catch(e) {
+    btn.innerHTML = origHTML;
+    btn.disabled = false;
+    if (e.code === 4001) {
+      toast('Connection rejected by user','error');
+    } else {
+      toast('Connection failed: '+(e.reason||e.message),'error');
+    }
+  }
+}
+
+function closeMMModal() {
+  document.getElementById('mmOverlay').classList.add('hidden');
+}
+
+// --- Copy address ---
+async function copyAddress() {
+  if (!account) return;
+  try {
+    await navigator.clipboard.writeText(account);
+    toast('Address copied to clipboard','success');
+  } catch(e) {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = account;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Address copied to clipboard','success');
+  }
+}
+
+// --- Page nav ---
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if (id==='myrides') loadMyRides();
+}
+
+function showMyTab(id) {
+  document.querySelectorAll('.my-tabs button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('myBookedGrid').style.display = id==='booked'?'grid':'none';
+  document.getElementById('myPostedGrid').style.display = id==='posted'?'grid':'none';
+}
+
+// --- Button loading helpers ---
+function setBtnLoading(btn, loading, text) {
+  if (loading) {
+    btn.disabled = true;
+    btn._origHTML = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner spinner-sm spinner-light"></span><span>'+text+'</span>';
+  } else {
+    btn.disabled = false;
+    if (btn._origHTML !== undefined) btn.innerHTML = btn._origHTML;
+  }
+}
+
+// --- Load rides ---
+async function loadRides() {
+  const grid = document.getElementById('rideGrid');
+  const loading = document.getElementById('browseLoading');
+  const empty = document.getElementById('browseEmpty');
+  grid.innerHTML = '';
+  loading.style.display = 'block';
+  empty.style.display = 'none';
+  try {
+    const count = (await readContract.rideCount()).toNumber();
+    allRides = [];
+    for (let i=0; i<count; i++) {
+      try {
+        const r = await readContract.getRide(i);
+        let driverRating = {total:0,count:0};
+        try { driverRating = await readContract.getDriverRating(r.driver); } catch(e){}
+        allRides.push({ ...parseRide(r), driverRatingTotal: driverRating.total.toNumber(), driverRatingCount: driverRating.count.toNumber() });
+      } catch(e) {}
+    }
+    const open = allRides.filter(r=>r.status===STATUS.Open);
+    if (open.length===0) { empty.style.display='block'; }
+    else { open.forEach(r=>grid.appendChild(rideCard(r))); }
+  } catch(e) { toast('Failed to load rides: '+e.message,'error'); }
+  loading.style.display = 'none';
+}
+
+function parseRide(r) {
+  return {
+    id: r.id.toNumber(), driver: r.driver, origin: r.origin, destination: r.destination,
+    departure: r.departure.toNumber(), pricePerSeat: r.pricePerSeat,
+    totalSeats: r.totalSeats.toNumber(), bookedSeats: r.bookedSeats.toNumber(),
+    status: r.status, escrow: r.escrow, disputeDeadline: r.disputeDeadline.toNumber()
+  };
+}
+
+function rideCard(r, showActions=false, role='') {
+  const d = document.createElement('div');
+  d.className = 'ride-card';
+  const price = ethers.utils.formatUnits(r.pricePerSeat, 6);
+  const depDate = new Date(r.departure*1000);
+  const avg = r.driverRatingCount>0 ? (r.driverRatingTotal/r.driverRatingCount).toFixed(1) : 'N/A';
+  const statusNames = ['Open','Full','Completed','Cancelled','Disputed'];
+  const statusClass = ['badge-open','badge-full','badge-completed','badge-cancelled','badge-disputed'][r.status];
+  const seatsLeft = r.totalSeats - r.bookedSeats;
+  d.innerHTML = `
+    <div class="ride-route"><span>${r.origin}</span><span class="arrow">→</span><span>${r.destination}</span></div>
+    <div class="ride-meta">
+      <span><span class="icon">🕐</span>${depDate.toLocaleDateString()} ${depDate.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
+      <span><span class="icon">💺</span>${seatsLeft}/${r.totalSeats} seats</span>
+      <span class="badge ${statusClass}">${statusNames[r.status]}</span>
+      ${role?`<span class="badge badge-${role}">${role}</span>`:''}
+    </div>
+    <div class="ride-price">${price} USDC <span style="font-size:.78rem;color:var(--text2);font-weight:400">/ seat</span></div>
+    <div class="ride-driver">Driver: ${r.driver.slice(0,6)}...${r.driver.slice(-4)} · Rating: ${renderStars(avg)}</div>
+  `;
+  d.onclick = ()=>openDetail(r);
+  return d;
+}
+
+function renderStars(val) {
+  if (val==='N/A') return 'No ratings';
+  const n = Math.round(parseFloat(val));
+  return '<span class="stars">'+[1,2,3,4,5].map(i=>`<span class="star ${i<=n?'filled':''}">★</span>`).join('')+'</span> '+val+'/5';
+}
+
+// --- My Rides ---
+async function loadMyRides() {
+  if (!account) { document.getElementById('myEmpty').style.display='block'; return; }
+  document.getElementById('myEmpty').style.display='none';
+  const bookedGrid = document.getElementById('myBookedGrid');
+  const postedGrid = document.getElementById('myPostedGrid');
+  bookedGrid.innerHTML = ''; postedGrid.innerHTML = '';
+  if (allRides.length===0) await loadRides();
+
+  const myPosted = allRides.filter(r=>r.driver.toLowerCase()===account.toLowerCase());
+  const myBooked = []; // We need to check events for booked rides
+  // Use events to find bookings
+  try {
+    const filter = readContract.filters.RideBooked(null, account);
+    const events = await readContract.queryFilter(filter, 0, 'latest');
+    const bookedIds = [...new Set(events.map(e=>e.args.rideId.toNumber()))];
+    for (const id of bookedIds) {
+      const ride = allRides.find(r=>r.id===id);
+      if (ride) myBooked.push(ride);
+    }
+  } catch(e){}
+
+  if (myPosted.length===0 && myBooked.length===0) { document.getElementById('myEmpty').style.display='block'; return; }
+  myPosted.forEach(r=>postedGrid.appendChild(rideCard(r,true,'driver')));
+  myBooked.forEach(r=>bookedGrid.appendChild(rideCard(r,true,'rider')));
+  if (myPosted.length===0) postedGrid.innerHTML='<div class="empty"><p>No posted rides</p></div>';
+  if (myBooked.length===0) bookedGrid.innerHTML='<div class="empty"><p>No booked rides</p></div>';
+}
+
+// --- Detail Modal ---
+function openDetail(r) {
+  const modal = document.getElementById('modalBody');
+  const price = ethers.utils.formatUnits(r.pricePerSeat, 6);
+  const depDate = new Date(r.departure*1000);
+  const seatsLeft = r.totalSeats - r.bookedSeats;
+  const totalCost = ethers.utils.formatUnits(r.pricePerSeat.mul(r.totalSeats),6);
+  const isDriver = account && r.driver.toLowerCase()===account.toLowerCase();
+  const avg = r.driverRatingCount>0 ? (r.driverRatingTotal/r.driverRatingCount).toFixed(1) : 'N/A';
+  const now = Math.floor(Date.now()/1000);
+
+  let actions = '';
+  if (account && r.status===STATUS.Open && !isDriver && seatsLeft>0) {
+    actions += `<button class="btn btn-primary" onclick="bookRideUI(this,${r.id},${price})">Book Seat</button>`;
+  }
+  if (account && isDriver && r.status===STATUS.Open) {
+    actions += `<button class="btn btn-danger" onclick="cancelRideUI(this,${r.id})">Cancel Ride</button>`;
+  }
+  if (account && isDriver && (r.status===STATUS.Open||r.status===STATUS.Full)) {
+    actions += `<button class="btn btn-success" onclick="completeRideUI(this,${r.id})">Complete Ride</button>`;
+  }
+  if (account && !isDriver && (r.status===STATUS.Open||r.status===STATUS.Full) && r.departure > now) {
+    actions += `<button class="btn btn-outline" onclick="cancelBookingUI(this,${r.id})">Cancel Booking</button>`;
+  }
+  if (account && (r.status===STATUS.Open||r.status===STATUS.Full) && r.departure <= now) {
+    actions += `<button class="btn btn-outline" onclick="disputeRideUI(this,${r.id})">Dispute</button>`;
+  }
+
+  modal.innerHTML = `
+    <h2>${r.origin} → ${r.destination}</h2>
+    <div class="field"><label>Departure</label><div class="value">${depDate.toLocaleString()}</div></div>
+    <div class="field"><label>Price per Seat</label><div class="value">${price} USDC</div></div>
+    <div class="field"><label>Seats</label><div class="value">${seatsLeft} available / ${r.totalSeats} total</div></div>
+    <div class="field"><label>Driver</label><div class="value">${r.driver}<br>Rating: ${renderStars(avg)}</div></div>
+    <div class="field"><label>Status</label><div class="value">${['Open','Full','Completed','Cancelled','Disputed'][r.status]}</div></div>
+    <div class="field"><label>Escrow</label><div class="value">${ethers.utils.formatUnits(r.escrow,6)} USDC</div></div>
+    <div class="field"><label>Ride ID</label><div class="value">#${r.id}</div></div>
+    <div class="modal-actions">${actions}</div>
+  `;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
+
+// --- Actions ---
+async function ensureConnected() {
+  if (!account) { await connectWallet(); }
+  if (!account) throw new Error('Wallet not connected');
+}
+
+async function bookRideUI(btnEl, rideId, pricePerSeat) {
+  try {
+    await ensureConnected();
+    const seatsStr = prompt('How many seats to book?','1');
+    if (!seatsStr) return;
+    const seats = parseInt(seatsStr);
+    if (isNaN(seats)||seats<1) { toast('Invalid seat count','error'); return; }
+    const totalCost = ethers.utils.parseUnits((parseFloat(pricePerSeat)*seats).toFixed(6),6);
+
+    toast('Checking USDC allowance...','info');
+    const allowance = await usdc.allowance(account, CONTRACT_ADDR);
+    if (allowance.lt(totalCost)) {
+      setBtnLoading(btnEl, true, 'Approving…');
+      toast('Approving USDC...','info');
+      const tx = await usdc.approve(CONTRACT_ADDR, ethers.constants.MaxUint256);
+      await tx.wait();
+      toast('USDC approved','success');
+    }
+
+    setBtnLoading(btnEl, true, 'Booking…');
+    toast('Booking ride...','info');
+    const tx = await contract.bookRide(rideId, seats);
+    await tx.wait();
+    toast('Ride booked! 🎉','success');
+    closeModal();
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(btnEl, false);
+    toast('Booking failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function completeRideUI(btnEl, rideId) {
+  try {
+    await ensureConnected();
+    if (!confirm('Mark this ride as completed? Funds will be released to you.')) return;
+    setBtnLoading(btnEl, true, 'Completing…');
+    toast('Completing ride...','info');
+    const tx = await contract.completeRide(rideId);
+    await tx.wait();
+    toast('Ride completed! Funds released. ✅','success');
+    closeModal();
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(btnEl, false);
+    toast('Failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function cancelRideUI(btnEl, rideId) {
+  try {
+    await ensureConnected();
+    if (!confirm('Cancel this ride? All riders will be refunded.')) return;
+    setBtnLoading(btnEl, true, 'Cancelling…');
+    toast('Cancelling ride...','info');
+    const tx = await contract.cancelRide(rideId);
+    await tx.wait();
+    toast('Ride cancelled, riders refunded.','success');
+    closeModal();
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(btnEl, false);
+    toast('Failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function cancelBookingUI(btnEl, rideId) {
+  try {
+    await ensureConnected();
+    if (!confirm('Cancel your booking? You will be refunded.')) return;
+    setBtnLoading(btnEl, true, 'Cancelling…');
+    toast('Cancelling booking...','info');
+    const tx = await contract.cancelBooking(rideId);
+    await tx.wait();
+    toast('Booking cancelled, refund sent.','success');
+    closeModal();
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(btnEl, false);
+    toast('Failed: '+(e.reason||e.message),'error');
+  }
+}
+
+async function disputeRideUI(btnEl, rideId) {
+  try {
+    await ensureConnected();
+    if (!confirm('Raise a dispute for this ride? An admin will review it.')) return;
+    setBtnLoading(btnEl, true, 'Disputing…');
+    toast('Raising dispute...','info');
+    const tx = await contract.disputeRide(rideId);
+    await tx.wait();
+    toast('Dispute raised. Admin will review.','success');
+    closeModal();
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(btnEl, false);
+    toast('Failed: '+(e.reason||e.message),'error');
+  }
+}
+
+// --- Post Ride ---
+async function postRide() {
+  try {
+    await ensureConnected();
+    const origin = document.getElementById('postOrigin').value.trim();
+    const dest = document.getElementById('postDest').value.trim();
+    const depInput = document.getElementById('postDeparture').value;
+    const price = parseFloat(document.getElementById('postPrice').value);
+    const seats = parseInt(document.getElementById('postSeats').value);
+
+    if (!origin||!dest||!depInput||isNaN(price)||isNaN(seats)) { toast('Fill all fields','error'); return; }
+    const departure = Math.floor(new Date(depInput).getTime()/1000);
+    if (departure <= Date.now()/1000) { toast('Departure must be in the future','error'); return; }
+    if (seats<1||seats>20) { toast('Seats must be 1-20','error'); return; }
+
+    const verified = await readContract.isDriverVerified(account);
+    if (!verified) { toast('You must be a verified driver to post rides. Contact admin.','error'); return; }
+
+    const priceWei = ethers.utils.parseUnits(price.toFixed(6), 6);
+    const btn = document.getElementById('postBtn');
+    setBtnLoading(btn, true, 'Creating…');
+    toast('Creating ride...','info');
+    const tx = await contract.createRide(origin, dest, departure, priceWei, seats);
+    await tx.wait();
+    toast('Ride created! 🚗','success');
+    document.getElementById('postOrigin').value='';
+    document.getElementById('postDest').value='';
+    document.getElementById('postDeparture').value='';
+    document.getElementById('postPrice').value='';
+    document.getElementById('postSeats').value='';
+    setBtnLoading(btn, false);
+    await loadRides();
+  } catch(e) {
+    setBtnLoading(document.getElementById('postBtn'), false);
+    toast('Failed: '+(e.reason||e.message),'error');
+  }
+}
+
+// --- Toast ---
+function toast(msg, type='info') {
+  const c = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast '+type;
+  const icons = {success:'✅', error:'❌', info:'ℹ️'};
+  t.innerHTML = '<span class="toast-icon">'+(icons[type]||'ℹ️')+'</span><span class="toast-body">'+msg+'</span><button class="toast-close" onclick="dismissToast(this.parentElement)">&times;</button><div class="toast-progress"></div>';
+  c.appendChild(t);
+  t._timer = setTimeout(()=>dismissToast(t), 5000);
+}
+
+function dismissToast(el) {
+  if (!el || el.classList.contains('exiting')) return;
+  clearTimeout(el._timer);
+  el.classList.add('exiting');
+  setTimeout(()=>el.remove(), 300);
+}
+
+// --- Start ---
+init();
+</script>
+</body>
+</html>

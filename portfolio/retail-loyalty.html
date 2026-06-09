@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loyalty Rewards — Aurora Pathways</title>
+<meta name="description" content="Blockchain loyalty rewards demo. Cross-brand token rewards with real redemption value. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/retail-loyalty">
+<meta property="og:title" content="Loyalty Rewards — Aurora Pathways">
+<meta property="og:description" content="Blockchain loyalty rewards demo. Cross-brand token rewards with real redemption value. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/retail-loyalty">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Loyalty Rewards — Aurora Pathways">
+<meta name="twitter:description" content="Blockchain loyalty rewards demo. Cross-brand token rewards with real redemption value. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent2);color:var(--accent2)}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.tier-badge{padding:4px 14px;border-radius:20px;font-size:0.75rem;font-weight:700;display:inline-block}
+.tier-bronze{background:rgba(205,127,50,0.2);color:#cd7f32}
+.tier-silver{background:rgba(192,192,192,0.2);color:#c0c0c0}
+.tier-gold{background:rgba(255,215,0,0.2);color:#ffd700}
+.tier-platinum{background:rgba(229,228,226,0.2);color:#e5e4e2}
+.balance{font-size:2.8rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tier-benefits{list-style:none;padding:0}
+.tier-benefits li{padding:6px 0;color:var(--text2);font-size:0.85rem}
+.tier-benefits li::before{content:'✦ ';color:var(--accent2)}
+.tx-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--glass-border);font-size:0.82rem}
+.tx-row:last-child{border-bottom:none}
+.tx-item{color:var(--text)}
+.tx-points{color:var(--accent2);font-weight:600}
+.tx-time{color:var(--text2);font-size:0.7rem}
+.level-bar{height:6px;background:var(--surface2);border-radius:3px;margin-top:10px;overflow:hidden}
+.level-bar-fill{height:100%;background:var(--gradient);border-radius:3px;transition:width 0.5s ease}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Retail & Loyalty</span>
+<h1>Loyalty Rewards</h1>
+<p class="subtitle">On-chain loyalty token program with crypto checkout, NFT authentication, and tiered rewards.</p>
+
+<div class="grid2">
+<div class="card">
+<h3>🏆 Loyalty Dashboard</h3>
+<div style="text-align:center;margin:16px 0">
+<div class="balance" id="balance">1,250</div>
+<div style="color:var(--text2);margin-top:4px">AURA Points</div>
+<div style="margin-top:12px"><span class="tier-badge tier-silver" id="tierBadge">Silver Tier</span></div>
+<div class="level-bar"><div class="level-bar-fill" id="levelBar" style="width:25%"></div></div>
+<div style="color:var(--text2);font-size:0.7rem;margin-top:4px" id="nextTier">1,250 pts to Gold</div>
+</div>
+<ul class="tier-benefits" id="tierBenefits">
+<li>5% cashback on purchases</li>
+<li>Priority customer support</li>
+<li>Early access to sales</li>
+<li>Free shipping on orders $50+</li>
+</ul>
+<div class="status-bar success" id="dashboardStatus">Wallet: 0x8F4a...3b21 · Staked: 500 pts · Multiplier: 1.5x</div>
+</div>
+
+<div class="card">
+<h3>🛒 Earn Points</h3>
+<p style="color:var(--text2);font-size:0.8rem;margin-bottom:12px">Simulate purchases to earn AURA loyalty tokens.</p>
+<button class="btn btn-outline" style="width:100%;margin-bottom:8px;text-align:left" onclick="earnPoints(80, 'Premium Headphones')">🎧 Premium Headphones — Earn 80 pts</button>
+<button class="btn btn-outline" style="width:100%;margin-bottom:8px;text-align:left" onclick="earnPoints(150, 'Smart Watch Pro')">⌚ Smart Watch Pro — Earn 150 pts</button>
+<button class="btn btn-outline" style="width:100%;margin-bottom:8px;text-align:left" onclick="earnPoints(300, 'Designer Bag')">👜 Designer Bag — Earn 300 pts</button>
+<button class="btn btn-outline" style="width:100%;margin-bottom:8px;text-align:left" onclick="earnPoints(500, 'Ultra Gaming Laptop')">💻 Ultra Gaming Laptop — Earn 500 pts</button>
+<div class="code-block" id="earnLog" style="margin-top:16px;min-height:40px">Make a purchase to earn points…</div>
+</div>
+</div>
+
+<div class="card">
+<h3>📜 Recent Transactions</h3>
+<div id="txHistory">
+<div class="tx-row"><span class="tx-item">👜 Designer Bag</span><span class="tx-points">+300 pts</span><span class="tx-time">2024-06-03 14:22</span></div>
+<div class="tx-row"><span class="tx-item">🎧 Premium Headphones</span><span class="tx-points">+80 pts</span><span class="tx-time">2024-06-01 09:15</span></div>
+<div class="tx-row"><span class="tx-item">🎫 Welcome Bonus</span><span class="tx-points">+500 pts</span><span class="tx-time">2024-05-28 12:00</span></div>
+</div>
+</div>
+
+<div class="card">
+<h3>💳 Crypto Checkout</h3>
+<div class="grid2">
+<div>
+<label style="color:var(--text2);font-size:0.85rem;margin-bottom:6px;display:block">Item</label>
+<input class="input" id="itemName" value="Wireless Earbuds" readonly>
+<label style="color:var(--text2);font-size:0.85rem;margin:12px 0 6px;display:block">Price (USD)</label>
+<input class="input" id="itemPrice" value="$89.99" readonly>
+</div>
+<div>
+<label style="color:var(--text2);font-size:0.85rem;margin-bottom:6px;display:block">Payment Token</label>
+<select class="input" id="tokenSelect">
+<option value="USDC">USDC (Polygon)</option>
+<option value="USDT">USDT (Polygon)</option>
+<option value="MATIC">MATIC</option>
+<option value="ETH">ETH (Arbitrum)</option>
+</select>
+<button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="checkout()">Pay with Crypto</button>
+</div>
+</div>
+<div id="checkoutResult" style="margin-top:12px"></div>
+</div>
+
+<div class="card">
+<h3>🔐 NFT Authentication</h3>
+<p style="color:var(--text2);margin-bottom:12px">Verify product authenticity via on-chain NFT registry. Each product is minted as a unique NFT on Polygon.</p>
+<div style="display:flex;gap:10px">
+<input class="input" id="serialInput" placeholder="Enter product serial number…" style="flex:1">
+<button class="btn btn-primary" onclick="authenticate()">Verify</button>
+</div>
+<div id="authResult" style="margin-top:12px"></div>
+</div>
+</div>
+
+<script>
+let balance = 1250;
+const history = document.getElementById('txHistory');
+
+function getTier(bal) {
+  if (bal >= 5000) return { name: 'Platinum', cls: 'tier-platinum', next: '', pct: 100, benefits: ['7% cashback','VIP support 24/7','Exclusive NFT drops','Free express shipping','Birthday bonus 500 pts','Partner discounts'] };
+  if (bal >= 2500) return { name: 'Gold', cls: 'tier-gold', next: (5000 - bal) + ' pts to Platinum', pct: Math.min(100, ((bal - 2500) / 2500) * 100), benefits: ['6% cashback','Priority support','Early access + presales','Free shipping $30+','Referral bonus 200 pts'] };
+  if (bal >= 1000) return { name: 'Silver', cls: 'tier-silver', next: (2500 - bal) + ' pts to Gold', pct: ((bal - 1000) / 1500) * 100, benefits: ['5% cashback','Priority customer support','Early access to sales','Free shipping on orders $50+'] };
+  return { name: 'Bronze', cls: 'tier-bronze', next: (1000 - bal) + ' pts to Silver', pct: (bal / 1000) * 100, benefits: ['3% cashback','Standard support','Access to sales'] };
+}
+
+function updateDashboard() {
+  document.getElementById('balance').textContent = balance.toLocaleString();
+  const tier = getTier(balance);
+  const badge = document.getElementById('tierBadge');
+  badge.textContent = tier.name + ' Tier';
+  badge.className = 'tier-badge ' + tier.cls;
+  document.getElementById('tierBenefits').innerHTML = tier.benefits.map(b => '<li>' + b + '</li>').join('');
+  document.getElementById('levelBar').style.width = tier.pct + '%';
+  document.getElementById('nextTier').textContent = tier.next || 'Max tier reached 🎉';
+}
+
+function earnPoints(pts, item) {
+  balance += pts;
+  updateDashboard();
+  const txHash = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
+  const block = 48000000 + Math.floor(Math.random() * 500000);
+  document.getElementById('earnLog').innerHTML = '✅ Purchased <strong>' + item + '</strong> — earned <strong style="color:var(--accent2)">' + pts + ' AURA</strong> pts<br><small style="color:var(--text2)">Tx: ' + txHash + ' | Block #' + block.toLocaleString() + '</small>';
+  const now = new Date().toISOString().slice(0,16).replace('T',' ');
+  const row = document.createElement('div');
+  row.className = 'tx-row';
+  row.innerHTML = '<span class="tx-item">' + item + '</span><span class="tx-points">+' + pts + ' pts</span><span class="tx-time">' + now + '</span>';
+  history.prepend(row);
+  if (history.children.length > 6) history.lastElementChild.remove();
+}
+
+function checkout() {
+  const token = document.getElementById('tokenSelect').value;
+  const txHash = '0x' + Array.from({length:64},()=>Math.floor(Math.random()*16).toString(16)).join('');
+  const block = 48500000 + Math.floor(Math.random() * 200000);
+  document.getElementById('checkoutResult').innerHTML =
+    '<div class="status-bar success">✅ Payment confirmed — ' + token + ' transferred</div>' +
+    '<div class="code-block">Tx Hash: ' + txHash + '<br>Block: #' + block.toLocaleString() + ' · Network: ' + (token === 'ETH' ? 'Arbitrum' : 'Polygon') + ' · Gas: 0.0021 ' + (token === 'ETH' ? 'ETH' : 'MATIC') + '</div>';
+}
+
+function authenticate() {
+  const serial = document.getElementById('serialInput').value.trim();
+  if (!serial) return;
+  const blockNum = 48392011 + Math.floor(Math.random() * 1000);
+  const tokenId = Math.floor(Math.random() * 90000 + 10000);
+  document.getElementById('authResult').innerHTML =
+    '<div class="status-bar success">✓ Authentic — verified on Polygon block #' + blockNum.toLocaleString() + '</div>' +
+    '<div class="code-block">Product: ' + serial + '<br>NFT Token ID: #' + tokenId + '<br>Manufacturer: 0x' + Math.random().toString(16).slice(2,10) + '... | Minted: 2024-0' + (Math.floor(Math.random()*9)+1) + '-15<br>Ownership: Verified · No flags</div>';
+}
+</script>
+</body>
+</html>

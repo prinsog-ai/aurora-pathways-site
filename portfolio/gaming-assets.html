@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Assets — Aurora Pathways</title>
+<meta name="description" content="Blockchain gaming assets demo. Interoperable in-game items with true player ownership. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/gaming-assets">
+<meta property="og:title" content="Gaming Assets — Aurora Pathways">
+<meta property="og:description" content="Blockchain gaming assets demo. Interoperable in-game items with true player ownership. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/gaming-assets">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gaming Assets — Aurora Pathways">
+<meta name="twitter:description" content="Blockchain gaming assets demo. Interoperable in-game items with true player ownership. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+.badge.rare{background:rgba(124,92,252,0.15);color:var(--accent)}
+.badge.legendary{background:rgba(255,107,157,0.15);color:var(--accent3)}
+.badge.common{background:rgba(152,152,168,0.15);color:var(--text2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-sm{padding:8px 16px;font-size:0.8rem;border-radius:8px}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.inventory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.inv-item{background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;padding:14px;transition:border-color 0.2s}
+.inv-item:hover{border-color:var(--accent)}
+.item-name{font-weight:700;font-size:1rem;margin-bottom:4px}
+.item-id{font-size:0.75rem;color:var(--text2);margin-bottom:8px;font-family:monospace}
+.item-actions{display:flex;gap:8px;flex-wrap:wrap}
+.proposal{padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.proposal-name{font-weight:600;font-size:0.9rem}
+.proposal-votes{font-size:0.8rem;color:var(--accent2)}
+.result-bar{height:6px;background:var(--surface);border-radius:3px;overflow:hidden;margin-top:4px}
+.result-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.addr-box{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:10px 16px;font-family:monospace;font-size:0.8rem;color:var(--accent2);display:none;margin-bottom:20px}
+.tx-log{max-height:180px;overflow-y:auto;font-family:monospace;font-size:0.78rem}
+.tx-log div{padding:6px 0;border-bottom:1px solid var(--glass-border);color:var(--text2)}
+.tx-log div:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Gaming &amp; NFTs</span>
+<h1>🎮 Gaming Assets</h1>
+<p class="subtitle">Player-owned inventory, on-chain marketplace, and DAO governance — all verifiable on Aurora blockchain.</p>
+
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+  <button class="btn btn-primary" onclick="connectWallet()">🔗 Connect Wallet</button>
+</div>
+<div class="addr-box" id="walletAddr"></div>
+
+<div class="card">
+  <h3>🎒 Player Inventory <span style="font-size:0.8rem;color:var(--text2);font-weight:400">— 4 items on-chain</span></h3>
+  <div class="inventory-grid" id="inventory"></div>
+  <div style="margin-top:16px">
+    <button class="btn btn-outline btn-sm" onclick="refreshInventory()">🔄 Refresh Balances</button>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h3>🏪 Marketplace</h3>
+    <select class="input" id="listItem" style="margin-bottom:12px"></select>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input class="input" type="number" id="price" placeholder="Price in MATIC" style="flex:1">
+    </div>
+    <button class="btn btn-success btn-sm" style="width:100%;margin-bottom:8px" onclick="listForSale()">📋 List for Sale</button>
+    <div class="code-block" id="listingOutput" style="display:none"></div>
+    <div class="status-bar success" id="marketFeed" style="display:none;margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <h3>🗳️ DAO Proposals</h3>
+    <div id="proposals"></div>
+    <div class="status-bar pending" id="voteStatus" style="display:none"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>📜 Transaction Log</h3>
+  <div class="tx-log" id="txLog">
+    <div style="color:var(--text2)">No transactions yet. Connect your wallet to get started.</div>
+  </div>
+</div>
+</div>
+<script>
+const inventory = [
+  {name:"Shadowfang Sword", rarity:"Legendary", nftId:"0x7a3b...c91f", emoji:"⚔️", tokenId:"NFT-7721"},
+  {name:"Void Walker Skin", rarity:"Rare", nftId:"0x2d8e...b445", emoji:"👤", tokenId:"NFT-3390"},
+  {name:"Stormhoof Mount", rarity:"Rare", nftId:"0x9f1c...a772", emoji:"🐎", tokenId:"NFT-5502"},
+  {name:"Ember Fox Pet", rarity:"Common", nftId:"0x4b6a...d338", emoji:"🦊", tokenId:"NFT-1104"}
+];
+
+let walletAddr = "";
+const txLog = [];
+
+function addTx(msg){
+  const ts = new Date().toLocaleTimeString();
+  txLog.unshift(`[${ts}] ${msg}`);
+  if(txLog.length > 20) txLog.pop();
+  renderTxLog();
+}
+
+function renderTxLog(){
+  const el = document.getElementById("txLog");
+  el.innerHTML = txLog.length ? txLog.map(m=>`<div>${m}</div>`).join("") : '<div style="color:var(--text2)">No transactions yet.</div>';
+}
+
+function renderInventory(){
+  const el = document.getElementById("inventory");
+  const dd = document.getElementById("listItem");
+  el.innerHTML = ""; dd.innerHTML = "";
+  inventory.forEach((item,i)=>{
+    const rcls = "badge " + item.rarity.toLowerCase();
+    el.innerHTML += `<div class="inv-item">
+      <div class="item-name">${item.emoji} ${item.name}</div>
+      <div class="item-id">${item.tokenId} · ${item.nftId}</div>
+      <div class="item-actions">
+        <span class="${rcls}">${item.rarity}</span>
+        <span class="badge" style="background:rgba(78,201,176,0.12);color:var(--accent2)">🔁 Tradeable</span>
+      </div>
+    </div>`;
+    dd.innerHTML += `<option value="${i}">${item.emoji} ${item.name} (${item.rarity})</option>`;
+  });
+}
+
+function refreshInventory(){
+  addTx("🔄 Inventory refreshed — on-chain balances verified");
+  const fb = document.getElementById("marketFeed");
+  fb.style.display = "flex";
+  fb.innerHTML = "✅ All 4 items confirmed on-chain. No changes detected.";
+}
+
+function connectWallet(){
+  walletAddr = "0x" + Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join("");
+  const box = document.getElementById("walletAddr");
+  box.style.display = "block";
+  box.innerHTML = "✅ Connected: " + walletAddr + " · MATIC Balance: " + (Math.random()*500+50).toFixed(2) + " MATIC";
+  addTx("🔗 Wallet connected: " + walletAddr.slice(0,14) + "...");
+}
+
+function listForSale(){
+  if(!walletAddr){ alert("Please connect your wallet first!"); return; }
+  const idx = document.getElementById("listItem").value;
+  const price = document.getElementById("price").value || "25";
+  const item = inventory[idx];
+  const listingId = "0x" + Math.random().toString(16).slice(2,10);
+  const out = document.getElementById("listingOutput");
+  out.style.display = "block";
+  out.innerHTML = `📋 Listing Created\n━━━━━━━━━━━━━━━\nItem: ${item.emoji} ${item.name}\nNFT: ${item.nftId}\nPrice: ${price} MATIC\nListing ID: ${listingId}\nStatus: Pending Confirmation`;
+  addTx(`📋 Listed ${item.name} for ${price} MATIC (ID: ${listingId})`);
+}
+
+function renderProposals(){
+  const proposals = [
+    {name:"New Map: Crystal Caverns", key:"map"},
+    {name:"Balance Patch: Nerf Shadowfang", key:"balance"},
+    {name:"Tournament Prize Pool: 500 MATIC", key:"tournament"}
+  ];
+  const el = document.getElementById("proposals");
+  el.innerHTML = "";
+  proposals.forEach(p=>{
+    el.innerHTML += `<div class="proposal">
+      <div><div class="proposal-name">📜 ${p.name}</div>
+      <div class="proposal-votes" id="votes-${p.key}">0 votes (0%)</div>
+      <div class="result-bar"><div class="result-fill" id="bar-${p.key}" style="width:0%;background:var(--accent)"></div></div></div>
+      <button class="btn btn-outline btn-sm" onclick="vote('${p.key}')">Vote</button>
+    </div>`;
+  });
+  if(!window._voteCounts) window._voteCounts = {map:0,balance:0,tournament:0};
+}
+
+function vote(key){
+  window._voteCounts[key]++;
+  const total = Object.values(window._voteCounts).reduce((a,b)=>a+b,0);
+  ["map","balance","tournament"].forEach(k=>{
+    const v = window._voteCounts[k];
+    const pct = total>0 ? Math.round(v/total*100) : 0;
+    document.getElementById("votes-"+k).textContent = `${v} votes (${pct}%)`;
+    document.getElementById("bar-"+k).style.width = pct+"%";
+  });
+  const st = document.getElementById("voteStatus");
+  st.style.display = "flex";
+  const txHash = "0x" + Math.random().toString(16).slice(2,14);
+  st.innerHTML = `✅ Vote cast — TX: ${txHash}`;
+  addTx(`🗳️ Voted on proposal "${key}" — TX: ${txHash}`);
+}
+
+renderInventory();
+renderProposals();
+</script>
+</body>
+</html>

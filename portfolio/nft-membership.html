@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFT Membership Portal — Aurora Pathways Portfolio</title>
+<meta name="description" content="NFT membership portal demo. Token-gated access, tiered perks & on-chain verification. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/nft-membership">
+<meta property="og:title" content="NFT Membership Portal — Aurora Pathways Portfolio">
+<meta property="og:description" content="NFT membership portal demo. Token-gated access, tiered perks & on-chain verification. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/nft-membership">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NFT Membership Portal — Aurora Pathways Portfolio">
+<meta name="twitter:description" content="NFT membership portal demo. Token-gated access, tiered perks & on-chain verification. Aurora Pathways portfolio.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06)}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:1000px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+/* Login */
+.login-card{max-width:400px;margin:40px auto;background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:40px;text-align:center}
+.login-card h2{font-size:1.4rem;margin-bottom:24px}
+.btn{padding:14px 32px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text);width:100%;margin-top:8px}
+.btn-outline:hover{border-color:var(--accent)}
+/* Tiers */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+.tier-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;text-align:center;transition:all 0.3s;position:relative}
+.tier-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.tier-card.featured{border-color:var(--accent2);box-shadow:0 0 30px rgba(78,201,176,0.1)}
+.tier-card .popular{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent2);color:#000;padding:4px 16px;border-radius:12px;font-size:0.75rem;font-weight:700}
+.tier-icon{font-size:2.5rem;margin-bottom:12px}
+.tier-name{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.tier-price{font-size:2rem;font-weight:800;margin-bottom:4px}
+.tier-price span{font-size:0.9rem;color:var(--text2);font-weight:400}
+.tier-desc{color:var(--text2);font-size:0.85rem;margin-bottom:20px}
+.tier-features{list-style:none;text-align:left;margin-bottom:24px}
+.tier-features li{padding:6px 0;font-size:0.9rem;color:var(--text2)}
+.tier-features li::before{content:'✓ ';color:var(--accent2);font-weight:700}
+/* NFT Gallery */
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:24px}
+.nft-card{background:var(--surface2);border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;transition:all 0.2s}
+.nft-card:hover{border-color:var(--accent2);transform:scale(1.02)}
+.nft-image{height:160px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.nft-info{padding:14px}
+.nft-info h4{font-size:0.95rem;margin-bottom:4px}
+.nft-info p{font-size:0.8rem;color:var(--text2)}
+/* Gated */
+.gated-content{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:32px;margin-top:24px;text-align:center}
+.gated-content.locked{opacity:0.5;pointer-events:none;filter:blur(2px)}
+.lock-overlay{position:relative}
+.lock-msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1}
+.lock-msg .icon{font-size:3rem;margin-bottom:12px}
+.section-label{color:var(--accent2);font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px}
+h3{font-size:1.3rem;margin-bottom:24px}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+.badge.holder{background:rgba(124,92,252,0.15);color:var(--accent)}
+#tiersView,#dashboardView{display:none}
+#tiersView.active,#dashboardView.active{display:block}
+@media(max-width:768px){.tiers{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Portfolio Demo</span>
+<h1>NFT Membership Portal</h1>
+<p class="subtitle">Token-gated access control — members unlock exclusive content, perks, and community features based on the NFTs they hold.</p>
+
+<!-- Login -->
+<div id="loginView">
+  <div class="login-card">
+    <div style="font-size:3rem;margin-bottom:16px">🎫</div>
+    <h2>Connect to access membership</h2>
+    <p style="color:var(--text2);margin-bottom:24px;font-size:0.9rem">This demo simulates NFT-based authentication. Connect to see your membership tier.</p>
+    <button class="btn btn-primary" style="width:100%" onclick="login('pro')">Connect as Pro Member (3 NFTs)</button>
+    <button class="btn btn-outline" onclick="login('free')">Connect as Free Member (0 NFTs)</button>
+    <button class="btn btn-outline" onclick="login('enterprise')">Connect as Enterprise (10 NFTs)</button>
+  </div>
+</div>
+
+<!-- Tiers -->
+<div id="tiersView">
+  <div class="section-label">Membership Tiers</div>
+  <h3>Choose your level of access</h3>
+  <div class="tiers">
+    <div class="tier-card">
+      <div class="tier-icon">🌱</div>
+      <div class="tier-name">Free</div>
+      <div class="tier-price">$0<span>/mo</span></div>
+      <div class="tier-desc">Get started with basic access</div>
+      <ul class="tier-features">
+        <li>Public blog & updates</li>
+        <li>Community Discord</li>
+        <li>Monthly newsletter</li>
+        <li>1 NFT collectible</li>
+      </ul>
+      <button class="btn btn-outline" onclick="login('free')">Get Started</button>
+    </div>
+    <div class="tier-card featured">
+      <div class="popular">Most Popular</div>
+      <div class="tier-icon">⚡</div>
+      <div class="tier-name">Pro</div>
+      <div class="tier-price">$49<span>/mo</span></div>
+      <div class="tier-desc">Full platform access + perks</div>
+      <ul class="tier-features">
+        <li>Everything in Free</li>
+        <li>Exclusive research reports</li>
+        <li>Token-gated webinars</li>
+        <li>Governance voting rights</li>
+        <li>3 premium NFTs</li>
+        <li>Early access to drops</li>
+      </ul>
+      <button class="btn btn-primary" style="width:100%" onclick="login('pro')">Go Pro</button>
+    </div>
+    <div class="tier-card">
+      <div class="tier-icon">🏢</div>
+      <div class="tier-name">Enterprise</div>
+      <div class="tier-price">$199<span>/mo</span></div>
+      <div class="tier-desc">White-glove support & custom solutions</div>
+      <ul class="tier-features">
+        <li>Everything in Pro</li>
+        <li>Dedicated account manager</li>
+        <li>Custom smart contracts</li>
+        <li>White-label NFT storefront</li>
+        <li>10 enterprise NFTs</li>
+        <li>API access & webhooks</li>
+      </ul>
+      <button class="btn btn-outline" onclick="login('enterprise')">Contact Sales</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboardView">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px">
+    <div>
+      <span class="badge holder" id="tierBadge">Pro Member</span>
+      <h1 style="margin-top:8px">Welcome back</h1>
+      <p style="color:var(--text2)" id="tierDescription">You hold 3 Aurora NFTs</p>
+    </div>
+    <button class="btn btn-outline" onclick="logout()">Switch Account</button>
+  </div>
+
+  <div class="section-label">Your NFT Collection</div>
+  <h3>Membership tokens</h3>
+  <div class="nft-grid" id="nftGallery"></div>
+
+  <div class="section-label" style="margin-top:40px">Exclusive Content</div>
+  <h3>Token-gated resources</h3>
+  <div class="gated-content" id="gatedContent">
+    <h4 style="margin-bottom:12px">📊 Q3 2026 Web 3.0 Market Report</h4>
+    <p style="color:var(--text2);margin-bottom:16px">Comprehensive analysis of DeFi, NFT, and DAO market trends. 45 pages. Updated weekly.</p>
+    <button class="btn btn-primary">Download Report (Pro+)</button>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--glass-border)">
+      <h4 style="margin-bottom:12px">🎥 Token-Gated Strategy Session</h4>
+      <p style="color:var(--text2);margin-bottom:16px">Private monthly webinar with industry leaders. Past sessions include a16z, Coinbase, and Polygon.</p>
+      <button class="btn btn-outline">Join Next Session (Pro+)</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const nftData = {
+  free: [{name:'Aurora Genesis',type:'Common',color:'#7c5cfc',emoji:'🌌'}],
+  pro: [
+    {name:'Aurora Genesis',type:'Common',color:'#7c5cfc',emoji:'🌌'},
+    {name:'Pathfinder Elite',type:'Rare',color:'#4ec9b0',emoji:'💎'},
+    {name:'Nova Guardian',type:'Legendary',color:'#ff6b9d',emoji:'⭐'}
+  ],
+  enterprise: [
+    {name:'Aurora Genesis',type:'Common',color:'#7c5cfc',emoji:'🌌'},
+    {name:'Pathfinder Elite',type:'Rare',color:'#4ec9b0',emoji:'💎'},
+    {name:'Nova Guardian',type:'Legendary',color:'#ff6b9d',emoji:'⭐'},
+    {name:'Council Seat',type:'Governance',color:'#f0c040',emoji:'🏛️'},
+    {name:'Founder Key',type:'Mythic',color:'#ff4500',emoji:'🔑'}
+  ]
+};
+
+function login(tier){
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('tiersView').style.display='none';
+  document.getElementById('dashboardView').classList.add('active');
+  
+  const nfts=nftData[tier];
+  document.getElementById('tierBadge').textContent={free:'Free Member',pro:'Pro Member',enterprise:'Enterprise Member'}[tier];
+  document.getElementById('tierDescription').textContent='You hold '+nfts.length+' Aurora NFT'+(nfts.length>1?'s':'');
+  
+  const gallery=document.getElementById('nftGallery');
+  gallery.innerHTML=nfts.map(n=>'<div class="nft-card"><div class="nft-image" style="background:linear-gradient(135deg,'+n.color+'22,'+n.color+'44)">'+n.emoji+'</div><div class="nft-info"><h4>'+n.name+'</h4><p>'+n.type+'</p></div></div>').join('');
+  
+  const gated=document.getElementById('gatedContent');
+  if(tier==='free'){
+    gated.classList.add('locked');
+    gated.style.position='relative';
+    if(!document.getElementById('lockMsg')){
+      const lock=document.createElement('div');
+      lock.id='lockMsg';
+      lock.className='lock-msg';
+      lock.innerHTML='<div class="icon">🔒</div><p style="font-weight:600;margin-bottom:4px">Pro Membership Required</p><p style="color:var(--text2);font-size:0.9rem">Upgrade to access exclusive content</p><button class="btn btn-primary" onclick="login(\'pro\')" style="margin-top:16px">Upgrade to Pro →</button>';
+      gated.appendChild(lock);
+    }
+  }else{
+    gated.classList.remove('locked');
+    const lock=document.getElementById('lockMsg');
+    if(lock)lock.remove();
+  }
+}
+
+function logout(){
+  document.getElementById('loginView').style.display='block';
+  document.getElementById('tiersView').classList.add('active');
+  document.getElementById('dashboardView').classList.remove('active');
+}
+
+// Init
+document.getElementById('tiersView').classList.add('active');
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeFi Treasury — Aurora Pathways</title>
+<meta name="description" content="DeFi treasury management dashboard demo. Multi-sig wallets, yield strategies & on-chain reporting. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/defi-treasury">
+<meta property="og:title" content="DeFi Treasury — Aurora Pathways">
+<meta property="og:description" content="DeFi treasury management dashboard demo. Multi-sig wallets, yield strategies & on-chain reporting. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/defi-treasury">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DeFi Treasury — Aurora Pathways">
+<meta name="twitter:description" content="DeFi treasury management dashboard demo. Multi-sig wallets, yield strategies & on-chain reporting. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.asset-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--glass-border)}
+.asset-row:last-child{border-bottom:none}
+.asset-icon{font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--surface2);flex-shrink:0}
+.asset-info{flex:1;margin-left:14px}
+.asset-name{font-weight:600}
+.asset-amount{color:var(--text2);font-size:0.85rem}
+.asset-change{font-weight:600;font-size:0.9rem;min-width:60px;text-align:right}
+.asset-change.up{color:var(--success)}
+.asset-change.down{color:var(--danger)}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:0.85rem;color:var(--text2);margin-bottom:6px}
+.balance{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.balance-label{color:var(--text2);font-size:0.85rem}
+.kyc-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(78,201,176,0.1);border:1px solid rgba(78,201,176,0.2);border-radius:8px;color:var(--success);font-size:0.8rem;font-weight:600}
+.fade-in{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tx-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--glass-border);font-size:0.85rem}
+.tx-row:last-child{border-bottom:none}
+.chain-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.7rem;font-weight:600}
+.chain-badge.polygon{background:rgba(130,71,229,0.2);color:#8247e5}
+.chain-badge.base{background:rgba(0,82,255,0.2);color:#0052ff}
+.chain-badge.arbitrum{background:rgba(40,160,240,0.2);color:#28a0f0}
+.gas-info{display:flex;gap:12px;font-size:0.8rem;color:var(--text2);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<span class="badge portfolio">Cross-Border Finance</span>
+<span class="kyc-badge">✅ KYC/AML Verified</span>
+<span class="badge portfolio" style="background:rgba(124,92,252,0.1);color:var(--accent)">🌐 Multi-Chain</span>
+</div>
+<h1>DeFi Treasury</h1>
+<p class="subtitle">Send cross-border stablecoin payments across Polygon, Base, and Arbitrum. Manage a portfolio of tokenized real-world assets with on-chain transparency.</p>
+
+<div class="grid2">
+<div class="card"><h3>💸 Send USDC</h3>
+<div class="balance">$12,450.00 <span style="font-size:1rem;color:var(--text2)">USDC</span></div>
+<div class="balance-label">Available Balance · Wallet: 0x7B2a...c9F1</div>
+<div class="form-group" style="margin-top:16px"><label>Amount (USDC)</label><input class="input" type="number" id="amount" value="500" min="1" step="any" onfocus="this.select()"></div>
+<div class="form-group"><label>Recipient Address</label><input class="input" id="recipient" value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F" onfocus="this.select()"></div>
+<div class="form-group"><label>Destination Chain</label><select class="input" id="chain"><option value="Polygon">Polygon (~$0.01 gas)</option><option value="Base">Base (L2 · ~$0.005 gas)</option><option value="Arbitrum">Arbitrum (L2 · ~$0.01 gas)</option></select></div>
+<div class="gas-info" style="margin-bottom:12px">⛽ Est. Gas: $0.01 · ⏱ Confirmation: ~2s · 🌉 Bridge: CCIP</div>
+<button class="btn btn-primary" onclick="sendUSDC()" style="width:100%" id="send-btn">🚀 Send Payment</button>
+<div id="tx-result"></div>
+</div>
+<div class="card"><h3>📊 Tokenized Assets</h3>
+<div id="assets">
+<div class="asset-row"><div class="asset-icon">🏆</div><div class="asset-info"><div class="asset-name">Tokenized Gold</div><div class="asset-amount">2.45 oz · $4,833.60 · 1 oz = $1,972.90</div></div><div class="asset-change up">+1.2%</div></div>
+<div class="asset-row"><div class="asset-icon">🏢</div><div class="asset-info"><div class="asset-name">Real Estate Token</div><div class="asset-amount">0.35 REIT · $12,250 · Miami Commercial</div></div><div class="asset-change up">+3.8%</div></div>
+<div class="asset-row"><div class="asset-icon">📜</div><div class="asset-info"><div class="asset-name">Treasury Bonds</div><div class="asset-amount">5.00 TBOND · $5,125 · Yield 4.25% APY</div></div><div class="asset-change down">-0.3%</div></div>
+<div class="asset-row"><div class="asset-icon">🛢️</div><div class="asset-info"><div class="asset-name">Crude Oil Futures</div><div class="asset-amount">10 CF · $820 · Jun 2026 Contract</div></div><div class="asset-change up">+2.1%</div></div>
+</div>
+<div style="display:flex;justify-content:space-between;color:var(--text2);font-size:0.85rem;margin-top:16px;padding-top:12px;border-top:1px solid var(--glass-border)">
+<span>Portfolio Value</span><span style="color:var(--text);font-weight:700">$23,028.60</span>
+</div>
+<div style="display:flex;justify-content:space-between;color:var(--text2);font-size:0.85rem;margin-top:8px">
+<span>24h Change</span><span style="color:var(--success);font-weight:600">+$432.80 (+1.9%)</span>
+</div>
+<div style="display:flex;justify-content:space-between;color:var(--text2);font-size:0.85rem;margin-top:4px">
+<span>Yield Earned (30d)</span><span style="color:var(--accent2);font-weight:600">$47.35</span>
+</div>
+</div>
+</div>
+
+<div class="card"><h3>📋 Recent Transactions</h3>
+<div id="tx-log">
+<div class="tx-row"><div><strong style="color:var(--accent2)">500 USDC</strong> → 0x3F2a...b7D1 · <span class="chain-badge arbitrum">Arbitrum</span></div><div style="text-align:right"><div style="color:var(--success)">✅ Confirmed</div><div style="color:var(--text2);font-size:0.75rem">2026-06-04 16:30</div></div></div>
+<div class="tx-row"><div><strong style="color:var(--accent2)">1,200 USDC</strong> → 0x8B4c...e2A9 · <span class="chain-badge polygon">Polygon</span></div><div style="text-align:right"><div style="color:var(--success)">✅ Confirmed</div><div style="color:var(--text2);font-size:0.75rem">2026-06-03 11:15</div></div></div>
+<div class="tx-row"><div><strong style="color:var(--accent2)">750 USDC</strong> → 0xAE7f...1c3B · <span class="chain-badge base">Base</span></div><div style="text-align:right"><div style="color:var(--success)">✅ Confirmed</div><div style="color:var(--text2);font-size:0.75rem">2026-06-02 09:40</div></div></div>
+<div class="tx-row"><div><strong style="color:var(--accent2)">300 USDC</strong> → 0xD5e1...f82C · <span class="chain-badge polygon">Polygon</span></div><div style="text-align:right"><div style="color:var(--success)">✅ Confirmed</div><div style="color:var(--text2);font-size:0.75rem">2026-05-30 15:20</div></div></div>
+</div>
+</div>
+</div>
+
+<script>
+let balance = 12450;
+function sendUSDC() {
+  const amount = parseFloat(document.getElementById('amount').value);
+  const recipient = document.getElementById('recipient').value;
+  const chain = document.getElementById('chain').value;
+  if (!amount || amount <= 0) { alert('Enter a valid amount'); return; }
+  if (amount > balance) { alert('Insufficient balance'); return; }
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Sending...';
+  const result = document.getElementById('tx-result');
+  result.innerHTML = '<div class="status-bar pending"><span class="spinner"></span> Broadcasting to ' + chain + ' network...</div>';
+  setTimeout(() => {
+    const txHash = '0x' + Array.from({length:64},()=>Math.floor(Math.random()*16).toString(16)).join('');
+    const gasCost = (chain==='Base' ? 0.005 : 0.01).toFixed(4);
+    balance -= amount;
+    const blockNum = Math.floor(Math.random()*9000000+1000000);
+    result.innerHTML =
+      '<div class="status-bar success fade-in">✅ Confirmed on ' + chain + ' · Block #' + blockNum + '</div>' +
+      '<div class="code-block">Tx Hash: ' + txHash + '<br>Amount: ' + amount.toFixed(2) + ' USDC<br>Gas: $' + gasCost + ' · Confirmation: ~2s<br>To: ' + recipient + '</div>';
+    btn.disabled = false;
+    btn.innerHTML = '🚀 Send Payment';
+    document.querySelector('.balance').innerHTML = '$' + balance.toLocaleString('en-US',{minimumFractionDigits:2}) + ' <span style="font-size:1rem;color:var(--text2)">USDC</span>';
+    const cb = chain.toLowerCase();
+    const cap = chain.charAt(0).toUpperCase() + chain.slice(1);
+    const log = document.getElementById('tx-log');
+    log.insertAdjacentHTML('afterbegin',
+      '<div class="tx-row fade-in"><div><strong style="color:var(--accent2)">'+amount.toFixed(2)+' USDC</strong> → '+recipient.slice(0,13)+'... · <span class="chain-badge '+cb+'">'+cap+'</span></div><div style="text-align:right"><div style="color:var(--success)">✅ Confirmed</div><div style="color:var(--text2);font-size:0.75rem">'+new Date().toISOString().replace('T',' ').slice(0,16)+'</div></div></div>');
+  }, 2000);
+}
+</script>
+</body>
+</html>

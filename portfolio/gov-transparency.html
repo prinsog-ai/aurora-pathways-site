@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparent Governance — Aurora Pathways</title>
+<meta name="description" content="Transparent governance demo. On-chain voting, public fund tracking & audit dashboards. Aurora Pathways portfolio.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/gov-transparency">
+<meta property="og:title" content="Transparent Governance — Aurora Pathways">
+<meta property="og:description" content="Transparent governance demo. On-chain voting, public fund tracking & audit dashboards. Aurora Pathways portfolio.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/gov-transparency">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Transparent Governance — Aurora Pathways">
+<meta name="twitter:description" content="Transparent governance demo. On-chain voting, public fund tracking & audit dashboards. Aurora Pathways portfolio.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+input,select,button,textarea{font-family:inherit}
+.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
+.input:focus{outline:none;border-color:var(--accent)}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-success{background:var(--success);color:#000}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-sm{padding:8px 16px;font-size:0.8rem;border-radius:8px}
+.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
+.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px}
+.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
+.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
+.candidate{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px;gap:12px}
+.candidate-name{font-weight:600;font-size:0.9rem}
+.vote-count{font-size:0.85rem;color:var(--accent2);min-width:55px;text-align:right}
+.vote-bar{flex:1;height:6px;background:var(--surface);border-radius:3px;overflow:hidden}
+.vote-fill{height:100%;border-radius:3px;transition:width 0.6s}
+.grant-row{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.grant-info{flex:1;min-width:180px}
+.grant-title{font-weight:700;font-size:0.9rem}
+.grant-detail{font-size:0.75rem;color:var(--text2);margin-top:4px}
+.record-field{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--glass-border);font-size:0.9rem}
+.record-field:last-child{border-bottom:none}
+.record-label{color:var(--text2)}
+.record-value{font-weight:600;font-family:monospace;font-size:0.82rem}
+.audit-log{max-height:200px;overflow-y:auto;font-family:monospace;font-size:0.75rem}
+.audit-log div{padding:5px 0;border-bottom:1px solid var(--glass-border);color:var(--text2)}
+.audit-log div:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge portfolio">Governance &amp; Public Records</span>
+<h1>🏛️ Transparent Governance</h1>
+<p class="subtitle">Immutable public records, verifiable on-chain voting, and transparent grant distribution on Aurora — rebuilding trust through radical transparency.</p>
+
+<div class="card">
+  <h3>📋 Public Records Lookup</h3>
+  <div style="display:flex;gap:12px;margin-bottom:16px">
+    <input class="input" id="recordId" placeholder="Enter record ID (e.g. LAND-0042)" style="flex:1">
+    <button class="btn btn-primary btn-sm" onclick="lookupRecord()">🔍 Search</button>
+  </div>
+  <div id="recordResult"></div>
+  <div style="margin-top:8px;font-size:0.8rem;color:var(--text2)">Try: LAND-0042, LAND-0017, LAND-0089, or VOTE-2025-01</div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h3>🗳️ Voting Booth</h3>
+    <div id="candidates"></div>
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <button class="btn btn-success btn-sm" style="flex:1" onclick="castVote()">🗳️ Cast Vote</button>
+    </div>
+    <div id="voteResult" style="margin-top:12px"></div>
+  </div>
+  <div class="card">
+    <h3>🔐 Verify My Vote</h3>
+    <p style="color:var(--text2);font-size:0.85rem;margin-bottom:12px">Confirm your vote was counted without revealing your choice:</p>
+    <input class="input" id="voteIdInput" placeholder="Paste your anonymous vote ID" style="margin-bottom:12px">
+    <button class="btn btn-outline btn-sm" onclick="verifyVote()">🔍 Verify</button>
+    <div id="verifyVoteResult" style="margin-top:12px"></div>
+    <div class="code-block" id="voteInfo" style="display:none;margin-top:12px"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>💰 Grant Distribution Tracker</h3>
+  <div id="grants"></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+    <button class="btn btn-outline btn-sm" onclick="auditGrants()">📊 Audit All</button>
+    <button class="btn btn-outline btn-sm" onclick="exportReport()">📄 Export Report</button>
+  </div>
+  <div id="auditResult" style="margin-top:12px"></div>
+</div>
+
+<div class="card">
+  <h3>📜 Audit Trail</h3>
+  <div class="audit-log" id="auditLog">
+    <div style="color:var(--text2)">Audit log is empty. Interact with the dashboard to generate entries.</div>
+  </div>
+</div>
+</div>
+<script>
+const records = {
+  "LAND-0042":{title:"Parcel 42 — Riverside",owner:"0x8f3a...c91f",date:"2024-04-12",ref:"0x1a2b3c4d...e5f6",status:"Active"},
+  "LAND-0017":{title:"Downtown Commercial Lot B",owner:"0x2d8e...b445",date:"2023-11-03",ref:"0x7f8a9b0c...d1e2",status:"Active"},
+  "LAND-0089":{title:"Greenfield Agricultural Zone",owner:"0x9f1c...a772",date:"2025-01-20",ref:"0x3c4d5e6f...a7b8",status:"Pending"},
+  "VOTE-2025-01":{title:"Municipal Election 2025 — District 4",owner:"Election Commission",date:"2025-03-14",ref:"0xffee0011...aabb",status:"Certified"}
+};
+
+const candidates = [
+  {name:"Maria Chen",party:"Progressive Alliance",color:"#7c5cfc"},
+  {name:"James Okonkwo",party:"Civic Renewal",color:"#4ec9b0"},
+  {name:"Sarah Lindström",party:"Green Future",color:"#3b82f6"},
+  {name:"David Park",party:"Liberal Unity",color:"#ff6b9d"}
+];
+let voteCounts = [0,0,0,0];
+let voteIds = [];
+
+const grants = [
+  {name:"Community Health Center",recipient:"Springfield Health NPO",amount:"250,000 MATIC",status:"Disbursed",tx:"0xabcd...1234"},
+  {name:"Rural Broadband Initiative",recipient:"ConnectAll Foundation",amount:"1,200,000 MATIC",status:"In Progress",tx:"0xef01...5678"},
+  {name:"Youth STEM Program",recipient:"CodeForGood",amount:"180,000 MATIC",status:"Pending",tx:"0x2345...9abc"}
+];
+
+const auditLog = [];
+
+function addAudit(msg){
+  auditLog.unshift(`[${new Date().toLocaleTimeString()}] ${msg}`);
+  if(auditLog.length > 25) auditLog.pop();
+  renderAudit();
+}
+
+function renderAudit(){
+  const el = document.getElementById("auditLog");
+  el.innerHTML = auditLog.length ? auditLog.map(m=>`<div>${m}</div>`).join("") : '<div style="color:var(--text2)">Audit log is empty.</div>';
+}
+
+function lookupRecord(){
+  const id = document.getElementById("recordId").value.trim().toUpperCase();
+  const el = document.getElementById("recordResult");
+  const rec = records[id];
+  if(!rec){ el.innerHTML = `<div class="status-bar pending">⚠️ Record not found. Try: LAND-0042, LAND-0017, LAND-0089, or VOTE-2025-01</div>`; return; }
+  el.innerHTML = `<div class="card" style="background:var(--surface2);margin-bottom:0">
+    <div class="record-field"><span class="record-label">Title</span><span class="record-value" style="font-family:inherit">${rec.title}</span></div>
+    <div class="record-field"><span class="record-label">Owner / Authority</span><span class="record-value">${rec.owner}</span></div>
+    <div class="record-field"><span class="record-label">Registration Date</span><span class="record-value" style="font-family:inherit">${rec.date}</span></div>
+    <div class="record-field"><span class="record-label">Blockchain Reference</span><span class="record-value">${rec.ref}</span></div>
+    <div class="record-field"><span class="record-label">Status</span><span class="record-value" style="color:var(--accent2)">✓ ${rec.status}</span></div>
+  </div>`;
+  addAudit(`🔍 Record lookup: ${id} — ${rec.title}`);
+}
+
+function renderCandidates(){
+  const el = document.getElementById("candidates");
+  el.innerHTML = "";
+  candidates.forEach((c,i)=>{
+    el.innerHTML += `<div class="candidate">
+      <span class="candidate-name">${c.name} <span style="font-size:0.75rem;color:var(--text2)">(${c.party})</span></span>
+      <div class="vote-bar"><div class="vote-fill" id="fill-${i}" style="width:0%;background:${c.color}"></div></div>
+      <span class="vote-count" id="cnt-${i}">0</span>
+    </div>`;
+  });
+}
+
+function castVote(){
+  const idx = Math.floor(Math.random()*4);
+  voteCounts[idx]++;
+  const total = voteCounts.reduce((a,b)=>a+b,0);
+  const vId = "VOTE-" + Math.random().toString(16).slice(2,10).toUpperCase();
+  const txHash = "0x" + Date.now().toString(16);
+  voteIds.push({id:vId, counted:true, tx:txHash});
+  updateBars();
+  const el = document.getElementById("voteResult");
+  el.innerHTML = `<div class="status-bar success">✅ Vote cast! Your anonymous vote ID: <strong>${vId}</strong> — TX: ${txHash}</div>`;
+  addAudit(`🗳️ Vote cast — ID: ${vId} — TX: ${txHash}`);
+}
+
+function updateBars(){
+  const total = voteCounts.reduce((a,b)=>a+b,0);
+  candidates.forEach((c,i)=>{
+    document.getElementById("cnt-"+i).textContent = voteCounts[i];
+    document.getElementById("fill-"+i).style.width = total>0 ? (voteCounts[i]/total*100)+"%" : "0%";
+  });
+}
+
+function verifyVote(){
+  const input = document.getElementById("voteIdInput").value.trim();
+  const el = document.getElementById("verifyVoteResult");
+  const info = document.getElementById("voteInfo");
+  const found = voteIds.find(v=>v.id === input);
+  if(found){
+    el.innerHTML = `<div class="status-bar success">✓ Vote <strong>${found.id}</strong> confirmed as counted on-chain. Your choice remains anonymous. Timestamp: ${new Date().toISOString()}</div>`;
+    info.style.display = "block";
+    info.innerHTML = `📋 Verification Details\n━━━━━━━━━━━━━━━━\nVote ID: ${found.id}\nStatus: Counted ✓\nOn-Chain TX: ${found.tx}\nPrivacy: Zero-knowledge proof verified\nBallot integrity: Confirmed`;
+    addAudit(`🔐 Vote verified on-chain: ${found.id}`);
+  }else{
+    el.innerHTML = `<div class="status-bar pending">⚠️ Vote ID not found. Cast a vote first to generate an ID.</div>`;
+    info.style.display = "none";
+  }
+}
+
+function renderGrants(){
+  const el = document.getElementById("grants");
+  el.innerHTML = "";
+  grants.forEach(g=>{
+    const sc = g.status==="Disbursed"?"success":"pending";
+    const emoji = g.status==="Disbursed"?"✅":g.status==="In Progress"?"🔄":"⏳";
+    el.innerHTML += `<div class="grant-row">
+      <div class="grant-info">
+        <div class="grant-title">${g.name}</div>
+        <div class="grant-detail">Recipient: ${g.recipient} · Amount: ${g.amount}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="status-bar ${sc}" style="margin-top:0;display:inline-flex">${emoji} ${g.status}</span>
+        <div class="grant-detail" style="margin-top:4px">TX: ${g.tx}</div>
+      </div>
+    </div>`;
+  });
+}
+
+function auditGrants(){
+  const el = document.getElementById("auditResult");
+  el.innerHTML = `<div class="status-bar success">✓ Grant audit complete: ${grants.length} grants tracked. Total allocated: 1,630,000 MATIC across 3 programs. All transactions verified on Aurora.</div>`;
+  addAudit("📊 Full grant audit executed — 3/3 grants verified on-chain");
+}
+
+function exportReport(){
+  const el = document.getElementById("auditResult");
+  const rHash = "0x" + Math.random().toString(16).slice(2,18);
+  el.innerHTML = `<div class="code-block" style="margin-top:0">📄 Transparency Report Generated
+━━━━━━━━━━━━━━━━━━━━
+Report Hash: ${rHash}
+Records: 4 public records
+Votes: ${voteCounts.reduce((a,b)=>a+b,0)} total cast
+Grants: 3 tracked (1 disbursed, 1 in progress, 1 pending)
+Generated: ${new Date().toISOString()}
+━━━━━━━━━━━━━━━━━━━━
+This report is cryptographically signed and verifiable on Aurora.</div>`;
+  addAudit(`📄 Transparency report exported — Hash: ${rHash}`);
+}
+
+renderCandidates();
+renderGrants();
+
+setInterval(()=>{
+  if(voteCounts.reduce((a,b)=>a+b,0) === 0) return;
+  voteCounts[Math.floor(Math.random()*4)]++;
+  updateBars();
+},4000);
+</script>
+</body>
+</html>

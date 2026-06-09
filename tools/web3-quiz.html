@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web 3.0 Readiness Quiz — Aurora Pathways</title>
+<meta name="description" content="Is your business ready for Web3? Take our free readiness quiz to discover blockchain opportunities for your industry.">
+<link rel="canonical" href="https://aurorapathways.xyz/tools/web3-quiz.html">
+<meta property="og:title" content="Web 3.0 Readiness Quiz — Aurora Pathways">
+<meta property="og:description" content="Is your business ready for Web3? Take our free readiness quiz to discover blockchain opportunities for your industry.">
+<meta property="og:url" content="https://aurorapathways.xyz/tools/web3-quiz.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Web 3.0 Readiness Quiz — Aurora Pathways">
+<meta name="twitter:description" content="Is your business ready for Web3? Take our free readiness quiz to discover blockchain opportunities for your industry.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg: #0a0a0f; --surface: #111118; --surface2: #181820;
+    --text: #e8e8ed; --text2: #9898a8;
+    --accent: #7c5cfc; --accent2: #4ec9b0; --accent3: #ff6b9d;
+    --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+    --glass: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.06);
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .quiz-container { max-width:640px; width:100%; background:var(--surface); border:1px solid var(--glass-border); border-radius:16px; padding:40px; }
+  h2 { font-size:1.6rem; font-weight:700; margin-bottom:8px; }
+  .subtitle { color:var(--text2); font-size:0.9rem; margin-bottom:32px; }
+  .progress { height:4px; background:var(--surface2); border-radius:2px; margin-bottom:24px; overflow:hidden; }
+  .progress-bar { height:100%; background:var(--gradient); border-radius:2px; transition:width 0.4s ease; width:0%; }
+  .question { margin-bottom:24px; display:none; }
+  .question.active { display:block; }
+  .question h3 { font-size:1.1rem; font-weight:600; margin-bottom:16px; }
+  .options { display:flex; flex-direction:column; gap:10px; }
+  .option { padding:14px 18px; background:var(--surface2); border:1px solid var(--glass-border); border-radius:10px; cursor:pointer; transition:all 0.2s; font-size:0.95rem; }
+  .option:hover { border-color:var(--accent); background:rgba(124,92,252,0.08); }
+  .option.selected { border-color:var(--accent); background:rgba(124,92,252,0.15); }
+  .result { display:none; text-align:center; }
+  .result.active { display:block; }
+  .score-circle { width:120px; height:120px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; margin:0 auto 24px; font-size:2.5rem; font-weight:800; }
+  .recommendation { background:var(--surface2); border-radius:12px; padding:24px; margin:20px 0; text-align:left; border:1px solid var(--glass-border); }
+  .recommendation h4 { color:var(--accent2); margin-bottom:12px; }
+  .recommendation li { padding:8px 0; color:var(--text2); font-size:0.9rem; }
+  .rec-list { list-style:none; }
+  .rec-list li::before { content:'→ '; color:var(--accent2); }
+  .btn { display:inline-block; padding:14px 36px; border-radius:10px; font-weight:600; font-size:1rem; cursor:pointer; border:none; transition:all 0.2s; text-decoration:none; }
+  .btn-primary { background:var(--accent); color:white; }
+  .btn-primary:hover { background:#9370ff; }
+  .btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--glass-border); margin-left:12px; }
+  .back-link { display:block; margin-bottom:24px; color:var(--accent2); text-decoration:none; font-size:0.9rem; }
+  .back-link:hover { text-decoration:underline; }
+  @media (max-width:500px) { .quiz-container { padding:24px; } .btn { display:block; width:100%; margin:8px 0; } }
+</style>
+</head>
+<body>
+<div class="quiz-container">
+  <a href="../index.html" class="back-link">← Back to Aurora Pathways</a>
+  <h2>🌐 Web 3.0 Readiness Quiz</h2>
+  <p class="subtitle">5 questions. 2 minutes. See where your business stands.</p>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <div id="quiz"></div>
+  <div class="result" id="result">
+    <p style="color:var(--accent2);margin-bottom:8px;">Your Score</p>
+    <div class="score-circle" id="scoreDisplay">0</div>
+    <h3 id="verdict"></h3>
+    <div class="recommendation" id="recommendation"></div>
+    <div style="margin-top:24px;">
+      <a href="../index.html#contact" class="btn btn-primary">Get Your Free Assessment →</a>
+      <button class="btn btn-secondary" onclick="restartQuiz()">Retake Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q:"Does your business accept cryptocurrency payments?", opts:["Yes, fully integrated","Experimenting / exploring","No, not yet"], scores:[3,1,0] },
+  { q:"How does your business handle digital identity and customer data?", opts:["Self-sovereign / blockchain","Cloud with some encryption","Traditional databases"], scores:[3,1,0] },
+  { q:"Is your website hosted on decentralized infrastructure (IPFS, Arweave)?", opts:["Yes, fully decentralized","Considering it","No, traditional hosting only"], scores:[3,1,0] },
+  { q:"Do you use smart contracts or blockchain for any business processes?", opts:["Yes, in production","Proof of concept","No"], scores:[3,1,0] },
+  { q:"How familiar is your team with Web 3.0 (DeFi, DAOs, NFTs, tokenomics)?", opts:["Deep expertise in-house","Some team members learning","Limited or no knowledge"], scores:[3,1,0] }
+];
+let answers=[], currentQ=0;
+
+function renderQuiz(){
+  const qz=document.getElementById('quiz');
+  qz.innerHTML=questions.map((q,i)=>'<div class="question'+(i===0?' active':'')+'"><h3>'+(i+1)+'. '+q.q+'</h3><div class="options">'+q.opts.map((o,j)=>'<div class="option" data-q="'+i+'" data-s="'+q.scores[j]+'">'+o+'</div>').join('')+'</div></div>').join('');
+  document.querySelectorAll('.option').forEach(o=>o.addEventListener('click',function(e){
+    const qi=parseInt(this.dataset.q),s=parseInt(this.dataset.s);
+    answers[qi]=s;
+    document.querySelectorAll('[data-q="'+qi+'"]').forEach(x=>x.classList.remove('selected'));
+    this.classList.add('selected');
+    if(qi===currentQ&&currentQ<questions.length-1) setTimeout(()=>{currentQ++;showQ(currentQ);},300);
+    if(answers.filter(a=>a!==undefined).length===questions.length) setTimeout(showResult,500);
+  }));
+}
+function showQ(i){
+  document.querySelectorAll('.question').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.question')[i].classList.add('active');
+  document.getElementById('progressBar').style.width=((i+1)/questions.length*100)+'%';
+}
+function showResult(){
+  const total=answers.reduce((a,b)=>a+b,0),pct=Math.round((total/(questions.length*3))*100);
+  document.getElementById('progressBar').style.width='100%';
+  document.querySelectorAll('.question').forEach(q=>q.classList.remove('active'));
+  const r=document.getElementById('result'); r.classList.add('active');
+  document.getElementById('scoreDisplay').textContent=pct+'%';
+  let v,rc;
+  if(pct>=70){v="🚀 Web 3.0 Native";rc='<h4>You\'re ahead of the curve</h4><ul class="rec-list"><li>Optimize blockchain integrations for cost efficiency</li><li>Explore DAO governance for community engagement</li><li>Offer Web 3.0 services to your own customers</li><li>Consider tokenomics for loyalty programs</li></ul>';}
+  else if(pct>=35){v="🌅 Early Explorer";rc='<h4>Solid foundation — ready for the next step</h4><ul class="rec-list"><li>Start with crypto payment integration</li><li>Move your website to IPFS for censorship-resistance</li><li>Run a Web 3.0 workshop for your team</li><li>Launch one smart-contract pilot project</li></ul>';}
+  else{v="🌱 Web 2.0 Native";rc='<h4>Tons of upside — let\'s build the bridge</h4><ul class="rec-list"><li>Start with a decentralized website — immediate credibility</li><li>Add a crypto payment button to test the waters</li><li>Join a Web 3.0 community or DAO to learn</li><li>Book a free strategy session — 90-day roadmap</li></ul>';}
+  document.getElementById('verdict').textContent=v;
+  document.getElementById('recommendation').innerHTML=rc;
+}
+function restartQuiz(){
+  answers=[];currentQ=0;
+  document.getElementById('result').classList.remove('active');
+  document.getElementById('progressBar').style.width='0%';
+  document.querySelectorAll('.question').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.querySelectorAll('.question')[0].classList.add('active');
+}
+renderQuiz();
+</script>
+</body>
+</html>

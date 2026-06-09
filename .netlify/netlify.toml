@@ -1,14 +1,13 @@
+functionsDirectory = "/Users/woedem/aurora-pathways-site/netlify/functions"
+functionsDirectoryOrigin = "default"
 plugins = []
 headers = []
 redirects = []
 
-[functions]
-
-[functions."*"]
-
 [build]
 publish = "/Users/woedem/aurora-pathways-site"
 publishOrigin = "default"
+functions = "/Users/woedem/aurora-pathways-site/netlify/functions"
 
 [build.environment]
 
@@ -23,3 +22,7 @@ publishOrigin = "default"
 [build.processing.js]
 
 [build.services]
+
+[functions]
+
+[functions."*"]

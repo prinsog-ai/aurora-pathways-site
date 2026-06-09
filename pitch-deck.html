@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways — Web3 Agency Pitch Deck</title>
+<meta name="description" content="Aurora Pathways pitch deck. Web3 consulting agency specializing in blockchain development, DeFi & dApp architecture.">
+<link rel="canonical" href="https://aurorapathways.xyz/pitch-deck">
+<meta property="og:title" content="Aurora Pathways — Web3 Agency Pitch Deck">
+<meta property="og:description" content="Aurora Pathways pitch deck. Web3 consulting agency specializing in blockchain development, DeFi & dApp architecture.">
+<meta property="og:url" content="https://aurorapathways.xyz/pitch-deck">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aurora Pathways — Web3 Agency Pitch Deck">
+<meta name="twitter:description" content="Aurora Pathways pitch deck. Web3 consulting agency specializing in blockchain development, DeFi & dApp architecture.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+  body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #e0e0f0; line-height: 1.6; }
+  
+  .slide { min-height: 100vh; display: flex; align-items: center; justify-content: center; scroll-snap-align: start; position: relative; overflow: hidden; padding: 80px 24px; }
+  .slide-content { max-width: 960px; width: 100%; position: relative; z-index: 1; }
+
+  /* Backgrounds */
+  .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+    background-image: linear-gradient(rgba(108,92,231,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.04) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .bg-glow-tl { position: fixed; top: -30%; left: -15%; width: 700px; height: 700px; pointer-events: none; z-index: 0;
+    background: radial-gradient(circle, rgba(108,92,231,0.1) 0%, transparent 70%); }
+  .bg-glow-br { position: fixed; bottom: -30%; right: -15%; width: 600px; height: 600px; pointer-events: none; z-index: 0;
+    background: radial-gradient(circle, rgba(0,184,148,0.06) 0%, transparent 70%); }
+
+  /* Navigation dots */
+  .nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 12px; }
+  .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(108,92,231,0.3); cursor: pointer; transition: all 0.3s; border: none; }
+  .nav-dot.active, .nav-dot:hover { background: #6c5ce7; box-shadow: 0 0 12px rgba(108,92,231,0.5); }
+
+  /* Slide 1: Title */
+  .title-slide { text-align: center; }
+  .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #6c5ce7, #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 40px; letter-spacing: 1px; }
+  .title-slide h1 { font-size: clamp(40px, 8vw, 80px); font-weight: 900; line-height: 1.1; margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, #a29bfe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .title-slide .subtitle { font-size: 22px; color: #8888aa; margin-bottom: 48px; }
+  .title-slide .tagline { font-size: 16px; color: #6c5ce7; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+  .divider { width: 60px; height: 3px; background: #6c5ce7; margin: 0 auto 32px; border-radius: 2px; }
+
+  /* Slide 2: The Problem */
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .problem-card { background: rgba(26,26,46,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,107,107,0.15); border-radius: 16px; padding: 28px; border-left: 3px solid #ff6b6b; }
+  .problem-card .icon { font-size: 28px; margin-bottom: 12px; }
+  .problem-card h4 { font-size: 16px; color: #ff6b6b; margin-bottom: 8px; }
+  .problem-card p { font-size: 13px; color: #8888aa; line-height: 1.6; }
+
+  /* Slide 3+: Services */
+  .section-label { font-size: 13px; font-weight: 600; letter-spacing: 2px; color: #6c5ce7; text-transform: uppercase; margin-bottom: 8px; }
+  .slide h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; margin-bottom: 12px; color: #fff; }
+  .slide .slide-sub { font-size: 17px; color: #8888aa; max-width: 560px; margin-bottom: 48px; }
+
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .service-card { background: rgba(26,26,46,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(108,92,231,0.1); border-radius: 16px; padding: 32px; transition: transform 0.3s, border-color 0.3s; }
+  .service-card:hover { transform: translateY(-4px); border-color: rgba(108,92,231,0.3); }
+  .service-icon { font-size: 40px; margin-bottom: 16px; }
+  .service-card h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+  .service-card p { font-size: 13px; color: #8888aa; line-height: 1.7; margin-bottom: 12px; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; }
+  .tag-purple { background: rgba(108,92,231,0.15); color: #a29bfe; }
+  .tag-green { background: rgba(0,184,148,0.15); color: #00b894; }
+
+  /* Process slide */
+  .process-timeline { display: flex; gap: 0; margin-top: 48px; }
+  .process-step { flex: 1; text-align: center; position: relative; padding: 0 16px; }
+  .process-step::after { content: ''; position: absolute; top: 24px; left: 60%; right: -10%; height: 2px; background: rgba(108,92,231,0.2); z-index: 0; }
+  .process-step:last-child::after { display: none; }
+  .step-circle { width: 48px; height: 48px; background: #6c5ce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-weight: 800; font-size: 20px; color: #fff; position: relative; z-index: 1; }
+  .process-step h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .process-step p { font-size: 12px; color: #8888aa; }
+
+  /* Tech stack */
+  .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+  .tech-card { background: rgba(26,26,46,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(108,92,231,0.08); border-radius: 12px; padding: 24px 16px; text-align: center; }
+  .tech-card .tech-icon { font-size: 32px; margin-bottom: 8px; }
+  .tech-card h5 { font-size: 14px; color: #ccccee; font-weight: 600; }
+  .tech-card p { font-size: 11px; color: #6666aa; margin-top: 4px; }
+
+  /* Why us */
+  .us-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 48px; }
+  .us-card { background: rgba(26,26,46,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(0,184,148,0.15); border-radius: 16px; padding: 28px; border-left: 3px solid #00b894; }
+  .us-card h4 { color: #00b894; font-size: 17px; margin-bottom: 8px; }
+  .us-card p { font-size: 13px; color: #8888aa; line-height: 1.6; }
+
+  /* CTA slide */
+  .cta-box { background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(108,92,231,0.04)); border: 1px solid rgba(108,92,231,0.2); border-radius: 24px; padding: 56px 48px; text-align: center; max-width: 640px; margin: 0 auto; }
+  .cta-box h2 { font-size: 32px; margin-bottom: 12px; }
+  .cta-box p { color: #8888aa; font-size: 17px; margin-bottom: 28px; }
+  .cta-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
+  .cta-detail { display: flex; align-items: center; gap: 10px; color: #9999bb; font-size: 14px; }
+  .cta-detail .bullet { color: #6c5ce7; font-size: 18px; }
+
+  .btn-primary { background: #6c5ce7; color: #fff; padding: 16px 36px; border-radius: 12px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(108,92,231,0.3); }
+
+  /* Stats banner */
+  .stats-banner { display: flex; gap: 40px; justify-content: center; margin-top: 56px; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 40px; font-weight: 900; color: #6c5ce7; }
+  .stat-label { font-size: 13px; color: #6666aa; margin-top: 4px; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .service-grid, .problem-grid, .tech-grid, .us-grid { grid-template-columns: 1fr; }
+    .process-timeline { flex-direction: column; gap: 24px; }
+    .process-step::after { display: none; }
+    .nav-dots { display: none; }
+    .stats-banner { flex-direction: column; gap: 24px; }
+    .cta-details { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow-tl"></div>
+<div class="bg-glow-br"></div>
+
+<nav class="nav-dots" id="navDots"></nav>
+<a href="/" style="position:fixed;top:20px;left:24px;z-index:101;color:#6666aa;font-size:13px;font-family:Inter,sans-serif;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#6c5ce7'" onmouseout="this.style.color='#6666aa'">← Back to site</a>
+
+<!-- Slide 1: Title -->
+<section class="slide title-slide" id="s1">
+  <div class="slide-content">
+    <div class="logo-text">⚡ AURORA PATHWAYS</div>
+    <h1>Your Bridge<br>to Web3</h1>
+    <div class="divider"></div>
+    <p class="subtitle">We build decentralized infrastructure that lasts. No hype. No vaporware. Just solid blockchain products your business can use tomorrow.</p>
+    <p class="tagline">Strategy · Build · Deploy · Grow</p>
+    <div class="stats-banner">
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">DAO Protocols Built</div></div>
+      <div class="stat-item"><div class="stat-num">95</div><div class="stat-label">Smart Contract Tests</div></div>
+      <div class="stat-item"><div class="stat-num">0.5%</div><div class="stat-label">Avg Protocol Fee</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 2: The Problem -->
+<section class="slide" id="s2">
+  <div class="slide-content">
+    <div class="section-label">The Landscape</div>
+    <h2>Web3 is inevitable.<br>Surviving it isn't.</h2>
+    <p class="slide-sub">Businesses who wait are already behind. Those who rush in with the wrong partner lose millions to hacks, failed launches, and abandoned projects.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">🔓</div>
+        <h4>Centralization Risk</h4>
+        <p>Your website, payments, and user data live on someone else's servers. One policy change, one outage, one lawsuit — and your business goes dark.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">💸</div>
+        <h4>Fee Extraction</h4>
+        <p>Platforms take 10-30% of every transaction. Payment processors add another 3-5%. Middlemen profit from your work more than you do.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🎲</div>
+        <h4>Amateur Hour</h4>
+        <p>$3.8B lost to DeFi hacks in 2023 alone. Most "Web3 agencies" are designers who watched a Solidity tutorial. Your business deserves real engineering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 3: Services overview -->
+<section class="slide" id="s3">
+  <div class="slide-content">
+    <div class="section-label">What We Build</div>
+    <h2>Six services. One team.<br>Zero compromises.</h2>
+    <p class="slide-sub">Everything your business needs to go from Web2 spectator to Web3 competitor.</p>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="service-icon">🌐</div>
+        <h4>Decentralized Websites</h4>
+        <p>Secure, censorship-resistant hosting on IPFS and blockchain platforms. Your site lives forever, not on someone else's server.</p>
+        <div class="service-tags"><span class="tag tag-purple">IPFS</span><span class="tag tag-green">Arweave</span><span class="tag tag-purple">ENS</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💎</div>
+        <h4>Smart Contracts & NFTs</h4>
+        <p>Automated transactions, tokenized memberships, NFT marketplaces — programmable trust that runs 24/7 without intermediaries.</p>
+        <div class="service-tags"><span class="tag tag-purple">Solidity</span><span class="tag tag-green">ERC-20/721</span><span class="tag tag-purple">OpenZeppelin</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔐</div>
+        <h4>Crypto Payment Systems</h4>
+        <p>Accept USDC, USDT, DAI on Polygon and Base. Global payments with $0.01 gas fees and instant settlement.</p>
+        <div class="service-tags"><span class="tag tag-green">Polygon</span><span class="tag tag-purple">Base</span><span class="tag tag-green">USDC</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏗️</div>
+        <h4>Custom dApps</h4>
+        <p>Decentralized applications tailored to your operations — supply chain tracking, transparent fundraising, community governance.</p>
+        <div class="service-tags"><span class="tag tag-purple">React</span><span class="tag tag-green">ethers.js</span><span class="tag tag-purple">The Graph</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h4>Workshops & Training</h4>
+        <p>Equip your team with Web3 literacy. Custom workshops on blockchain, DeFi, metaverse strategy, and digital transformation.</p>
+        <div class="service-tags"><span class="tag tag-green">On-site</span><span class="tag tag-purple">Remote</span><span class="tag tag-green">Custom Curriculum</span></div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h4>Ongoing Management</h4>
+        <p>Analytics, updates, technical support, and new feature integration — we keep your Web3 presence evolving.</p>
+        <div class="service-tags"><span class="tag tag-purple">24/7 Monitoring</span><span class="tag tag-green">Upgrades</span><span class="tag tag-purple">Support</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: How We Work -->
+<section class="slide" id="s4">
+  <div class="slide-content">
+    <div class="section-label">Our Process</div>
+    <h2>Four weeks to launch.</h2>
+    <p class="slide-sub">Most Web3 projects drag on for months. Our battle-tested pipeline ships production-ready products on a timeline that actually makes sense.</p>
+    <div class="process-timeline">
+      <div class="process-step">
+        <div class="step-circle">1</div>
+        <h4>Discovery</h4>
+        <p>We learn your business, identify the highest-ROI Web3 entry point, and scope the build.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">2</div>
+        <h4>Architecture</h4>
+        <p>Smart contract design, security model, UI/UX wireframes. Everything reviewed before a line of code is written.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">3</div>
+        <h4>Build & Test</h4>
+        <p>Parallel development across contracts, frontend, and integration. 100% test coverage as standard.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">4</div>
+        <h4>Deploy & Train</h4>
+        <p>Deploy to mainnet, IPFS, and your domains. Train your team. Hand over the keys — you own everything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Tech Stack -->
+<section class="slide" id="s5">
+  <div class="slide-content">
+    <div class="section-label">Our Arsenal</div>
+    <h2>Industrial-grade stack.<br>No shortcuts.</h2>
+    <p class="slide-sub">We use the same tools and standards as billion-dollar protocols — not because it's trendy, but because it's safe.</p>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-icon">⛓️</div><h5>Ethereum L1/L2</h5><p>Mainnet, Polygon, Base</p></div>
+      <div class="tech-card"><div class="tech-icon">📜</div><h5>Solidity 0.8.25</h5><p>Optimized + viaIR</p></div>
+      <div class="tech-card"><div class="tech-icon">🛡️</div><h5>OpenZeppelin</h5><p>Battle-tested libraries</p></div>
+      <div class="tech-card"><div class="tech-icon">🧪</div><h5>Hardhat</h5><p>Full test coverage</p></div>
+      <div class="tech-card"><div class="tech-icon">📡</div><h5>IPFS + Arweave</h5><p>Permanent storage</p></div>
+      <div class="tech-card"><div class="tech-icon">🔗</div><h5>ethers.js v6</h5><p>Web3 frontend stack</p></div>
+      <div class="tech-card"><div class="tech-icon">🏛️</div><h5>DAO Governance</h5><p>Governor + Timelock</p></div>
+      <div class="tech-card"><div class="tech-icon">💳</div><h5>USDC / USDT / DAI</h5><p>Stablecoin rails</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: Why Us -->
+<section class="slide" id="s6">
+  <div class="slide-content">
+    <div class="section-label">Why Aurora Pathways</div>
+    <h2>We're not a trend-chasing<br>marketing agency.</h2>
+    <p class="slide-sub">We're engineers who've built real protocols that compile, pass tests, and ship.</p>
+    <div class="us-grid">
+      <div class="us-card">
+        <h4>🚀 Product-First, Not Hype-First</h4>
+        <p>We've already built four deployable DAO protocols — Tasklync, Pledgly, Forekast, Ridep2p — with 95/95 smart contract tests passing. We don't pitch ideas. We ship code.</p>
+      </div>
+      <div class="us-card">
+        <h4>🔐 Security as Baseline</h4>
+        <p>Every contract uses battle-tested OpenZeppelin libraries, passes full test suites, and follows industry-standard patterns. We don't cut corners that get you hacked.</p>
+      </div>
+      <div class="us-card">
+        <h4>📦 You Own Everything</h4>
+        <p>No vendor lock-in. No proprietary tech. All code ships to your GitHub. All domains in your name. All contracts verified on Etherscan. You have the keys — literally.</p>
+      </div>
+      <div class="us-card">
+        <h4>⚡ Speed Without Sacrifice</h4>
+        <p>Our parallel sub-agent pipeline compresses what typically takes 3 months into 4 weeks. Same quality, same security — just faster because we built the tooling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7: CTA -->
+<section class="slide" id="s7">
+  <div class="slide-content">
+    <div class="cta-box">
+      <h2>Let's build something that lasts.</h2>
+      <p>Whether you need a single smart contract or an entire DAO ecosystem, we're ready when you are.</p>
+      <button class="btn-primary">Start Your Project →</button>
+      <div class="cta-details">
+        <div class="cta-detail"><span class="bullet">▶</span> aurorapathways.xyz</div>
+        <div class="cta-detail"><span class="bullet">▶</span> hello@aurorapathways.xyz</div>
+        <div class="cta-detail"><span class="bullet">▶</span> Deployment in 4 weeks</div>
+        <div class="cta-detail"><span class="bullet">▶</span> Full code ownership included</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Navigation dots
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.getElementById('navDots');
+  slides.forEach((s, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.onclick = () => s.scrollIntoView({ behavior: 'smooth' });
+    nav.appendChild(dot);
+  });
+
+  // Highlight active dot
+  const dots = document.querySelectorAll('.nav-dot');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = [...slides].indexOf(e.target);
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[idx]) dots[idx].classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
+  slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

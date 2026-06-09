@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0f;
+    position: relative;
+  }
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.6;
+  }
+  .aurora-1 {
+    width: 600px; height: 300px;
+    background: rgba(124,92,252,0.25);
+    top: -50px; left: -100px;
+  }
+  .aurora-2 {
+    width: 500px; height: 400px;
+    background: rgba(78,201,176,0.18);
+    bottom: -100px; right: -50px;
+  }
+  .aurora-3 {
+    width: 400px; height: 250px;
+    background: rgba(59,130,246,0.15);
+    top: 200px; left: 400px;
+  }
+  .container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    text-align: center;
+    padding: 60px;
+  }
+  .logo {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+  .tagline {
+    font-size: 22px;
+    font-weight: 400;
+    color: #8a8a9a;
+    letter-spacing: 0.04em;
+    margin-bottom: 36px;
+  }
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #7c5cfc, #4ec9b0, #3b82f6);
+    border-radius: 3px;
+    margin-bottom: 36px;
+  }
+  .services {
+    display: flex;
+    gap: 24px;
+  }
+  .service {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 18px 28px;
+    color: #e8e8ed;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .service-icon {
+    font-size: 20px;
+  }
+  .domain-bar {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 15px;
+    color: #5a5a6a;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .domain-bar span {
+    color: #4ec9b0;
+    font-weight: 600;
+  }
+  /* Subtle grid pattern */
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+  /* Noise texture */
+  .noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="grid-pattern"></div>
+  <div class="noise"></div>
+  <div class="aurora aurora-1"></div>
+  <div class="aurora aurora-2"></div>
+  <div class="aurora aurora-3"></div>
+  <div class="container">
+    <div class="logo">AURORA PATHWAYS</div>
+    <div class="tagline">Web 3.0 Consulting & Development</div>
+    <div class="divider"></div>
+    <div class="services">
+      <div class="service"><span class="service-icon">🌐</span> Decentralized Websites</div>
+      <div class="service"><span class="service-icon">💎</span> Smart Contracts</div>
+      <div class="service"><span class="service-icon">💳</span> Crypto Payments</div>
+      <div class="service"><span class="service-icon">🏗️</span> Custom dApps</div>
+    </div>
+  </div>
+  <div class="domain-bar">
+    <span>aurorapathways.xyz</span> &nbsp;·&nbsp; aurorapathways.blockchain &nbsp;·&nbsp; Polygon & Base
+  </div>
+</body>
+</html>

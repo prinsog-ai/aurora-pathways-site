@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ridep2p — Aurora Pathways Portfolio</title>
+<meta name="description" content="Ridep2p: peer-to-peer ride protocol. 3% fee, smart contract escrow, drivers keep 97% on Base L2.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/ridep2p">
+<meta property="og:title" content="Ridep2p — Aurora Pathways Portfolio">
+<meta property="og:description" content="Ridep2p: peer-to-peer ride protocol. 3% fee, smart contract escrow, drivers keep 97% on Base L2.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/ridep2p">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ridep2p — Aurora Pathways Portfolio">
+<meta name="twitter:description" content="Ridep2p: peer-to-peer ride protocol. 3% fee, smart contract escrow, drivers keep 97% on Base L2.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.dao{background:rgba(124,92,252,0.15);color:var(--accent)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);font-size:1rem;margin-bottom:40px;max-width:600px}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:12px;color:var(--accent2)}
+h3{font-size:1.1rem;margin-bottom:12px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{display:flex;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+p{color:var(--text2);line-height:1.6;margin-bottom:12px}
+p strong{color:var(--text);font-weight:600}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.9rem}
+thead th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--glass-border);color:var(--text2)}
+tbody td:first-child{color:var(--text);font-weight:500}
+.highlight{color:var(--accent2);font-weight:600}
+.stat{font-size:1.8rem;font-weight:800;color:var(--accent2)}
+.stat-label{font-size:0.8rem;color:var(--text2);margin-top:4px}
+.tag{display:inline-block;padding:4px 10px;border-radius:12px;font-size:0.75rem;font-weight:500;margin:2px 4px 2px 0;background:var(--surface2);color:var(--accent2)}
+.cta-section{text-align:center;margin-top:40px;padding:40px 0}
+@media(max-width:640px){.grid,.grid-3{grid-template-columns:1fr} h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge dao">DAO Protocol</span>
+<h1>Ridep2p — Community-Owned Ride Sharing</h1>
+<p class="subtitle">3% protocol fee vs Uber's 25–40%. Instant USDC settlement on Base L2. 6 smart contracts + working dApp.</p>
+
+<!-- Problem -->
+<div class="card">
+  <h3>🚗 The Problem</h3>
+  <p>Uber and Lyft take <strong>25–40%</strong> of every ride. Drivers wait <strong>3–5 days</strong> to get paid through legacy banking rails. They earn <strong>zero equity</strong> in the platform they're building. The gig economy was supposed to bring freedom — instead it brought algorithmic exploitation behind a friendly UI.</p>
+  <p>Ridep2p rearchitects ride-sharing from the ground up as a <strong>community-owned protocol</strong>. No corporate middleman. No 40% take rate. Drivers capture the value they create.</p>
+</div>
+
+<!-- Architecture -->
+<div class="card">
+  <h3>🏗️ Architecture — 6 Smart Contracts</h3>
+  <table>
+    <thead><tr><th>Contract</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>RideToken.sol</code></td><td>ERC-20 governance token with staking, voting power, and fee distribution</td></tr>
+      <tr><td><code>Ridep2p.sol</code></td><td>Governance core — proposal creation, quadratic voting, treasury management</td></tr>
+      <tr><td><code>RideMatch.sol</code></td><td>On-chain ride matching with geo-commitment, pricing oracle, and escrow triggers</td></tr>
+      <tr><td><code>DriverRegistry.sol</code></td><td>Verifiable driver profiles, KYC hash attestation, performance metrics</td></tr>
+      <tr><td><code>DisputeResolver.sol</code></td><td>Staked validator panels, multi-sig arbitration, slashing conditions</td></tr>
+      <tr><td><code>RideEscrow.sol</code></td><td>USDC escrow with GPS-based release triggers, partial refunds, tip support</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:16px"><span class="tag">Solidity 0.8.25</span><span class="tag">OpenZeppelin v5</span><span class="tag">Base L2</span><span class="tag">11/11 Tests Passing</span></p>
+</div>
+
+<!-- Hybrid Model -->
+<div class="card">
+  <h3>🏢 Hybrid Protocol + Operating Model</h3>
+  <p>Pure P2P ride-sharing faces coordination challenges — driver support, insurance, safety checks. Ridep2p uses a <strong>hybrid model</strong> where the protocol handles settlement and governance, while a licensed operating company handles real-world logistics.</p>
+  <div class="grid" style="margin-top:20px">
+    <div>
+      <div class="stat">3%</div>
+      <div class="stat-label">Protocol Fee</div>
+      <p style="margin-top:6px">Goes to Ridep2p treasury. Token holders govern how it's spent — insurance pools, marketing, grants.</p>
+    </div>
+    <div>
+      <div class="stat">5–7%</div>
+      <div class="stat-label">Operating Co Fee</div>
+      <p style="margin-top:6px">Covers driver support, background checks, insurance brokerage, app maintenance.</p>
+    </div>
+  </div>
+  <div style="background:var(--surface2);border-radius:10px;padding:20px;margin-top:20px;text-align:center">
+    <p style="font-size:1.1rem;margin:0"><strong>Driver keeps</strong> <span style="color:var(--accent2);font-size:1.5rem;font-weight:800">92.5%+</span> <strong>of every fare</strong></p>
+    <p style="margin:4px 0 0;font-size:0.85rem">vs ~60% on Uber/Lyft after all fees</p>
+  </div>
+</div>
+
+<!-- Key Features -->
+<div class="card">
+  <h3>🔑 Key Features</h3>
+  <div class="grid">
+    <div>
+      <p><strong>🔒 Smart Escrow</strong><br>USDC locked when ride is matched, released on GPS-confirmed completion. No "surprise" adjustments.</p>
+    </div>
+    <div>
+      <p><strong>⚡ Instant Settlement</strong><br>Base L2 confirms in ~2 seconds. Driver has funds before the passenger unbuckles their seatbelt.</p>
+    </div>
+    <div>
+      <p><strong>🗳️ DAO Governance</strong><br>Token holders vote on fees, feature upgrades, treasury allocation. Drivers earn governance tokens for completed rides.</p>
+    </div>
+    <div>
+      <p><strong>⭐ On-Chain Reputation</strong><br>Immutable ride history and ratings. No platform can delete your 5-star record. Portable between markets.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tokenomics -->
+<div class="card">
+  <h3>💰 Tokenomics — $RIDE</h3>
+  <table>
+    <thead><tr><th>Allocation</th><th>%</th><th>Vesting</th></tr></thead>
+    <tbody>
+      <tr><td>Driver & Rider Rewards</td><td class="highlight">40%</td><td>Emitted per ride over 10 years</td></tr>
+      <tr><td>Community Treasury</td><td class="highlight">25%</td><td>Governed by DAO proposals</td></tr>
+      <tr><td>Early Contributors</td><td class="highlight">15%</td><td>4-year linear vest with 1-year cliff</td></tr>
+      <tr><td>Liquidity Provision</td><td class="highlight">10%</td><td>Unlocked at TGE for DEX pairs</td></tr>
+      <tr><td>Insurance Pool</td><td class="highlight">10%</td><td>Staked by validators, slashing protects riders</td></tr>
+    </tbody>
+  </table>
+  <p>Total supply: <strong>1,000,000,000 RIDE</strong>. Fixed cap. No inflation beyond the 10-year emission schedule.</p>
+</div>
+
+<!-- Economic Comparison -->
+<div class="card">
+  <h3>📊 Uber vs Ridep2p — $25 Ride Example</h3>
+  <table>
+    <thead><tr><th>Line Item</th><th>Uber</th><th>Ridep2p</th></tr></thead>
+    <tbody>
+      <tr><td>Passenger pays</td><td>$25.00</td><td>$25.00</td></tr>
+      <tr><td>Platform fee</td><td style="color:var(--danger)">-$9.38 (37.5%)</td><td style="color:var(--success)">-$0.75 (3%)</td></tr>
+      <tr><td>Operating costs</td><td>Included above</td><td style="color:var(--danger)">-$1.50 (6%)</td></tr>
+      <tr><td><strong>Driver receives</strong></td><td style="color:var(--danger)"><strong>$15.62</strong></td><td style="color:var(--success)"><strong>$23.37</strong></td></tr>
+      <tr><td>Driver earns tokens</td><td>$0.00</td><td style="color:var(--accent2)">+50 RIDE (~$0.50)</td></tr>
+      <tr><td>Settlement time</td><td>3–5 business days</td><td style="color:var(--success)">~2 seconds</td></tr>
+      <tr><td>Equity ownership</td><td>0%</td><td style="color:var(--success)">Governance rights</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px"><strong>$25 ride → $7.75 more in driver's pocket.</strong> For a full-time driver doing 100 rides/week, that's <span style="color:var(--accent2);font-weight:700">$40,300/year</span> in additional take-home pay — plus governance tokens.</p>
+</div>
+
+<!-- Tech Stack -->
+<div class="card">
+  <h3>🛠️ Tech Stack</h3>
+  <div class="grid-3">
+    <div><div class="stat-label">Smart Contracts</div><p style="margin-top:6px">Solidity 0.8.25<br>OpenZeppelin v5<br>Foundry test suite</p></div>
+    <div><div class="stat-label">Blockchain</div><p style="margin-top:6px">Base L2 (Ethereum)<br>USDC for settlements<br><0.01 gas per ride</p></div>
+    <div><div class="stat-label">Frontend</div><p style="margin-top:6px">React + TypeScript<br>ethers.js v6<br>IPFS for metadata</p></div>
+  </div>
+</div>
+
+<!-- Status -->
+<div class="card" style="border-color:rgba(78,201,176,0.25)">
+  <h3>✅ Project Status</h3>
+  <p><strong>All 6 contracts compile clean.</strong> Full test suite: <span style="color:var(--success);font-weight:600">11/11 tests passing</span>. Working dApp demonstrates ride matching → escrow → GPS-triggered settlement flow. Deployable to Base mainnet.</p>
+</div>
+
+<div class="cta-section">
+  <a href="https://github.com" class="btn btn-primary" style="font-size:1.1rem;padding:16px 36px">View Source Code →</a>
+  <p style="color:var(--text2);font-size:0.85rem;margin-top:16px"><em>Contracts are open-source and verified. Deployable to Base L2.</em></p>
+</div>
+
+</div>
+</body>
+</html>

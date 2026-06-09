@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creatorly — Decentralized Creator Economy | Aurora Pathways</title>
+<meta name="description" content="Creatorly: decentralized creator economy platform with token-gated subscriptions & instant payouts on Base L2.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/creatorly">
+<meta property="og:title" content="Creatorly — Decentralized Creator Economy | Aurora Pathways">
+<meta property="og:description" content="Creatorly: decentralized creator economy platform with token-gated subscriptions & instant payouts on Base L2.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/creatorly">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Creatorly — Decentralized Creator Economy | Aurora Pathways">
+<meta name="twitter:description" content="Creatorly: decentralized creator economy platform with token-gated subscriptions & instant payouts on Base L2.">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(124,92,252,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%,rgba(78,201,176,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 40%,rgba(59,130,246,0.04) 0%,transparent 50%);}
+.container{max-width:900px;margin:0 auto;padding:40px 24px;position:relative;z-index:1}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text);text-decoration:none;display:inline-block;text-align:center}
+.btn-outline:hover{background:var(--glass)}
+.feature-row{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--glass-border)}
+.feature-row:last-child{border-bottom:none}
+.feature-icon{font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--surface2);flex-shrink:0}
+.feature-info{flex:1}
+.feature-name{font-weight:600;margin-bottom:4px}
+.feature-desc{color:var(--text2);font-size:0.85rem}
+.token-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--glass-border);font-size:0.9rem}
+.token-row:last-child{border-bottom:none}
+.token-name{font-weight:600;display:flex;align-items:center;gap:8px}
+.token-pct{color:var(--accent2);font-weight:700}
+.token-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.compare-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.compare-table th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.8rem}
+.compare-table td{padding:12px 16px;border-bottom:1px solid var(--glass-border)}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .win{color:var(--success)}
+.compare-table .lose{color:var(--danger)}
+.stat-big{font-size:2rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{color:var(--text2);font-size:0.85rem}
+.stat-card{text-align:center;padding:20px}
+.cta-section{text-align:center;padding:20px 0}
+.fade-in{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="aurora-bg"></div>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<span class="badge portfolio">DAO Protocol</span>
+<span class="badge portfolio" style="background:rgba(124,92,252,0.15);color:var(--accent)">🎨 Creator Economy</span>
+<span class="badge portfolio" style="background:rgba(255,107,157,0.15);color:var(--accent3)">🏛️ Decentralized Governance</span>
+</div>
+<h1>Creatorly — Decentralized Creator Economy</h1>
+<p class="subtitle">Creators keep 97%. No platform gatekeeping. Instant revenue. A fully decentralized subscription platform where creators own their audience and earn what they deserve.</p>
+
+<!-- Stats Row -->
+<div class="grid2" style="margin-bottom:20px">
+<div class="card stat-card"><div class="stat-big">99.5%</div><div class="stat-label">Creator Revenue Share</div></div>
+<div class="card stat-card"><div class="stat-big">3%</div><div class="stat-label">Protocol Fee</div></div>
+<div class="card stat-card"><div class="stat-big">Instant</div><div class="stat-label">Revenue Distribution</div></div>
+<div class="card stat-card"><div class="stat-big">4%</div><div class="stat-label">Governance Quorum</div></div>
+</div>
+
+<!-- Problem Section -->
+<div class="card"><h3>🚫 The Problem</h3>
+<div class="feature-row"><div class="feature-icon">💰</div><div class="feature-info"><div class="feature-name">Platform Rent-Seeking</div><div class="feature-desc">Patreon takes 5-12%. OnlyFans takes 20%. YouTube takes 45%. Creators are the product — platforms are the profit centers.</div></div></div>
+<div class="feature-row"><div class="feature-icon">🔒</div><div class="feature-info"><div class="feature-name">Platform Lock-In & Deplatforming</div><div class="feature-desc">Creators build audiences on rented land. A policy change or ban can wipe out years of work overnight.</div></div></div>
+<div class="feature-row"><div class="feature-icon">💳</div><div class="feature-info"><div class="feature-name">Slow Payouts</div><div class="feature-desc">Traditional platforms hold funds for 30-60 days. Creators wait while platforms earn interest on their float.</div></div></div>
+<div class="feature-row"><div class="feature-icon">🎭</div><div class="feature-info"><div class="feature-name">Opaque Censorship</div><div class="feature-desc">Content moderation is arbitrary. One person's "violation" is another's art. No due process, no appeal.</div></div></div>
+</div>
+
+<!-- Solution Section -->
+<div class="card"><h3>✨ The Creatorly Solution</h3>
+<div class="feature-row"><div class="feature-icon">🏦</div><div class="feature-info"><div class="feature-name">97% Revenue to Creators</div><div class="feature-desc">Smart contracts split every subscription instantly: 97% to creator, 3% to protocol treasury for governance.</div></div></div>
+<div class="feature-row"><div class="feature-icon">👥</div><div class="feature-info"><div class="feature-name">Own Your Audience</div><div class="feature-desc">Subscriber relationships live on-chain. Portable, permanent, permissionless. No one can take them away.</div></div></div>
+<div class="feature-row"><div class="feature-icon">⚡</div><div class="feature-info"><div class="feature-name">Instant Settlement</div><div class="feature-desc">Revenue arrives the moment a subscriber pays. No waiting, no holds, no intermediaries.</div></div></div>
+<div class="feature-row"><div class="feature-icon">🎫</div><div class="feature-info"><div class="feature-name">Flexible Tiering + NFT Gates</div><div class="feature-desc">Set monthly USDC tiers. Publish free, subscriber-only, or NFT-gated premium content on IPFS.</div></div></div>
+<div class="feature-row"><div class="feature-icon">🤝</div><div class="feature-info"><div class="feature-name">Collaborator Splits</div><div class="feature-desc">Add collaborators with custom revenue percentages. Revenue auto-distributes to the whole team.</div></div></div>
+<div class="feature-row"><div class="feature-icon">💝</div><div class="feature-info"><div class="feature-name">One-Tap Tips in USDC</div><div class="feature-desc">Fans can send one-time tips and donations. No subscription required. Just appreciation.</div></div></div>
+<div class="feature-row"><div class="feature-icon">⚖️</div><div class="feature-info"><div class="feature-name">Decentralized Dispute Resolution</div><div class="feature-desc">3-person validator panels resolve disputes. Staked validators ensure fairness. No centralized moderation.</div></div></div>
+<div class="feature-row"><div class="feature-icon">🔄</div><div class="feature-info"><div class="feature-name">Auto-Renew + Grace Periods</div><div class="feature-desc">Subscriptions auto-renew monthly. 7-day grace period if payment lapses. Cancel anytime, prorated refunds.</div></div></div>
+</div>
+
+<!-- Comparison Section -->
+<div class="card"><h3>📊 Platform Comparison</h3>
+<div style="overflow-x:auto">
+<table class="compare-table">
+<thead><tr><th></th><th style="text-align:center">Creatorly</th><th style="text-align:center">Patreon</th><th style="text-align:center">OnlyFans</th><th style="text-align:center">YouTube</th></tr></thead>
+<tbody>
+<tr><td>Creator Revenue</td><td class="win" style="text-align:center;font-weight:700">99.5%</td><td class="lose" style="text-align:center">88-95%</td><td class="lose" style="text-align:center">80%</td><td class="lose" style="text-align:center">55%</td></tr>
+<tr><td>Payout Speed</td><td class="win" style="text-align:center">Instant</td><td class="lose" style="text-align:center">Monthly</td><td class="lose" style="text-align:center">Weekly</td><td class="lose" style="text-align:center">Monthly</td></tr>
+<tr><td>Audience Ownership</td><td class="win" style="text-align:center">✅ On-Chain</td><td class="lose" style="text-align:center">❌ Platform</td><td class="lose" style="text-align:center">❌ Platform</td><td class="lose" style="text-align:center">❌ Platform</td></tr>
+<tr><td>Content Moderation</td><td class="win" style="text-align:center">DAO Panel</td><td class="lose" style="text-align:center">Centralized</td><td class="lose" style="text-align:center">Centralized</td><td class="lose" style="text-align:center">AI + Human</td></tr>
+<tr><td>Deplatforming Risk</td><td class="win" style="text-align:center">Impossible</td><td class="lose" style="text-align:center">High</td><td class="lose" style="text-align:center">Medium</td><td class="lose" style="text-align:center">High</td></tr>
+<tr><td>Payment Method</td><td style="text-align:center">USDC</td><td style="text-align:center">Fiat</td><td style="text-align:center">Fiat</td><td style="text-align:center">Fiat/Ads</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Features -->
+<div class="card"><h3>🔧 Core Features</h3>
+<div class="grid2">
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">🎨 Creator Profiles</h3><p style="color:var(--text2);font-size:0.85rem">Register with 100 CONTENT stake. Custom tiers, IPFS content, avatar, bio.</p></div>
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">💳 USDC Subscriptions</h3><p style="color:var(--text2);font-size:0.85rem">Monthly tiers in USDC. Auto-renew. Cancel anytime. Prorated refunds.</p></div>
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">📡 IPFS Content</h3><p style="color:var(--text2);font-size:0.85rem">Publish to IPFS. Tier-gated access. NFT premium tiers. Permanent storage.</p></div>
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">🤝 Revenue Splits</h3><p style="color:var(--text2);font-size:0.85rem">Add up to 5 collaborators. Set share percentages. Auto-distributed revenue.</p></div>
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">💝 Tips & Donations</h3><p style="color:var(--text2);font-size:0.85rem">One-time USDC tips. No subscription needed. 97% to creator.</p></div>
+<div class="card" style="background:var(--surface2)"><h3 style="font-size:0.95rem">⚖️ Dispute Resolution</h3><p style="color:var(--text2);font-size:0.85rem">3-validator panels. Staked jurors. Appeal process. Fair and transparent.</p></div>
+</div>
+</div>
+
+<!-- Tokenomics -->
+<div class="card"><h3>💰 Tokenomics — CONTENT</h3>
+<p style="color:var(--text2);margin-bottom:16px">100,000,000 CONTENT tokens. Governance token with ERC20Votes for DAO voting + ERC20Permit for gasless approvals.</p>
+<div class="token-row"><div class="token-name"><span class="token-dot" style="background:#7c5cfc"></span> Community & Ecosystem</div><div class="token-pct">30%</div><div style="color:var(--text2);font-size:0.8rem">30,000,000</div></div>
+<div class="token-row"><div class="token-name"><span class="token-dot" style="background:#4ec9b0"></span> DAO Treasury</div><div class="token-pct">25%</div><div style="color:var(--text2);font-size:0.8rem">25,000,000</div></div>
+<div class="token-row"><div class="token-name"><span class="token-dot" style="background:#3b82f6"></span> Creator Incentives</div><div class="token-pct">20%</div><div style="color:var(--text2);font-size:0.8rem">20,000,000</div></div>
+<div class="token-row"><div class="token-name"><span class="token-dot" style="background:#ff6b9d"></span> Team & Advisors</div><div class="token-pct">15%</div><div style="color:var(--text2);font-size:0.8rem">15,000,000</div></div>
+<div class="token-row"><div class="token-name"><span class="token-dot" style="background:#f0c040"></span> Liquidity & Market Making</div><div class="token-pct">10%</div><div style="color:var(--text2);font-size:0.8rem">10,000,000</div></div>
+</div>
+
+<!-- Tech Stack -->
+<div class="card"><h3>🛠️ Tech Stack</h3>
+<div class="grid2">
+<div class="card" style="background:var(--surface2)">
+<h3 style="font-size:0.95rem">📜 Smart Contracts</h3>
+<div style="font-size:0.85rem;color:var(--text2)">
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">Solidity 0.8.25</strong> — Cancun EVM</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">OpenZeppelin 5.x</strong> — Governor, ERC20Votes, Timelock</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">Hardhat</strong> — Development & testing</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">5 Contracts</strong> — Token, DAO, Hub, SubscriptionManager, Dispute</div>
+</div></div>
+<div class="card" style="background:var(--surface2)">
+<h3 style="font-size:0.95rem">🎨 Frontend</h3>
+<div style="font-size:0.85rem;color:var(--text2)">
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">ethers.js v6</strong> — Web3 interactions</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">Single HTML file</strong> — No framework overhead</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">IPFS Gateway</strong> — Content delivery</div>
+<div style="margin-bottom:4px">• <strong style="color:var(--text)">MetaMask / WalletConnect</strong> — Wallet support</div>
+</div></div>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="card cta-section">
+<h3 style="justify-content:center">🚀 Ready to Own Your Creator Economy?</h3>
+<p style="color:var(--text2);margin-bottom:24px">Deploy Creatorly on your chain. Start earning 99.5% of your revenue today.</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a href="../../creatorly/frontend/index.html" class="btn btn-primary" target="_blank">🌐 View Live Demo →</a>
+<a href="https://github.com/aurorapathways/creatorly" class="btn btn-outline" target="_blank">📂 View on GitHub</a>
+<a href="https://aurorapathways.xyz" class="btn btn-outline" target="_blank">🌌 Aurora Pathways</a>
+</div>
+</div>
+
+<p style="text-align:center;color:var(--text2);font-size:0.8rem;margin-top:32px">Creatorly v1.0 · Built on Aurora Pathways · Solidity 0.8.25 · Cancun EVM</p>
+</div>
+</body>
+</html>

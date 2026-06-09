@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forekast — Aurora Pathways Portfolio</title>
+<meta name="description" content="Forekast: decentralized prediction markets on Base L2. Create markets, trade YES/NO tokens, multi-oracle resolution.">
+<link rel="canonical" href="https://aurorapathways.xyz/portfolio/forekast">
+<meta property="og:title" content="Forekast — Aurora Pathways Portfolio">
+<meta property="og:description" content="Forekast: decentralized prediction markets on Base L2. Create markets, trade YES/NO tokens, multi-oracle resolution.">
+<meta property="og:url" content="https://aurorapathways.xyz/portfolio/forekast">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Forekast — Aurora Pathways Portfolio">
+<meta name="twitter:description" content="Forekast: decentralized prediction markets on Base L2. Create markets, trade YES/NO tokens, multi-oracle resolution.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
+.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
+.back:hover{text-decoration:underline}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
+.badge.dao{background:rgba(124,92,252,0.15);color:var(--accent)}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:var(--text2);font-size:1rem;margin-bottom:40px;max-width:600px}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:12px;color:var(--accent2)}
+h3{font-size:1.1rem;margin-bottom:12px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
+.card h3{display:flex;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+p{color:var(--text2);line-height:1.6;margin-bottom:12px}
+p strong{color:var(--text);font-weight:600}
+.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;display:inline-block;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9370ff}
+.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.9rem}
+thead th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--glass-border);color:var(--text2)}
+tbody td:first-child{color:var(--text);font-weight:500}
+.highlight{color:var(--accent2);font-weight:600}
+.stat{font-size:1.8rem;font-weight:800;color:var(--accent2)}
+.stat-label{font-size:0.8rem;color:var(--text2);margin-top:4px}
+.tag{display:inline-block;padding:4px 10px;border-radius:12px;font-size:0.75rem;font-weight:500;margin:2px 4px 2px 0;background:var(--surface2);color:var(--accent2)}
+.flow-step{display:flex;align-items:center;gap:16px;padding:16px;background:var(--surface2);border-radius:10px;margin-bottom:12px}
+.flow-num{width:32px;height:32px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0}
+.verdict-yes{background:rgba(78,201,176,0.12);color:var(--success);padding:2px 8px;border-radius:4px;font-weight:600;font-size:0.8rem}
+.verdict-no{background:rgba(255,107,157,0.12);color:var(--danger);padding:2px 8px;border-radius:4px;font-weight:600;font-size:0.8rem}
+.cta-section{text-align:center;margin-top:40px;padding:40px 0}
+@media(max-width:640px){.grid,.grid-3{grid-template-columns:1fr} h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
+<span class="badge dao">DAO Protocol</span>
+<h1>Forekast — Truly Decentralized Prediction Markets</h1>
+<p class="subtitle">Permissionless markets. Community resolution. No corporate override. 1% market fee shared with token stakers.</p>
+
+<!-- Problem -->
+<div class="card">
+  <h3>🎲 The Problem</h3>
+  <p>Polymarket proved prediction markets work — <strong>$6.8B+ in volume</strong> during the 2024 US election alone. But they also proved the centralization problem: <strong>geo-restrictions</strong> locked out users globally, <strong>centralized resolution</strong> let a single entity decide market outcomes, and markets can be <strong>censored</strong> by corporate policy at any moment. A prediction market controlled by a Delaware LLC is not truly permissionless.</p>
+  <p>Forekast builds the same product with <strong>zero centralized control</strong>. Multi-oracle resolution, staked validators, and fully permissionless market creation. No CEO can pull your market. No compliance department can block your country.</p>
+</div>
+
+<!-- How It Works -->
+<div class="card">
+  <h3>🔄 How It Works</h3>
+  <div class="flow-step">
+    <div class="flow-num">1</div>
+    <div><strong>Create a market</strong> — anyone can create a YES/NO market. Define the question, resolution source, and expiry date. Stake USDC as creator.</div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-num">2</div>
+    <div><strong>Trade shares</strong> — buy YES or NO outcome shares at market-implied probabilities. AMM-based pricing with deep liquidity pools.</div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-num">3</div>
+    <div><strong>Oracle resolves</strong> — at expiry, registered oracles submit resolution. Multi-oracle consensus required (≥3 of 5).</div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-num">4</div>
+    <div><strong>Winners claim</strong> — winning shares redeemable for USDC at $1.00/share. Instant settlement on Base L2. No withdrawal queue.</div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-num">5</div>
+    <div><strong>Disputes?</strong> — challenge period open for 24h after resolution. Staked validators vote. Final and irreversible.</div>
+  </div>
+</div>
+
+<!-- Architecture -->
+<div class="card">
+  <h3>🏗️ Architecture — 5 Smart Contracts</h3>
+  <table>
+    <thead><tr><th>Contract</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>PredictToken.sol</code></td><td>ERC-20 governance token — staking, fee capture, validator bond collateral</td></tr>
+      <tr><td><code>Forekast.sol</code></td><td>Governance — market parameters, oracle whitelisting, fee distribution, treasury</td></tr>
+      <tr><td><code>PredictionMarket.sol</code></td><td>Core AMM — YES/NO share minting, liquidity pools, automated pricing via LMSR</td></tr>
+      <tr><td><code>OracleRegistry.sol</code></td><td>Multi-oracle framework — whitelisting, reputation tracking, slashing for dishonest reports</td></tr>
+      <tr><td><code>MarketDispute.sol</code></td><td>Dispute resolution — challenge window, staked validator voting, bond forfeiture for bad actors</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:16px"><span class="tag">Solidity 0.8.25</span><span class="tag">OpenZeppelin v5</span><span class="tag">Base L2</span><span class="tag">LMSR AMM</span><span class="tag">Chainlink Functions</span></p>
+</div>
+
+<!-- Key Features -->
+<div class="card">
+  <h3>🔑 Key Features</h3>
+  <div class="grid">
+    <div>
+      <p><strong>🔮 Multi-Oracle Resolution</strong><br>Markets resolved by consensus of ≥3 of 5 registered oracles. No single point of failure. Oracles stake tokens as bond.</p>
+    </div>
+    <div>
+      <p><strong>⚖️ Staked Validators</strong><br>Dispute resolution by validators who stake $PREDICT. Honest validators earn fees. Dishonest ones get slashed.</p>
+    </div>
+    <div>
+      <p><strong>🌍 Permissionless Markets</strong><br>Anyone anywhere can create a market. No approval process. No jurisdiction blocking. The market exists as long as the chain does.</p>
+    </div>
+    <div>
+      <p><strong>⚡ Instant Settlement</strong><br>Winning shares redeem for USDC immediately upon resolution. No withdrawal queue. No "processing time." Base L2 confirms in ~2 seconds.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tokenomics -->
+<div class="card">
+  <h3>💰 Tokenomics — $PREDICT</h3>
+  <table>
+    <thead><tr><th>Allocation</th><th>%</th><th>Vesting</th></tr></thead>
+    <tbody>
+      <tr><td>Liquidity Mining</td><td class="highlight">35%</td><td>Emitted over 6 years to LPs providing YES/NO liquidity</td></tr>
+      <tr><td>Treasury</td><td class="highlight">25%</td><td>DAO-governed — oracle grants, development, security audits</td></tr>
+      <tr><td>Team & Contributors</td><td class="highlight">15%</td><td>4-year linear vest, 1-year cliff</td></tr>
+      <tr><td>Validator Rewards</td><td class="highlight">15%</td><td>Staking rewards for validators who resolve disputes accurately</td></tr>
+      <tr><td>Ecosystem Fund</td><td class="highlight">10%</td><td>Grants for market creators, data providers, integrations</td></tr>
+    </tbody>
+  </table>
+  <p>Total supply: <strong>1,000,000,000 PREDICT</strong>. 1% market fee distributed: 0.5% to liquidity providers, 0.3% to validators, 0.2% to treasury.</p>
+</div>
+
+<!-- Comparison -->
+<div class="card">
+  <h3>📊 Polymarket vs Forekast</h3>
+  <table>
+    <thead><tr><th></th><th>Polymarket</th><th style="color:var(--accent2)">Forekast</th></tr></thead>
+    <tbody>
+      <tr><td>Market Fee</td><td>0% (subsidized)</td><td class="highlight">1% (sustainable)</td></tr>
+      <tr><td>Permissionless Creation</td><td><span class="verdict-no">No</span> — approval required</td><td><span class="verdict-yes">Yes</span> — fully open</td></tr>
+      <tr><td>Resolution</td><td>Centralized — UMA oracle + team</td><td class="highlight">Multi-oracle consensus (3 of 5)</td></tr>
+      <tr><td>Geo-Restrictions</td><td><span class="verdict-no">Yes</span> — US blocked</td><td><span class="verdict-yes">No</span> — unstoppable</td></tr>
+      <tr><td>Censorship Resistance</td><td><span class="verdict-no">Low</span> — company can delist</td><td><span class="verdict-yes">High</span> — DAO governed</td></tr>
+      <tr><td>Revenue Model</td><td>VC subsidized, future fees unknown</td><td class="highlight">Transparent 1% fee → stakers</td></tr>
+      <tr><td>Settlement Speed</td><td>Polygon (~2s)</td><td>Base L2 (~2s)</td></tr>
+      <tr><td>Governance</td><td>Corporate board</td><td class="highlight">Token holders via Forekast</td></tr>
+      <tr><td>Withdrawal Custody</td><td>Platform holds funds</td><td class="highlight">Non-custodial — smart contracts</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px">Forekast charges a 1% fee instead of Polymarket's VC-subsidized free model — but that fee <strong>flows to token stakers and LPs</strong>, creating a self-sustaining ecosystem. No bait-and-switch when the VC money runs out.</p>
+</div>
+
+<!-- Tech Stack -->
+<div class="card">
+  <h3>🛠️ Tech Stack</h3>
+  <div class="grid-3">
+    <div><div class="stat-label">Smart Contracts</div><p style="margin-top:6px">Solidity 0.8.25<br>OpenZeppelin v5<br>LMSR AMM model</p></div>
+    <div><div class="stat-label">Blockchain</div><p style="margin-top:6px">Base L2 (Ethereum)<br>USDC settlement<br>Chainlink oracle feeds</p></div>
+    <div><div class="stat-label">Frontend</div><p style="margin-top:6px">React + TypeScript<br>ethers.js v6<br>Real-time order book</p></div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <a href="https://github.com" class="btn btn-primary" style="font-size:1.1rem;padding:16px 36px">View Source Code →</a>
+  <p style="color:var(--text2);font-size:0.85rem;margin-top:16px"><em>Contracts verified. Fully tested AMM + oracle resolution. Deployable to Base L2.</em></p>
+</div>
+
+</div>
+</body>
+</html>

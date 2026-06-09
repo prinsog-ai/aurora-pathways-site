@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Aurora Pathways</title>
+  <meta name="description" content="The page you're looking for doesn't exist. Get back to Aurora Pathways.">
+  <meta property="og:title" content="404 — Aurora Pathways">
+  <meta property="og:site_name" content="Aurora Pathways">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aurorapathways.xyz/">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #0f0f16;
+      --surface2: #15151f;
+      --surface3: #1a1a28;
+      --text: #e8e8ed;
+      --text2: #8a8a9a;
+      --text3: #5a5a6a;
+      --accent: #7c5cfc;
+      --accent2: #4ec9b0;
+      --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+      --gradient-h: linear-gradient(90deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+      --glass: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.06);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Aurora Background ── */
+    .aurora-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .aurora-layer {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.5;
+    }
+    .aurora-layer-1 {
+      width: 800px; height: 400px;
+      background: rgba(124,92,252,0.12);
+      top: 5%; left: 10%;
+      animation: aurora-drift-1 12s ease-in-out infinite alternate;
+    }
+    .aurora-layer-2 {
+      width: 600px; height: 500px;
+      background: rgba(78,201,176,0.08);
+      top: 50%; right: 5%;
+      animation: aurora-drift-2 15s ease-in-out infinite alternate;
+    }
+    .aurora-layer-3 {
+      width: 700px; height: 350px;
+      background: rgba(59,130,246,0.07);
+      bottom: 10%; left: 30%;
+      animation: aurora-drift-3 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes aurora-drift-1 {
+      0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
+      50%  { opacity: 0.6; }
+      100% { transform: translate(60px, 30px) scale(1.1); opacity: 0.45; }
+    }
+    @keyframes aurora-drift-2 {
+      0%   { transform: translate(0, 0) scale(1); opacity: 0.35; }
+      50%  { opacity: 0.55; }
+      100% { transform: translate(-40px, -20px) scale(1.05); opacity: 0.4; }
+    }
+    @keyframes aurora-drift-3 {
+      0%   { transform: translate(0, 0) scale(1); opacity: 0.3; }
+      50%  { opacity: 0.5; }
+      100% { transform: translate(30px, -40px) scale(1.08); opacity: 0.35; }
+    }
+
+    /* ── Gradient Pulse Ring ── */
+    .pulse-ring {
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 500px; height: 500px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      border: 1px solid rgba(124,92,252,0.08);
+      animation: pulse-expand 6s ease-out infinite;
+    }
+    .pulse-ring:nth-child(5) {
+      animation-delay: 2s;
+    }
+    .pulse-ring:nth-child(6) {
+      animation-delay: 4s;
+    }
+    @keyframes pulse-expand {
+      0%   { width: 300px; height: 300px; opacity: 0.3; border-color: rgba(124,92,252,0.15); }
+      100% { width: 1200px; height: 1200px; opacity: 0; border-color: rgba(78,201,176,0.02); }
+    }
+
+    /* ── Content ── */
+    .error-page {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 620px;
+    }
+
+    .error-code {
+      font-size: clamp(7rem, 18vw, 12rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      top: 0; left: 0;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: blur(40px);
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .error-subtitle {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .error-desc {
+      font-size: 1rem;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:active { transform: translateY(0) !important; }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(124,92,252,0.2);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(124,92,252,0.35);
+    }
+
+    .btn-secondary {
+      background: var(--glass);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    /* ── Fade-in animation ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
+    .fade-in:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .error-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      .btn { width: 100%; max-width: 260px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Aurora Background -->
+  <div class="aurora-bg">
+    <div class="aurora-layer aurora-layer-1"></div>
+    <div class="aurora-layer aurora-layer-2"></div>
+    <div class="aurora-layer aurora-layer-3"></div>
+  </div>
+
+  <!-- Animated Pulse Rings -->
+  <div class="pulse-ring"></div>
+  <div class="pulse-ring"></div>
+  <div class="pulse-ring"></div>
+
+  <!-- Error Content -->
+  <main class="error-page">
+    <div class="error-code fade-in">404</div>
+    <h1 class="error-subtitle fade-in">This page doesn't exist on any chain.</h1>
+    <p class="error-desc fade-in">The page you're looking for might have been moved, burned in a smart contract, or never existed. Let's get you back on track.</p>
+    <div class="error-actions fade-in">
+      <a href="/" class="btn btn-primary">← Back to Home</a>
+      <a href="/#portfolio" class="btn btn-secondary">View Our Work</a>
+      <a href="/#contact" class="btn btn-secondary">Book a Call</a>
+    </div>
+  </main>
+</body>
+</html>
