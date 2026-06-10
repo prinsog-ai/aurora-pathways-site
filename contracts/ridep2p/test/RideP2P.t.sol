@@ -122,8 +122,9 @@ contract RideP2PTest is Test {
 
     // ─── Complete Ride ───────────────────────────────────────────────
     function testCompleteRide() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 2);
@@ -134,6 +135,7 @@ contract RideP2PTest is Test {
         uint256 expectedFee = (totalRevenue * 300) / 10000;
         uint256 expectedPayout = totalRevenue - expectedFee;
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 
@@ -143,21 +145,25 @@ contract RideP2PTest is Test {
     }
 
     function testCompleteRideRevertsNotDriver() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(rider1);
         vm.expectRevert("Not the driver");
         ridep2p.completeRide(rideId);
     }
 
     function testCompleteRideRevertsNoBookings() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
+        vm.warp(ft);
         vm.prank(driver);
         vm.expectRevert("No bookings");
         ridep2p.completeRide(rideId);
@@ -233,12 +239,15 @@ contract RideP2PTest is Test {
 
     // ─── Disputes ────────────────────────────────────────────────────
     function testOpenDispute() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        // Dispute after departure time (Active ride, past departure)
+        vm.warp(ft);
         vm.prank(rider1);
         ridep2p.openDispute(rideId, "Driver didn't show up");
 
@@ -248,12 +257,15 @@ contract RideP2PTest is Test {
     }
 
     function testResolveDisputeRefundRiders() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        // Dispute after departure time (funds still in escrow)
+        vm.warp(ft);
         vm.prank(rider1);
         ridep2p.openDispute(rideId, "Issue");
 
@@ -265,12 +277,15 @@ contract RideP2PTest is Test {
     }
 
     function testResolveDisputePayDriver() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        // Dispute after departure time (funds still in escrow)
+        vm.warp(ft);
         vm.prank(rider1);
         ridep2p.openDispute(rideId, "Issue");
 
@@ -284,12 +299,14 @@ contract RideP2PTest is Test {
     }
 
     function testResolveDisputeRevertsAlreadyResolved() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(rider1);
         ridep2p.openDispute(rideId, "Issue");
 
@@ -313,12 +330,14 @@ contract RideP2PTest is Test {
 
     // ─── Ratings ─────────────────────────────────────────────────────
     function testRateDriver() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 
@@ -331,12 +350,14 @@ contract RideP2PTest is Test {
     }
 
     function testRateRider() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 
@@ -349,12 +370,14 @@ contract RideP2PTest is Test {
     }
 
     function testRatingRevertsInvalidRating() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 
@@ -364,12 +387,14 @@ contract RideP2PTest is Test {
     }
 
     function testRatingRevertsDoubleRate() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         ridep2p.bookRide(rideId, 1);
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 
@@ -383,8 +408,9 @@ contract RideP2PTest is Test {
 
     // ─── Full Flow ───────────────────────────────────────────────────
     function testFullRideFlow() public {
+        uint256 ft = _futureTime();
         vm.prank(driver);
-        uint256 rideId = ridep2p.createRide("NYC", "Boston", _futureTime(), PRICE_PER_SEAT, SEATS);
+        uint256 rideId = ridep2p.createRide("NYC", "Boston", ft, PRICE_PER_SEAT, SEATS);
 
         vm.prank(rider1);
         uint256 b1 = ridep2p.bookRide(rideId, 1);
@@ -394,6 +420,7 @@ contract RideP2PTest is Test {
         vm.prank(rider1);
         ridep2p.cancelBooking(b1);
 
+        vm.warp(ft);
         vm.prank(driver);
         ridep2p.completeRide(rideId);
 

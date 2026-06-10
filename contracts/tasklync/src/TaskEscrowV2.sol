@@ -91,6 +91,7 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
     event FreelancerRated(uint256 indexed jobId, address indexed freelancer, uint256 rating);
     event DisputeVoteCast(uint256 indexed jobId, address indexed juror, bool payFreelancer);
     event DisputeResolved(uint256 indexed jobId, bool payFreelancer);
+    event PlatformTreasuryUpdated(address newTreasury);
 
     // ───────────── Errors ─────────────
 
@@ -130,9 +131,13 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
     function setPlatformTreasury(address _treasury) external onlyOwner {
         require(_treasury != address(0), ZeroAddress());
         platformTreasury = _treasury;
+        emit PlatformTreasuryUpdated(_treasury);
     }
 
     /// @notice Set a jury member at a specific slot (0-4)
+    /// @dev WARNING: This is a known centralization risk. Replacing a juror while
+    ///      disputes are active could affect dispute outcomes. Owner should avoid
+    ///      changing jurors during active disputes.
     function setJuror(uint256 _slot, address _juror) external onlyOwner {
         require(_slot < 5, "Slot out of range");
         require(_juror != address(0), ZeroAddress());
@@ -304,6 +309,7 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
     /// @dev Refunds only un-released milestones back to the client.
     function claimRefund(uint256 _jobId) external nonReentrant {
         Job storage job = jobs[_jobId];
+        require(msg.sender == job.client || msg.sender == job.freelancer, "Not authorized");
         if (job.status != Status.InProgress) revert InvalidStatus(job.status);
         if (block.timestamp <= job.deadline) revert DeadlineNotPassed();
 

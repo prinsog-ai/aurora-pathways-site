@@ -584,7 +584,7 @@ contract TaskEscrowV2Test is Test {
         vm.warp(deadline + 1);
 
         uint256 clientBefore = usdc.balanceOf(client);
-        vm.prank(stranger); // anyone can call
+        vm.prank(client);
         escrow.claimRefund(jobId);
 
         // Only un-released milestone amount refunded (milestone 1 was already released)
@@ -619,7 +619,7 @@ contract TaskEscrowV2Test is Test {
 
         vm.expectEmit(true, true, false, false);
         emit TaskEscrowV2.DeadlineRefund(jobId, client, JOB_AMOUNT);
-        vm.prank(stranger);
+        vm.prank(client);
         escrow.claimRefund(jobId);
     }
 
@@ -681,7 +681,7 @@ contract TaskEscrowV2Test is Test {
         vm.warp(deadline + 1);
 
         uint256 clientBefore = usdc.balanceOf(client);
-        vm.prank(stranger);
+        vm.prank(client);
         escrow.claimRefund(jobId);
         // No refund since all milestones were released
         assertEq(usdc.balanceOf(client), clientBefore);
@@ -1534,7 +1534,7 @@ contract TaskEscrowV2Test is Test {
         vm.warp(deadline + 1);
 
         uint256 clientBefore = usdc.balanceOf(client);
-        vm.prank(stranger);
+        vm.prank(client);
         escrow.claimRefund(jobId);
 
         // Only un-released milestones refunded

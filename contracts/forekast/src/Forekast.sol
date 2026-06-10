@@ -36,6 +36,8 @@ contract Forekast is Ownable, ReentrancyGuard {
     mapping(uint256 => mapping(address => uint256)) public betsYes;
     mapping(uint256 => mapping(address => uint256)) public betsNo;
     mapping(uint256 => mapping(address => bool)) public claimed;
+    mapping(uint256 => uint256) public marketFee;
+    mapping(uint256 => bool) public feeCollected;
 
     event MarketCreated(uint256 indexed marketId, string question, Category category, uint256 resolutionDeadline, address creator);
     event BetPlaced(uint256 indexed marketId, address indexed bettor, bool onYes, uint256 amount);
@@ -54,6 +56,7 @@ contract Forekast is Ownable, ReentrancyGuard {
         uint256 _initialLiquidity
     ) external returns (uint256) {
         require(_resolutionDeadline > block.timestamp, "Deadline must be future");
+        require(_resolutionDeadline >= block.timestamp + 1 days, "Deadline too soon");
         require(_initialLiquidity > 0, "Must provide initial liquidity");
 
         uint256 marketId = marketCount++;
@@ -99,12 +102,15 @@ contract Forekast is Ownable, ReentrancyGuard {
 
     function resolveMarket(uint256 _marketId, bool _outcome) external {
         Market storage market = markets[_marketId];
-        require(msg.sender == owner() || msg.sender == market.creator, "Not authorized");
+        require(msg.sender == owner(), "Not authorized");
         require(market.state == MarketState.Open, "Market not open");
         require(block.timestamp >= market.resolutionDeadline, "Deadline not reached");
 
         market.state = MarketState.Resolved;
         market.outcome = _outcome;
+
+        uint256 loserTotal = _outcome ? market.totalNo : market.totalYes;
+        marketFee[_marketId] = (loserTotal * PLATFORM_FEE_BPS) / BPS_DENOMINATOR;
 
         emit MarketResolved(_marketId, _outcome);
     }
@@ -126,9 +132,8 @@ contract Forekast is Ownable, ReentrancyGuard {
         // Mark as claimed before transfer (reentrancy)
         claimed[_marketId][msg.sender] = true;
 
-        // Calculate platform fee from losers' pool
-        uint256 fee = (loserTotal * PLATFORM_FEE_BPS) / BPS_DENOMINATOR;
-        uint256 prizePool = loserTotal - fee;
+        // Use pre-computed fee from resolution time
+        uint256 prizePool = loserTotal - marketFee[_marketId];
 
         // Get user's winning bet
         uint256 userBet;
@@ -148,12 +153,15 @@ contract Forekast is Ownable, ReentrancyGuard {
             betsNo[_marketId][msg.sender] = 0;
         }
 
-        totalFees += fee;
+        if (!feeCollected[_marketId]) {
+            totalFees += marketFee[_marketId];
+            feeCollected[_marketId] = true;
+        }
         usdc.safeTransfer(msg.sender, payout);
         emit WinningsClaimed(_marketId, msg.sender, payout);
     }
 
-    function withdrawFees() external onlyOwner {
+    function withdrawFees() external onlyOwner nonReentrant {
         uint256 fees = totalFees;
         require(fees > 0, "No fees");
         totalFees = 0;

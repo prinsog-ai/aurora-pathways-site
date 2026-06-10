@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
 <title>RideP2P — Decentralized Ride Sharing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -368,12 +369,18 @@ footer a:hover{color:var(--accent2)}
   <p>RideP2P — Rides without the middleman.</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" integrity="sha384-Htz1SE4Sl5aitpvFgr2j0sfsGUIuSXI6t8hEyrlQ93zflEF3a29bH2AvkUROUw7J" crossorigin="anonymous"></script>
 <script>
 const CONTRACT_ADDR = '0x53CC770f789CF8Af1489f7aCfdC70AF2C638Dcc8';
 const USDC_ADDR = '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359';
 const CHAIN_ID = '0x89';
 const RPC = 'https://polygon-bor-rpc.publicnode.com';
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
 
 const CONTRACT_ABI = [
   "function createRide(string origin, string destination, uint256 departure, uint256 pricePerSeat, uint256 seats) external",
@@ -560,7 +567,7 @@ function rideCard(r, showActions=false, role='') {
   const statusClass = ['badge-open','badge-full','badge-completed','badge-cancelled','badge-disputed'][r.status];
   const seatsLeft = r.totalSeats - r.bookedSeats;
   d.innerHTML = `
-    <div class="ride-route"><span>${r.origin}</span><span class="arrow">→</span><span>${r.destination}</span></div>
+    <div class="ride-route"><span>${escHtml(r.origin)}</span><span class="arrow">→</span><span>${escHtml(r.destination)}</span></div>
     <div class="ride-meta">
       <span><span class="icon">🕐</span>${depDate.toLocaleDateString()} ${depDate.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
       <span><span class="icon">💺</span>${seatsLeft}/${r.totalSeats} seats</span>
@@ -568,7 +575,7 @@ function rideCard(r, showActions=false, role='') {
       ${role?`<span class="badge badge-${role}">${role}</span>`:''}
     </div>
     <div class="ride-price">${price} USDC <span style="font-size:.78rem;color:var(--text2);font-weight:400">/ seat</span></div>
-    <div class="ride-driver">Driver: ${r.driver.slice(0,6)}...${r.driver.slice(-4)} · Rating: ${renderStars(avg)}</div>
+    <div class="ride-driver">Driver: ${escHtml(r.driver.slice(0,6)+'...'+r.driver.slice(-4))} · Rating: ${renderStars(avg)}</div>
   `;
   d.onclick = ()=>openDetail(r);
   return d;
@@ -638,11 +645,11 @@ function openDetail(r) {
   }
 
   modal.innerHTML = `
-    <h2>${r.origin} → ${r.destination}</h2>
+    <h2>${escHtml(r.origin)} → ${escHtml(r.destination)}</h2>
     <div class="field"><label>Departure</label><div class="value">${depDate.toLocaleString()}</div></div>
     <div class="field"><label>Price per Seat</label><div class="value">${price} USDC</div></div>
     <div class="field"><label>Seats</label><div class="value">${seatsLeft} available / ${r.totalSeats} total</div></div>
-    <div class="field"><label>Driver</label><div class="value">${r.driver}<br>Rating: ${renderStars(avg)}</div></div>
+    <div class="field"><label>Driver</label><div class="value">${escHtml(r.driver)}<br>Rating: ${renderStars(avg)}</div></div>
     <div class="field"><label>Status</label><div class="value">${['Open','Full','Completed','Cancelled','Disputed'][r.status]}</div></div>
     <div class="field"><label>Escrow</label><div class="value">${ethers.utils.formatUnits(r.escrow,6)} USDC</div></div>
     <div class="field"><label>Ride ID</label><div class="value">#${r.id}</div></div>
@@ -673,7 +680,7 @@ async function bookRideUI(btnEl, rideId, pricePerSeat) {
     if (allowance.lt(totalCost)) {
       setBtnLoading(btnEl, true, 'Approving…');
       toast('Approving USDC...','info');
-      const tx = await usdc.approve(CONTRACT_ADDR, ethers.constants.MaxUint256);
+      const tx = await usdc.approve(CONTRACT_ADDR, totalCost.mul(2));
       await tx.wait();
       toast('USDC approved','success');
     }
@@ -803,7 +810,7 @@ function toast(msg, type='info') {
   const t = document.createElement('div');
   t.className = 'toast '+type;
   const icons = {success:'✅', error:'❌', info:'ℹ️'};
-  t.innerHTML = '<span class="toast-icon">'+(icons[type]||'ℹ️')+'</span><span class="toast-body">'+msg+'</span><button class="toast-close" onclick="dismissToast(this.parentElement)">&times;</button><div class="toast-progress"></div>';
+  t.innerHTML = '<span class="toast-icon">'+(icons[type]||'ℹ️')+'</span><span class="toast-body">'+escHtml(msg)+'</span><button class="toast-close" onclick="dismissToast(this.parentElement)">&times;</button><div class="toast-progress"></div>';
   c.appendChild(t);
   t._timer = setTimeout(()=>dismissToast(t), 5000);
 }

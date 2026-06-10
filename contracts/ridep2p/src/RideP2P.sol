@@ -4,8 +4,9 @@ pragma solidity ^0.8.28;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract RideP2P is Ownable {
+contract RideP2P is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     // ─── Constants ────────────────────────────────────────────────────
@@ -70,7 +71,7 @@ contract RideP2P is Ownable {
     // rideId => rating left by driver for rider (maps rider addr => rated bool)
     mapping(uint256 => mapping(address => bool)) public riderRatedForRide;
     // rideId => driver has been rated
-    mapping(uint256 => bool) public driverRatedForRide;
+    mapping(uint256 => mapping(address => bool)) public driverRatedForRide;
 
     // ─── Events ──────────────────────────────────────────────────────
     event RideCreated(uint256 indexed rideId, address indexed driver, string origin, string destination, uint256 departureTime, uint256 pricePerSeat, uint256 totalSeats);
@@ -164,9 +165,10 @@ contract RideP2P is Ownable {
     }
 
     // ─── Driver: Complete ride (releases escrow) ─────────────────────
-    function completeRide(uint256 rideId) external onlyDriver(rideId) rideIsActive(rideId) {
+    function completeRide(uint256 rideId) external onlyDriver(rideId) rideIsActive(rideId) nonReentrant {
         Ride storage ride = rides[rideId];
         require(ride.bookedSeats > 0, "No bookings");
+        require(block.timestamp >= ride.departureTime, "Too early");
 
         ride.status = RideStatus.Completed;
 
@@ -195,7 +197,7 @@ contract RideP2P is Ownable {
     }
 
     // ─── Rider: Cancel booking (before departure) ────────────────────
-    function cancelBooking(uint256 bookingId) external {
+    function cancelBooking(uint256 bookingId) external nonReentrant {
         Booking storage b = bookings[bookingId];
         require(b.rider == msg.sender, "Not the rider");
         require(b.status == BookingStatus.Booked, "Not bookable");
@@ -213,7 +215,7 @@ contract RideP2P is Ownable {
     }
 
     // ─── Driver: Cancel ride (all riders get refunds) ────────────────
-    function driverCancelRide(uint256 rideId) external onlyDriver(rideId) rideIsActive(rideId) {
+    function driverCancelRide(uint256 rideId) external onlyDriver(rideId) rideIsActive(rideId) nonReentrant {
         Ride storage ride = rides[rideId];
         ride.status = RideStatus.Cancelled;
 
@@ -232,7 +234,11 @@ contract RideP2P is Ownable {
     // ─── Dispute ─────────────────────────────────────────────────────
     function openDispute(uint256 rideId, string calldata reason) external {
         Ride storage ride = rides[rideId];
-        require(ride.status == RideStatus.Active || ride.status == RideStatus.Completed, "Invalid ride status");
+        require(
+            ride.status == RideStatus.Completed ||
+            (ride.status == RideStatus.Active && block.timestamp >= ride.departureTime),
+            "Invalid ride status"
+        );
 
         // Only driver or a rider who booked can dispute
         if (msg.sender == ride.driver) {
@@ -263,7 +269,7 @@ contract RideP2P is Ownable {
     }
 
     // ─── Admin: Resolve dispute ──────────────────────────────────────
-    function resolveDispute(uint256 disputeId, bool refundRiders) external onlyOwner {
+    function resolveDispute(uint256 disputeId, bool refundRiders) external onlyOwner nonReentrant {
         Dispute storage d = disputes[disputeId];
         require(!d.resolved, "Already resolved");
         d.resolved = true;
@@ -317,7 +323,7 @@ contract RideP2P is Ownable {
         require(rating >= 1 && rating <= 5, "Rating must be 1-5");
         Ride storage ride = rides[rideId];
         require(ride.status == RideStatus.Completed, "Ride not completed");
-        require(!driverRatedForRide[rideId], "Already rated");
+        require(!driverRatedForRide[rideId][msg.sender], "Already rated");
 
         // Verify caller is a rider of this ride
         bool isRider = false;
@@ -330,7 +336,7 @@ contract RideP2P is Ownable {
         }
         require(isRider, "Not a rider of this ride");
 
-        driverRatedForRide[rideId] = true;
+        driverRatedForRide[rideId][msg.sender] = true;
         driverRatingPoints[ride.driver] += rating;
         driverRatingCount[ride.driver]++;
 

@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
 <title>Pledgly — Decentralized Creator Subscriptions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" integrity="sha384-Htz1SE4Sl5aitpvFgr2j0sfsGUIuSXI6t8hEyrlQ93zflEF3a29bH2AvkUROUw7J" crossorigin="anonymous"></script>
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 :root {
@@ -888,7 +889,7 @@ async function connectWallet() {
           method: 'wallet_addEthereumChain',
           params: [{
             chainId: CONFIG.CHAIN_ID_HEX,
-            chainName: 'Polygon Amoy',
+            chainName: 'Polygon Mainnet',
             nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
             rpcUrls: [CONFIG.RPC_URL],
             blockExplorerUrls: [CONFIG.EXPLORER],
@@ -1106,7 +1107,7 @@ async function openCreatorProfile(cid) {
                 ${hasAccess ? '<span class="unlock-icon" title="Unlocked">🔓</span>' : '<span class="lock-icon" title="Locked — subscribe to a required tier">🔒</span>'}
               </div>
               <div class="content-meta">${date}${tierId > 0 ? ` · Requires tier #${tierId}` : ' · Free'}</div>
-              ${hasAccess && contentURI ? `<div class="content-body"><a href="${sanitize(contentURI)}" target="_blank" rel="noopener">${sanitize(contentURI)}</a></div>` : ''}
+              ${hasAccess && contentURI ? `<div class="content-body"><a href="${safeHref(contentURI)}" target="_blank" rel="noopener">${sanitize(contentURI)}</a></div>` : ''}
               ${!hasAccess && tierId > 0 ? '<div style="font-size:.85rem;color:var(--warn);margin-top:6px;">Subscribe to the required tier to unlock this content</div>' : ''}
             </div>
           `;
@@ -1135,7 +1136,7 @@ async function subscribeToCreator(creatorId, tierId, priceStr) {
     const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
     if (allowance.lt(price)) {
       showLoading('Approving USDC spend...');
-      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, ethers.constants.MaxUint256);
+      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, price.mul(2));
       await approveTx.wait();
     }
 
@@ -1226,7 +1227,7 @@ async function renewSub(tokenId) {
     const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
     if (allowance.lt(tier.priceUSDC)) {
       showLoading('Approving USDC...');
-      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, ethers.constants.MaxUint256);
+      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, tier.priceUSDC.mul(2));
       await approveTx.wait();
     }
     showLoading('Confirm renewal in MetaMask...');
@@ -1341,7 +1342,7 @@ async function loadDashboard() {
                 <h4>${sanitize(content.title)}</h4>
               </div>
               <div class="content-meta">${date} · ${content.minTierId.toNumber() === 0 ? 'Free' : `Tier #${content.minTierId.toNumber()}`} · ID: ${cId.toNumber()}</div>
-              <div class="content-body" style="word-break:break-all;"><a href="${sanitize(content.contentURI)}" target="_blank">${sanitize(content.contentURI)}</a></div>
+              <div class="content-body" style="word-break:break-all;"><a href="${safeHref(content.contentURI)}" target="_blank">${sanitize(content.contentURI)}</a></div>
             </div>
           `;
         } catch {}
@@ -1521,6 +1522,11 @@ function sanitize(str) {
   return div.innerHTML;
 }
 
+function safeHref(uri) {
+  if (/^(https?:\/\/|ipfs:\/\/)/i.test(uri)) return uri;
+  return '#';
+}
+
 function parseError(err) {
   if (!err) return 'Unknown error';
   if (err.reason) return err.reason;
@@ -1576,7 +1582,7 @@ function toast(msg, type = 'info') {
   const icons = { success: '✓', error: '✕', info: 'ℹ' };
   el.innerHTML = `
     <span class="toast-icon">${icons[type] || icons.info}</span>
-    <span class="toast-body">${msg}</span>
+    <span class="toast-body">${sanitize(msg)}</span>
     <button class="toast-close" onclick="dismissToast(this)">&times;</button>
   `;
   container.appendChild(el);

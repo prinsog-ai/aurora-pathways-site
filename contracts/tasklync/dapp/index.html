@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
 <title>Tasklync V2 — Decentralized Freelance Escrow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" integrity="sha384-6Zl0Pc8zjSz8KvmNeXRvUQgY4ryFb+BwDvKCmLYcBME0joAaru491tQgi9B7zsMM" crossorigin="anonymous"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -594,7 +595,7 @@ function toast(msg, type='info', duration=5000) {
   const t = document.createElement('div');
   t.className = `toast ${type}`;
   const icons = {success:'✓',error:'✕',info:'ℹ',warning:'⚠'};
-  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span><span class="toast-dismiss" onclick="this.parentElement.remove()">✕</span>`;
+  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${escHtml(msg)}</span><span class="toast-dismiss" onclick="this.parentElement.remove()">✕</span>`;
   c.appendChild(t);
   setTimeout(()=>{t.style.animation='fadeOut .3s ease forwards';setTimeout(()=>t.remove(),300)}, duration);
 }

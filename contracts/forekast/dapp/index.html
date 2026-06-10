@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
 <title>Forekast — Prediction Markets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -480,7 +481,7 @@ footer .footer-logo{display:flex;align-items:center;justify-content:center;gap:6
   <div class="footer-logo">Forekast — Predict. Trade. Win.</div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" integrity="sha384-Htz1SE4Sl5aitpvFgr2j0sfsGUIuSXI6t8hEyrlQ93zflEF3a29bH2AvkUROUw7J" crossorigin="anonymous"></script>
 <script>
 // === CONSTANTS ===
 const CONTRACT_ADDRESS = '0xaf9bed2b629b1e239f54b7ba07750b41a7fed210';
@@ -977,7 +978,7 @@ async function executeBuy() {
     const allowance = await usdcRead.allowance(userAddress, CONTRACT_ADDRESS);
     if (allowance.lt(amountWei)) {
       showBtnLoading(buyBtn, 'Approving USDC…');
-      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, ethers.constants.MaxUint256);
+      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, amountWei.mul(2));
       showBtnLoading(buyBtn, 'Confirming approval…');
       await tx.wait();
       toast('USDC approved!', 'success');
@@ -1092,7 +1093,7 @@ async function createMarket() {
     const allowance = await usdcRead.allowance(userAddress, CONTRACT_ADDRESS);
     if (allowance.lt(total)) {
       showBtnLoading(createBtn, 'Approving USDC…');
-      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, ethers.constants.MaxUint256);
+      const tx = await usdcWrite.approve(CONTRACT_ADDRESS, total.mul(2));
       await tx.wait();
       toast('USDC approved!', 'success');
     }

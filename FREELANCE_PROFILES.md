@@ -22,7 +22,7 @@ I build production-grade smart contracts and decentralized applications that are
 
 **Proof of work:**
 - 4 verified protocols live on Polygon Mainnet
-- 315+ automated tests passing
+- 581 automated tests passing across 13 suites
 - Contracts publicly auditable on Polygonscan
 - Live dApp demos at aurorapathways.xyz
 
@@ -41,10 +41,10 @@ Solidity, Smart Contracts, Ethereum, Polygon, Web3, DeFi, dApp Development, Foun
 
 ### Portfolio Links
 - https://aurorapathways.xyz
-- https://tasklync-dapp.netlify.app
-- https://pledgly-dapp.netlify.app
-- https://forekast-dapp.netlify.app
-- https://ridep2p-dapp.netlify.app
+- https://tasklync.xyz
+- https://pledgly.xyz
+- https://forekastdao.xyz
+- https://ridep2p.xyz
 
 ---
 
@@ -57,7 +57,7 @@ aurorapathways
 Aurora Pathways — Web3 Development
 
 ### Bio
-We build smart contracts and dApps that run on real mainnets with real money. 4 verified protocols live on Polygon. 315+ tests. No testnet theater.
+We build smart contracts and dApps that run on real mainnets with real money. 4 verified protocols live on Polygon. 581 tests. No testnet theater.
 
 ### GIG 1: Smart Contract Development
 
@@ -75,7 +75,7 @@ Need a smart contract that actually works on mainnet? I'll build it with Foundry
 
 **My track record:**
 - 4 protocols live on Polygon Mainnet
-- 315+ automated tests
+- 581 automated tests
 - Verified contracts on Polygonscan
 - Zero security incidents
 
@@ -121,7 +121,7 @@ Not sure what you need? I'll review your project, recommend the right architectu
 
 Aurora Pathways | Web3 Consulting & Development
 Building production-grade smart contracts on Polygon, Arbitrum & Base
-4 verified protocols live · 315+ tests · Real mainnet, not testnet
+4 verified protocols live · 581 tests · Real mainnet, not testnet
 🔗 aurorapathways.xyz
 
 ---
@@ -129,5 +129,5 @@ Building production-grade smart contracts on Polygon, Arbitrum & Base
 ## GITHUB ORG DESCRIPTION
 
 Aurora Pathways — Web3 consulting agency building production-grade DAO protocols.
-Live on Polygon Mainnet | Foundry + Solidity | 315+ tests
+Live on Polygon Mainnet | Foundry + Solidity | 581 tests
 https://aurorapathways.xyz

@@ -73,7 +73,7 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
     mapping(uint256 => Content) public contents;
     mapping(uint256 => uint256[]) public creatorContent;
     mapping(address => uint256) public addressToCreator;
-    mapping(address => mapping(uint256 => bool)) public isSubscribedTo;
+    mapping(address => mapping(uint256 => uint256)) public activeSubCount;
 
     // User => list of their subscription token IDs
     mapping(address => uint256[]) public userTokens;
@@ -202,7 +202,7 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
             active: true
         });
 
-        isSubscribedTo[msg.sender][_creatorId] = true;
+        activeSubCount[msg.sender][_creatorId] += 1;
         userTokens[msg.sender].push(tokenId);
         creator.subscriberCount++;
 
@@ -230,7 +230,7 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
             sub.expiry += SUBSCRIPTION_DURATION;
         } else {
             sub.expiry = block.timestamp + SUBSCRIPTION_DURATION;
-            isSubscribedTo[msg.sender][sub.creatorId] = true;
+            activeSubCount[msg.sender][sub.creatorId] += 1;
         }
 
         emit Renewed(_tokenId, msg.sender, sub.creatorId, sub.expiry);
@@ -243,7 +243,7 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
 
         sub.active = false;
         sub.expiry = block.timestamp;
-        isSubscribedTo[msg.sender][sub.creatorId] = false;
+        activeSubCount[msg.sender][sub.creatorId] -= 1;
         creators[sub.creatorId].subscriberCount--;
 
         emit Unsubscribed(_tokenId, msg.sender, sub.creatorId);
@@ -276,6 +276,10 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
     }
 
     // ─── View Functions ─────────────────────────────────────────────────
+
+    function isSubscribedTo(address _user, uint256 _creatorId) external view returns (bool) {
+        return activeSubCount[_user][_creatorId] > 0;
+    }
 
     function isSubscriptionActive(uint256 _tokenId) external view returns (bool) {
         Subscription storage sub = subscriptions[_tokenId];
