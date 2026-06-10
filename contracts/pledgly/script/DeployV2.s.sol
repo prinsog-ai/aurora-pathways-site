@@ -9,7 +9,8 @@ contract DeployPledglyV2 is Script {
         // Real USDC on Polygon Mainnet
         address usdc = 0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359;
 
-        vm.startBroadcast();
+        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerKey);
         PledglyV2 pledgly = new PledglyV2(usdc);
         vm.stopBroadcast();
 
