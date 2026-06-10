@@ -1,259 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tasklync — Keep 97% of What You Earn</title>
-<link rel="canonical" href="https://aurorapathways.xyz/landing/tasklync/">
-<meta property="og:title" content="Tasklync — Keep 97% of What You Earn">
-<meta property="og:description" content="The freelance marketplace with 3% fees and instant payouts. No middleman taking 20% of your money.">
-<meta property="og:url" content="https://aurorapathways.xyz/landing/tasklync/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Aurora Pathways">
-<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tasklync — Keep 97% of What You Earn">
-<meta name="twitter:description" content="The freelance marketplace with 3% fees and instant payouts. No middleman taking 20% of your money.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasklync — Keep 97% of What You Earn | Freelance Marketplace</title>
+  <meta name="description" content="The freelance marketplace with 3% fees and instant USDC payouts. Escrow protection. No middleman taking 20% of your money.">
+  <link rel="canonical" href="https://tasklync.xyz/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tasklync — Keep 97% of What You Earn | Freelance Marketplace">
+  <meta property="og:description" content="The freelance marketplace with 3% fees and instant USDC payouts. Escrow protection. No middleman taking 20% of your money.">
+  <meta property="og:url" content="https://tasklync.xyz/">
+  <meta property="og:site_name" content="Tasklync">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tasklync — Keep 97% of What You Earn | Freelance Marketplace">
+  <meta name="twitter:description" content="The freelance marketplace with 3% fees and instant USDC payouts. Escrow protection. No middleman taking 20% of your money.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #0f0f16;
+      --surface2: #15151f;
+      --text: #e8e8ed;
+      --text2: #8a8a9a;
+      --accent: #7c5cfc;
+      --accent2: #4ec9b0;
+      --accent3: #ff6b9d;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .gradient-text {
+      background: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-<meta name="description" content="The freelance marketplace with 3% fees and instant payouts. No middleman taking 20% of your money.">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--surface:#0f0f16;--surface2:#15151f;--text:#e8e8ed;--text2:#8a8a9a;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--radius:20px}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;overflow-x:hidden}
-.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 30% 10%,rgba(124,92,252,0.08) 0%,transparent 60%),radial-gradient(ellipse 60% 70% at 70% 80%,rgba(78,201,176,0.06) 0%,transparent 60%)}
-section{padding:100px 0;position:relative}
-.section-divider{position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:2px;background:var(--gradient);border-radius:2px;opacity:0.5}
-.section-label{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:18px;display:inline-block;padding:6px 14px;background:rgba(124,92,252,0.08);border-radius:100px}
-h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.08}
-h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-h2{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.2}
-.section-desc{color:var(--text2);font-size:1.1rem;max-width:560px;margin-bottom:48px;line-height:1.7}
-.btn{display:inline-block;padding:15px 34px;border-radius:100px;font-weight:600;font-size:1rem;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
-.btn-primary{background:var(--gradient);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(124,92,252,0.4)}
-.btn-secondary{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);color:var(--text);backdrop-filter:blur(10px)}.btn-secondary:hover{background:rgba(255,255,255,0.08)}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:100;padding:16px 0}
-nav .container{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:1.35rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-btn{background:var(--gradient);color:#fff;border:none;padding:9px 22px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
-.nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(124,92,252,0.35)}
-.hero{min-height:90vh;display:flex;align-items:center;padding-top:80px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(78,201,176,0.1);border:1px solid rgba(78,201,176,0.2);padding:8px 18px;border-radius:100px;font-size:0.85rem;color:var(--accent2);margin-bottom:28px;font-weight:500}
-.hero-badge::before{content:'';width:7px;height:7px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero-desc{font-size:1.15rem;color:var(--text2);max-width:540px;margin-bottom:36px;line-height:1.7}
-.stat-row{display:flex;gap:40px;flex-wrap:wrap;margin:32px 0}
-.stat-item{text-align:left}.stat-value{font-size:2rem;font-weight:800;color:var(--accent2)}.stat-label{font-size:0.85rem;color:var(--text2);margin-top:4px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
-.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:36px;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s}
-.card:hover{transform:translateY(-4px);border-color:rgba(124,92,252,0.25);box-shadow:0 20px 50px rgba(0,0,0,0.2)}
-.card-icon{font-size:2rem;margin-bottom:18px}
-.card h3{font-size:1.2rem;font-weight:600;margin-bottom:12px}
-.card p{color:var(--text2);font-size:0.93rem;line-height:1.65}
-.feature-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px;text-align:center;transition:transform 0.3s,border-color 0.3s}
-.feature-card:hover{transform:translateY(-4px);border-color:rgba(124,92,252,0.25)}
-.feature-card .icon{font-size:2.4rem;margin-bottom:16px}
-.feature-card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px}
-.feature-card p{color:var(--text2);font-size:0.88rem;line-height:1.6}
-.comparison{width:100%;border-collapse:collapse;margin-top:32px}
-.comparison th{text-align:left;padding:16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.9rem}
-.comparison td{padding:14px 16px;border-bottom:1px solid var(--glass-border);font-size:0.93rem}
-.comparison .highlight{color:var(--accent2);font-weight:600}
-.comparison .dim{color:var(--text3)}
-.how-step{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px}
-.how-num{min-width:44px;height:44px;background:rgba(124,92,252,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--accent);flex-shrink:0}
-.how-content h4{font-size:1.05rem;margin-bottom:6px}
-.how-content p{color:var(--text2);font-size:0.9rem;line-height:1.6}
-.cta-section{text-align:center;background:var(--surface);padding:80px 0;border-top:1px solid var(--glass-border)}
-.tech-tag{display:inline-block;background:rgba(124,92,252,0.1);padding:5px 12px;border-radius:6px;font-size:0.8rem;color:var(--accent);font-weight:500;margin-right:8px;margin-bottom:8px}
-footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;border-top:1px solid var(--glass-border)}
-.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}}
-</style>
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    nav .container {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
+      color: #fff; font-weight: 600; font-size: 0.9rem;
+      border-radius: 999px; border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,92,252,0.3); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      background: transparent; color: var(--text);
+      font-weight: 600; font-size: 0.9rem;
+      border-radius: 999px; border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(124,92,252,0.08); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 6rem; padding-bottom: 4rem; text-align: center;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 999px;
+      background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2);
+      font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem;
+    }
+    .badge .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent2);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 800; line-height: 1.15;
+      letter-spacing: -0.03em;
+      max-width: 800px; margin: 0 auto 1.5rem;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text2); max-width: 560px; margin: 0 auto 2rem;
+    }
+    .stat-row {
+      display: flex; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem);
+      flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .stat-row .stat { text-align: center; }
+    .stat-row .stat strong { display: block; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; }
+    .stat-row .stat span { font-size: 0.85rem; color: var(--text2); }
+    .hero-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* Section headings */
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -0.02em;
+      text-align: center; margin-bottom: 0.8rem;
+    }
+    .section-sub {
+      text-align: center; color: var(--text2);
+      max-width: 560px; margin: 0 auto 3rem;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    }
+
+    /* Problem */
+    .problem { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .problem-block {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px; padding: clamp(2rem, 4vw, 3.5rem);
+      text-align: center; max-width: 700px; margin: 0 auto;
+    }
+    .problem-block h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 800; margin-bottom: 1.5rem;
+    }
+    .fee-compare {
+      display: flex; justify-content: center; gap: 2rem;
+      flex-wrap: wrap; margin-top: 1.5rem;
+    }
+    .fee-compare .fee-item {
+      padding: 1.2rem 1.8rem;
+      background: var(--surface2);
+      border-radius: 14px; text-align: center;
+      min-width: 140px;
+    }
+    .fee-compare .fee-item .name { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.3rem; }
+    .fee-compare .fee-item .rate { font-size: 1.6rem; font-weight: 800; }
+    .fee-compare .fee-item.high .rate { color: var(--accent3); }
+    .fee-compare .fee-item.low .rate { color: var(--accent2); }
+
+    /* Features */
+    .features { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .feature-card:hover { border-color: rgba(124,92,252,0.2); transform: translateY(-2px); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(124,92,252,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1rem;
+    }
+    .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+
+    /* How It Works */
+    .how-it-works { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      counter-reset: step;
+    }
+    .step { text-align: center; }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
+      font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p { color: var(--text2); font-size: 0.9rem; }
+
+    /* Comparison */
+    .comparison { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .compare-table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .compare-table {
+      width: 100%; min-width: 600px;
+      border-collapse: collapse;
+    }
+    .compare-table th, .compare-table td {
+      padding: 1rem 1.2rem; text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.95rem;
+    }
+    .compare-table thead th {
+      background: var(--surface2);
+      font-weight: 700; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--text2);
+    }
+    .compare-table thead th:first-child { border-radius: 16px 0 0 0; }
+    .compare-table thead th:last-child { border-radius: 0 16px 0 0; }
+    .compare-table tbody tr { background: var(--surface); }
+    .compare-table tbody tr:hover { background: var(--surface2); }
+    .compare-table td:first-child { font-weight: 600; color: var(--text2); }
+    .compare-table .highlight { color: var(--accent2); font-weight: 600; }
+
+    /* Security */
+    .security { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .security-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .security-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .security-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+
+    /* FAQ */
+    .faq { padding: clamp(4rem, 8vw, 7rem) 0; }
+    .faq-list { max-width: 700px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem 0;
+    }
+    .faq-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .faq-item p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+
+    /* CTA */
+    .cta-section {
+      padding: clamp(4rem, 8vw, 7rem) 0;
+      text-align: center;
+    }
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: clamp(3rem, 6vw, 5rem) 2rem;
+    }
+    .cta-box h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; margin-bottom: 1rem;
+    }
+    .cta-box p {
+      color: var(--text2); font-size: 1.1rem;
+      margin-bottom: 2rem; max-width: 480px; margin-inline: auto;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+    footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    footer a { color: var(--accent); }
+    footer a:hover { text-decoration: underline; }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .stat-row { gap: 1.5rem; }
+      .fee-compare { gap: 1rem; }
+      .features-grid, .security-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="aurora-bg"></div>
 
-<nav>
-  <div class="container">
-    <a href="https://tasklync.xyz" class="logo">Tasklync</a>
-    <a href="https://tasklync-dapp.vercel.app" class="nav-btn">Launch App</a>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge">The Freelance Marketplace</div>
-    <h1><span>Keep 97% of<br>what you earn.</span></h1>
-    <p class="hero-desc">Post jobs, get paid instantly, and never worry about a platform taking 20% of your money. Escrow protection built in. No middleman.</p>
-    <div class="stat-row">
-      <div class="stat-item"><div class="stat-value">3%</div><div class="stat-label">Platform fee<br>(vs Upwork's 20%)</div></div>
-      <div class="stat-item"><div class="stat-value">Instant</div><div class="stat-label">Payouts when<br>work is approved</div></div>
-      <div class="stat-item"><div class="stat-value">$0</div><div class="stat-label">to join<br>No signup fees</div></div>
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <a href="#" class="logo gradient-text">Tasklync</a>
+      <a href="https://tasklync-dapp.vercel.app" class="btn-primary" target="_blank" rel="noopener">Launch App</a>
     </div>
-    <div style="display:flex;gap:14px;flex-wrap:wrap;">
-      <a href="https://tasklync-dapp.vercel.app" class="btn btn-primary">🚀 Start Freelancing</a>
-      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary">Book a Call</a>
-    </div>
-  </div>
-</section>
+  </nav>
 
-<section>
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal">The Problem</div>
-    <h2 class="reveal">Freelancers are getting<br>gutted by platform fees</h2>
-    <p class="section-desc reveal">Upwork takes 20%. Fiverr takes 20%. Freelancer.com takes 10-20%. For a $10,000 project, that's $2,000 you never see. The platform owns your reputation, your client relationships, and can suspend your account at any time.</p>
-    <div class="grid2 reveal">
-      <div class="card">
-        <div class="card-icon">💰</div>
-        <h3>Centralized platforms bleed you</h3>
-        <p>High fees, slow payouts (days to weeks), arbitrary account suspensions, no ownership of your work history or client relationships.</p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge"><span class="dot"></span> The Freelance Marketplace</div>
+      <h1><span class="gradient-text">Keep 97%</span> of what you earn.</h1>
+      <p>No middleman taking a fifth of your paycheck. Tasklync connects freelancers and clients directly with escrow protection and instant payouts.</p>
+      <div class="stat-row">
+        <div class="stat"><strong class="gradient-text">3%</strong><span>Platform Fee</span></div>
+        <div class="stat"><strong class="gradient-text">Instant</strong><span>USDC Payouts</span></div>
+        <div class="stat"><strong class="gradient-text">$0</strong><span>To Join</span></div>
       </div>
-      <div class="card">
-        <div class="card-icon">🔐</div>
-        <h3>Tasklync keeps what's yours</h3>
-        <p>3% fee. Instant payouts when work is approved. A reputation that can't be deleted. Nobody can ban you.</p>
+      <div class="hero-btns">
+        <a href="https://tasklync-dapp.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing →</a>
+        <a href="#how-it-works" class="btn-outline">Learn More ↓</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section style="background:var(--surface);">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal">Features</div>
-    <h2 class="reveal">Built for people<br>who actually do the work</h2>
-    <div class="grid3" style="margin-top:40px;">
-      <div class="feature-card reveal">
-        <div class="icon">💼</div>
-        <h4>Post & Apply</h4>
-        <p>Clients post jobs. Freelancers stake a small deposit to apply (refunded on acceptance). No spam. No bots.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🔐</div>
-        <h4>Secure Escrow</h4>
-        <p>Client funds are locked before work starts. Released automatically when work is approved. No payment disputes.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">⚖️</div>
-        <h4>Fair Disputes</h4>
-        <p>Disagreements go to independent reviewers. Community voting decides the outcome. No platform employee deciding your fate.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">⭐</div>
-        <h4>Portable Reputation</h4>
-        <p>Your reviews and work history belong to you. Take them anywhere. No platform can erase your track record.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">⚡</div>
-        <h4>Instant Payouts</h4>
-        <p>You get paid the moment the client approves your work. Not "5 business days." Not "pending review."</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🌐</div>
-        <h4>Global by Default</h4>
-        <p>Work with anyone, anywhere. No currency conversion fees. No country restrictions. Get paid the same way everywhere.</p>
+  <!-- Problem -->
+  <section class="problem" id="problem">
+    <div class="container">
+      <div class="problem-block reveal">
+        <h2>Platforms take 20%.<br>You do the work.</h2>
+        <p style="color:var(--text2);max-width:480px;margin:0 auto;">Traditional freelance platforms charge up to 20% of every dollar you earn. That's a fifth of your income — gone.</p>
+        <div class="fee-compare">
+          <div class="fee-item high"><div class="name">Upwork</div><div class="rate">20%</div></div>
+          <div class="fee-item high"><div class="name">Fiverr</div><div class="rate">20%</div></div>
+          <div class="fee-item low"><div class="name">Tasklync</div><div class="rate">3%</div></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section>
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal">How It Works</div>
-    <h2 class="reveal">Four steps. No middleman.</h2>
-    <div style="max-width:600px;margin-top:36px;">
-      <div class="how-step reveal">
-        <div class="how-num">1</div>
-        <div class="how-content"><h4>Client posts a job and funds the escrow</h4><p>The payment is locked before any work starts. Both sides can see it's there. Nobody can touch it until the work is done.</p></div>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">2</div>
-        <div class="how-content"><h4>Freelancers apply with a small deposit</h4><p>A small deposit filters out bots and spam. If you're accepted, you get it back. If you flake, it goes to the client.</p></div>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">3</div>
-        <div class="how-content"><h4>Work gets done, client approves</h4><p>Client reviews and approves. Payment moves from escrow to freelancer. Seconds, not days.</p></div>
-      </div>
-      <div class="how-step reveal">
-        <div class="how-num">4</div>
-        <div class="how-content"><h4>Both sides rate each other</h4><p>Reviews that can't be gamed or deleted. Your track record belongs to you.</p></div>
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title reveal">Everything you need.</h2>
+      <p class="section-sub reveal">A complete freelance marketplace, built on open infrastructure.</p>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">📋</div>
+          <h3>Post &amp; Apply</h3>
+          <p>Clients post jobs with clear scope and budget. Freelancers apply directly — no algorithm deciding who gets seen.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔒</div>
+          <h3>Secure Escrow</h3>
+          <p>Funds are locked in a smart contract before work begins. Neither party can access them until the job is done.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">⚖️</div>
+          <h3>Fair Disputes</h3>
+          <p>If something goes wrong, the community votes. No single support agent decides your fate.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🏅</div>
+          <h3>Portable Reputation</h3>
+          <p>Your reviews live on-chain. You own them, you take them with you. No platform can hold your reputation hostage.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">⚡</div>
+          <h3>Instant Payouts</h3>
+          <p>When a client approves your work, USDC hits your wallet immediately. No waiting days for a bank transfer.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🌍</div>
+          <h3>Global by Default</h3>
+          <p>No country restrictions. No payment processor gatekeeping. If you have a wallet, you can work.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section style="background:var(--surface);">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal">Comparison</div>
-    <h2 class="reveal">Tasklync vs the incumbents</h2>
-    <div style="overflow-x:auto;">
-      <table class="comparison">
-        <tr><th></th><th>Tasklync</th><th>Upwork</th><th>Fiverr</th></tr>
-        <tr><td>Platform fee</td><td class="highlight">3%</td><td class="dim">20% → 5%</td><td class="dim">20%</td></tr>
-        <tr><td>Payout speed</td><td class="highlight">Instant (USDC)</td><td class="dim">5-10 business days</td><td class="dim">14 days (initially)</td></tr>
-        <tr><td>Censorship risk</td><td class="highlight">None</td><td class="dim">Account can be suspended</td><td class="dim">Account can be suspended</td></tr>
-        <tr><td>Reputation ownership</td><td class="highlight">You own it</td><td class="dim">Platform owns it</td><td class="dim">Platform owns it</td></tr>
-        <tr><td>Dispute resolution</td><td class="highlight">Community voting</td><td class="dim">Platform decides</td><td class="dim">Platform decides</td></tr>
-        <tr><td>Global access</td><td class="highlight">Anyone, anywhere</td><td class="dim">Country restrictions</td><td class="dim">Country restrictions</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal">Security</div>
-    <h2 class="reveal">Your money is protected.<br>Here's how.</h2>
-    <p class="section-desc reveal">Every payment is locked in a transparent escrow that nobody can touch — not us, not the client, not anyone — until the work is approved.</p>
-    <div class="grid3">
-      <div class="card reveal">
-        <h3>Locked Payments</h3>
-        <p>Client funds are held before work begins. Both sides can verify the money is there. It can't be moved until the job is done.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Escrow</span><span class="tech-tag">Verified</span></div>
-      </div>
-      <div class="card reveal">
-        <h3>Anti-Flake Protection</h3>
-        <p>Freelancers put down a small deposit when they apply. Good behavior = deposit returned. Flaking = deposit compensates the client.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Skin in the game</span></div>
-      </div>
-      <div class="card reveal">
-        <h3>Permanent Reviews</h3>
-        <p>Reviews are permanent and tamper-proof. No deleting bad reviews. No paying to remove them. The record doesn't lie.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Tamper-proof</span><span class="tech-tag">Portable</span></div>
+  <!-- How It Works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title reveal">How it works</h2>
+      <p class="section-sub reveal">Four simple steps from posting to payment.</p>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Client Posts &amp; Funds</h3>
+          <p>A client describes the job and deposits payment into escrow.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <h3>Freelancers Apply</h3>
+          <p>Freelancers apply with a small stake to show commitment.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <h3>Work Gets Done</h3>
+          <p>The freelancer delivers. The client reviews and approves.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">4</div>
+          <h3>Both Rate Each Other</h3>
+          <p>Payment releases instantly. Both parties leave a review.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="cta-section">
-  <div class="container">
-    <h2 class="reveal">Keep what you earn.</h2>
-    <p class="section-desc reveal" style="margin:16px auto 36px;">The first freelance marketplace built for the people doing the work. 3% fee. Instant payouts. No gatekeepers.</p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-      <a href="https://tasklync-dapp.vercel.app" class="btn btn-primary reveal">🚀 Start Freelancing</a>
-      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary reveal">Book a Call</a>
+  <!-- Comparison -->
+  <section class="comparison" id="comparison">
+    <div class="container">
+      <h2 class="section-title reveal">See the difference</h2>
+      <p class="section-sub reveal">How Tasklync stacks up against traditional platforms.</p>
+      <div class="compare-table-wrap reveal">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Tasklync</th>
+              <th>Upwork</th>
+              <th>Fiverr</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Platform Fee</td>
+              <td class="highlight">3%</td>
+              <td>Up to 20%</td>
+              <td>20%</td>
+            </tr>
+            <tr>
+              <td>Payout Speed</td>
+              <td class="highlight">Instant (USDC)</td>
+              <td>3–5 business days</td>
+              <td>Up to 14 days</td>
+            </tr>
+            <tr>
+              <td>Censorship Risk</td>
+              <td class="highlight">Decentralized</td>
+              <td>Platform can ban you</td>
+              <td>Platform can ban you</td>
+            </tr>
+            <tr>
+              <td>Reputation Ownership</td>
+              <td class="highlight">You own your reviews</td>
+              <td>Locked to platform</td>
+              <td>Locked to platform</td>
+            </tr>
+            <tr>
+              <td>Dispute Resolution</td>
+              <td class="highlight">Community voted</td>
+              <td>Internal support</td>
+              <td>Internal support</td>
+            </tr>
+            <tr>
+              <td>Global Access</td>
+              <td class="highlight">Anyone with a wallet</td>
+              <td>Restricted countries</td>
+              <td>Restricted countries</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <p style="margin-top:20px;color:var(--text2);font-size:0.85rem;" class="reveal">tasklync.xyz</p>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="container"><p>Tasklync — The freelance marketplace where you keep what you earn. &copy; 2026</p></div>
-</footer>
+  <!-- Security -->
+  <section class="security" id="security">
+    <div class="container">
+      <h2 class="section-title reveal">Built for trust</h2>
+      <p class="section-sub reveal">Smart contracts handle the money. People handle the work.</p>
+      <div class="security-grid">
+        <div class="security-card reveal">
+          <h3>🔒 Locked Payments</h3>
+          <p>Client funds are deposited into escrow before work starts. The freelancer knows the money is there. The client knows they'll only pay for approved work.</p>
+        </div>
+        <div class="security-card reveal">
+          <h3>🛡️ Anti-Flake Protection</h3>
+          <p>Freelancers stake a small deposit to apply. If they abandon the job, the stake covers the disruption. It keeps everyone honest.</p>
+        </div>
+        <div class="security-card reveal">
+          <h3>📝 Permanent Reviews</h3>
+          <p>Reviews are stored on-chain and can't be deleted or manipulated. Your reputation is yours — portable and permanent.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-const observer=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
-</script>
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2 class="section-title reveal">Frequently asked questions</h2>
+      <p class="section-sub reveal">Everything you need to know before you start.</p>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <h3>How do I get paid?</h3>
+          <p>When a client approves your work, USDC is released from escrow directly to your wallet — instantly. No waiting for bank transfers or payment processors.</p>
+        </div>
+        <div class="faq-item reveal">
+          <h3>What if there's a dispute?</h3>
+          <p>If a client and freelancer can't agree, either party can open a dispute. The case goes to community vote, and the funds are released based on the outcome.</p>
+        </div>
+        <div class="faq-item reveal">
+          <h3>Do I need crypto experience?</h3>
+          <p>You'll need a wallet (like MetaMask) and some MATIC for gas on Polygon. If you've never used crypto before, it takes about 10 minutes to set up.</p>
+        </div>
+        <div class="faq-item reveal">
+          <h3>What chains do you support?</h3>
+          <p>Tasklync is currently deployed on Polygon mainnet — chosen for its low fees and fast transactions. More chains may be added in the future.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2><span class="gradient-text">Keep what you earn.</span></h2>
+        <p>Join a marketplace that works for freelancers, not against them.</p>
+        <a href="https://tasklync-dapp.vercel.app" class="btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:0.8rem 2.2rem;">Launch App →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Tasklync — The freelance marketplace where you keep what you earn. &copy; 2026</p>
+      <p><a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Backed by Aurora Pathways</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // IntersectionObserver reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>

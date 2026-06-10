@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ridep2p — Decentralized Ride Protocol</title>
-<link rel="canonical" href="https://aurorapathways.xyz/landing/ridep2p/">
+<title>RideP2P — Drivers Keep 97% | Decentralized Ride Protocol</title>
+<link rel="canonical" href="https://ridep2p.xyz/">
 <meta property="og:title" content="RideP2P — Drivers Keep 97%">
-<meta property="og:description" content="Peer-to-peer rides. Drivers keep 97% of every fare. No middleman taking 40%.">
-<meta property="og:url" content="https://aurorapathways.xyz/landing/ridep2p/">
+<meta property="og:description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97% of every fare. No corporation skimming 40%.">
+<meta property="og:url" content="https://ridep2p.xyz/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RideP2P">
 <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
 <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ridep2p — Decentralized Ride Protocol">
-<meta name="twitter:description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97%. Built on Base L2.">
-
-<meta name="description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97% of what they earn. Built on Base L2.">
+<meta name="twitter:title" content="RideP2P — Drivers Keep 97%">
+<meta name="twitter:description" content="Peer-to-peer rides. 3% platform fee. Smart contract escrow. Drivers keep 97% of every fare.">
+<meta name="description" content="Peer-to-peer rides with 3% platform fee. Drivers keep 97% of every fare. Smart contract escrow. Instant USDC payouts. No corporation skimming 40%.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -63,17 +62,25 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
 .comparison th{text-align:left;padding:16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.9rem}
 .comparison td{padding:14px 16px;border-bottom:1px solid var(--glass-border);font-size:0.93rem}
 .comparison .highlight{color:var(--accent2);font-weight:600}
-.comparison .dim{color:var(--text3)}
+.comparison .dim{color:#6a6a7a}
 .how-step{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px}
 .how-num{min-width:44px;height:44px;background:rgba(232,168,64,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--accent3);flex-shrink:0}
 .how-content h4{font-size:1.05rem;margin-bottom:6px}
 .how-content p{color:var(--text2);font-size:0.9rem;line-height:1.6}
 .cta-section{text-align:center;background:var(--surface);padding:80px 0;border-top:1px solid var(--glass-border)}
-.tech-tag{display:inline-block;background:rgba(232,168,64,0.1);padding:5px 12px;border-radius:6px;font-size:0.8rem;color:var(--accent3);font-weight:500;margin-right:8px;margin-bottom:8px}
+.faq-item{background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:24px 28px;margin-bottom:16px;cursor:pointer;transition:border-color 0.3s}
+.faq-item:hover{border-color:rgba(232,168,64,0.2)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1rem}
+.faq-q::after{content:'+';font-size:1.4rem;color:var(--accent3);transition:transform 0.3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{color:var(--text2);font-size:0.93rem;line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;padding-top:0}
+.faq-item.open .faq-a{max-height:200px;padding-top:14px}
 footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;border-top:1px solid var(--glass-border)}
+footer a{color:var(--accent3);text-decoration:none}
+footer a:hover{text-decoration:underline}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}}
+@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}.stat-row{gap:24px}.grid3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -89,17 +96,16 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
 <section class="hero">
   <div class="container">
     <div class="hero-badge">Peer-to-Peer Rides</div>
-    <h1><span>Ridep2p</span></h1>
-    <p class="hero-desc">The ride protocol where drivers keep 97%. 3% platform fee. Smart contract escrow between rider and driver. Community-owned. No corporation skimming 40%.</p>
+    <h1><span>Drivers keep 97%.<br>Uber keeps nothing.</span></h1>
+    <p class="hero-desc">The ride protocol where the fare goes straight to the driver. 3% platform fee. Smart contract escrow. Instant USDC settlement. No corporation skimming 40% off the top.</p>
     <div class="stat-row">
       <div class="stat-item"><div class="stat-value">3%</div><div class="stat-label">Platform fee<br>(vs Uber's ~40%)</div></div>
-      <div class="stat-item"><div class="stat-value">Instant</div><div class="stat-label">USDC settlement<br>on Base L2</div></div>
+      <div class="stat-item"><div class="stat-value">Instant</div><div class="stat-label">USDC settlement<br>when ride completes</div></div>
       <div class="stat-item"><div class="stat-value">DAO</div><div class="stat-label">Community governed<br>drivers set the rules</div></div>
     </div>
     <div style="display:flex;gap:14px;flex-wrap:wrap;">
-      <a href="https://aurorapathways.xyz/portfolio/ridep2p.html" class="btn btn-primary">View Full Demo</a>
-      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary">Book a Call</a>
-      <a href="https://ridep2p.vercel.app" class="btn btn-primary">🚀 Find a Ride</a>
+      <a href="https://ridep2p.vercel.app" class="btn btn-primary">🚗 Find a Ride</a>
+      <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
     </div>
   </div>
 </section>
@@ -108,24 +114,24 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal">The Problem</div>
-    <h2 class="reveal">Uber takes 40%. Drivers<br>should take 100%.</h2>
-    <p class="section-desc reveal">Uber's take rate averages 30-40%. On a $25 ride, the driver might see $15. The corporation collects billions while drivers set their own hours, maintain their own cars, and bear all the risk. The platform provides a map and a payment button — that's not worth 40%.</p>
+    <h2 class="reveal">Uber takes 40% of<br>every single ride</h2>
+    <p class="section-desc reveal">On a $25 ride, the driver sees maybe $15. Uber collects billions while drivers maintain their own cars, set their own hours, and bear all the risk. The platform provides a map and a payment button — that's not worth 40%.</p>
     <div class="grid2 reveal">
       <div class="card">
         <div class="card-icon">😤</div>
         <h3>The corporation owns the network</h3>
-        <p>Uber controls pricing, surge multipliers, driver ratings, and who gets banned. Drivers are treated as contractors with zero ownership in the platform they built.</p>
+        <p>Uber controls pricing, surge multipliers, driver ratings, and who gets banned. Drivers are treated as contractors with zero ownership in the platform they built with their cars and their time.</p>
       </div>
       <div class="card">
         <div class="card-icon">🔑</div>
-        <h3>Ridep2p gives the network to the drivers</h3>
-        <p>Governance tokens go to drivers and riders. They vote on fees, rules, and upgrades. The protocol collects nothing. Every cent goes to the driver.</p>
+        <h3>RideP2P gives the network to the drivers</h3>
+        <p>Drivers and riders govern the protocol. They vote on fees, rules, and upgrades. The 3% fee keeps the lights on. The rest goes to the people doing the actual work.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section style="background:var(--surface);">
+<section style="background:var(--surface);" id="features">
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal">Features</div>
@@ -134,38 +140,38 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
       <div class="feature-card reveal">
         <div class="icon">🚗</div>
         <h4>Peer-to-Peer Rides</h4>
-        <p>Rider and driver connect directly. Smart contract holds the fare in escrow. Ride completes → funds release automatically.</p>
+        <p>Rider and driver connect directly. Smart contract holds the fare in escrow. Ride completes → funds release automatically. No middleman.</p>
       </div>
       <div class="feature-card reveal">
         <div class="icon">💰</div>
-        <h4>0% Take Rate</h4>
-        <p>The protocol charges nothing. No percentage. No hidden fees. Rider pays $25, driver gets $25. Gas is under a penny.</p>
+        <h4>3% Platform Fee</h4>
+        <p>Rider pays $25, driver gets $24.25. The 3% keeps the protocol running. Compare that to Uber's $10 take on the same ride.</p>
       </div>
       <div class="feature-card reveal">
         <div class="icon">🔐</div>
         <h4>Smart Contract Escrow</h4>
-        <p>Fare is locked in a contract before the ride starts. Released when the ride completes. Both sides are protected.</p>
+        <p>Fare is locked before the ride starts. Released when the ride completes. Both sides are protected. No payment disputes.</p>
       </div>
       <div class="feature-card reveal">
         <div class="icon">🗳️</div>
         <h4>DAO Governance</h4>
-        <p>Token holders vote on protocol parameters — base fares, cancellation policies, dispute resolution. Drivers make the rules.</p>
+        <p>Drivers vote on protocol parameters — base fares, cancellation policies, dispute resolution. The people doing the work make the rules.</p>
       </div>
       <div class="feature-card reveal">
         <div class="icon">⭐</div>
         <h4>On-Chain Reputation</h4>
-        <p>Ratings live on Base L2. Can't be deleted. Can't be gamed. Good drivers build a reputation that follows them everywhere.</p>
+        <p>Ratings are permanent and portable. Good drivers build a reputation that follows them everywhere. Can't be deleted. Can't be gamed.</p>
       </div>
       <div class="feature-card reveal">
         <div class="icon">🌐</div>
-        <h4>Anyone Can Drive</h4>
-        <p>No corporate approval. No regional restrictions. Stake tokens to join the network. Start driving. The DAO handles quality control.</p>
+        <h4>Global Access</h4>
+        <p>No regional restrictions. No corporate approval needed. Anyone with a wallet can ride or drive. The protocol doesn't care where you are.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="how-it-works">
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal">How It Works</div>
@@ -173,7 +179,7 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
     <div style="max-width:600px;margin-top:36px;">
       <div class="how-step reveal">
         <div class="how-num">1</div>
-        <div class="how-content"><h4>Rider requests a trip</h4><p>Enter pickup and drop-off. Smart contract calculates the fare. Rider deposits USDC into escrow. Funds are locked and visible.</p></div>
+        <div class="how-content"><h4>Rider requests a trip</h4><p>Enter pickup and drop-off. The smart contract calculates the fare. Rider deposits USDC into escrow. Funds are locked and visible to both sides.</p></div>
       </div>
       <div class="how-step reveal">
         <div class="how-num">2</div>
@@ -181,11 +187,11 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
       </div>
       <div class="how-step reveal">
         <div class="how-num">3</div>
-        <div class="how-content"><h4>Driver completes the ride</h4><p>Arrival confirmed. Smart contract releases USDC from escrow to the driver's wallet. Instant. Irreversible.</p></div>
+        <div class="how-content"><h4>Ride completes</h4><p>Arrival confirmed. Smart contract releases USDC from escrow to the driver's wallet. Instant. No waiting for "weekly payouts."</p></div>
       </div>
       <div class="how-step reveal">
         <div class="how-num">4</div>
-        <div class="how-content"><h4>Both rate each other on-chain</h4><p>Ratings are permanent and portable. Good drivers build trust. Bad actors get filtered by the community.</p></div>
+        <div class="how-content"><h4>Both rate each other</h4><p>Reviews are permanent and on-chain. Good drivers build trust. Bad actors get filtered by the community. Reputation you can take anywhere.</p></div>
       </div>
     </div>
   </div>
@@ -195,42 +201,68 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal">Comparison</div>
-    <h2 class="reveal">Ridep2p vs the giants</h2>
+    <h2 class="reveal">RideP2P vs the giants</h2>
     <div style="overflow-x:auto;">
-      <table class="comparison">
-        <tr><th></th><th>Ridep2p</th><th>Uber</th><th>Lyft</th></tr>
-        <tr><td>Platform take rate</td><td class="highlight">3%</td><td class="dim">~30-40%</td><td class="dim">~25-35%</td></tr>
-        <tr><td>Driver payout</td><td class="highlight">Instant (USDC)</td><td class="dim">Weekly</td><td class="dim">Weekly (or instant for a fee)</td></tr>
+      <table class="comparison reveal">
+        <tr><th></th><th>RideP2P</th><th>Uber</th><th>Lyft</th></tr>
+        <tr><td>Platform fee</td><td class="highlight">3%</td><td class="dim">~30-40%</td><td class="dim">~25-35%</td></tr>
+        <tr><td>Driver payout</td><td class="highlight">Instant (USDC)</td><td class="dim">Weekly</td><td class="dim">Weekly (instant for a fee)</td></tr>
         <tr><td>Governance</td><td class="highlight">DAO (drivers vote)</td><td class="dim">Corporate board</td><td class="dim">Corporate board</td></tr>
-        <tr><td>Censorship</td><td class="highlight">Community moderation</td><td class="dim">Uber bans drivers</td><td class="dim">Lyft bans drivers</td></tr>
-        <tr><td>Driver ownership</td><td class="highlight">Token holders own it</td><td class="dim">No ownership</td><td class="dim">No ownership</td></tr>
-        <tr><td>Global reach</td><td class="highlight">Anyone with a wallet</td><td class="dim">Region by region</td><td class="dim">US/Canada only</td></tr>
+        <tr><td>Driver bans</td><td class="highlight">Community moderation</td><td class="dim">Uber decides</td><td class="dim">Lyft decides</td></tr>
+        <tr><td>Ownership</td><td class="highlight">Community-owned</td><td class="dim">Shareholders own it</td><td class="dim">Shareholders own it</td></tr>
+        <tr><td>Global access</td><td class="highlight">Anyone with a wallet</td><td class="dim">Region by region</td><td class="dim">US/Canada primarily</td></tr>
       </table>
     </div>
   </div>
 </section>
 
-<section>
+<section id="why-blockchain">
   <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label reveal">Smart Contracts</div>
-    <h2 class="reveal">Six contracts.<br>Zero middlemen.</h2>
-    <p class="section-desc reveal">Ridep2p is governed by six audited smart contracts on Base L2. Every rule is code. Every transaction is on-chain. No corporate override possible.</p>
-    <div class="grid3">
-      <div class="card reveal">
-        <h3>RideEscrow.sol</h3>
-        <p>Holds rider funds during the trip. Auto-releases on completion. Refund window for cancellations. Timelock prevents stuck funds.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Escrow</span><span class="tech-tag">Timelock</span></div>
+    <div class="section-label reveal">Why Blockchain</div>
+    <h2 class="reveal">Built so nobody<br>can rig the system</h2>
+    <p class="section-desc reveal">Traditional rideshare companies change the rules whenever they want. RideP2P puts the rules in code — transparent, auditable, and enforced by smart contracts.</p>
+    <div class="grid3 reveal">
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Escrow Protection</h3>
+        <p>Your fare is locked in a smart contract before the ride starts. Nobody can touch it — not the platform, not the driver, not anyone — until the ride is confirmed complete.</p>
       </div>
-      <div class="card reveal">
-        <h3>DriverRegistry.sol</h3>
-        <p>On-chain driver profiles. Stake tokens to join. Slashing for bad behavior. Reputation that can't be faked.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Staking</span><span class="tech-tag">Slashing</span></div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Rules as Code</h3>
+        <p>Fare calculations, cancellation policies, dispute windows — all in smart contracts. No hidden algorithm. No "surge pricing" that nobody understands.</p>
       </div>
-      <div class="card reveal">
-        <h3>RideDAO.sol</h3>
-        <p>Token-weighted voting on protocol parameters. Base fares. Cancellation fees. Dispute windows. Drivers set the rules.</p>
-        <div style="margin-top:12px;"><span class="tech-tag">Governance</span><span class="tech-tag">Voting</span></div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>Borderless Payments</h3>
+        <p>USDC works everywhere. No currency conversion. No payment processor blocking your country. Same protocol, same rules, every city on Earth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);" id="faq">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="reveal">Common questions</h2>
+    <div style="max-width:660px;margin-top:36px;">
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">How do drivers get paid?</div>
+        <div class="faq-a">When a ride completes, the smart contract instantly releases USDC from escrow to the driver's wallet. No weekly payouts. No minimum threshold. The money is yours the moment the ride ends.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What if there's a dispute?</div>
+        <div class="faq-a">If a rider and driver disagree (cancellation, route issue, damage claim), the dispute goes to the DAO. Token holders review the evidence and vote. It's not one person deciding — it's the community.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Do I need to understand crypto?</div>
+        <div class="faq-a">You need a wallet and some USDC. The app handles the rest. If you've used Venmo or Cash App, you can use RideP2P. We're building toward fiat on-ramps to make it even easier.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What blockchain is this on?</div>
+        <div class="faq-a">RideP2P is deployed on Polygon — fast transactions, gas fees under a penny, and a massive ecosystem. It's compatible with any EVM wallet (MetaMask, Coinbase Wallet, etc.).</div>
       </div>
     </div>
   </div>
@@ -239,17 +271,19 @@ footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;bor
 <section class="cta-section">
   <div class="container">
     <h2 class="reveal">Drivers should own the network.</h2>
-    <p class="section-desc reveal" style="margin:16px auto 36px;">The first ride protocol where 97% goes to the driver. 3% fee. Instant USDC. Community-governed.</p>
+    <p class="section-desc reveal" style="margin:16px auto 36px;">The first ride protocol where 97% goes to the driver. 3% fee. Instant USDC. Community-governed. No corporation in between.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-      <a href="https://aurorapathways.xyz/portfolio/ridep2p.html" class="btn btn-primary reveal">View Full Demo</a>
-      <a href="https://aurorapathways.xyz#contact" class="btn btn-secondary reveal">Join the Network</a>
+      <a href="https://ridep2p.vercel.app" class="btn btn-primary reveal">🚗 Launch RideP2P</a>
     </div>
     <p style="margin-top:20px;color:var(--text2);font-size:0.85rem;" class="reveal">ridep2p.xyz</p>
   </div>
 </section>
 
 <footer>
-  <div class="container"><p>RideP2P — Rides without the middleman. &copy; 2026</p></div>
+  <div class="container">
+    <p>RideP2P — Rides without the middleman. &copy; 2026</p>
+    <p style="margin-top:8px;"><a href="https://aurorapathways.xyz">Backed by Aurora Pathways</a></p>
+  </div>
 </footer>
 
 <script>
