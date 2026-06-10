@@ -1198,7 +1198,7 @@ contract TaskEscrowV2Test is Test {
     function test_RevertsIf_NotInApplicants() public {
         uint256 jobId = _createJob();
         vm.prank(client);
-        vm.expectRevert("Freelancer not in applicants");
+        vm.expectRevert("Not an applicant");
         escrow.acceptFreelancer(jobId, freelancer);
     }
 

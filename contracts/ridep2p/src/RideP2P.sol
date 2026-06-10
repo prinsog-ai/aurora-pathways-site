@@ -109,6 +109,7 @@ contract RideP2P is Ownable, ReentrancyGuard {
         uint256 pricePerSeat,
         uint256 totalSeats
     ) external returns (uint256) {
+        require(verifiedDrivers[msg.sender], "Driver not verified");
         require(departureTime > block.timestamp, "Departure must be future");
         require(pricePerSeat > 0, "Price must be > 0");
         require(totalSeats > 0, "Seats must be > 0");

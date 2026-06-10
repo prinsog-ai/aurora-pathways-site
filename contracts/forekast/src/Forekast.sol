@@ -14,6 +14,7 @@ contract Forekast is Ownable, ReentrancyGuard {
 
     enum Category { Crypto, Sports, Politics, Entertainment, Tech, Other }
     enum MarketState { Open, Closed, Resolved }
+    enum Outcome { Unresolved, Yes, No, Invalid }
 
     struct Market {
         uint256 id;
@@ -24,7 +25,7 @@ contract Forekast is Ownable, ReentrancyGuard {
         MarketState state;
         uint256 totalYes;
         uint256 totalNo;
-        bool outcome; // true = Yes, false = No
+        Outcome outcome;
         uint256 createdAt;
     }
 
@@ -44,6 +45,7 @@ contract Forekast is Ownable, ReentrancyGuard {
     event MarketResolved(uint256 indexed marketId, bool outcome);
     event WinningsClaimed(uint256 indexed marketId, address indexed claimant, uint256 amount);
     event FeesWithdrawn(address indexed to, uint256 amount);
+    event MarketInvalidated(uint256 indexed marketId);
 
     constructor(address _usdc, address initialOwner) Ownable(initialOwner) {
         usdc = IERC20(_usdc);
@@ -70,7 +72,7 @@ contract Forekast is Ownable, ReentrancyGuard {
             state: MarketState.Open,
             totalYes: _initialLiquidity,
             totalNo: 0,
-            outcome: false,
+            outcome: Outcome.Unresolved,
             createdAt: block.timestamp
         });
 
@@ -107,7 +109,7 @@ contract Forekast is Ownable, ReentrancyGuard {
         require(block.timestamp >= market.resolutionDeadline, "Deadline not reached");
 
         market.state = MarketState.Resolved;
-        market.outcome = _outcome;
+        market.outcome = _outcome ? Outcome.Yes : Outcome.No;
 
         uint256 loserTotal = _outcome ? market.totalNo : market.totalYes;
         marketFee[_marketId] = (loserTotal * PLATFORM_FEE_BPS) / BPS_DENOMINATOR;
@@ -115,13 +117,42 @@ contract Forekast is Ownable, ReentrancyGuard {
         emit MarketResolved(_marketId, _outcome);
     }
 
+    /// @notice Resolve a market as Invalid (all bettors can claim refunds)
+    function resolveMarketAsInvalid(uint256 _marketId) external {
+        Market storage market = markets[_marketId];
+        require(msg.sender == owner(), "Not authorized");
+        require(market.state == MarketState.Open, "Market not open");
+        require(block.timestamp >= market.resolutionDeadline, "Deadline not reached");
+
+        market.state = MarketState.Resolved;
+        market.outcome = Outcome.Invalid;
+
+        emit MarketInvalidated(_marketId);
+    }
+
     function claimWinnings(uint256 _marketId) external nonReentrant {
         Market storage market = markets[_marketId];
         require(market.state == MarketState.Resolved, "Market not resolved");
         require(!claimed[_marketId][msg.sender], "Already claimed");
 
-        uint256 winnerTotal = market.outcome ? market.totalYes : market.totalNo;
-        uint256 loserTotal = market.outcome ? market.totalNo : market.totalYes;
+        // ── Invalid market: refund both sides proportionally ──
+        if (market.outcome == Outcome.Invalid) {
+            uint256 userYesBet = betsYes[_marketId][msg.sender];
+            uint256 userNoBet = betsNo[_marketId][msg.sender];
+            uint256 userTotalBet = userYesBet + userNoBet;
+            require(userTotalBet > 0, "No bet to refund");
+
+            claimed[_marketId][msg.sender] = true;
+            betsYes[_marketId][msg.sender] = 0;
+            betsNo[_marketId][msg.sender] = 0;
+
+            usdc.safeTransfer(msg.sender, userTotalBet);
+            emit WinningsClaimed(_marketId, msg.sender, userTotalBet);
+            return;
+        }
+
+        uint256 winnerTotal = (market.outcome == Outcome.Yes) ? market.totalYes : market.totalNo;
+        uint256 loserTotal = (market.outcome == Outcome.Yes) ? market.totalNo : market.totalYes;
 
         // No winners or no losers => return original bets
         if (winnerTotal == 0 || loserTotal == 0) {
@@ -137,7 +168,7 @@ contract Forekast is Ownable, ReentrancyGuard {
 
         // Get user's winning bet
         uint256 userBet;
-        if (market.outcome) {
+        if (market.outcome == Outcome.Yes) {
             userBet = betsYes[_marketId][msg.sender];
         } else {
             userBet = betsNo[_marketId][msg.sender];
@@ -147,7 +178,7 @@ contract Forekast is Ownable, ReentrancyGuard {
         uint256 payout = (userBet * (winnerTotal + prizePool)) / winnerTotal;
 
         // Zero out the user's bet
-        if (market.outcome) {
+        if (market.outcome == Outcome.Yes) {
             betsYes[_marketId][msg.sender] = 0;
         } else {
             betsNo[_marketId][msg.sender] = 0;

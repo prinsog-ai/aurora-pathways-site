@@ -64,6 +64,9 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
     uint256 public nextCreatorId = 1;
     uint256 public nextContentId = 1;
     uint256 public nextTokenId = 1;
+    /// @dev DEPRECATED: Platform fees are sent directly to owner() via safeTransferFrom
+    ///      in subscribe() and renew(). This counter is kept for backwards-compatible event
+    ///      indexing only. Do NOT rely on it for accounting.
     uint256 public totalPlatformFees;
 
     mapping(uint256 => Creator) public creators;
@@ -341,12 +344,15 @@ contract PledglyV2 is ERC721, Ownable, ReentrancyGuard {
 
     // ─── Admin Functions ────────────────────────────────────────────────
 
+    /// @notice DEPRECATED — platform fees are transferred directly to owner() during
+    ///         subscribe() and renew() via safeTransferFrom, so this contract's USDC
+    ///         balance should always be zero. Kept for emergency recovery only.
     function withdrawPlatformFees() external onlyOwner nonReentrant {
         uint256 balance = usdc.balanceOf(address(this));
         if (balance == 0) return;
 
         totalPlatformFees = 0;
         usdc.safeTransfer(owner(), balance);
-        emit PlatformFeesWithdrawn(owner(), balance);
+        emit PlatformFeesWithdrawn(owner(), balance); // deprecated: should never fire in normal operation
     }
 }

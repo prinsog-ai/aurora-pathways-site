@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://aurorapathways.xyz/sitemap.xml
+
+# Block admin/API endpoints
+Disallow: /api/
+Disallow: /.netlify/

@@ -28,6 +28,9 @@ contract RideP2PTest is Test {
         usdc.approve(address(ridep2p), type(uint256).max);
         vm.prank(rider2);
         usdc.approve(address(ridep2p), type(uint256).max);
+
+        // Verify the driver so createRide succeeds
+        ridep2p.setDriverVerified(driver, true);
     }
 
     function _futureTime() internal view returns (uint256) {

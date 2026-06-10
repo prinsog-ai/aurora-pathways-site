@@ -124,4 +124,58 @@ contract ForekastTest is Test {
         uint256 balAfter = usdc.balanceOf(owner);
         assertEq(balAfter - balBefore, 3e6); // 3% of 100e6 loser pool
     }
+
+    // ─── Invalid Market Resolution ────────────────────────────────────
+
+    function testResolveMarketInvalid() public {
+        uint256 deadline = block.timestamp + 1 days;
+        uint256 id = forekast.createMarket("Contested market", Forekast.Category.Other, deadline, 100e6);
+
+        vm.prank(alice);
+        forekast.placeBet(id, false, 50e6);
+
+        vm.warp(deadline + 1);
+        forekast.resolveMarketAsInvalid(id);
+
+        Forekast.Market memory market = forekast.getMarket(id);
+        assertTrue(uint256(market.outcome) == uint256(Forekast.Outcome.Invalid));
+
+        // Owner should get their 100e6 Yes bet back
+        uint256 ownerBalBefore = usdc.balanceOf(owner);
+        forekast.claimWinnings(id);
+        uint256 ownerBalAfter = usdc.balanceOf(owner);
+        assertEq(ownerBalAfter - ownerBalBefore, 100e6);
+
+        // Alice should get her 50e6 No bet back
+        uint256 aliceBalBefore = usdc.balanceOf(alice);
+        vm.prank(alice);
+        forekast.claimWinnings(id);
+        uint256 aliceBalAfter = usdc.balanceOf(alice);
+        assertEq(aliceBalAfter - aliceBalBefore, 50e6);
+
+        // Contract should be drained
+        assertEq(usdc.balanceOf(address(forekast)), 0);
+    }
+
+    function testResolveMarketInvalidRevertsNotOwner() public {
+        uint256 deadline = block.timestamp + 1 days;
+        uint256 id = forekast.createMarket("Test", Forekast.Category.Other, deadline, 10e6);
+
+        vm.warp(deadline + 1);
+        vm.prank(alice);
+        vm.expectRevert("Not authorized");
+        forekast.resolveMarketAsInvalid(id);
+    }
+
+    function testResolveMarketInvalidRevertsNoBet() public {
+        uint256 deadline = block.timestamp + 1 days;
+        uint256 id = forekast.createMarket("Test", Forekast.Category.Other, deadline, 10e6);
+
+        vm.warp(deadline + 1);
+        forekast.resolveMarketAsInvalid(id);
+
+        vm.prank(alice);
+        vm.expectRevert("No bet to refund");
+        forekast.claimWinnings(id);
+    }
 }

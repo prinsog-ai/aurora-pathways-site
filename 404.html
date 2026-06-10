@@ -1,274 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Aurora Pathways</title>
-  <meta name="description" content="The page you're looking for doesn't exist. Get back to Aurora Pathways.">
-  <meta property="og:title" content="404 — Aurora Pathways">
-  <meta property="og:site_name" content="Aurora Pathways">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | Aurora Pathways</title>
+<meta name="description" content="The page you're looking for doesn't exist. Head back to Aurora Pathways or explore our DAO protocols.">
+<meta property="og:title" content="404 — Page Not Found | Aurora Pathways">
+<meta property="og:description" content="The page you're looking for doesn't exist. Head back to Aurora Pathways or explore our DAO protocols.">
 <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta property="og:url" content="https://aurorapathways.xyz">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="404 — Page Not Found | Aurora Pathways">
+<meta name="twitter:description" content="The page you're looking for doesn't exist.">
 <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://aurorapathways.xyz/">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --surface:#0f0f16;
+  --surface2:#15151f;
+  --text:#e8e8ed;
+  --text2:#8a8a9a;
+  --accent:#7c5cfc;
+  --accent2:#4ec9b0;
+  --accent3:#ff6b9d;
+}
+html{height:100%}
+body{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  line-height:1.6;
+  overflow:hidden;
+  position:relative;
+}
 
-    :root {
-      --bg: #0a0a0f;
-      --surface: #0f0f16;
-      --surface2: #15151f;
-      --surface3: #1a1a28;
-      --text: #e8e8ed;
-      --text2: #8a8a9a;
-      --text3: #5a5a6a;
-      --accent: #7c5cfc;
-      --accent2: #4ec9b0;
-      --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
-      --gradient-h: linear-gradient(90deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
-      --glass: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.06);
-      --radius: 20px;
-      --radius-sm: 12px;
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+/* Aurora gradient background */
+.aurora-bg{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%,rgba(124,92,252,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 70%,rgba(78,201,176,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,107,157,0.05) 0%,transparent 60%);
+  animation: auroraShift 12s ease-in-out infinite alternate;
+}
+@keyframes auroraShift{
+  0%{
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%,rgba(124,92,252,0.08) 0%,transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 70%,rgba(78,201,176,0.06) 0%,transparent 60%),
+      radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,107,157,0.05) 0%,transparent 60%);
+  }
+  50%{
+    background:
+      radial-gradient(ellipse 55% 55% at 70% 30%,rgba(124,92,252,0.10) 0%,transparent 60%),
+      radial-gradient(ellipse 60% 50% at 30% 60%,rgba(78,201,176,0.08) 0%,transparent 60%),
+      radial-gradient(ellipse 50% 60% at 60% 80%,rgba(255,107,157,0.06) 0%,transparent 60%);
+  }
+  100%{
+    background:
+      radial-gradient(ellipse 50% 60% at 40% 70%,rgba(124,92,252,0.07) 0%,transparent 60%),
+      radial-gradient(ellipse 60% 50% at 60% 20%,rgba(78,201,176,0.09) 0%,transparent 60%),
+      radial-gradient(ellipse 55% 55% at 30% 50%,rgba(255,107,157,0.07) 0%,transparent 60%);
+  }
+}
 
-    html { scroll-behavior: smooth; }
+.container{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:0 24px;
+  max-width:600px;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', -apple-system, sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.error-code{
+  font-size:clamp(6rem,15vw,10rem);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:1;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:16px;
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.85}
+}
 
-    /* ── Aurora Background ── */
-    .aurora-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
-    }
-    .aurora-layer {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.5;
-    }
-    .aurora-layer-1 {
-      width: 800px; height: 400px;
-      background: rgba(124,92,252,0.12);
-      top: 5%; left: 10%;
-      animation: aurora-drift-1 12s ease-in-out infinite alternate;
-    }
-    .aurora-layer-2 {
-      width: 600px; height: 500px;
-      background: rgba(78,201,176,0.08);
-      top: 50%; right: 5%;
-      animation: aurora-drift-2 15s ease-in-out infinite alternate;
-    }
-    .aurora-layer-3 {
-      width: 700px; height: 350px;
-      background: rgba(59,130,246,0.07);
-      bottom: 10%; left: 30%;
-      animation: aurora-drift-3 10s ease-in-out infinite alternate;
-    }
+.error-message{
+  font-size:1.3rem;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.error-sub{
+  font-size:0.95rem;
+  color:var(--text2);
+  margin-bottom:48px;
+  max-width:400px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
-    @keyframes aurora-drift-1 {
-      0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
-      50%  { opacity: 0.6; }
-      100% { transform: translate(60px, 30px) scale(1.1); opacity: 0.45; }
-    }
-    @keyframes aurora-drift-2 {
-      0%   { transform: translate(0, 0) scale(1); opacity: 0.35; }
-      50%  { opacity: 0.55; }
-      100% { transform: translate(-40px, -20px) scale(1.05); opacity: 0.4; }
-    }
-    @keyframes aurora-drift-3 {
-      0%   { transform: translate(0, 0) scale(1); opacity: 0.3; }
-      50%  { opacity: 0.5; }
-      100% { transform: translate(30px, -40px) scale(1.08); opacity: 0.35; }
-    }
+.links-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+  margin-bottom:40px;
+}
+.links-grid a{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 24px;
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+  color:var(--text);
+  text-decoration:none;
+  font-size:0.9rem;
+  font-weight:500;
+  transition:all 0.25s ease;
+}
+.links-grid a:hover{
+  background:var(--surface2);
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(124,92,252,0.15);
+}
+.links-grid a .emoji{font-size:1.1rem}
 
-    /* ── Gradient Pulse Ring ── */
-    .pulse-ring {
-      position: fixed;
-      top: 50%; left: 50%;
-      width: 500px; height: 500px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      border: 1px solid rgba(124,92,252,0.08);
-      animation: pulse-expand 6s ease-out infinite;
-    }
-    .pulse-ring:nth-child(5) {
-      animation-delay: 2s;
-    }
-    .pulse-ring:nth-child(6) {
-      animation-delay: 4s;
-    }
-    @keyframes pulse-expand {
-      0%   { width: 300px; height: 300px; opacity: 0.3; border-color: rgba(124,92,252,0.15); }
-      100% { width: 1200px; height: 1200px; opacity: 0; border-color: rgba(78,201,176,0.02); }
-    }
+.home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent),#6a4cdc);
+  color:#fff;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:1rem;
+  font-weight:600;
+  transition:all 0.25s ease;
+}
+.home-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(124,92,252,0.3);
+}
 
-    /* ── Content ── */
-    .error-page {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 40px 24px;
-      max-width: 620px;
-    }
-
-    .error-code {
-      font-size: clamp(7rem, 18vw, 12rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .error-code::after {
-      content: '404';
-      position: absolute;
-      top: 0; left: 0;
-      font-size: inherit;
-      font-weight: inherit;
-      letter-spacing: inherit;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: blur(40px);
-      opacity: 0.4;
-      z-index: -1;
-    }
-
-    .error-subtitle {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .error-desc {
-      font-size: 1rem;
-      color: var(--text2);
-      line-height: 1.7;
-      margin-bottom: 40px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .error-actions {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 28px;
-      border-radius: 100px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
-      cursor: pointer;
-      border: none;
-    }
-    .btn:active { transform: translateY(0) !important; }
-
-    .btn-primary {
-      background: var(--gradient);
-      color: #fff;
-      box-shadow: 0 4px 24px rgba(124,92,252,0.2);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(124,92,252,0.35);
-    }
-
-    .btn-secondary {
-      background: var(--glass);
-      color: var(--text);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(8px);
-    }
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-    }
-
-    /* ── Fade-in animation ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    .fade-in:nth-child(2) { animation-delay: 0.1s; }
-    .fade-in:nth-child(3) { animation-delay: 0.2s; }
-    .fade-in:nth-child(4) { animation-delay: 0.3s; }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .error-actions {
-        flex-direction: column;
-        align-items: center;
-      }
-      .btn { width: 100%; max-width: 260px; justify-content: center; }
-    }
-  </style>
+.footer-note{
+  margin-top:48px;
+  font-size:0.78rem;
+  color:var(--text2);
+  opacity:0.6;
+}
+.footer-note a{color:var(--accent);text-decoration:none}
+.footer-note a:hover{text-decoration:underline}
+</style>
 </head>
 <body>
-  <!-- Aurora Background -->
-  <div class="aurora-bg">
-    <div class="aurora-layer aurora-layer-1"></div>
-    <div class="aurora-layer aurora-layer-2"></div>
-    <div class="aurora-layer aurora-layer-3"></div>
+
+<div class="aurora-bg"></div>
+
+<div class="container">
+  <div class="error-code">404</div>
+  <div class="error-message">Page not found</div>
+  <p class="error-sub">The page you're looking for doesn't exist or has been moved.</p>
+
+  <div class="links-grid">
+    <a href="https://tasklync.xyz"><span class="emoji">📋</span> Tasklync</a>
+    <a href="https://pledgly.xyz"><span class="emoji">💝</span> Pledgly</a>
+    <a href="https://forekastdao.xyz"><span class="emoji">🔮</span> Forekast</a>
+    <a href="https://ridep2p.xyz"><span class="emoji">🚗</span> RideP2P</a>
   </div>
 
-  <!-- Animated Pulse Rings -->
-  <div class="pulse-ring"></div>
-  <div class="pulse-ring"></div>
-  <div class="pulse-ring"></div>
+  <a href="https://aurorapathways.xyz" class="home-link">🌌 Back to Aurora Pathways</a>
 
-  <!-- Error Content -->
-  <main class="error-page">
-    <div class="error-code fade-in">404</div>
-    <h1 class="error-subtitle fade-in">This page doesn't exist on any chain.</h1>
-    <p class="error-desc fade-in">The page you're looking for might have been moved, burned in a smart contract, or never existed. Let's get you back on track.</p>
-    <div class="error-actions fade-in">
-      <a href="/" class="btn btn-primary">← Back to Home</a>
-      <a href="/#portfolio" class="btn btn-secondary">View Our Work</a>
-      <a href="/#contact" class="btn btn-secondary">Book a Call</a>
-    </div>
-  </main>
+  <p class="footer-note"><a href="https://aurorapathways.xyz">aurorapathways.xyz</a> — Web3 that works.</p>
+</div>
+
 </body>
 </html>

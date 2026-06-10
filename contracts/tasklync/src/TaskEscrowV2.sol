@@ -72,6 +72,9 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
     // jobId => dispute resolved flag
     mapping(uint256 => bool) public disputeResolved;
 
+    // Quick lookup: has address applied to a given job (avoids O(n) loop)
+    mapping(uint256 => mapping(address => bool)) public hasApplied;
+
     uint256 public platformFee = 300; // 3% = 300 bps
     uint256 public constant MAX_FEE = 1000; // 10% max
     address public platformTreasury;
@@ -180,6 +183,7 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
     ) external nonReentrant returns (uint256) {
         require(_deadline > block.timestamp, DeadlineMustBeFuture());
         require(_milestones.length > 0, MilestonesRequired());
+        require(_milestones.length <= 20, "Too many milestones");
         require(bytes(_description).length > 0, DescriptionRequired());
 
         uint256 totalAmount = 0;
@@ -223,10 +227,9 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
         if (job.status != Status.Open) revert InvalidStatus(job.status);
         if (msg.sender == job.client) revert AlreadyApplied();
 
-        for (uint256 i = 0; i < job.applicants.length; i++) {
-            if (job.applicants[i] == msg.sender) revert AlreadyApplied();
-        }
+        if (hasApplied[_jobId][msg.sender]) revert AlreadyApplied();
 
+        hasApplied[_jobId][msg.sender] = true;
         job.applicants.push(msg.sender);
         emit ApplicantAdded(_jobId, msg.sender);
     }
@@ -237,14 +240,7 @@ contract TaskEscrowV2 is Ownable, ReentrancyGuard {
         if (msg.sender != job.client) revert NotClient();
         if (job.status != Status.Open) revert InvalidStatus(job.status);
 
-        bool found = false;
-        for (uint256 i = 0; i < job.applicants.length; i++) {
-            if (job.applicants[i] == _freelancer) {
-                found = true;
-                break;
-            }
-        }
-        require(found, "Freelancer not in applicants");
+        require(hasApplied[_jobId][_freelancer], "Not an applicant");
 
         job.freelancer = _freelancer;
         job.status = Status.InProgress;
