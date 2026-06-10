@@ -6,7 +6,7 @@
 
 Hi,
 
-I build production-grade smart contracts that are live on mainnet — not testnet demos. I have 4 verified protocols deployed on Polygon with 581 automated tests.
+I build production-grade smart contracts that are live on mainnet — not testnet demos. I have 4 verified protocols deployed on Polygon with 547 automated tests.
 
 My relevant experience:
 - **Tasklync** — Freelance escrow with milestone payments, dispute resolution, and on-chain reputation (live on Polygon)
@@ -33,7 +33,7 @@ What I've built:
 - **Prediction markets** (Forekast) — financial instruments with YES/NO token trading
 - **Settlement engine** (RideP2P) — instant USDC settlement on ride completion
 
-All contracts are verified on Polygonscan with 581 tests passing. I work with Foundry, ethers.js, and deploy on Polygon/Base/Arbitrum.
+All contracts are verified on Polygonscan with 547 tests passing. I work with Foundry, ethers.js, and deploy on Polygon/Base/Arbitrum.
 
 For a crypto & forex trading platform, I can build:
 - Smart contract escrow for trade settlement
@@ -57,7 +57,7 @@ For an OTC platform, the critical components are:
 - **Settlement automation** — RideP2P releases funds instantly on completion
 - **Admin controls** — all my contracts have admin functions for fee management and dispute handling
 
-581 automated tests across 13 suites. Verified on Polygonscan. Live dApps at aurorapathways.xyz.
+547 automated tests across 13 suites. Verified on Polygonscan. Live dApps at aurorapathways.xyz.
 
 I can start immediately. Let's discuss your OTC requirements.
 

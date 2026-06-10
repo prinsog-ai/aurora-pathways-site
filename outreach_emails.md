@@ -6,13 +6,13 @@ Send all of these tonight. Copy-paste each one.
 
 ## 1. Drosera (drosera.io) — Ethereum Security Automation
 **To:** Find contact at drosera.io or team page
-**Subject:** Your smart contracts — built on 581 tests of confidence
+**Subject:** Your smart contracts — built on 547 tests of confidence
 
 Hi,
 
 Saw Drosera raised $4.75M to build Ethereum's immune system. Congrats.
 
-I run Aurora Pathways — we've shipped 4 live DAO protocols on Polygon mainnet (Tasklync, Pledgly, Forekast, Ridep2P), all verified on Polygonscan with 581+ tests passing.
+I run Aurora Pathways — we've shipped 4 live DAO protocols on Polygon mainnet (Tasklync, Pledgly, Forekast, Ridep2P), all verified on Polygonscan with 547+ tests passing.
 
 Security automation contracts need bulletproof testing. That's exactly what we do — every contract we deploy goes through full test coverage before it touches mainnet.
 
@@ -31,7 +31,7 @@ Hi Shahryar,
 
 Saw Karsa in the YC W25 batch — stablecoin neobank for emerging markets is exactly the kind of infrastructure that needs production-grade contracts.
 
-At Aurora Pathways, we've deployed 4 protocols on Polygon mainnet handling USDC payments, escrow, and settlement. All verified on Polygonscan, 581+ automated tests. We know stablecoin rails inside and out.
+At Aurora Pathways, we've deployed 4 protocols on Polygon mainnet handling USDC payments, escrow, and settlement. All verified on Polygonscan, 547+ automated tests. We know stablecoin rails inside and out.
 
 If you need a team that's already shipped this on mainnet, let's talk.
 
@@ -43,13 +43,13 @@ If you need a team that's already shipped this on mainnet, let's talk.
 
 ## 3. Blaze (blaze.money) — Cross-Border Stablecoin Payments (YC S24)
 **To:** Find contact at blaze.money or YC page
-**Subject:** Cross-border stablecoin payments — built on 581 tests
+**Subject:** Cross-border stablecoin payments — built on 547 tests
 
 Hi Faiyam,
 
 Saw Blaze is building the global Venmo with stablecoins. We've built exactly that kind of infrastructure — 4 protocols on Polygon mainnet with USDC escrow, payment processing, and instant settlement.
 
-All verified on Polygonscan, 581+ automated tests. Real production code handling real transactions.
+All verified on Polygonscan, 547+ automated tests. Real production code handling real transactions.
 
 If you're scaling the contract infrastructure, I'd love to help.
 
@@ -61,13 +61,13 @@ Quick call? https://aurorapathways.xyz
 
 ## 4. Pod Network (pod.network) — Novel L1 Blockchain
 **To:** Find contact at pod.network or team page
-**Subject:** Smart contract tooling for Pod — 581 tests of confidence
+**Subject:** Smart contract tooling for Pod — 547 tests of confidence
 
 Hi,
 
 Saw Pod Network's $10M raise from a16z and 1kx. Building a new L1 means you need developer tooling, ecosystem contracts, and EVM-compatible infrastructure that developers actually trust.
 
-We've shipped 4 production protocols on Polygon mainnet — all verified on Polygonscan, 581+ tests. We know what it takes to build contracts that auditors approve and users trust.
+We've shipped 4 production protocols on Polygon mainnet — all verified on Polygonscan, 547+ tests. We know what it takes to build contracts that auditors approve and users trust.
 
 If you need help building out the ecosystem tooling or core contracts, let's talk.
 
@@ -87,7 +87,7 @@ I'm a blockchain developer with 4 production protocols live on Polygon mainnet �
 
 **What I bring:**
 - 4 verified smart contracts on Polygon (Tasklync, Pledgly, Forekast, Ridep2P)
-- 581+ automated tests across 13 suites
+- 547+ automated tests across 13 suites
 - Deep experience with USDC/USDT payment rails and cross-chain architecture
 - Foundry framework — all contracts built and tested with Forge
 
@@ -125,7 +125,7 @@ You need a Solidity engineer for RWA protocol development with DAO governance �
 - ethers.js for frontend integration
 
 **Proof:**
-- 581+ automated tests across 13 suites
+- 547+ automated tests across 13 suites
 - All contracts verified on Polygonscan
 - Live dApps at https://aurorapathways.xyz
 
@@ -139,7 +139,7 @@ I can start immediately. Let's discuss your RWA architecture.
 **Contact:** DM @hireincrypto on X/Twitter
 **Message:**
 
-Hi, saw you're hiring a blockchain developer for DeFi/Staking. I've built 4 production protocols on Polygon mainnet — all verified on Polygonscan with 581+ tests. Experience with USDC payment rails, escrow, and settlement. Portfolio: aurorapathways.xyz. Happy to discuss.
+Hi, saw you're hiring a blockchain developer for DeFi/Staking. I've built 4 production protocols on Polygon mainnet — all verified on Polygonscan with 547+ tests. Experience with USDC payment rails, escrow, and settlement. Portfolio: aurorapathways.xyz. Happy to discuss.
 
 ---
 
@@ -147,7 +147,7 @@ Hi, saw you're hiring a blockchain developer for DeFi/Staking. I've built 4 prod
 **Contact:** DM @crypto_vazima on X/Twitter
 **Message:**
 
-Hi, saw the Estakio blockchain developer role. I've shipped 4 smart contract protocols on Polygon mainnet — all verified on Polygonscan with 581+ automated tests. Real estate tokenization needs production-grade contracts, and that's exactly what I build. Portfolio: aurorapathways.xyz. Let's talk.
+Hi, saw the Estakio blockchain developer role. I've shipped 4 smart contract protocols on Polygon mainnet — all verified on Polygonscan with 547+ automated tests. Real estate tokenization needs production-grade contracts, and that's exactly what I build. Portfolio: aurorapathways.xyz. Let's talk.
 
 ---
 
@@ -161,7 +161,7 @@ I'm applying for the Director, Crypto Protocols role. I run Aurora Pathways — 
 
 **What I offer:**
 - Deep protocol experience: 4 live smart contract systems (escrow, subscriptions, forecasting, P2P marketplace)
-- 581+ automated tests — I believe testing is the difference between "deployed" and "trusted"
+- 547+ automated tests — I believe testing is the difference between "deployed" and "trusted"
 - Full-stack Web3: Solidity, Foundry, React frontends, Polygonscan verification
 - Leadership: I built and deployed all 4 protocols end-to-end, managing the full lifecycle
 
@@ -183,7 +183,7 @@ All contracts verifiable on Polygonscan.
 
 Hi Perpetuals Group team,
 
-I'm a smart contract developer with 4 production protocols on Polygon mainnet, all verified on Polygonscan with 581+ automated tests.
+I'm a smart contract developer with 4 production protocols on Polygon mainnet, all verified on Polygonscan with 547+ automated tests.
 
 **What I've built:**
 - TaskEscrowV2: escrow with dispute resolution
@@ -207,7 +207,7 @@ Hi [Name],
 
 Just bumping this up — know things get buried.
 
-Quick recap: Aurora Pathways has 4 live protocols on Polygon, 581+ tests, verified contracts. We help teams like yours ship production-grade smart contracts.
+Quick recap: Aurora Pathways has 4 live protocols on Polygon, 547+ tests, verified contracts. We help teams like yours ship production-grade smart contracts.
 
 If the timing's off, no worries — just reply "later" and I'll circle back in a month. If it's not a fit at all, a quick "not interested" helps me too.
 

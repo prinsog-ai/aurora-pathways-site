@@ -6,7 +6,7 @@
 
 Hi [Client Name],
 
-I build production-grade smart contracts and dApps that are live on mainnet — not testnet demos. I have 4 verified protocols deployed on Polygon with 581 automated tests, all publicly auditable on Polygonscan.
+I build production-grade smart contracts and dApps that are live on mainnet — not testnet demos. I have 4 verified protocols deployed on Polygon with 547 automated tests, all publicly auditable on Polygonscan.
 
 **What I can do for your project:**
 • [Specific deliverable based on job posting]
@@ -17,7 +17,7 @@ I build production-grade smart contracts and dApps that are live on mainnet — 
 
 **Why me over other applicants:**
 • 4 verified contracts live on Polygon Mainnet — not testnet, not GitHub repos
-• 581 automated tests across 13 suites
+• 547 automated tests across 13 suites
 • Live dApps with working frontends at aurorapathways.xyz
 • Fast turnaround — I have availability now
 
@@ -46,7 +46,7 @@ hello@aurorapathways.xyz
 
 ### Executive Summary
 
-Aurora Pathways is a Web3 consulting agency specializing in production-grade smart contract development, decentralized application architecture, and multi-chain deployment. We have delivered 4 fully verified protocols on Polygon Mainnet with 581 automated tests and zero security incidents.
+Aurora Pathways is a Web3 consulting agency specializing in production-grade smart contract development, decentralized application architecture, and multi-chain deployment. We have delivered 4 fully verified protocols on Polygon Mainnet with 547 automated tests and zero security incidents.
 
 This proposal outlines our approach to [CLIENT PROJECT NAME], including scope, timeline, deliverables, and pricing.
 
@@ -63,7 +63,7 @@ This proposal outlines our approach to [CLIENT PROJECT NAME], including scope, t
 
 **Track record:**
 - 4 verified protocols live on Polygon Mainnet
-- 581 automated tests across 13 test suites
+- 547 automated tests across 13 test suites
 - Zero security incidents
 - All contracts publicly auditable on Polygonscan
 
@@ -152,7 +152,7 @@ We don't build on testnet and call it done. Every contract we ship is deployed, 
 All our contracts are verified on Polygonscan. Anyone can read the source code. We have nothing to hide.
 
 **3. Comprehensive testing**
-581 automated tests across 13 suites. We don't ship until every edge case is covered.
+547 automated tests across 13 suites. We don't ship until every edge case is covered.
 
 **4. Fast turnaround**
 We have availability now. No waiting 3 weeks to start.
@@ -183,7 +183,7 @@ We deploy on Polygon, Base, Arbitrum, and Ethereum. We'll recommend the best cha
 | Development Framework | Foundry |
 | Security Libraries | OpenZeppelin |
 | Frontend | ethers.js, HTML/CSS/JS, React (optional) |
-| Testing | Foundry (forge test), 581 automated tests |
+| Testing | Foundry (forge test), 547 automated tests |
 | Chains | Polygon, Base, Arbitrum, Ethereum |
 | Verification | Polygonscan, Etherscan |
 | IPFS | Pinata (for NFT metadata) |
