@@ -1,20 +1,13 @@
 {
-  "tests": 547,
-  "passed": 547,
+  "tests": 35,
+  "passed": 35,
   "failed": 0,
-  "updated": "2026-06-11T00:00:00Z",
+  "updated": "2026-06-12T20:49:34Z",
   "suites": {
-    "tasklync": 145,
-    "pledgly": 23,
-    "forekast": 10,
-    "ridep2p": 25,
     "aurora-token": 35,
-    "aurora-staking": 44,
-    "aurora-governance": 49,
-    "aurora-multisig": 28,
-    "aurora-airdrop": 34,
-    "aurora-nft": 55,
-    "aurora-multitoken": 50,
-    "aurora-payments": 49
+    "aurora-payments": 0,
+    "aurora-vesting": 0,
+    "aurora-governance": 0,
+    "tasklync": 0
   }
 }
