@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Williams Engineering Services — Field Operations Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f; --surface: #0f0f16; --surface2: #15151f; --surface3: #1a1a28;
+    --text: #e8e8ed; --text2: #8a8a9a; --text3: #5a5a6a;
+    --accent: #7c5cfc; --accent2: #4ec9b0; --accent3: #ff6b9d;
+    --green: #22c55e; --orange: #f59e0b; --red: #ef4444;
+    --gold: #f5c842;
+    --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.06); --radius: 16px; --radius-sm: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 14px 0; }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-weight: 800; font-size: 1.1rem; color: var(--text); }
+  .logo span { color: var(--accent2); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-tag { font-size: 0.7rem; background: rgba(78,201,176,0.15); color: var(--accent2); padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+
+  /* HERO */
+  .hero { padding: 80px 0 40px; text-align: center; }
+  .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 .highlight { background: linear-gradient(135deg, var(--gold), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .sub { color: var(--text2); font-size: 1.15rem; max-width: 620px; margin: 0 auto 16px; }
+  .hero .proof { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 30px; padding: 8px 20px; font-size: 0.8rem; color: var(--text2); margin-top: 12px; }
+  .hero .proof .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* SECTIONS */
+  .section { padding: 60px 0; }
+  .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+  .section-desc { color: var(--text2); font-size: 1rem; max-width: 600px; margin-bottom: 32px; }
+
+  /* PROBLEM SECTION */
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .problem-card { background: var(--surface); border: 1px solid rgba(239,68,68,0.2); border-radius: var(--radius); padding: 28px; text-align: center; }
+  .problem-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .problem-number { font-size: 2.5rem; font-weight: 900; color: var(--red); }
+  .problem-text { color: var(--text2); font-size: 0.9rem; margin-top: 4px; }
+
+  /* CALCULATOR */
+  .calc-wrapper { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 40px; max-width: 700px; margin: 0 auto; }
+  .calc-title { font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
+  .calc-sub { color: var(--text2); text-align: center; font-size: 0.9rem; margin-bottom: 28px; }
+  .slider-group { margin-bottom: 28px; }
+  .slider-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .slider-label span { font-size: 0.85rem; color: var(--text2); }
+  .slider-label strong { font-size: 1.1rem; color: var(--accent2); }
+  input[type="range"] { width: 100%; height: 6px; -webkit-appearance: none; background: var(--surface3); border-radius: 3px; outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  .calc-result { background: linear-gradient(135deg, rgba(124,92,252,0.1), rgba(78,201,176,0.1)); border: 1px solid rgba(124,92,252,0.2); border-radius: var(--radius-sm); padding: 24px; text-align: center; margin-top: 8px; }
+  .calc-result-value { font-size: 2.8rem; font-weight: 900; color: var(--gold); }
+  .calc-result-label { color: var(--text2); font-size: 0.85rem; }
+  .calc-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .calc-break-item { background: var(--surface2); border-radius: 8px; padding: 16px; text-align: center; }
+  .calc-break-value { font-size: 1.4rem; font-weight: 700; }
+  .calc-break-label { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+
+  /* SOLUTION STEPS */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px; text-align: center; position: relative; }
+  .step-num { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+  .step-icon { font-size: 2rem; margin: 12px 0 8px; }
+  .step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+  .step-desc { color: var(--text2); font-size: 0.8rem; }
+  .step-arrow { position: absolute; right: -20px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 1.2rem; z-index: 2; }
+
+  /* LIVE DEMO */
+  .demo-tabs { display: flex; gap: 4px; background: var(--surface); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 24px; }
+  .demo-tab { padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: var(--text2); cursor: pointer; transition: all 0.2s; border: none; background: none; font-family: inherit; white-space: nowrap; }
+  .demo-tab.active { background: var(--accent); color: white; }
+  .demo-tab:hover:not(.active) { color: var(--text); background: var(--glass2); }
+  .demo-panel { display: none; }
+  .demo-panel.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .card-title { font-size: 0.95rem; font-weight: 700; }
+  .badge { font-size: 0.68rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge-orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .badge-purple { background: rgba(124,92,252,0.15); color: var(--accent); }
+  .badge-gold { background: rgba(245,200,66,0.15); color: var(--gold); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { text-align: left; padding: 10px 14px; color: var(--text3); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--glass-border); }
+  td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  tr:hover td { background: var(--glass); }
+
+  /* SPLIT BAR */
+  .split-bar { display: flex; height: 36px; border-radius: 8px; overflow: hidden; margin: 12px 0; }
+  .split-left { background: linear-gradient(90deg, var(--accent), #5a3fd4); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; color: white; }
+  .split-right { background: linear-gradient(90deg, var(--accent2), #2dd4a8); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; color: #0a0a0f; }
+
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.75rem; color: var(--text2); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select { width: 100%; padding: 11px 14px; background: var(--surface2); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.85rem; }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), #5a3fd4); color: white; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,92,252,0.3); }
+  .btn-gold { background: linear-gradient(135deg, var(--gold), #f59e0b); color: #0a0a0f; font-weight: 800; }
+  .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,200,66,0.3); }
+
+  /* SITE GRID */
+  .site-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .site-card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px; }
+  .site-name { font-weight: 700; font-size: 0.95rem; }
+  .site-loc { color: var(--text2); font-size: 0.78rem; margin-bottom: 10px; }
+  .site-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .site-metric { background: var(--surface2); border-radius: 8px; padding: 10px; }
+  .site-metric-val { font-size: 1rem; font-weight: 700; color: var(--accent2); }
+  .site-metric-lab { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; }
+
+  /* BAR CHART */
+  .bar-chart { display: flex; align-items: flex-end; gap: 10px; height: 180px; padding: 10px 0; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 4px; }
+  .bar-v { background: linear-gradient(180deg, var(--accent), #5a3fd4); }
+  .bar-c { background: linear-gradient(180deg, var(--accent2), #2dd4a8); }
+  .bar-label { font-size: 0.65rem; color: var(--text3); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--glass-border); }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-item::before { content: ''; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .tl-time { font-size: 0.7rem; color: var(--text3); }
+  .tl-event { font-size: 0.85rem; }
+  .tl-amount { font-size: 0.8rem; color: var(--accent2); font-weight: 600; }
+
+  /* CTA */
+  .cta-section { text-align: center; padding: 60px 0; }
+  .cta-title { font-size: 2rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-desc { color: var(--text2); font-size: 1rem; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* COMPARISON */
+  .comp-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: start; }
+  .comp-card { background: var(--surface); border-radius: var(--radius); padding: 28px; }
+  .comp-card.old { border: 1px solid rgba(239,68,68,0.2); }
+  .comp-card.new { border: 1px solid rgba(78,201,176,0.3); background: linear-gradient(135deg, rgba(78,201,176,0.05), rgba(124,92,252,0.05)); }
+  .comp-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 16px; }
+  .comp-list { list-style: none; }
+  .comp-list li { padding: 10px 0; border-bottom: 1px solid var(--glass-border); font-size: 0.88rem; display: flex; align-items: center; gap: 10px; }
+  .comp-list li:last-child { border: none; }
+  .comp-vs { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: var(--text3); padding-top: 60px; }
+
+  /* FOOTER */
+  footer { padding: 32px 0; text-align: center; color: var(--text3); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
+  footer a { color: var(--accent2); text-decoration: none; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--accent2); color: var(--text); padding: 14px 22px; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 1000; transform: translateY(100px); opacity: 0; transition: all 0.3s; max-width: 350px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* STATUS PILL */
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .status-active { background: var(--green); }
+  .status-urgent { background: var(--red); animation: pulse 1s infinite; }
+  .status-pending { background: var(--orange); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step-arrow { display: none; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .comp-vs { padding: 0; }
+    .calc-breakdown { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .site-grid { grid-template-columns: 1fr; }
+    .demo-tabs { overflow-x: auto; }
+    .nav-right { display: none; }
+  }
+
+  /* AURORA BG */
+  .aurora { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .aurora-blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.25; }
+  .a1 { width: 600px; height: 300px; background: rgba(124,92,252,0.12); top: 5%; left: 10%; }
+  .a2 { width: 400px; height: 400px; background: rgba(78,201,176,0.08); bottom: 10%; right: 5%; }
+  .content { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
+<div class="content">
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">WES <span>Field Ops</span></div>
+    <div class="nav-right">
+      <span class="nav-tag">Platform Preview</span>
+      <span style="color:var(--text3);font-size:0.78rem;">Williams Engineering Services · Williston, ND</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Your crews are in the field.<br><span class="highlight">Your data shouldn't be on paper.</span></h1>
+    <p class="sub">WES manages 140+ well sites across the Bakken. Right now, job tickets, inspections, and compliance reports live in clipboards and spreadsheets. One platform changes that.</p>
+    <div class="proof"><span class="dot"></span> Built for Bakken-scale operations — 24/7/365 uptime</div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">The Problem</span>
+    <h2 class="section-title">Paper processes are costing you jobs and compliance risk.</h2>
+    <p class="section-desc">Every hour spent on paperwork is an hour not spent on revenue-generating work. Every missing form is a regulatory liability.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📄</div>
+        <div class="problem-number">$312K</div>
+        <div class="problem-text">Annual labor cost spent on manual paperwork and data re-entry</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⚠️</div>
+        <div class="problem-number">23</div>
+        <div class="problem-text">Compliance deficiencies found in last NDIC audit cycle</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🕐</div>
+        <div class="problem-number">4.2 hrs</div>
+        <div class="problem-text">Average delay between job completion and invoice submission</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="calc-wrapper">
+      <div class="calc-title">💰 ROI Calculator</div>
+      <div class="calc-sub">See how much WES saves by digitizing field operations — adjust the sliders to match your crew.</div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Active Field Crews</span>
+          <strong id="crewVal">18</strong>
+        </div>
+        <input type="range" id="crewSlider" min="5" max="60" value="18" step="1">
+      </div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Jobs Per Crew Per Week</span>
+          <strong id="jobsVal">12</strong>
+        </div>
+        <input type="range" id="jobsSlider" min="4" max="30" value="12" step="1">
+      </div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Avg Invoice Per Job ($)</span>
+          <strong id="invoiceVal">$2,800</strong>
+        </div>
+        <input type="range" id="invoiceSlider" min="500" max="10000" value="2800" step="100">
+      </div>
+      <div class="calc-result">
+        <div class="calc-result-label">Estimated Annual Value Recovered</div>
+        <div class="calc-result-value" id="annualSavings">$184,800</div>
+        <div class="calc-breakdown">
+          <div class="calc-break-item">
+            <div class="calc-break-value" id="fasterRevenue" style="color:var(--accent2);">$127,680</div>
+            <div class="calc-break-label">Faster Invoicing Revenue</div>
+          </div>
+          <div class="calc-break-item">
+            <div class="calc-break-value" id="savedHours" style="color:var(--accent);">9,360</div>
+            <div class="calc-break-label">Labor Hours Saved / Year</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OLD WAY VS NEW WAY -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Before vs After</span>
+    <h2 class="section-title">Clipboards and spreadsheets vs. one live platform.</h2>
+    <div class="comp-grid" style="margin-top:32px;">
+      <div class="comp-card old">
+        <div class="comp-title" style="color:var(--red);">❌ Current Process</div>
+        <ul class="comp-list">
+          <li>📋 Paper job tickets hand-carried from site</li>
+          <li>⏳ 4+ hours from job close to invoice</li>
+          <li>🔍 Compliance docs stored in filing cabinets</li>
+          <li>📞 Crew dispatch via phone calls and texts</li>
+          <li>📊 No real-time visibility into field ops</li>
+          <li>💸 Missed billable items every month</li>
+        </ul>
+      </div>
+      <div class="comp-vs">VS</div>
+      <div class="comp-card new">
+        <div class="comp-title" style="color:var(--accent2);">✅ Digital Platform</div>
+        <ul class="comp-list">
+          <li>📱 Mobile-first job tickets — tap to submit</li>
+          <li>⚡ Invoices generated in minutes, not hours</li>
+          <li>🔒 Compliance records immutable and searchable</li>
+          <li>🗺️ GPS-based crew dispatch and tracking</li>
+          <li>📊 Live dashboard for every crew and site</li>
+          <li>💵 Zero missed billable — auto-capture everything</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">Four steps. Field-ready. No new hardware.</h2>
+    <p class="section-desc">Your crews already carry phones. That's all they need. The platform runs on any device with a browser — no app install required.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">📋</div>
+        <div class="step-title">Assign Job</div>
+        <div class="step-desc">Dispatcher creates a work order — site, scope, crew, and checklist auto-populated.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🔧</div>
+        <div class="step-title">Execute in Field</div>
+        <div class="step-desc">Crew logs in on phone, follows checklist, captures photos, gets GPS-stamped proof of work.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">✅</div>
+        <div class="step-title">Auto-Verify</div>
+        <div class="step-desc">Supervisor reviews and approves. Compliance docs auto-generated. No handwriting transcribed.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-icon">💰</div>
+        <div class="step-title">Invoice Instantly</div>
+        <div class="step-desc">Approved job auto-generates invoice. Sent to customer same day. Cash flow accelerates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE DEMO -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Live Platform Preview</span>
+    <h2 class="section-title">This is what your dispatchers and crews would use.</h2>
+    <p class="section-desc">Click through the tabs to explore. Everything below is functional — try creating a job ticket.</p>
+
+    <div class="demo-tabs">
+      <button class="demo-tab active" onclick="showPanel('p-dash')">📊 Dashboard</button>
+      <button class="demo-tab" onclick="showPanel('p-jobs')">📋 Job Dispatch</button>
+      <button class="demo-tab" onclick="showPanel('p-compliance')">🔒 Compliance</button>
+      <button class="demo-tab" onclick="showPanel('p-sites')">🏭 Site Manager</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="p-dash" class="demo-panel active">
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Monthly Revenue</span>
+            <span class="badge badge-green">+24% vs last month</span>
+          </div>
+          <div class="bar-chart" id="barChart"></div>
+          <div style="display:flex;gap:20px;margin-top:8px;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;"></span> Invoiced</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent2);display:inline-block;"></span> Collected</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Live Activity</span></div>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px;">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Crews Active Today</div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--green);margin-top:4px;">14</div>
+          <div style="font-size:0.75rem;color:var(--text3);">of 18 total</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Jobs Completed Today</div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--accent2);margin-top:4px;">47</div>
+          <div style="font-size:0.75rem;color:var(--text3);">8 in progress</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Revenue This Month</div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--gold);margin-top:4px;">$287K</div>
+          <div style="font-size:0.75rem;color:var(--text3);">94% collected</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Compliance Score</div>
+          <div style="font-size:2.2rem;font-weight:900;color:var(--accent);margin-top:4px;">98%</div>
+          <div style="font-size:0.75rem;color:var(--text3);">0 open deficiencies</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB DISPATCH -->
+    <div id="p-jobs" class="demo-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 Create Work Order</span>
+            <span class="badge badge-orange">New Job</span>
+          </div>
+          <div class="form-group">
+            <label>Select Site</label>
+            <select id="fSite">
+              <option>Bakken Site #12 — Williams County</option>
+              <option>Bakken Site #28 — McKenzie County</option>
+              <option>Bakken Site #34 — Mountrail County</option>
+              <option>Bakken Site #41 — Dunn County</option>
+              <option>Bakken Site #55 — Williams County</option>
+              <option>Gas Plant — Tioga, ND</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Service Type</label>
+            <select id="fService">
+              <option>Pumpjack Maintenance</option>
+              <option>Roustabout Crew — General</option>
+              <option>Wellhead Repair</option>
+              <option>Flowback & Testing</option>
+              <option>Pipeline Tie-In</option>
+              <option>Site Lease Maintenance</option>
+              <option>Environmental Inspection</option>
+              <option>Emergency Callout</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Assigned Crew</label>
+              <select id="fCrew">
+                <option>Alpha — Rig #1</option>
+                <option>Bravo — Rig #2</option>
+                <option>Charlie — Roustabout</option>
+                <option>Delta — Pipeline</option>
+                <option>Echo — Inspection</option>
+                <option>Foxtrot — Emergency</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select id="fPriority">
+                <option>Standard</option>
+                <option>Rush (+25%)</option>
+                <option>Emergency (+50%)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Scheduled Date</label>
+              <input type="date" id="fDate" value="2026-06-12">
+            </div>
+            <div class="form-group">
+              <label>Est. Hours</label>
+              <input type="number" id="fHours" value="6" oninput="calcJobTotal()">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Rate ($/hr)</label>
+              <input type="number" id="fRate" value="185" oninput="calcJobTotal()">
+            </div>
+            <div class="form-group">
+              <label>Est. Total</label>
+              <input type="text" id="fTotal" value="$1,110" readonly style="color:var(--gold);font-weight:700;font-size:1.1rem;">
+            </div>
+          </div>
+          <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="submitJob()">📋 Dispatch Job</button>
+          <p style="color:var(--text3);font-size:0.72rem;margin-top:8px;text-align:center;">Job is dispatched to crew's mobile device instantly. GPS-tracked from dispatch to close.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Active Jobs</span>
+            <span class="badge badge-purple" id="jobCount">6 active</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Job ID</th><th>Site</th><th>Service</th><th>Crew</th><th>Status</th></tr></thead>
+              <tbody id="jobTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPLIANCE -->
+    <div id="p-compliance" class="demo-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔒 Compliance Dashboard</span>
+            <span class="badge badge-green">Audit Ready</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--green);">98%</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Compliance Score</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--accent2);">342</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Reports This Month</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--accent);">0</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Open Deficiencies</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Regulation</th><th>Status</th><th>Last Audit</th><th>Next Due</th></tr></thead>
+              <tbody>
+                <tr><td>NDIC Well Monitoring</td><td><span class="badge badge-green">Compliant</span></td><td>2026-05-01</td><td>2026-08-01</td></tr>
+                <tr><td>EPA Air Emissions (NSPS)</td><td><span class="badge badge-green">Compliant</span></td><td>2026-04-15</td><td>2026-10-15</td></tr>
+                <tr><td>ND DER Spill Reporting</td><td><span class="badge badge-green">Compliant</span></td><td>2026-05-20</td><td>2026-11-20</td></tr>
+                <tr><td>OSHA Safety (H2S)</td><td><span class="badge badge-green">Compliant</span></td><td>2026-06-01</td><td>2026-12-01</td></tr>
+                <tr><td>NDIC Produced Water</td><td><span class="badge badge-green">Compliant</span></td><td>2026-05-10</td><td>2026-08-10</td></tr>
+                <tr><td>DOT Pipeline Safety</td><td><span class="badge badge-green">Compliant</span></td><td>2026-03-20</td><td>2026-09-20</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Inspections</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Site</th><th>Inspector</th><th>Findings</th><th>Status</th></tr></thead>
+              <tbody id="inspTable"></tbody>
+            </table>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="card-header"><span class="card-title">Auto-Generated Reports</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('NDIC Monthly Report exported — 47 pages, 14 sites')">📄 NDIC Monthly Report</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('EPA NSPS Report exported — emissions data for all sites')">📄 EPA NSPS Report</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('Safety Incident Log exported — 0 incidents this month')">📄 Safety Incident Log</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('Spill Tracking Report exported — 0 spills this month')">📄 Spill Tracking Report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITES -->
+    <div id="p-sites" class="demo-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <span class="card-title" style="font-size:1.1rem;">🏭 Managed Sites</span>
+        <button class="btn btn-primary" onclick="toast('New site added — smart contract configured for billing')">+ Add New Site</button>
+      </div>
+      <div class="site-grid" id="siteGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Investment</span>
+    <h2 class="section-title">Start with one crew. Prove the ROI. Then roll it out.</h2>
+    <p class="section-desc">Phase 1 deploys in 3 weeks. Your crew starts using it on day one. You see ROI in month one.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div class="card" style="text-align:center;border-color:rgba(245,200,66,0.3);">
+        <div style="font-size:0.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 1 — Prove It</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--gold);margin:12px 0;">$14,500</div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">3 crews, 20 sites,<br>3 weeks to deploy</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ Mobile job dispatch</li>
+          <li style="padding:6px 0;">✅ Digital checklists & photos</li>
+          <li style="padding:6px 0;">✅ Auto-invoicing</li>
+          <li style="padding:6px 0;">✅ Compliance dashboard</li>
+          <li style="padding:6px 0;">✅ Dispatcher web portal</li>
+        </ul>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:0.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 2 — Scale</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--accent2);margin:12px 0;">$400<span style="font-size:1rem;color:var(--text2);">/crew</span></div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">All crews, unlimited sites<br>+ $800/month platform</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ Unlimited crews & sites</li>
+          <li style="padding:6px 0;">✅ GPS crew tracking</li>
+          <li style="padding:6px 0;">✅ Customer portal</li>
+          <li style="padding:6px 0;">✅ Advanced reporting</li>
+          <li style="padding:6px 0;">✅ Priority support</li>
+        </ul>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 3 — Optimize</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--accent);margin:12px 0;">$8K–15K</div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">Predictive analytics,<br>full automation suite</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ Predictive maintenance alerts</li>
+          <li style="padding:6px 0;">✅ Automated compliance filing</li>
+          <li style="padding:6px 0;">✅ Weather-aware scheduling</li>
+          <li style="padding:6px 0;">✅ Inventory auto-reorder</li>
+          <li style="padding:6px 0;">✅ API integrations (SAP, QuickBooks)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Ready to put your field ops on one platform?</h2>
+    <p class="cta-desc">30-minute call. We'll map your crews, estimate your savings, and show you exactly how the platform works.</p>
+    <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
+    <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Built by <a href="https://aurorapathways.xyz" target="_blank">Aurora Pathways</a> — Field Operations Infrastructure for the Energy Sector</p>
+    <p style="margin-top:4px;">Designed for Bakken-scale operations · Williston, North Dakota</p>
+  </div>
+</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const sites = [
+  { name: 'Bakken Site #12', loc: 'Williams County, ND', crews: 2, status: 'Active', jobs: 34, revenue: '$48,200', compliance: 100 },
+  { name: 'Bakken Site #28', loc: 'McKenzie County, ND', crews: 1, status: 'Active', jobs: 22, revenue: '$31,800', compliance: 100 },
+  { name: 'Bakken Site #34', loc: 'Mountrail County, ND', crews: 1, status: 'Active', jobs: 18, revenue: '$26,400', compliance: 98 },
+  { name: 'Bakken Site #41', loc: 'Dunn County, ND', crews: 1, status: 'Active', jobs: 15, revenue: '$21,600', compliance: 100 },
+  { name: 'Bakken Site #55', loc: 'Williams County, ND', crews: 2, status: 'Active', jobs: 28, revenue: '$39,200', compliance: 100 },
+  { name: 'Gas Plant — Tioga', loc: 'Tioga, ND', crews: 3, status: 'Active', jobs: 42, revenue: '$58,400', compliance: 96 },
+  { name: 'Bakken Site #62', loc: 'McKenzie County, ND', crews: 1, status: 'Pending', jobs: 0, revenue: '$0', compliance: 0 },
+  { name: 'Bakken Site #71', loc: 'Williams County, ND', crews: 1, status: 'Active', jobs: 12, revenue: '$17,800', compliance: 100 },
+];
+const months = [
+  { m: 'Jan', v: 198000, c: 182000 }, { m: 'Feb', v: 212000, c: 196000 }, { m: 'Mar', v: 234000, c: 218000 },
+  { m: 'Apr', v: 248000, c: 232000 }, { m: 'May', v: 268000, c: 252000 }, { m: 'Jun', v: 287000, c: 270000 },
+];
+const jobs = [
+  { id: 'WO-4821', site: '#12 Williams', service: 'Pumpjack Maint.', crew: 'Alpha', status: 'In Progress' },
+  { id: 'WO-4820', site: '#28 McKenzie', service: 'Wellhead Repair', crew: 'Bravo', status: 'Dispatched' },
+  { id: 'WO-4819', site: 'Tioga Plant', service: 'Pipeline Tie-In', crew: 'Delta', status: 'In Progress' },
+  { id: 'WO-4818', site: '#55 Williams', service: 'Enviro Inspection', crew: 'Echo', status: 'Complete' },
+  { id: 'WO-4817', site: '#41 Dunn', service: 'Roustabout', crew: 'Charlie', status: 'Complete' },
+  { id: 'WO-4816', site: '#34 Mountrail', service: 'Flowback Test', crew: 'Alpha', status: 'Complete' },
+];
+const activities = [
+  { time: '12 min ago', event: 'WO-4821 started — Alpha crew on-site', amt: 'Site #12, Williams Co.' },
+  { time: '34 min ago', event: 'WO-4818 completed — inspection signed', amt: 'Site #55, compliance filed' },
+  { time: '1 hr ago', event: 'Invoice #INV-1847 sent', amt: '$4,200 — Pumpjack repair' },
+  { time: '2 hrs ago', event: 'WO-4817 closed — auto-invoiced', amt: '$2,775 — Roustabout 15hrs' },
+  { time: '3 hrs ago', event: 'Emergency callout dispatched', amt: 'Foxtrot crew → Site #34' },
+];
+const inspections = [
+  { date: '2026-06-12', site: 'Tioga Plant', inspector: 'J. Martinez', findings: 'All clear', status: 'Pass' },
+  { date: '2026-06-11', site: 'Site #12', inspector: 'K. Olson', findings: 'Minor fence repair noted', status: 'Pass' },
+  { date: '2026-06-10', site: 'Site #55', inspector: 'R. Thompson', findings: 'H2S monitor calibrated', status: 'Pass' },
+  { date: '2026-06-09', site: 'Site #28', inspector: 'J. Martinez', findings: 'All clear', status: 'Pass' },
+  { date: '2026-06-08', site: 'Site #41', inspector: 'K. Olson', findings: 'Spill kit restocked', status: 'Pass' },
+];
+
+function showPanel(id) {
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✅ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function calcJobTotal() {
+  const hrs = parseFloat(document.getElementById('fHours').value) || 0;
+  const rate = parseFloat(document.getElementById('fRate').value) || 0;
+  document.getElementById('fTotal').value = '$' + (hrs * rate).toLocaleString();
+}
+
+function submitJob() {
+  const site = document.getElementById('fSite').value.split('—')[0].trim();
+  const service = document.getElementById('fService').value;
+  const crew = document.getElementById('fCrew').value.split('—')[0].trim();
+  const date = document.getElementById('fDate').value;
+  const total = document.getElementById('fTotal').value;
+  const id = 'WO-' + (4822 + jobs.length);
+  jobs.unshift({ id, site: site.substring(0, 14), service: service.substring(0, 16), crew, status: 'Dispatched' });
+  renderJobs();
+  document.getElementById('jobCount').textContent = jobs.filter(j => j.status !== 'Complete').length + ' active';
+  toast(`${id} dispatched to ${crew} crew — ${service} at ${site}`);
+  setTimeout(() => { jobs[0].status = 'In Progress'; renderJobs(); toast(`${id} accepted by ${crew} crew — en route`); }, 2500);
+}
+
+function renderBar() {
+  const max = Math.max(...months.map(m => m.v + m.c));
+  document.getElementById('barChart').innerHTML = months.map(m => {
+    const vH = (m.v / max) * 160, cH = (m.c / max) * 160;
+    return `<div class="bar-group"><div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;"><span class="bar-label" style="font-weight:600;color:var(--text2);">$${((m.v+m.c)/1000).toFixed(0)}K</span><div class="bar bar-v" style="height:${vH}px;"></div><div class="bar bar-c" style="height:${cH}px;"></div></div><span class="bar-label">${m.m}</span></div>`;
+  }).join('');
+}
+
+function renderTimeline() {
+  document.getElementById('timeline').innerHTML = activities.map(a => `<div class="tl-item"><div class="tl-time">${a.time}</div><div class="tl-event">${a.event}</div><div class="tl-amount">${a.amt}</div></div>`).join('');
+}
+
+function renderJobs() {
+  document.getElementById('jobTable').innerHTML = jobs.map(j => {
+    let badgeClass = 'badge-orange';
+    let dotClass = 'status-pending';
+    if (j.status === 'Complete') { badgeClass = 'badge-green'; dotClass = 'status-active'; }
+    else if (j.status === 'In Progress') { badgeClass = 'badge-purple'; dotClass = 'status-active'; }
+    else if (j.status === 'Dispatched') { badgeClass = 'badge-orange'; dotClass = 'status-pending'; }
+    return `<tr><td style="font-weight:600;">${j.id}</td><td>${j.site}</td><td>${j.service}</td><td>${j.crew}</td><td><span class="badge ${badgeClass}"><span class="status-dot ${dotClass}"></span>${j.status}</span></td></tr>`;
+  }).join('');
+}
+
+function renderInsp() {
+  document.getElementById('inspTable').innerHTML = inspections.map(i =>
+    `<tr><td>${i.date}</td><td>${i.site}</td><td>${i.inspector}</td><td>${i.findings}</td><td><span class="badge badge-green">${i.status}</span></td></tr>`
+  ).join('');
+}
+
+function renderSites() {
+  document.getElementById('siteGrid').innerHTML = sites.map(s => {
+    const statusBadge = s.status === 'Active' ? 'badge-green' : 'badge-orange';
+    const compColor = s.compliance >= 98 ? 'var(--green)' : s.compliance >= 90 ? 'var(--orange)' : 'var(--red)';
+    return `<div class="site-card"><div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="site-name">${s.name}</span><span class="badge ${statusBadge}">${s.status}</span></div><div class="site-loc">${s.loc}</div><div class="site-metrics"><div class="site-metric"><div class="site-metric-val">${s.crews}</div><div class="site-metric-lab">Crews</div></div><div class="site-metric"><div class="site-metric-val">${s.jobs}</div><div class="site-metric-lab">Jobs/Mo</div></div><div class="site-metric"><div class="site-metric-val">${s.revenue}</div><div class="site-metric-lab">Revenue</div></div><div class="site-metric"><div class="site-metric-val" style="color:${compColor};">${s.compliance}%</div><div class="site-metric-lab">Compliance</div></div></div></div>`;
+  }).join('');
+}
+
+// CALCULATOR
+function updateCalc() {
+  const crews = +document.getElementById('crewSlider').value;
+  const jobsPerWeek = +document.getElementById('jobsSlider').value;
+  const invoice = +document.getElementById('invoiceSlider').value;
+  document.getElementById('crewVal').textContent = crews;
+  document.getElementById('jobsVal').textContent = jobsPerWeek;
+  document.getElementById('invoiceVal').textContent = '$' + invoice.toLocaleString();
+  // Faster invoicing: 2 days faster payment on avg, 8% of annual
+  const annualJobs = crews * jobsPerWeek * 52;
+  const annualRevenue = annualJobs * invoice;
+  const fasterRev = Math.round(annualRevenue * 0.08); // 8% improvement from faster cash collection
+  const hoursSaved = crews * 10 * 52; // 10 hrs/week/crew saved
+  const totalSavings = fasterRev + (hoursSaved * 18); // $18/hr avg labor cost saved
+  document.getElementById('annualSavings').textContent = '$' + totalSavings.toLocaleString();
+  document.getElementById('fasterRevenue').textContent = '$' + fasterRev.toLocaleString();
+  document.getElementById('savedHours').textContent = hoursSaved.toLocaleString();
+}
+document.getElementById('crewSlider').addEventListener('input', updateCalc);
+document.getElementById('jobsSlider').addEventListener('input', updateCalc);
+document.getElementById('invoiceSlider').addEventListener('input', updateCalc);
+
+renderBar(); renderTimeline(); renderJobs(); renderInsp(); renderSites(); updateCalc();
+</script>
+</body>
+</html>
