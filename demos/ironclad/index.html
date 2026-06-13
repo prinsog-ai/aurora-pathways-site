@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Ironclad — Immutable Contract Vault</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -138,14 +140,20 @@ section{position:relative;z-index:1;padding:100px 0}
 footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
 
 @media(max-width:768px){
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 .hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
 .hero-text h1{font-size:2rem}
 .ba-grid,.roi-wrap{grid-template-columns:1fr}
 .pricing-grid,.tab-grid{grid-template-columns:1fr}
 }
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Ironclad Demo","short_name":"Ironclad","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 <div class="aurora"></div>
 
 <nav>
@@ -162,8 +170,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="hero">
 <div class="container">
 <div class="hero-text">
-<h1>Every contract version. Every signature. Every amendment. <em>Immutable. Verifiable. Forever.</em></h1>
-<p>Ironclad manages millions of contracts. But centralized storage means audit trails can be questioned, versions can be altered, and disputes become "he said/she said." On-chain hashing ends that — permanently.</p>
+<h1><span class="en-text">Every contract version. Every signature. Every amendment. <em>Immutable. Verifiable. Forever.</em></span><span class="es-text">Cada versión de contrato. Cada firma. Cada enmienda. <em>Inmutable. Verificable. Para siempre.</em></span></h1>
+<p><span class="en-text">Ironclad manages millions of contracts. But centralized storage means audit trails can be questioned, versions can be altered, and disputes become "he said/she said." On-chain hashing ends that — permanently.</span><span class="es-text">Ironclad gestiona millones de contratos. Pero el almacenamiento centralizado significa que las auditorías pueden cuestionarse, las versiones pueden alterarse y las disputas se convierten en "él dijo/ella dijo." El hashing en cadena termina con eso — permanentemente.</span></p>
 <div class="btn-group">
 <a href="#cta" class="btn-primary">Book a Strategy Call</a>
 <a href="#demo" class="btn-outline">See the Platform ↓</a>
@@ -208,8 +216,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PROBLEM -->
 <section>
 <div class="container">
-<div class="section-label">The Problem</div>
-<div class="section-title">Centralized Contracts Can Be Challenged</div>
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">Centralized Contracts Can Be Challenged</span><span class="es-text">Los Contratos Centralizados Pueden Ser Cuestionados</span></div>
 <div class="section-sub">When contract history lives in a single platform, it's only as trustworthy as the platform. Disputes thrive in ambiguity.</div>
 <div class="ba-grid">
 <div class="ba-card before">
@@ -241,8 +249,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- DEMO TABS -->
 <section class="tabs-section" id="demo">
 <div class="container">
-<div class="section-label">Interactive Demo</div>
-<div class="section-title">See It In Action</div>
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
 <div class="section-sub">Your legal team's workflow, enhanced — not replaced. Blockchain happens under the hood.</div>
 <div class="tab-nav">
 <button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
@@ -360,8 +368,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- ROI -->
 <section class="roi-section">
 <div class="container">
-<div class="section-label">ROI Calculator</div>
-<div class="section-title">Your Potential Savings</div>
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
 <div class="section-sub">How much are contract disputes costing your organization?</div>
 <div class="roi-wrap">
 <div class="roi-inputs">
@@ -397,8 +405,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PRICING -->
 <section>
 <div class="container">
-<div class="section-label">Pricing</div>
-<div class="section-title">Phased Deployment</div>
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
 <div class="section-sub">Start with the vault. Expand to full platform. Your legal team sets the pace.</div>
 <div class="pricing-grid">
 <div class="price-card">
@@ -452,8 +460,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="cta-section" id="cta">
 <div class="container">
 <div class="cta-box">
-<h2>Make Every Contract Unchallengeable</h2>
-<p>Book a 30-minute call. We'll walk through your contract workflow and show you exactly where on-chain verification eliminates dispute risk.</p>
+<h2><span class="en-text">Make Every Contract Unchallengeable</span><span class="es-text">Haga Cada Contrato Inimpugnable</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll walk through your contract workflow and show you exactly where on-chain verification eliminates dispute risk.</span><span class="es-text">Reserve una llamada de 30 minutos. Revisaremos su flujo de trabajo de contratos y le mostraremos exactamente dónde la verificación en cadena elimina el riesgo de disputas.</span></p>
 <a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
 </div>
 </div>
@@ -466,6 +474,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 </footer>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 function showTab(id){
 document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));

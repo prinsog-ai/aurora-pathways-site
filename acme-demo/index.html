@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Acme Cloud ERP — Blockchain Modules</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -236,9 +238,15 @@
   .a2 { width: 400px; height: 400px; background: rgba(78,201,176,0.08); bottom: 10%; right: 5%; }
   .a3 { width: 300px; height: 300px; background: rgba(245,200,66,0.06); top: 40%; left: 60%; }
   .content { position: relative; z-index: 1; }
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--surface);border:1px solid var(--glass-border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Acme Demo","short_name":"Acme","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 
 <div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div><div class="aurora-blob a3"></div></div>
 <div class="content">
@@ -257,8 +265,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Your ERP is powerful.<br>Blockchain makes it <span class="highlight">trustless.</span></h1>
-    <p class="sub">Acme Cloud ERP already runs mission-critical operations for 200+ enterprises. Add immutable audit trails, instant cross-border settlement, and tokenized loyalty — all without changing your UI.</p>
+    <h1><span class="en-text">Your ERP is powerful.<br>Blockchain makes it <span class="highlight">trustless.</span></span><span class="es-text">Tu ERP es poderoso.<br>La blockchain lo hace <span class="highlight">sin confianza.</span></span></h1>
+    <p class="sub"><span class="en-text">Acme Cloud ERP already runs mission-critical operations for 200+ enterprises. Add immutable audit trails, instant cross-border settlement, and tokenized loyalty — all without changing your UI.</span><span class="es-text">Acme Cloud ERP ya ejecuta operaciones críticas para más de 200 empresas. Agrega auditorías inmutables, liquidación transfronteriza instantánea y lealtad tokenizada — todo sin cambiar tu interfaz.</span></p>
     <div class="proof"><span class="dot"></span> Works on Polygon, Base, and Hyperledger — no crypto wallet required</div>
   </div>
 </section>
@@ -266,8 +274,8 @@
 <!-- THE PROBLEM -->
 <section class="section">
   <div class="container">
-    <span class="section-label">The Problem</span>
-    <h2 class="section-title">Your competitors are adding blockchain. Are you?</h2>
+    <span class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></span>
+    <h2 class="section-title"><span class="en-text">Your competitors are adding blockchain. Are you?</span><span class="es-text">Tus competidores están agregando blockchain. ¿Y tú?</span></h2>
     <p class="section-desc">Enterprise buyers now rank blockchain modules in their top 5 ERP selection criteria. Without them, you're losing deals.</p>
     <div class="problem-grid">
       <div class="problem-card">
@@ -292,8 +300,8 @@
 <!-- MODULE OVERVIEW -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Blockchain Modules</span>
-    <h2 class="section-title">Six modules. Every vertical. One integration layer.</h2>
+    <span class="section-label"><span class="en-text">Blockchain Modules</span><span class="es-text">Módulos Blockchain</span></span>
+    <h2 class="section-title"><span class="en-text">Six modules. Every vertical. One integration layer.</span><span class="es-text">Seis módulos. Cada vertical. Una capa de integración.</span></h2>
     <p class="section-desc">Each module plugs into your existing Acme Cloud ERP via REST API. Customers enable what they need — no rip-and-replace.</p>
 
     <div class="vertical-pills" id="verticalPills">
@@ -373,8 +381,8 @@
 <!-- BEFORE VS AFTER -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Before vs After</span>
-    <h2 class="section-title">Your ERP without blockchain vs. with Acme Blockchain Modules.</h2>
+    <span class="section-label"><span class="en-text">Before vs After</span><span class="es-text">Antes vs Después</span></span>
+    <h2 class="section-title"><span class="en-text">Your ERP without blockchain vs. with Acme Blockchain Modules.</span><span class="es-text">Tu ERP sin blockchain vs. con Módulos Blockchain Acme.</span></h2>
     <div class="comp-grid" style="margin-top:32px;">
       <div class="comp-card old">
         <div class="comp-title" style="color:var(--red);">❌ Standard ERP</div>
@@ -406,8 +414,8 @@
 <!-- INTERACTIVE DEMO -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Live Platform Preview</span>
-    <h2 class="section-title">See how each module works inside Acme Cloud ERP.</h2>
+    <span class="section-label"><span class="en-text">Live Platform Preview</span><span class="es-text">Vista Previa de la Plataforma</span></span>
+    <h2 class="section-title"><span class="en-text">See how each module works inside Acme Cloud ERP.</span><span class="es-text">Ve cómo funciona cada módulo dentro de Acme Cloud ERP.</span></h2>
     <p class="section-desc">Click through the tabs to explore. Everything below is interactive — try submitting a transaction or tracing a shipment.</p>
 
     <div class="demo-tabs">
@@ -692,8 +700,8 @@
 <!-- ROI CALCULATOR -->
 <section class="section">
   <div class="container">
-    <span class="section-label">ROI Calculator</span>
-    <h2 class="section-title">Calculate the revenue impact of adding blockchain modules.</h2>
+    <span class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></span>
+    <h2 class="section-title"><span class="en-text">Calculate the revenue impact of adding blockchain modules.</span><span class="es-text">Calcula el impacto en ingresos de agregar módulos blockchain.</span></h2>
     <p class="section-desc">Adjust the sliders to match your customer's enterprise profile. Numbers are based on real benchmarks from our pilot deployments.</p>
     <div class="calc-wrapper">
       <div class="calc-title">💰 Module Revenue Impact</div>
@@ -744,8 +752,8 @@
 <!-- INTEGRATION -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Integration</span>
-    <h2 class="section-title">One API. Zero blockchain knowledge required.</h2>
+    <span class="section-label"><span class="en-text">Integration</span><span class="es-text">Integración</span></span>
+    <h2 class="section-title"><span class="en-text">One API. Zero blockchain knowledge required.</span><span class="es-text">Una API. Cero conocimiento blockchain requerido.</span></h2>
     <p class="section-desc">Your customers' IT teams don't need to learn Web3. Our middleware handles everything — wallet management, gas fees, chain selection, and key rotation.</p>
     <div class="flow-steps">
       <div class="flow-step">
@@ -784,8 +792,8 @@
 <!-- PRICING -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Pricing</span>
-    <h2 class="section-title">Modular pricing. Enable what your customers need.</h2>
+    <span class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></span>
+    <h2 class="section-title"><span class="en-text">Modular pricing. Enable what your customers need.</span><span class="es-text">Precios modulares. Activa lo que tus clientes necesitan.</span></h2>
     <p class="section-desc">Each module is independently priced. Bundle discounts available for 3+ modules.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
       <div class="card" style="text-align:center;">
@@ -831,8 +839,8 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="cta-title">Ready to make Acme Cloud ERP irreplaceable?</h2>
-    <p class="cta-desc">30-minute call. We'll map your verticals, demo the modules live, and show you exactly how the integration works.</p>
+    <h2 class="cta-title"><span class="en-text">Ready to make Acme Cloud ERP irreplaceable?</span><span class="es-text">¿Listo para hacer Acme Cloud ERP insustituible?</span></h2>
+    <p class="cta-desc"><span class="en-text">30-minute call. We'll map your verticals, demo the modules live, and show you exactly how the integration works.</span><span class="es-text">Llamada de 30 minutos. Mapearemos tus verticales, haremos demo en vivo de los módulos y te mostraremos exactamente cómo funciona la integración.</span></p>
     <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
     <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
   </div>
@@ -850,6 +858,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 // ===== MODULE FILTER =====
 function filterModules(vertical) {
   document.querySelectorAll('.v-pill').forEach(p => p.classList.remove('active'));

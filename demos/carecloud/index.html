@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × CareCloud — Immutable Healthcare Records</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -105,9 +107,14 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
 .cta-box p{color:var(--text2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
 footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:.85rem}
 .hipaa-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:6px;background:rgba(78,201,176,.1);border:1px solid rgba(78,201,176,.3);font-size:.75rem;color:var(--accent2);font-weight:600;margin-left:12px}
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"CareCloud Demo","short_name":"CareCloud","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
 
 <nav>
 <div class="container">
@@ -123,21 +130,21 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 
 <section class="hero">
 <div class="container">
-<div class="hero-badge"><span class="dot"></span> Partnership Proposal for CareCloud (NASDAQ: CCLD)</div>
-<h1>Stop losing billions<br>to <em>billing you can't verify</em></h1>
-<p class="sub">CareCloud processes millions of healthcare claims. We make every claim hashable, every record patient-controlled, and every HIPAA audit instant — without exposing a single byte of patient data.</p>
-<div class="hero-quote">"$68 billion lost to duplicate billing every year. One immutable ledger fixes that."</div>
+<div class="hero-badge"><span class="dot"></span> <span class="en-text">Partnership Proposal for CareCloud (NASDAQ: CCLD)</span><span class="es-text">Propuesta de Asociación para CareCloud (NASDAQ: CCLD)</span></div>
+<h1><span class="en-text">Stop losing billions</span><span class="es-text">Deja de perder miles de millones</span><br><span class="en-text">to </span><em><span class="en-text">billing you can't verify</span><span class="es-text">en facturas que no puedes verificar</span></em></h1>
+<p class="sub"><span class="en-text">CareCloud processes millions of healthcare claims. We make every claim hashable, every record patient-controlled, and every HIPAA audit instant — without exposing a single byte of patient data.</span><span class="es-text">CareCloud procesa millones de reclamaciones de salud. Hacemos que cada reclamación sea verificable, cada registro controlado por el paciente y cada auditoría HIPAA instantánea, sin exponer un solo byte de datos del paciente.</span></p>
+<div class="hero-quote"><span class="en-text">"$68 billion lost to duplicate billing every year. One immutable ledger fixes that."</span><span class="es-text">"$68 mil millones perdidos en facturación duplicada cada año. Un libro mayor inmutable soluciona eso."</span></div>
 <div class="hero-cta">
-<a href="#demo" class="btn btn-primary">See the Demo</a>
-<a href="#roi" class="btn btn-outline">Calculate Your ROI</a>
+<a href="#demo" class="btn btn-primary"><span class="en-text">See the Demo</span><span class="es-text">Ver la Demo</span></a>
+<a href="#roi" class="btn btn-outline"><span class="en-text">Calculate Your ROI</span><span class="es-text">Calcula tu ROI</span></a>
 </div>
 </div>
 </section>
 
 <section class="before-after">
 <div class="container">
-<h2>What Changes</h2>
-<p class="sub">From siloed records and manual compliance to verifiable, patient-controlled healthcare data</p>
+<h2><span class="en-text">What Changes</span><span class="es-text">Lo Que Cambia</span></h2>
+<p class="sub"><span class="en-text">From siloed records and manual compliance to verifiable, patient-controlled healthcare data</span><span class="es-text">De registros aislados y cumplimiento manual a datos de salud verificables y controlados por el paciente</span></p>
 <div class="ba-grid">
 <div class="ba-card before">
 <h3>✕ Before Aurora</h3>
@@ -165,8 +172,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 
 <section class="demo-section" id="demo">
 <div class="container">
-<h2>Interactive Demo <span class="hipaa-badge">🛡 HIPAA-Aware Design</span></h2>
-<p class="sub">Explore how the CareCloud integration protects data and saves billions</p>
+<h2><span class="en-text">Interactive Demo</span><span class="es-text">Demo Interactiva</span> <span class="hipaa-badge">🛡 HIPAA-Aware Design</span></h2>
+<p class="sub"><span class="en-text">Explore how the CareCloud integration protects data and saves billions</span><span class="es-text">Explora cómo la integración con CareCloud protege datos y ahorra miles de millones</span></p>
 <div class="tabs">
 <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
 <button class="tab-btn" data-tab="claims">Claims Verification</button>
@@ -295,8 +302,8 @@ Click "Run Compliance Check" to simulate a HIPAA audit.
 
 <section class="roi-section" id="roi">
 <div class="container">
-<h2>Your ROI Calculator</h2>
-<p class="sub">See how much duplicate billing costs you — and how much you'd save</p>
+<h2><span class="en-text">Your ROI Calculator</span><span class="es-text">Calculadora de ROI</span></h2>
+<p class="sub"><span class="en-text">See how much duplicate billing costs you — and how much you'd save</span><span class="es-text">Cuánto te cuesta la facturación duplicada — y cuánto ahorrarías</span></p>
 <div class="roi-grid">
 <div class="roi-inputs">
 <label>Annual Claims Volume</label>
@@ -340,8 +347,8 @@ Click "Run Compliance Check" to simulate a HIPAA audit.
 
 <section class="pricing-section" id="pricing">
 <div class="container">
-<h2>Investment Timeline</h2>
-<p class="sub">Phased approach designed for healthcare compliance requirements</p>
+<h2><span class="en-text">Investment Timeline</span><span class="es-text">Cronograma de Inversión</span></h2>
+<p class="sub"><span class="en-text">Phased approach designed for healthcare compliance requirements</span><span class="es-text">Enfoque por fases diseñado para requisitos de cumplimiento de salud</span></p>
 <div class="pricing-grid">
 <div class="price-card">
 <h3>Phase 1 — Claims Verification</h3>
@@ -387,9 +394,9 @@ Click "Run Compliance Check" to simulate a HIPAA audit.
 <section class="cta-section" id="cta">
 <div class="container">
 <div class="cta-box">
-<h2>Ready to eliminate duplicate billing?</h2>
-<p>Let's walk through the demo and show your team how immutable claims verification works.</p>
-<a href="mailto:contact@aurorapathways.com?subject=CareCloud%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px">Book a Call →</a>
+<h2><span class="en-text">Ready to eliminate duplicate billing?</span><span class="es-text">¿Listo para eliminar la facturación duplicada?</span></h2>
+<p><span class="en-text">Let's walk through the demo and show your team how immutable claims verification works.</span><span class="es-text">Recorramos la demo y mostrémosle a tu equipo cómo funciona la verificación inmutable de reclamaciones.</span></p>
+<a href="mailto:contact@aurorapathways.com?subject=CareCloud%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px"><span class="en-text">Book a Call</span><span class="es-text">Agendar Llamada</span> →</a>
 </div>
 </div>
 </section>
@@ -401,6 +408,7 @@ Click "Run Compliance Check" to simulate a HIPAA audit.
 </footer>
 
 <script>
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

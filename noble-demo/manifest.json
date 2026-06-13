@@ -1,0 +1,10 @@
+{
+  "name": "Noble Oil Field Services — Unified Platform",
+  "short_name": "Noble Platform",
+  "description": "Four companies. One platform. Zero dropped tickets.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": []
+}

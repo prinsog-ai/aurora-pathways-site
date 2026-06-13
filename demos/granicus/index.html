@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Granicus — Immutable Public Records</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -200,9 +202,15 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 /* UTILS */
 .mt-2{margin-top:2rem}
 .flex-center{display:flex;align-items:center;justify-content:center}
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Granicus Demo","short_name":"Granicus","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 <div class="aurora-bg"></div>
 
 <!-- NAV -->
@@ -217,17 +225,17 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <section class="hero">
   <div class="container">
     <div class="badge">🏛️ Trusted by 5,500+ Government Agencies</div>
-    <h1>Public records should be public — and <em>untamperable</em></h1>
-    <p class="subtitle">That's what the blockchain guarantees. Immutable public records, citizen-verifiable audit trails, and instant FOIA compliance — built for Granicus agencies.</p>
+    <h1><span class="en-text">Public records should be public — and <em>untamperable</em></span><span class="es-text">Los registros públicos deben ser públicos — e <em>inalterables</em></span></h1>
+    <p class="subtitle"><span class="en-text">That's what the blockchain guarantees. Immutable public records, citizen-verifiable audit trails, and instant FOIA compliance — built for Granicus agencies.</span><span class="es-text">Eso es lo que garantiza la blockchain. Registros públicos inmutables, auditorías verificables por ciudadanos y cumplimiento FOIA instantáneo — diseñado para agencias Granicus.</span></p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <button class="cta-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Book a 30-Minute Call</button>
       <button class="cta-btn" style="background:transparent;border:1px solid var(--accent);box-shadow:none" onclick="document.getElementById('tabs').scrollIntoView({behavior:'smooth'})">Explore the Platform ↓</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="num">5,500+</div><div class="label">Agencies Served</div></div>
-      <div class="hero-stat"><div class="num">300M+</div><div class="label">Citizen Subscribers</div></div>
-      <div class="hero-stat"><div class="num">100%</div><div class="label">Tamper-Proof</div></div>
-      <div class="hero-stat"><div class="num">&lt;5s</div><div class="label">Verification Time</div></div>
+      <div class="hero-stat"><div class="num">5,500+</div><div class="label"><span class="en-text">Agencies Served</span><span class="es-text">Agencias Atendidas</span></div></div>
+      <div class="hero-stat"><div class="num">300M+</div><div class="label"><span class="en-text">Citizen Subscribers</span><span class="es-text">Suscriptores Ciudadanos</span></div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="label"><span class="en-text">Tamper-Proof</span><span class="es-text">A Prueba de Manipulación</span></div></div>
+      <div class="hero-stat"><div class="num">&lt;5s</div><div class="label"><span class="en-text">Verification Time</span><span class="es-text">Tiempo de Verificación</span></div></div>
     </div>
   </div>
 </section>
@@ -235,8 +243,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- PROBLEM -->
 <section>
   <div class="container">
-    <div class="section-label">The Problem</div>
-    <h2 class="section-title">Government records face a trust crisis</h2>
+    <div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+    <h2 class="section-title"><span class="en-text">Government records face a trust crisis</span><span class="es-text">Los registros gubernamentales enfrentan una crisis de confianza</span></h2>
     <p class="section-desc">Siloed databases, slow FOIA processing, and no way for citizens to independently verify record integrity.</p>
     <div class="problem-grid">
       <div class="problem-card">
@@ -266,8 +274,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- BEFORE / AFTER -->
 <section>
   <div class="container">
-    <div class="section-label">Transformation</div>
-    <h2 class="section-title">Before & After On-Chain Records</h2>
+    <div class="section-label"><span class="en-text">Transformation</span><span class="es-text">Transformación</span></div>
+    <h2 class="section-title"><span class="en-text">Before & After On-Chain Records</span><span class="es-text">Antes y Después de Registros en Cadena</span></h2>
     <p class="section-desc">See how blockchain-backed records transform every layer of public accountability.</p>
     <div class="ba-container">
       <div class="ba-card before">
@@ -302,8 +310,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- PLATFORM TABS -->
 <section id="tabs">
   <div class="container">
-    <div class="section-label">Platform</div>
-    <h2 class="section-title">Built for Granicus agencies</h2>
+    <div class="section-label"><span class="en-text">Platform</span><span class="es-text">Plataforma</span></div>
+    <h2 class="section-title"><span class="en-text">Built for Granicus agencies</span><span class="es-text">Diseñado para agencias Granicus</span></h2>
     <p class="section-desc">Five integrated modules that connect to your existing Granicus stack.</p>
 
     <div class="tabs-nav" role="tablist">
@@ -491,8 +499,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- ROI CALCULATOR -->
 <section id="roi">
   <div class="container">
-    <div class="section-label">ROI Calculator</div>
-    <h2 class="section-title">What are FOIA requests costing you?</h2>
+    <div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+    <h2 class="section-title"><span class="en-text">What are FOIA requests costing you?</span><span class="es-text">¿Cuánto te cuestan las solicitudes FOIA?</span></h2>
     <p class="section-desc">Calculate your agency's annual savings with on-chain records that eliminate most manual FOIA processing.</p>
     <div class="roi-grid">
       <div class="roi-form">
@@ -533,8 +541,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- PRICING -->
 <section id="pricing">
   <div class="container">
-    <div class="section-label">Investment</div>
-    <h2 class="section-title">Phased rollout, proven results</h2>
+    <div class="section-label"><span class="en-text">Investment</span><span class="es-text">Inversión</span></div>
+    <h2 class="section-title"><span class="en-text">Phased rollout, proven results</span><span class="es-text">Implementación por fases, resultados comprobados</span></h2>
     <p class="section-desc">Start with records, expand to the full platform. Each phase delivers standalone value.</p>
     <div class="pricing-grid">
       <div class="pricing-card">
@@ -586,8 +594,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <!-- CTA -->
 <section class="cta-section" id="cta">
   <div class="container">
-    <h2>Ready to make your public records<br><em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">truly public?</em></h2>
-    <p>Book a 30-minute call with our government solutions team. We'll map your current records stack and show you exactly where on-chain creates value.</p>
+    <h2><span class="en-text">Ready to make your public records<br><em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">truly public?</em></span><span class="es-text">¿Listo para hacer sus registros públicos<br><em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">verdaderamente públicos?</em></span></h2>
+    <p><span class="en-text">Book a 30-minute call with our government solutions team. We'll map your current records stack and show you exactly where on-chain creates value.</span><span class="es-text">Reserve una llamada de 30 minutos con nuestro equipo de soluciones gubernamentales. Mapearemos su sistema actual de registros y le mostraremos exactamente dónde la cadena crea valor.</span></p>
     <button class="cta-btn" onclick="alert('In production, this opens a Calendly/HubSpot booking widget. For now, email team@aurorapathways.com')">Book a 30-Minute Call</button>
     <div class="cta-sub">No commitment · Free assessment · Built for government security standards</div>
   </div>
@@ -600,6 +608,7 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 </footer>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 // Tab switching
 function switchTab(name){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));

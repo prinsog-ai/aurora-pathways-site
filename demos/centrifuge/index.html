@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Centrifuge — RWA Tokenization</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -151,6 +153,8 @@ section{position:relative;z-index:1;padding:100px 0}
 footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
 
 @media(max-width:768px){
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 .hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
 .hero-text h1{font-size:2rem}
 .ba-grid,.roi-wrap{grid-template-columns:1fr}
@@ -159,8 +163,12 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 .chain-dist{flex-direction:column}
 }
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Centrifuge Demo","short_name":"Centrifuge","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 <div class="aurora"></div>
 
 <nav>
@@ -177,8 +185,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="hero">
 <div class="container">
 <div class="hero-text">
-<h1>Tokenize any real-world asset. Stay compliant in every jurisdiction. <em>Launch in days, not months.</em></h1>
-<p>Centrifuge provides the infrastructure for on-chain asset management. But navigating KYC/AML, securities regulations, and multi-jurisdiction compliance is still a manual nightmare. Aurora Pathways automates it — from token creation to cross-chain distribution.</p>
+<h1><span class="en-text">Tokenize any real-world asset. Stay compliant in every jurisdiction. <em>Launch in days, not months.</em></span><span class="es-text">Tokenice cualquier activo del mundo real. Manténgase conforme en cada jurisdicción. <em>Lance en días, no meses.</em></span></h1>
+<p><span class="en-text">Centrifuge provides the infrastructure for on-chain asset management. But navigating KYC/AML, securities regulations, and multi-jurisdiction compliance is still a manual nightmare. Aurora Pathways automates it — from token creation to cross-chain distribution.</span><span class="es-text">Centrifuge proporciona la infraestructura para la gestión de activos en cadena. Pero navegar por KYC/AML, regulaciones de valores y cumplimiento multi-jurisdiccional sigue siendo una pesadilla manual. Aurora Pathways lo automatiza — desde la creación de tokens hasta la distribución entre cadenas.</span></p>
 <div class="btn-group">
 <a href="#cta" class="btn-primary">Book a Strategy Call</a>
 <a href="#demo" class="btn-outline">See the Platform ↓</a>
@@ -229,8 +237,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PROBLEM -->
 <section>
 <div class="container">
-<div class="section-label">The Problem</div>
-<div class="section-title">Compliance Fragmentation Kills Speed</div>
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">Compliance Fragmentation Kills Speed</span><span class="es-text">La Fragmentación del Cumplimiento Mata la Velocidad</span></div>
 <div class="section-sub">Tokenizing real-world assets means navigating a maze of KYC/AML rules, securities regulations, and jurisdiction-specific requirements — manually.</div>
 <div class="ba-grid">
 <div class="ba-card before">
@@ -262,8 +270,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- DEMO TABS -->
 <section class="tabs-section" id="demo">
 <div class="container">
-<div class="section-label">Interactive Demo</div>
-<div class="section-title">See It In Action</div>
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
 <div class="section-sub">From asset selection to cross-chain deployment — the full tokenization workflow.</div>
 <div class="tab-nav">
 <button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
@@ -366,8 +374,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- ROI -->
 <section class="roi-section">
 <div class="container">
-<div class="section-label">ROI Calculator</div>
-<div class="section-title">Your Potential Savings</div>
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
 <div class="section-sub">How much is slow time-to-market costing your asset launches?</div>
 <div class="roi-wrap">
 <div class="roi-inputs">
@@ -403,8 +411,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PRICING -->
 <section>
 <div class="container">
-<div class="section-label">Pricing</div>
-<div class="section-title">Phased Deployment</div>
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
 <div class="section-sub">Start with the token studio. Scale to full compliance and multi-chain. No lock-in.</div>
 <div class="pricing-grid">
 <div class="price-card">
@@ -458,8 +466,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="cta-section" id="cta">
 <div class="container">
 <div class="cta-box">
-<h2>Tokenize Faster. Stay Compliant Everywhere.</h2>
-<p>Book a 30-minute call. We'll review your asset pipeline and show you exactly how to go from idea to cross-chain token in under a week.</p>
+<h2><span class="en-text">Tokenize Faster. Stay Compliant Everywhere.</span><span class="es-text">Tokenice Más Rápido. Manténgase Conforme en Todas Partes.</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll review your asset pipeline and show you exactly how to go from idea to cross-chain token in under a week.</span><span class="es-text">Reserve una llamada de 30 minutos. Revisaremos su pipeline de activos y le mostraremos exactamente cómo ir de idea a token entre cadenas en menos de una semana.</span></p>
 <a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
 </div>
 </div>
@@ -472,6 +480,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 </footer>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 function showTab(id){
 document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));

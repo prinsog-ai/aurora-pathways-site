@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Valence — Carbon Credit Revenue Platform</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -190,9 +192,15 @@
   .a1 { width: 600px; height: 300px; background: rgba(124,92,252,0.12); top: 5%; left: 10%; }
   .a2 { width: 400px; height: 400px; background: rgba(78,201,176,0.08); bottom: 10%; right: 5%; }
   .content { position: relative; z-index: 1; }
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--surface);border:1px solid var(--glass-border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Valence Demo","short_name":"Valence","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 
 <div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
 <div class="content">
@@ -211,8 +219,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Your flare capture is generating<br><span class="highlight">revenue you're not collecting.</span></h1>
-    <p class="sub">Every ton of CO2 you prevent is worth $15–50 on carbon markets. Right now, that money disappears. This platform captures it automatically.</p>
+    <h1><span class="en-text">Your flare capture is generating<br><span class="highlight">revenue you're not collecting.</span></span><span class="es-text">Tu captura de gas está generando<br><span class="highlight">ingresos que no estás cobrando.</span></span></h1>
+    <p class="sub"><span class="en-text">Every ton of CO2 you prevent is worth $15–50 on carbon markets. Right now, that money disappears. This platform captures it automatically.</span><span class="es-text">Cada tonelada de CO2 que previenes vale $15–50 en los mercados de carbono. Ahora mismo, ese dinero desaparece. Esta plataforma lo captura automáticamente.</span></p>
     <div class="proof"><span class="dot"></span> Same technology used by Toucan, KlimaDAO, and Flowcarbon</div>
   </div>
 </section>
@@ -220,8 +228,8 @@
 <!-- THE PROBLEM -->
 <section class="section">
   <div class="container">
-    <span class="section-label">The Problem</span>
-    <h2 class="section-title">You're leaving money on the table every month.</h2>
+    <span class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></span>
+    <h2 class="section-title"><span class="en-text">You're leaving money on the table every month.</span><span class="es-text">Estás dejando dinero sobre la mesa cada mes.</span></h2>
     <p class="section-desc">Flare gas capture generates carbon credits automatically. Without a system to claim them, the value evaporates.</p>
     <div class="problem-grid">
       <div class="problem-card">
@@ -247,7 +255,7 @@
 <section class="section" style="padding-top:0;">
   <div class="container">
     <div class="calc-wrapper">
-      <div class="calc-title">💰 Revenue Calculator</div>
+      <div class="calc-title">💰 <span class="en-text">Revenue Calculator</span><span class="es-text">Calculadora de Ingresos</span></div>
       <div class="calc-sub">See how much Valence could earn from carbon credits — adjust the sliders to match your operation.</div>
       <div class="slider-group">
         <div class="slider-label">
@@ -291,8 +299,8 @@
 <!-- OLD WAY VS NEW WAY -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Before vs After</span>
-    <h2 class="section-title">Traditional carbon credits vs. automated platform.</h2>
+    <span class="section-label"><span class="en-text">Before vs After</span><span class="es-text">Antes vs Después</span></span>
+    <h2 class="section-title"><span class="en-text">Traditional carbon credits vs. automated platform.</span><span class="es-text">Créditos de carbono tradicionales vs. plataforma automatizada.</span></h2>
     <div class="comp-grid" style="margin-top:32px;">
       <div class="comp-card old">
         <div class="comp-title" style="color:var(--red);">❌ Traditional Process</div>
@@ -324,8 +332,8 @@
 <!-- HOW IT WORKS -->
 <section class="section">
   <div class="container">
-    <span class="section-label">How It Works</span>
-    <h2 class="section-title">Four steps. Zero spreadsheets. Fully automatic.</h2>
+    <span class="section-label"><span class="en-text">How It Works</span><span class="es-text">Cómo Funciona</span></span>
+    <h2 class="section-title"><span class="en-text">Four steps. Zero spreadsheets. Fully automatic.</span><span class="es-text">Cuatro pasos. Cero hojas de cálculo. Totalmente automático.</span></h2>
     <p class="section-desc">No blockchain knowledge required. Your team logs data the same way they do now — the platform handles everything else.</p>
     <div class="steps">
       <div class="step">
@@ -362,8 +370,8 @@
 <!-- OWNERSHIP SOLUTION -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Solving the Ownership Question</span>
-    <h2 class="section-title">Who owns the credits? Both of you. Automatically.</h2>
+    <span class="section-label"><span class="en-text">Solving the Ownership Question</span><span class="es-text">Resolviendo la Pregunta de Propiedad</span></span>
+    <h2 class="section-title"><span class="en-text">Who owns the credits? Both of you. Automatically.</span><span class="es-text">¿Quién posee los créditos? Ambos. Automáticamente.</span></h2>
     <p class="section-desc">The platform eliminates ownership disputes entirely. When a site is onboarded, both parties agree on the split percentage. After that, every credit is distributed automatically — no negotiation, no spreadsheets, no lawyers.</p>
     <div class="card" style="max-width:700px;">
       <div class="card-header">
@@ -396,8 +404,8 @@
 <!-- INTERACTIVE DEMO -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Live Platform Preview</span>
-    <h2 class="section-title">This is what your team would use every day.</h2>
+    <span class="section-label"><span class="en-text">Live Platform Preview</span><span class="es-text">Vista Previa de la Plataforma</span></span>
+    <h2 class="section-title"><span class="en-text">This is what your team would use every day.</span><span class="es-text">Esto es lo que tu equipo usaría todos los días.</span></h2>
     <p class="section-desc">Click through the tabs to explore the full platform. Everything below is functional — try entering data in the MRV form.</p>
 
     <div class="demo-tabs">
@@ -537,8 +545,8 @@
 <!-- PRICING -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Investment</span>
-    <h2 class="section-title">Start small. Prove the value. Then scale.</h2>
+    <span class="section-label"><span class="en-text">Investment</span><span class="es-text">Inversión</span></span>
+    <h2 class="section-title"><span class="en-text">Start small. Prove the value. Then scale.</span><span class="es-text">Empieza pequeño. Demuestra el valor. Luego escala.</span></h2>
     <p class="section-desc">Phase 1 is a proof of concept at one site. If it works (and it will), roll out to all sites.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
       <div class="card" style="text-align:center;border-color:rgba(245,200,66,0.3);">
@@ -584,8 +592,8 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="cta-title">Ready to capture the revenue you're missing?</h2>
-    <p class="cta-desc">30-minute call. We'll map your sites, estimate your revenue, and show you exactly how the platform works.</p>
+    <h2 class="cta-title"><span class="en-text">Ready to capture the revenue you're missing?</span><span class="es-text">¿Listo para capturar los ingresos que estás perdiendo?</span></h2>
+    <p class="cta-desc"><span class="en-text">30-minute call. We'll map your sites, estimate your revenue, and show you exactly how the platform works.</span><span class="es-text">Llamada de 30 minutos. Mapearemos tus sitios, estimaremos tus ingresos y te mostraremos exactamente cómo funciona la plataforma.</span></p>
     <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
     <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
   </div>
@@ -603,6 +611,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 const sites = [
   { name: 'Bakken Basin — Site A', loc: 'Williston, ND', split: 60, status: 'Active', mcf: 18500, co2: 666, credits: 666, rev: '$29,970' },
   { name: 'Permian Basin — Site B', loc: 'Midland, TX', split: 60, status: 'Active', mcf: 22000, co2: 792, credits: 792, rev: '$35,640' },

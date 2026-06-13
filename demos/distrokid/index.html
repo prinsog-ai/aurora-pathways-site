@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>DistroKid — Verifiable Royalty Ledger</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -187,9 +189,14 @@
   .hash { font-family: 'Courier New', monospace; font-size: 0.72rem; color: var(--accent2); background: rgba(78,201,176,0.1); padding: 2px 6px; border-radius: 4px; }
   .tx-link { color: var(--accent2); text-decoration: none; font-size: 0.72rem; }
   .tx-link:hover { text-decoration: underline; }
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"DistroKid Demo","short_name":"DistroKid","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
 
 <div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
 <div class="content">
@@ -208,33 +215,33 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>2 million artists trust you<br>with their royalties.<br><span class="highlight">Give them a ledger they can verify.</span></h1>
-    <p class="sub">Artists upload music. Streams happen. But right now, royalty calculations are a black box. One platform makes every stream, every payout, every split — independently verifiable.</p>
-    <div class="proof"><span class="dot"></span> Built for 2M+ artists · 200+ platforms · 14B+ streams/year</div>
+    <h1><span class="en-text">2 million artists trust you</span><span class="es-text">2 millones de artistas confían en ti</span><br><span class="en-text">with their royalties.</span><span class="es-text">con sus regalías.</span><br><span class="highlight"><span class="en-text">Give them a ledger they can verify.</span><span class="es-text">Dales un libro mayor que puedan verificar.</span></span></h1>
+    <p class="sub"><span class="en-text">Artists upload music. Streams happen. But right now, royalty calculations are a black box. One platform makes every stream, every payout, every split — independently verifiable.</span><span class="es-text">Los artistas suben música. Las reproducciones ocurren. Pero ahora mismo, los cálculos de regalías son una caja negra. Una plataforma hace que cada reproducción, cada pago, cada división sea verificable de forma independiente.</span></p>
+    <div class="proof"><span class="dot"></span> <span class="en-text">Built for 2M+ artists · 200+ platforms · 14B+ streams/year</span><span class="es-text">Diseñado para 2M+ artistas · 200+ plataformas · 14B+ reproducciones/año</span></div>
   </div>
 </section>
 
 <!-- THE PROBLEM -->
 <section class="section">
   <div class="container">
-    <span class="section-label">The Problem</span>
-    <h2 class="section-title">Artists can't verify what they're owed. That's a trust problem.</h2>
-    <p class="section-desc">When an artist can't see exactly how their $0.003 per stream was calculated — per platform, per territory — they lose confidence. And every dispute costs you time and money.</p>
+    <span class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></span>
+    <h2 class="section-title"><span class="en-text">Artists can't verify what they're owed. That's a trust problem.</span><span class="es-text">Los artistas no pueden verificar lo que se les debe. Eso es un problema de confianza.</span></h2>
+    <p class="section-desc"><span class="en-text">When an artist can't see exactly how their $0.003 per stream was calculated — per platform, per territory — they lose confidence. And every dispute costs you time and money.</span><span class="es-text">Cuando un artista no puede ver exactamente cómo se calculó su $0.003 por reproducción — por plataforma, por territorio — pierde confianza. Y cada disputa te cuesta tiempo y dinero.</span></p>
     <div class="problem-grid">
       <div class="problem-card">
         <div class="problem-icon">❓</div>
         <div class="problem-number">$4.2M</div>
-        <div class="problem-text">Annual cost of royalty disputes across the platform</div>
+        <div class="problem-text"><span class="en-text">Annual cost of royalty disputes across the platform</span><span class="es-text">Costo anual de disputas de regalías en la plataforma</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">⚖️</div>
         <div class="problem-number">12,000+</div>
-        <div class="problem-text">Rights disputes per year over samples and splits</div>
+        <div class="problem-text"><span class="en-text">Rights disputes per year over samples and splits</span><span class="es-text">Disputas de derechos por año sobre samples y divisiones</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">🕐</div>
         <div class="problem-number">18 days</div>
-        <div class="problem-text">Average time to resolve a payout dispute</div>
+        <div class="problem-text"><span class="en-text">Average time to resolve a payout dispute</span><span class="es-text">Tiempo promedio para resolver una disputa de pago</span></div>
       </div>
     </div>
   </div>
@@ -244,8 +251,8 @@
 <section class="section" style="padding-top:0;">
   <div class="container">
     <div class="calc-wrapper">
-      <div class="calc-title">💰 ROI Calculator</div>
-      <div class="calc-sub">See how much DistroKid saves by making royalties transparent and verifiable — adjust the sliders to match your scale.</div>
+      <div class="calc-title">💰 <span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+      <div class="calc-sub"><span class="en-text">See how much DistroKid saves by making royalties transparent and verifiable — adjust the sliders to match your scale.</span><span class="es-text">Mira cuánto ahorra DistroKid al hacer las regalías transparentes y verificables — ajusta los controles a tu escala.</span></div>
       <div class="slider-group">
         <div class="slider-label">
           <span>Active Artists on Platform</span>
@@ -288,8 +295,8 @@
 <!-- BEFORE VS AFTER -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Before vs After</span>
-    <h2 class="section-title">Black-box payouts vs. a ledger every artist can audit.</h2>
+    <span class="section-label"><span class="en-text">Before vs After</span><span class="es-text">Antes vs Después</span></span>
+    <h2 class="section-title"><span class="en-text">Black-box payouts vs. a ledger every artist can audit.</span><span class="es-text">Pagos opacos vs. un libro mayor que cada artista puede auditar.</span></h2>
     <div class="comp-grid" style="margin-top:32px;">
       <div class="comp-card old">
         <div class="comp-title" style="color:var(--red);">❌ Current State</div>
@@ -321,9 +328,9 @@
 <!-- INTERACTIVE DEMO -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Live Platform Preview</span>
-    <h2 class="section-title">This is what your royalty infrastructure would look like.</h2>
-    <p class="section-desc">Click through the tabs to explore. Every number is anchored to a verifiable record.</p>
+    <span class="section-label"><span class="en-text">Live Platform Preview</span><span class="es-text">Vista Previa en Vivo</span></span>
+    <h2 class="section-title"><span class="en-text">This is what your royalty infrastructure would look like.</span><span class="es-text">Así se vería tu infraestructura de regalías.</span></h2>
+    <p class="section-desc"><span class="en-text">Click through the tabs to explore. Every number is anchored to a verifiable record.</span><span class="es-text">Explora las pestañas. Cada número está anclado a un registro verificable.</span></p>
 
     <div class="demo-tabs">
       <button class="demo-tab active" onclick="showPanel('p-dash')">📊 Dashboard</button>
@@ -571,8 +578,8 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="cta-title">Ready to give your artists a ledger they can trust?</h2>
-    <p class="cta-desc">30-minute call. We'll map your royalty flow, estimate your savings, and show you exactly how the platform works.</p>
+    <div class="cta-title"><span class="en-text">Ready to give your artists a ledger they can trust?</span><span class="es-text">¿Listo para darle a tus artistas un libro mayor en el que puedan confiar?</span></div>
+    <div class="cta-desc"><span class="en-text">Let's build a proof of concept with your actual royalty data and show your team what transparent payouts look like.</span><span class="es-text">Construyamos una prueba de concepto con tus datos de regalías reales y mostremos a tu equipo cómo se ven los pagos transparentes.</span></div>
     <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
     <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
   </div>
@@ -590,6 +597,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
 const platforms = [
   { name: 'Spotify', streams: '4.2B', rate: '$0.003', revenue: '$12,600,000' },
   { name: 'Apple Music', streams: '2.8B', rate: '$0.005', revenue: '$14,000,000' },

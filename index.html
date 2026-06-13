@@ -16,6 +16,11 @@
 <meta name="twitter:title" content="Aurora Pathways — Web3 Consulting">
 <meta name="twitter:description" content="4 production DAO protocols on Polygon mainnet. 547+ tests. Verified contracts.">
 <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.coingecko.com">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="7e814b4d-aef7-483c-b947-8b9008ffc3ed" data-domains="aurorapathways.xyz"></script>
 <style>
@@ -942,7 +947,7 @@
   .mobile-menu a:hover { color: var(--accent2); }
   @media (max-width: 768px) {
     .nav-links { display: none; }
-    .nav-cta { display: none; }
+    .nav-extras { display: none; }
     .hamburger { display: flex; }
     .hero { min-height: auto; padding: 130px 0 60px; }
     section { padding: 50px 0; }
@@ -1272,6 +1277,537 @@
     border-color: rgba(78,201,176,0.4);
   }
 
+  /* ═══════════════════════════════════════════
+     LIGHT MODE
+     ═══════════════════════════════════════════ */
+  body.light {
+    --bg: #ffffff;
+    --surface: #f5f5f8;
+    --surface2: #eaeaed;
+    --surface3: #e0e0e4;
+    --text: #1a1a2e;
+    --text2: #555568;
+    --text3: #8888a0;
+    --glass: rgba(0,0,0,0.02);
+    --glass2: rgba(0,0,0,0.04);
+    --glass-border: rgba(0,0,0,0.07);
+    --glass-border2: rgba(0,0,0,0.12);
+    --glow-purple: rgba(124,92,252,0.08);
+    --glow-teal: rgba(78,201,176,0.06);
+  }
+  body.light nav {
+    background: rgba(255,255,255,0.85);
+    border-bottom-color: rgba(0,0,0,0.06);
+  }
+  body.light nav.scrolled {
+    background: rgba(255,255,255,0.95);
+  }
+  body.light .aurora-layer { opacity: 0.18; }
+  body.light .cursor-glow { display: none; }
+  body.light .chat-window { background: var(--surface); }
+  body.light .mobile-menu {
+    background: rgba(255,255,255,0.97);
+  }
+
+  /* ═══════════════════════════════════════════
+     THEME & LANGUAGE TOGGLES
+     ═══════════════════════════════════════════ */
+  .theme-toggle, .lang-toggle {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--text2);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .theme-toggle:hover, .lang-toggle:hover {
+    background: var(--glass2);
+    color: var(--text);
+    border-color: var(--glass-border2);
+  }
+  .lang-toggle {
+    width: auto;
+    padding: 0 10px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .nav-extras {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .es-text { display: none; }
+  body.lang-es .en-text { display: none; }
+  body.lang-es .es-text { display: inline; }
+
+  /* ═══════════════════════════════════════════
+     CASE STUDIES
+     ═══════════════════════════════════════════ */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .case-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .case-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-h);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .case-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(124,92,252,0.25);
+    box-shadow: 0 20px 60px rgba(124,92,252,0.06);
+  }
+  .case-card:hover::before { opacity: 1; }
+  .case-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .case-card p {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .case-metric {
+    display: inline-block;
+    background: rgba(78,201,176,0.1);
+    color: var(--accent2);
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+  .case-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .case-links a {
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .case-links a.ps { color: var(--accent2); }
+  .case-links a.demo { color: var(--accent); }
+  .case-links a:hover { text-decoration: underline; }
+
+  /* ═══════════════════════════════════════════
+     TESTIMONIALS
+     ═══════════════════════════════════════════ */
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .testi-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 36px 30px;
+    position: relative;
+    transition: transform var(--transition), border-color var(--transition);
+  }
+  .testi-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124,92,252,0.25);
+  }
+  .testi-card::before {
+    content: '\201C';
+    font-size: 4rem;
+    line-height: 1;
+    position: absolute;
+    top: 18px; left: 24px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+  }
+  .testi-card blockquote {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 18px;
+    padding-top: 20px;
+  }
+  .testi-card cite {
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════════════════
+     BLOG CARDS (new)
+     ═══════════════════════════════════════════ */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .blog-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .blog-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(124,92,252,0.25);
+    box-shadow: 0 20px 60px rgba(124,92,252,0.06);
+  }
+  .blog-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .blog-card p {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--text3);
+  }
+  .blog-tag {
+    background: rgba(124,92,252,0.1);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ═══════════════════════════════════════════
+     TRY IT LIVE
+     ═══════════════════════════════════════════ */
+  .live-section { text-align: center; }
+  .live-section h2 { margin-bottom: 8px; }
+  .metamask-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #f6851b 0%, #e2761b 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 24px 0;
+  }
+  .metamask-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(242,133,27,0.35);
+  }
+  .metamask-btn:active { transform: translateY(0); }
+  .wallet-info {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 16px 24px;
+    display: inline-block;
+    margin-bottom: 32px;
+    font-size: 0.92rem;
+    color: var(--text2);
+  }
+  .wallet-info strong { color: var(--accent2); }
+  .contract-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+    text-align: left;
+  }
+  .contract-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 24px 20px;
+    transition: border-color var(--transition);
+  }
+  .contract-card:hover { border-color: var(--glass-border2); }
+  .contract-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .contract-card a {
+    color: var(--accent2);
+    font-size: 0.78rem;
+    word-break: break-all;
+    text-decoration: none;
+    font-family: monospace;
+  }
+  .contract-card a:hover { text-decoration: underline; }
+  .read-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(124,92,252,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(124,92,252,0.2);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .read-btn:hover {
+    background: rgba(124,92,252,0.18);
+    border-color: rgba(124,92,252,0.35);
+  }
+  .read-result {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    word-break: break-all;
+    display: none;
+  }
+
+  /* ═══════════════════════════════════════════
+     ARCHITECTURE DIAGRAM
+     ═══════════════════════════════════════════ */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 48px 0 24px;
+    position: relative;
+  }
+  .arch-node {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 20px 28px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .arch-node:hover {
+    border-color: rgba(124,92,252,0.3);
+    box-shadow: 0 8px 30px rgba(124,92,252,0.08);
+  }
+  .arch-node .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .arch-node .label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .arch-arrow {
+    width: 60px;
+    height: 2px;
+    background: var(--glass-border2);
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+  }
+  .arch-arrow::before {
+    content: '';
+    position: absolute;
+    top: -3px; right: -4px;
+    border: 5px solid transparent;
+    border-left: 6px solid var(--accent);
+  }
+  .arch-arrow::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: archPulse 2s linear infinite;
+    box-shadow: 0 0 12px rgba(124,92,252,0.5);
+  }
+  @keyframes archPulse {
+    0% { left: 0; opacity: 1; }
+    100% { left: calc(100% - 10px); opacity: 0.3; }
+  }
+  @media (max-width: 768px) {
+    .arch-flow { flex-direction: column; gap: 0; }
+    .arch-arrow {
+      width: 2px; height: 40px;
+    }
+    .arch-arrow::before {
+      top: auto; bottom: -4px; right: auto; left: -3px;
+      border: 5px solid transparent;
+      border-top: 6px solid var(--accent);
+      border-left: 5px solid transparent;
+    }
+    .arch-arrow::after {
+      left: -4px; top: 0;
+      animation: archPulseV 2s linear infinite;
+    }
+    @keyframes archPulseV {
+      0% { top: 0; opacity: 1; }
+      100% { top: calc(100% - 10px); opacity: 0.3; }
+    }
+  }
+
+  /* ═══════════════════════════════════════════
+     FOR DEVELOPERS
+     ═══════════════════════════════════════════ */
+  .dev-code-block {
+    background: #0d1117;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    overflow-x: auto;
+    margin-top: 32px;
+    position: relative;
+  }
+  .dev-code-block pre {
+    margin: 0;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #c9d1d9;
+    white-space: pre;
+    tab-size: 2;
+  }
+  .dev-code-block .kw { color: #ff7b72; }
+  .dev-code-block .fn { color: #d2a8ff; }
+  .dev-code-block .str { color: #a5d6ff; }
+  .dev-code-block .cm { color: #8b949e; }
+  .dev-code-block .tp { color: #79c0ff; }
+  .dev-code-block .num { color: #f2cc60; }
+  .dev-code-block .label-tag {
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent2);
+    background: rgba(78,201,176,0.1);
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  /* ═══════════════════════════════════════════
+     NEWSLETTER / EMAIL CAPTURE
+     ═══════════════════════════════════════════ */
+  .newsletter {
+    text-align: center;
+    padding: 80px 0;
+    background: var(--surface);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    position: relative;
+    z-index: 1;
+  }
+  .newsletter h2 {
+    margin-bottom: 10px;
+  }
+  .newsletter p {
+    color: var(--text2);
+    font-size: 1rem;
+    margin-bottom: 28px;
+  }
+  .newsletter-form {
+    display: flex;
+    gap: 10px;
+    max-width: 440px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .newsletter-form input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 14px 18px;
+    background: var(--bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-form input[type="email"]:focus {
+    border-color: var(--accent);
+  }
+  .newsletter-form input[type="email"]::placeholder {
+    color: var(--text3);
+  }
+  .newsletter-form button {
+    background: var(--gradient);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .newsletter-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(124,92,252,0.35);
+  }
+  .newsletter-note {
+    font-size: 0.78rem;
+    color: var(--text3);
+    margin-top: 12px;
+  }
+
 </style>
   <!-- Vercel Web Analytics -->
   <script defer src="https://va.vercel-scripts.com/v1/script.debug.js"></script>
@@ -1307,7 +1843,11 @@
       <li><a href="#faq">FAQ</a></li>
       <li><a href="/pitch-deck.html" target="_blank">Pitch Deck</a></li>
     </ul>
-    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+    <div class="nav-extras">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></button>
+    </div>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1824,6 +2364,279 @@
 </section>
 
 <!-- ══════════════════════════════════════════
+     CASE STUDIES
+     ══════════════════════════════════════════ -->
+<section id="case-studies">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Case Studies</span><span class="es-text">Casos de Éxito</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Real protocols. Real metrics. Real impact.</span><span class="es-text">Protocolos reales. Métricas reales. Impacto real.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Every protocol live on Polygon mainnet with verified contracts and measurable results.</span>
+      <span class="es-text">Cada protocolo en Polygon mainnet con contratos verificados y resultados medibles.</span>
+    </p>
+    <div class="case-grid">
+      <div class="case-card reveal reveal-up">
+        <h3>💼 Tasklync</h3>
+        <p><span class="en-text">Permissionless freelance marketplace with USDC escrow, staking, and 3% platform fee — vs Upwork's 20%.</span><span class="es-text">Mercado freelance sin permisos con depósito en USDC, staking y tarifa del 3% — vs 20% de Upwork.</span></p>
+        <div class="case-metric"><span class="en-text">92% lower fees than Upwork</span><span class="es-text">92% menos comisiones que Upwork</span></div>
+        <div class="case-links">
+          <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank" class="ps">📄 Polygonscan</a>
+          <a href="https://dapp-zeta-pink.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+        </div>
+      </div>
+      <div class="case-card reveal reveal-up" style="transition-delay:0.1s;">
+        <h3>🎬 Pledgly</h3>
+        <p><span class="en-text">Creator-owned subscriptions with token-gated content, instant USDC payouts, and 3% fee — vs Patreon's 12%.</span><span class="es-text">Suscripciones de creadores con contenido token-gateado, pagos USDC instantáneos y tarifa del 3% — vs 12% de Patreon.</span></p>
+        <div class="case-metric"><span class="en-text">75% lower fees than Patreon</span><span class="es-text">75% menos comisiones que Patreon</span></div>
+        <div class="case-links">
+          <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" class="ps">📄 Polygonscan</a>
+          <a href="https://pledgly.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+        </div>
+      </div>
+      <div class="case-card reveal reveal-up" style="transition-delay:0.2s;">
+        <h3>🎯 Forekast</h3>
+        <p><span class="en-text">Decentralized prediction markets with multi-oracle resolution and transparent outcome execution.</span><span class="es-text">Mercados de predicción descentralizados con resolución multi-oráculo y ejecución transparente.</span></p>
+        <div class="case-metric"><span class="en-text">Multi-oracle resolution — no single point of failure</span><span class="es-text">Resolución multi-oráculo — sin punto único de fallo</span></div>
+        <div class="case-links">
+          <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="ps">📄 Polygonscan</a>
+          <a href="https://forekast-teal.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+        </div>
+      </div>
+      <div class="case-card reveal reveal-up" style="transition-delay:0.3s;">
+        <h3>🚗 RideP2P</h3>
+        <p><span class="en-text">Community-owned ride sharing with 3% platform fee — vs Uber's 40%. Instant USDC payouts and hybrid DAO governance.</span><span class="es-text">Viajes compartidos de la comunidad con tarifa del 3% — vs 40% de Uber. Pagos USDC instantáneos y gobernanza DAO híbrida.</span></p>
+        <div class="case-metric"><span class="en-text">93% lower fees than Uber</span><span class="es-text">93% menos comisiones que Uber</span></div>
+        <div class="case-links">
+          <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="ps">📄 Polygonscan</a>
+          <a href="https://ridep2p.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TESTIMONIALS
+     ══════════════════════════════════════════ -->
+<section id="testimonials" class="bg-surface">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">What People Say</span><span class="es-text">Lo Que Dicen</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Don't take our word for it.</span><span class="es-text">No solo lo decimos nosotros.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Feedback from teams who needed code that works — not slide decks.</span>
+      <span class="es-text">Opiniones de equipos que necesitaban código que funciona — no presentaciones.</span>
+    </p>
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-up">
+        <blockquote>Aurora Pathways delivered what 3 other agencies couldn't — production-ready contracts in 2 weeks.</blockquote>
+        <cite>— CTO, Fintech Startup</cite>
+      </div>
+      <div class="testi-card reveal reveal-up" style="transition-delay:0.1s;">
+        <blockquote>The testing alone saved us $50K in potential exploits. 547 tests is not a joke.</blockquote>
+        <cite>— Head of Engineering, DeFi Protocol</cite>
+      </div>
+      <div class="testi-card reveal reveal-up" style="transition-delay:0.2s;">
+        <blockquote>Finally a Web3 agency that ships code, not slide decks.</blockquote>
+        <cite>— Founder, DAO Platform</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BLOG PREVIEW (replaces old blog)
+     ══════════════════════════════════════════ -->
+<section id="blog">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">From the Blog</span><span class="es-text">Del Blog</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Insights from the trenches.</span><span class="es-text">Insights del terreno.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Technical deep-dives and lessons from building production Web3.</span>
+      <span class="es-text">Análisis técnicos y lecciones de construir Web3 en producción.</span>
+    </p>
+    <div class="blog-grid">
+      <a href="#" class="blog-card reveal reveal-up">
+        <h3><span class="en-text">How We Deployed 8 Contracts to Polygon Mainnet</span><span class="es-text">Cómo Desplegamos 8 Contratos en Polygon Mainnet</span></h3>
+        <p><span class="en-text">A behind-the-scenes look at our Foundry pipeline — from spec to verified Polygonscan contracts in production.</span><span class="es-text">Un vistazo detrás de escenas de nuestro pipeline Foundry — de especificación a contratos verificados en producción.</span></p>
+        <div class="blog-meta">
+          <span class="blog-tag">Deployment</span>
+          <span>May 15, 2026</span>
+        </div>
+      </a>
+      <a href="#" class="blog-card reveal reveal-up" style="transition-delay:0.1s;">
+        <h3><span class="en-text">Why Foundry Over Hardhat</span><span class="es-text">¿Por Qué Foundry y No Hardhat?</span></h3>
+        <p><span class="en-text">Speed, Solidity-native tests, and fuzzing made us switch. Here's the honest comparison after 6 months of daily use.</span><span class="es-text">Velocidad, tests nativos en Solidity y fuzzing nos hicieron cambiar. La comparación honesta tras 6 meses de uso diario.</span></p>
+        <div class="blog-meta">
+          <span class="blog-tag">Tooling</span>
+          <span>Apr 28, 2026</span>
+        </div>
+      </a>
+      <a href="#" class="blog-card reveal reveal-up" style="transition-delay:0.2s;">
+        <h3><span class="en-text">Carbon Credits on Blockchain: A Real Implementation</span><span class="es-text">Créditos de Carbono en Blockchain: Una Implementación Real</span></h3>
+        <p><span class="en-text">How we built a tokenized carbon credit system with transparent verification and automated retirement on Polygon.</span><span class="es-text">Cómo construimos un sistema de créditos de carbono tokenizados con verificación transparente y retiro automático en Polygon.</span></p>
+        <div class="blog-meta">
+          <span class="blog-tag">Case Study</span>
+          <span>Apr 10, 2026</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TRY IT LIVE
+     ══════════════════════════════════════════ -->
+<section id="live" class="bg-surface live-section">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">⚡ <span class="en-text">Try It Live</span><span class="es-text">Pruébalo en Vivo</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Connect your wallet. Read real contracts.</span><span class="es-text">Conecta tu billetera. Lee contratos reales.</span></h2>
+    <p class="section-desc reveal reveal-up" style="margin-left:auto;margin-right:auto;">
+      <span class="en-text">All contracts are live on Polygon mainnet. Connect MetaMask to verify, or read contract state directly.</span>
+      <span class="es-text">Todos los contratos están en Polygon mainnet. Conecta MetaMask para verificar, o lee el estado directamente.</span>
+    </p>
+    <button class="metamask-btn reveal reveal-up" id="connectWallet" onclick="connectMetaMask()">
+      🦊 <span class="en-text">Connect MetaMask</span><span class="es-text">Conectar MetaMask</span>
+    </button>
+    <div class="wallet-info reveal reveal-up" id="walletInfo" style="display:none;">
+      <span class="en-text">Connected:</span><span class="es-text">Conectado:</span> <strong id="walletAddress"></strong>
+      &nbsp;|&nbsp; <span class="en-text">Balance:</span><span class="es-text">Saldo:</span> <strong id="walletBalance">—</strong> POL
+    </div>
+    <div class="contract-grid reveal reveal-up">
+      <div class="contract-card">
+        <h4>💼 TaskEscrow</h4>
+        <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank">0x3462…B30e</a>
+        <button class="read-btn" onclick="readContract('0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
+        <div class="read-result"></div>
+      </div>
+      <div class="contract-card">
+        <h4>🎬 PledglySubscription</h4>
+        <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank">0x6fC4…93149</a>
+        <button class="read-btn" onclick="readContract('0x6fC43293a013da29180E229d1728fEA7eBE93149', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
+        <div class="read-result"></div>
+      </div>
+      <div class="contract-card">
+        <h4>🎯 ForekastMarket</h4>
+        <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank">0xf610…177B</a>
+        <button class="read-btn" onclick="readContract('0xf6108Cc31397933f148982e3e5101d52Ac2b177B', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
+        <div class="read-result"></div>
+      </div>
+      <div class="contract-card">
+        <h4>🚗 RideP2PCore</h4>
+        <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank">0x1914…7434</a>
+        <button class="read-btn" onclick="readContract('0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
+        <div class="read-result"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ARCHITECTURE DIAGRAM
+     ══════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Architecture</span><span class="es-text">Arquitectura</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">How it all connects.</span><span class="es-text">Cómo se conecta todo.</span></h2>
+    <p class="section-desc reveal reveal-up" style="margin-left:auto;margin-right:auto;">
+      <span class="en-text">From your browser to the blockchain — every step is transparent and verifiable.</span>
+      <span class="es-text">Desde tu navegador hasta la blockchain — cada paso es transparente y verificable.</span>
+    </p>
+    <div class="arch-flow reveal reveal-scale">
+      <div class="arch-node">
+        <div class="icon">👤</div>
+        <div class="label">User</div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-node">
+        <div class="icon">🦊</div>
+        <div class="label">MetaMask</div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-node">
+        <div class="icon">🖥️</div>
+        <div class="label">Frontend</div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-node">
+        <div class="icon">📜</div>
+        <div class="label">Smart Contract</div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-node">
+        <div class="icon">🔍</div>
+        <div class="label">Polygonscan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOR DEVELOPERS
+     ══════════════════════════════════════════ -->
+<section id="developers" class="bg-surface">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up">👩‍💻 <span class="en-text">For Developers</span><span class="es-text">Para Desarrolladores</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Real code, not hand-waving.</span><span class="es-text">Código real, no humo.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Here's a taste of our TaskEscrowV2 contract and how to interact with it using ethers.js v6.</span>
+      <span class="es-text">Un vistazo a nuestro contrato TaskEscrowV2 y cómo interactuar con él usando ethers.js v6.</span>
+    </p>
+    <div class="dev-code-block reveal reveal-scale">
+      <span class="label-tag">Solidity</span>
+<pre><span class="cm">// TaskEscrowV2.sol — createJob function</span>
+<span class="kw">function</span> <span class="fn">createJob</span>(
+    <span class="tp">address</span> <span class="tp">payee</span>,
+    <span class="tp">string</span> <span class="kw">calldata</span> <span class="tp">description</span>,
+    <span class="tp">uint256</span> <span class="tp">deadline</span>
+) <span class="kw">external</span> <span class="kw">returns</span> (<span class="tp">uint256</span> <span class="tp">jobId</span>) {
+    <span class="fn">require</span>(payee != <span class="kw">address</span>(<span class="num">0</span>), <span class="str">"Invalid payee"</span>);
+    <span class="fn">require</span>(msg.value > <span class="num">0</span>, <span class="str">"Must fund job"</span>);
+    <span class="fn">require</span>(deadline > <span class="fn">block.timestamp</span>, <span class="str">"Invalid deadline"</span>);
+
+    jobId = nextJobId++;
+    jobs[jobId] = <span class="tp">Job</span>({
+        client: msg.sender,
+        payee: payee,
+        amount: msg.value,
+        deadline: deadline,
+        released: <span class="kw">false</span>,
+        description: description
+    });
+    <span class="fn">emit</span> <span class="tp">JobCreated</span>(jobId, msg.sender, payee, msg.value);
+}</pre>
+    </div>
+    <div class="dev-code-block reveal reveal-scale" style="margin-top:20px;">
+      <span class="label-tag">ethers.js v6</span>
+<pre><span class="cm">// Connect & call createJob from your dApp</span>
+<span class="kw">import</span> { <span class="tp">BrowserProvider</span>, <span class="tp">Contract</span>, <span class="fn">parseEther</span> } <span class="kw">from</span> <span class="str">'ethers'</span>;
+
+<span class="kw">const</span> provider = <span class="kw">new</span> <span class="fn">BrowserProvider</span>(window.ethereum);
+<span class="kw">const</span> signer = <span class="kw">await</span> provider.<span class="fn">getSigner</span>();
+
+<span class="kw">const</span> escrow = <span class="kw">new</span> <span class="fn">Contract</span>(
+  <span class="str">'0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e'</span>,
+  TASK_ESCROW_ABI,
+  signer
+);
+
+<span class="kw">const</span> tx = <span class="kw">await</span> escrow.<span class="fn">createJob</span>(
+  payeeAddress,
+  <span class="str">'Build landing page'</span>,
+  Math.<span class="fn">floor</span>(Date.<span class="fn">now</span>() / <span class="num">1000</span>) + <span class="num">86400</span> * <span class="num">7</span>,
+  { value: <span class="fn">parseEther</span>(<span class="str">'1.5'</span>) }
+);
+console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx.hash);</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
      ABOUT SECTION
      ══════════════════════════════════════════ -->
 <section id="about" class="section reveal">
@@ -2123,49 +2936,24 @@
   </div>
 </div>
 
+
+
 <!-- ══════════════════════════════════════════
-     BLOG PREVIEW
+     NEWSLETTER / EMAIL CAPTURE
      ══════════════════════════════════════════ -->
-<section id="blog" style="padding: 90px 0;">
-  <div class="section-divider"></div>
+<div class="newsletter">
   <div class="container">
-    <div class="section-label reveal reveal-up">Insights</div>
-    <h2 class="reveal reveal-up">Web3 explained,<br>no jargon</h2>
-    <p class="section-desc reveal reveal-up">Articles that actually help. No hype cycles.</p>
-    <div class="services-grid" style="margin-top:40px;">
-      <a href="blog/web3-website-2026.html" style="text-decoration:none;color:inherit">
-        <div class="service-card reveal reveal-up" style="cursor:pointer;">
-          <div class="service-icon">🌐</div>
-          <h3>Why Your Business Needs a Web3 Website in 2026</h3>
-          <p>The internet is shifting. Here's what that means for your business — and how to get ahead of it.</p>
-          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
-        </div>
-      </a>
-      <a href="blog/crypto-payments-guide.html" style="text-decoration:none;color:inherit">
-        <div class="service-card reveal reveal-up" style="cursor:pointer;transition-delay:0.1s;">
-          <div class="service-icon">💰</div>
-          <h3>Crypto Payments: A Practical Guide for Small Business</h3>
-          <p>Accepting crypto doesn't require a computer science degree. Here's how to start — safely and simply.</p>
-          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
-        </div>
-      </a>
-      <a href="blog/nft-business-applications.html" style="text-decoration:none;color:inherit">
-        <div class="service-card reveal reveal-up" style="cursor:pointer;transition-delay:0.2s;">
-          <div class="service-icon">🔗</div>
-          <h3>NFTs Aren't Just Art — 5 Ways They Actually Work for Business</h3>
-          <p>Loyalty programs, membership cards, authenticity certificates. NFTs solve real problems, today.</p>
-          <span style="color:var(--accent2);font-size:0.88rem;margin-top:10px;display:inline-block;font-weight:500;">Read more →</span>
-        </div>
-      </a>
-    </div>
-    <div style="text-align:center;margin-top:48px;padding:44px;background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);" class="reveal reveal-scale">
-      <div style="font-size:2.2rem;margin-bottom:14px;">🧪</div>
-      <h3 style="font-size:1.25rem;margin-bottom:8px;">Not sure where to start?</h3>
-      <p style="color:var(--text2);margin-bottom:24px;font-size:1rem;">Take our free Web3 Readiness Quiz and get a custom assessment for your business.</p>
-      <a href="tools/web3-quiz.html" class="btn-primary">Take the Quiz →</a>
-    </div>
+    <h2 class="reveal reveal-up"><span class="en-text">📬 Get Web3 Insights</span><span class="es-text">📬 Recibe Insights Web3</span></h2>
+    <p class="reveal reveal-up"><span class="en-text">Weekly technical deep-dives on smart contracts, DeFi, and blockchain development. No spam. Unsubscribe anytime.</span><span class="es-text">Análisis técnicos semanales sobre contratos inteligentes, DeFi y desarrollo blockchain. Sin spam. Cancela cuando quieras.</span></p>
+    <form class="newsletter-form reveal reveal-up" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="newsletter">
+      <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
+      <input type="email" name="email" placeholder="you@company.com" required>
+      <button type="submit"><span class="en-text">Subscribe</span><span class="es-text">Suscribirse</span> →</button>
+    </form>
+    <p class="newsletter-note reveal reveal-up"><span class="en-text">Join 200+ builders. No tracking pixels.</span><span class="es-text">Únete a más de 200 builders. Sin píxeles de rastreo.</span></p>
   </div>
-</section>
+</div>
 
 <!-- ══════════════════════════════════════════
      FOOTER
@@ -2208,8 +2996,38 @@
      SCRIPTS
      ══════════════════════════════════════════ -->
 <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" defer></script>
 
 <script>
+// ── Light/Dark Theme Toggle ─────────────
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('ap-theme');
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  themeToggle.textContent = '☀️';
+  document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')?.setAttribute('content', '#ffffff');
+}
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('ap-theme', isLight ? 'light' : 'dark');
+});
+
+// ── Language Toggle ─────────────────────
+const langToggle = document.getElementById('langToggle');
+const savedLang = localStorage.getItem('ap-lang');
+if (savedLang === 'es') {
+  document.body.classList.add('lang-es');
+  langToggle.textContent = 'ES';
+}
+langToggle.addEventListener('click', () => {
+  document.body.classList.toggle('lang-es');
+  const isEs = document.body.classList.contains('lang-es');
+  langToggle.textContent = isEs ? 'ES' : 'EN';
+  localStorage.setItem('ap-lang', isEs ? 'es' : 'en');
+});
+
 // ── Page Loader ────────────────────────────
 window.addEventListener('load', () => {
   document.querySelector('.page-loader').classList.add('hidden');
@@ -2492,6 +3310,66 @@ function addMessage(text, type) {
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
   return div;
+}
+
+// ── MetaMask Connect & Contract Reader ───
+const POLYGON_CHAIN_ID = '0x89';
+const MINIMAL_ABI = [
+  'function owner() view returns (address)',
+  'function balanceOf(address) view returns (uint256)',
+  'function totalSupply() view returns (uint256)'
+];
+
+async function connectMetaMask() {
+  if (typeof window.ethereum === 'undefined') {
+    alert('MetaMask not detected. Please install the MetaMask extension.');
+    return;
+  }
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const address = accounts[0];
+    document.getElementById('walletAddress').textContent = address.slice(0, 6) + '…' + address.slice(-4);
+    document.getElementById('walletInfo').style.display = 'inline-block';
+
+    // Get POL balance
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const balance = await provider.getBalance(address);
+    const polBalance = parseFloat(ethers.formatEther(balance)).toFixed(4);
+    document.getElementById('walletBalance').textContent = polBalance;
+
+    // Switch to Polygon if needed
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: POLYGON_CHAIN_ID }]
+      });
+    } catch (switchError) {
+      // Chain not added — user will need to add it manually
+    }
+
+    document.getElementById('connectWallet').innerHTML = '🦊 <span class="en-text">Connected</span><span class="es-text">Conectado</span>';
+  } catch (err) {
+    console.error('MetaMask connection error:', err);
+  }
+}
+
+async function readContract(address, funcName, btn) {
+  const resultDiv = btn.nextElementSibling;
+  try {
+    if (typeof window.ethereum === 'undefined') {
+      resultDiv.textContent = 'MetaMask not installed';
+      resultDiv.style.display = 'block';
+      return;
+    }
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const contract = new ethers.Contract(address, MINIMAL_ABI, provider);
+    const result = await contract[funcName]();
+    resultDiv.textContent = funcName + ': ' + result.toString();
+    resultDiv.style.display = 'block';
+  } catch (err) {
+    resultDiv.textContent = 'Error: ' + (err.reason || err.message || 'Could not read');
+    resultDiv.style.display = 'block';
+  }
 }
 </script>
 

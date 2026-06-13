@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Snapshot — On-Chain Execution</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -140,6 +142,8 @@ section{position:relative;z-index:1;padding:100px 0}
 footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
 
 @media(max-width:768px){
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 .hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
 .hero-text h1{font-size:2rem}
 .ba-grid,.roi-wrap{grid-template-columns:1fr}
@@ -149,8 +153,12 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 .exec-arrow{transform:rotate(90deg)}
 }
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Snapshot Demo","short_name":"Snapshot","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 <div class="aurora"></div>
 
 <nav>
@@ -167,8 +175,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="hero">
 <div class="container">
 <div class="hero-text">
-<h1>Your DAO voted. Now make it <em>execute — automatically, verifiably, on-chain.</em></h1>
-<p>Snapshot handles 10M+ votes across 10,000+ DAOs. But off-chain votes still need manual multisig execution. Proposals pass, then stall for days. Aurora Pathways bridges the gap — from vote to execution, trustlessly.</p>
+<h1><span class="en-text">Your DAO voted. Now make it <em>execute — automatically, verifiably, on-chain.</em></span><span class="es-text">Tu DAO votó. Ahora haz que <em>ejecute — automáticamente, verificable, en cadena.</em></span></h1>
+<p><span class="en-text">Snapshot handles 10M+ votes across 10,000+ DAOs. But off-chain votes still need manual multisig execution. Proposals pass, then stall for days. Aurora Pathways bridges the gap — from vote to execution, trustlessly.</span><span class="es-text">Snapshot maneja más de 10M votos en más de 10,000 DAOs. Pero los votos fuera de cadena aún necesitan ejecución manual con multifirma. Las propuestas pasan, luego se estancan por días. Aurora Pathways cierra la brecha — de voto a ejecución, sin confianza.</span></p>
 <div class="btn-group">
 <a href="#cta" class="btn-primary">Book a Strategy Call</a>
 <a href="#demo" class="btn-outline">See the Platform ↓</a>
@@ -203,8 +211,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PROBLEM -->
 <section>
 <div class="container">
-<div class="section-label">The Problem</div>
-<div class="section-title">The Governance-to-Action Gap</div>
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">The Governance-to-Action Gap</span><span class="es-text">La Brecha entre Gobernanza y Acción</span></div>
 <div class="section-sub">DAOs vote on Snapshot, then wait days for multisig holders to manually execute. Votes are suggestions, not guarantees.</div>
 <div class="ba-grid">
 <div class="ba-card before">
@@ -236,8 +244,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- DEMO TABS -->
 <section class="tabs-section" id="demo">
 <div class="container">
-<div class="section-label">Interactive Demo</div>
-<div class="section-title">See It In Action</div>
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
 <div class="section-sub">Keep using Snapshot for voting. We handle the rest — automatically.</div>
 <div class="tab-nav">
 <button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
@@ -346,8 +354,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- ROI -->
 <section class="roi-section">
 <div class="container">
-<div class="section-label">ROI Calculator</div>
-<div class="section-title">Your Potential Savings</div>
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
 <div class="section-sub">How much time does your DAO spend on manual execution?</div>
 <div class="roi-wrap">
 <div class="roi-inputs">
@@ -383,8 +391,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <!-- PRICING -->
 <section>
 <div class="container">
-<div class="section-label">Pricing</div>
-<div class="section-title">Phased Deployment</div>
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
 <div class="section-sub">Start with execution bridge. Expand to full platform. Your DAO, your pace.</div>
 <div class="pricing-grid">
 <div class="price-card">
@@ -438,8 +446,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 <section class="cta-section" id="cta">
 <div class="container">
 <div class="cta-box">
-<h2>Close the Governance-to-Action Gap</h2>
-<p>Book a 30-minute call. We'll map your DAO's proposal types and show you exactly how automated execution works — no multisig required.</p>
+<h2><span class="en-text">Close the Governance-to-Action Gap</span><span class="es-text">Cierre la Brecha entre Gobernanza y Acción</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll map your DAO's proposal types and show you exactly how automated execution works — no multisig required.</span><span class="es-text">Reserve una llamada de 30 minutos. Mapearemos los tipos de propuestas de su DAO y le mostraremos exactamente cómo funciona la ejecución automática — sin multifirma requerida.</span></p>
 <a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
 </div>
 </div>
@@ -452,6 +460,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color
 </footer>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 function showTab(id){
 document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));

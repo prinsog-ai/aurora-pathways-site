@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Williams Engineering Services — Field Operations Platform</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -197,9 +199,15 @@
   .a1 { width: 600px; height: 300px; background: rgba(124,92,252,0.12); top: 5%; left: 10%; }
   .a2 { width: 400px; height: 400px; background: rgba(78,201,176,0.08); bottom: 10%; right: 5%; }
   .content { position: relative; z-index: 1; }
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--surface);border:1px solid var(--glass-border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"WES Demo","short_name":"WES","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 
 <div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
 <div class="content">
@@ -218,8 +226,8 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Your crews are in the field.<br><span class="highlight">Your data shouldn't be on paper.</span></h1>
-    <p class="sub">WES manages 140+ well sites across the Bakken. Right now, job tickets, inspections, and compliance reports live in clipboards and spreadsheets. One platform changes that.</p>
+    <h1><span class="en-text">Your crews are in the field.<br><span class="highlight">Your data shouldn't be on paper.</span></span><span class="es-text">Tus cuadrillas están en el campo.<br><span class="highlight">Tus datos no deberían estar en papel.</span></span></h1>
+    <p class="sub"><span class="en-text">WES manages 140+ well sites across the Bakken. Right now, job tickets, inspections, and compliance reports live in clipboards and spreadsheets. One platform changes that.</span><span class="es-text">WES gestiona más de 140 sitios de pozos en el Bakken. Ahora mismo, los tickets de trabajo, inspecciones e informes de cumplimiento viven en portapapeles y hojas de cálculo. Una plataforma cambia eso.</span></p>
     <div class="proof"><span class="dot"></span> Built for Bakken-scale operations — 24/7/365 uptime</div>
   </div>
 </section>
@@ -227,8 +235,8 @@
 <!-- THE PROBLEM -->
 <section class="section">
   <div class="container">
-    <span class="section-label">The Problem</span>
-    <h2 class="section-title">Paper processes are costing you jobs and compliance risk.</h2>
+    <span class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></span>
+    <h2 class="section-title"><span class="en-text">Paper processes are costing you jobs and compliance risk.</span><span class="es-text">Los procesos en papel te cuestan trabajos y riesgo de cumplimiento.</span></h2>
     <p class="section-desc">Every hour spent on paperwork is an hour not spent on revenue-generating work. Every missing form is a regulatory liability.</p>
     <div class="problem-grid">
       <div class="problem-card">
@@ -254,7 +262,7 @@
 <section class="section" style="padding-top:0;">
   <div class="container">
     <div class="calc-wrapper">
-      <div class="calc-title">💰 ROI Calculator</div>
+      <div class="calc-title">💰 <span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
       <div class="calc-sub">See how much WES saves by digitizing field operations — adjust the sliders to match your crew.</div>
       <div class="slider-group">
         <div class="slider-label">
@@ -298,8 +306,8 @@
 <!-- OLD WAY VS NEW WAY -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Before vs After</span>
-    <h2 class="section-title">Clipboards and spreadsheets vs. one live platform.</h2>
+    <span class="section-label"><span class="en-text">Before vs After</span><span class="es-text">Antes vs Después</span></span>
+    <h2 class="section-title"><span class="en-text">Clipboards and spreadsheets vs. one live platform.</span><span class="es-text">Portapapeles y hojas de cálculo vs. una plataforma en vivo.</span></h2>
     <div class="comp-grid" style="margin-top:32px;">
       <div class="comp-card old">
         <div class="comp-title" style="color:var(--red);">❌ Current Process</div>
@@ -331,8 +339,8 @@
 <!-- HOW IT WORKS -->
 <section class="section">
   <div class="container">
-    <span class="section-label">How It Works</span>
-    <h2 class="section-title">Four steps. Field-ready. No new hardware.</h2>
+    <span class="section-label"><span class="en-text">How It Works</span><span class="es-text">Cómo Funciona</span></span>
+    <h2 class="section-title"><span class="en-text">Four steps. Field-ready. No new hardware.</span><span class="es-text">Cuatro pasos. Listo para el campo. Sin nuevo hardware.</span></h2>
     <p class="section-desc">Your crews already carry phones. That's all they need. The platform runs on any device with a browser — no app install required.</p>
     <div class="steps">
       <div class="step">
@@ -369,8 +377,8 @@
 <!-- INTERACTIVE DEMO -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Live Platform Preview</span>
-    <h2 class="section-title">This is what your dispatchers and crews would use.</h2>
+    <span class="section-label"><span class="en-text">Live Platform Preview</span><span class="es-text">Vista Previa de la Plataforma</span></span>
+    <h2 class="section-title"><span class="en-text">This is what your dispatchers and crews would use.</span><span class="es-text">Esto es lo que tus despachadores y cuadrillas usarían.</span></h2>
     <p class="section-desc">Click through the tabs to explore. Everything below is functional — try creating a job ticket.</p>
 
     <div class="demo-tabs">
@@ -587,8 +595,8 @@
 <!-- PRICING -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Investment</span>
-    <h2 class="section-title">Start with one crew. Prove the ROI. Then roll it out.</h2>
+    <span class="section-label"><span class="en-text">Investment</span><span class="es-text">Inversión</span></span>
+    <h2 class="section-title"><span class="en-text">Start with one crew. Prove the ROI. Then roll it out.</span><span class="es-text">Empieza con una cuadrilla. Demuestra el ROI. Luego despliégalo.</span></h2>
     <p class="section-desc">Phase 1 deploys in 3 weeks. Your crew starts using it on day one. You see ROI in month one.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
       <div class="card" style="text-align:center;border-color:rgba(245,200,66,0.3);">
@@ -634,8 +642,8 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="cta-title">Ready to put your field ops on one platform?</h2>
-    <p class="cta-desc">30-minute call. We'll map your crews, estimate your savings, and show you exactly how the platform works.</p>
+    <h2 class="cta-title"><span class="en-text">Ready to put your field ops on one platform?</span><span class="es-text">¿Listo para poner tus operaciones de campo en una plataforma?</span></h2>
+    <p class="cta-desc"><span class="en-text">30-minute call. We'll map your crews, estimate your savings, and show you exactly how the platform works.</span><span class="es-text">Llamada de 30 minutos. Mapearemos tus cuadrillas, estimaremos tus ahorros y te mostraremos exactamente cómo funciona la plataforma.</span></p>
     <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
     <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
   </div>
@@ -653,6 +661,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 const sites = [
   { name: 'Bakken Site #12', loc: 'Williams County, ND', crews: 2, status: 'Active', jobs: 34, revenue: '$48,200', compliance: 100 },
   { name: 'Bakken Site #28', loc: 'McKenzie County, ND', crews: 1, status: 'Active', jobs: 22, revenue: '$31,800', compliance: 100 },

@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Buildium — Immutable Property Records</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -117,9 +119,14 @@ nav .container{display:flex;justify-content:space-between;align-items:center}
 .cta-box p{color:var(--text2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
 
 footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:.85rem}
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Buildium Demo","short_name":"Buildium","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
 
 <nav>
 <div class="container">
@@ -135,21 +142,21 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 
 <section class="hero">
 <div class="container">
-<div class="hero-badge"><span class="dot"></span> Partnership Proposal for Buildium</div>
-<h1>Your property records,<br><em>immutable by default</em></h1>
-<p class="sub">Buildium manages millions of leases across the US &amp; Canada. We make every record tamper-proof, every audit instant, and every dispute solvable in minutes — not weeks.</p>
+<div class="hero-badge"><span class="dot"></span> <span class="en-text">Partnership Proposal for Buildium</span><span class="es-text">Propuesta de Asociación para Buildium</span></div>
+<h1><span class="en-text">Your property records,</span><span class="es-text">Tus registros de propiedad,</span><br><em><span class="en-text">immutable by default</span><span class="es-text">inmutables por defecto</span></em></h1>
+<p class="sub"><span class="en-text">Buildium manages millions of leases across the US &amp; Canada. We make every record tamper-proof, every audit instant, and every dispute solvable in minutes — not weeks.</span><span class="es-text">Buildium administra millones de contratos en EE.UU. y Canadá. Hacemos que cada registro sea a prueba de manipulaciones, cada auditoría instantánea y cada disputa resoluble en minutos, no semanas.</span></p>
 <div class="hero-quote">"Your tenants trust you with their deposits. The blockchain trusts no one — and that's the point."</div>
 <div class="hero-cta">
-<a href="#demo" class="btn btn-primary">See the Demo</a>
-<a href="#roi" class="btn btn-outline">Calculate Your ROI</a>
+<a href="#demo" class="btn btn-primary"><span class="en-text">See the Demo</span><span class="es-text">Ver la Demo</span></a>
+<a href="#roi" class="btn btn-outline"><span class="en-text">Calculate Your ROI</span><span class="es-text">Calcula tu ROI</span></a>
 </div>
 </div>
 </section>
 
 <section class="before-after">
 <div class="container">
-<h2>What Changes</h2>
-<p class="sub">From siloed databases and manual audits to one immutable source of truth</p>
+<h2><span class="en-text">What Changes</span><span class="es-text">Lo Que Cambia</span></h2>
+<p class="sub"><span class="en-text">From siloed databases and manual audits to one immutable source of truth</span><span class="es-text">De bases de datos aisladas y auditorías manuales a una fuente inmutable de verdad</span></p>
 <div class="ba-grid">
 <div class="ba-card before">
 <h3>✕ Before Aurora</h3>
@@ -177,8 +184,8 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 
 <section class="demo-section" id="demo">
 <div class="container">
-<h2>Interactive Demo</h2>
-<p class="sub">Explore how the Buildium integration would work in practice</p>
+<h2><span class="en-text">Interactive Demo</span><span class="es-text">Demo Interactiva</span></h2>
+<p class="sub"><span class="en-text">Explore how the Buildium integration would work in practice</span><span class="es-text">Explora cómo funcionaría la integración con Buildium en la práctica</span></p>
 <div class="tabs">
 <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
 <button class="tab-btn" data-tab="lease">Lease Records</button>
@@ -297,8 +304,8 @@ Click "Generate Audit Report" to simulate a compliance audit.
 
 <section class="roi-section" id="roi">
 <div class="container">
-<h2>Your ROI Calculator</h2>
-<p class="sub">Estimate your savings based on your actual property portfolio</p>
+<h2><span class="en-text">Your ROI Calculator</span><span class="es-text">Calculadora de ROI</span></h2>
+<p class="sub"><span class="en-text">Estimate your savings based on your actual property portfolio</span><span class="es-text">Estima tus ahorros según tu portafolio de propiedades real</span></p>
 <div class="roi-grid">
 <div class="roi-inputs">
 <label>Properties Managed</label>
@@ -342,8 +349,8 @@ Click "Generate Audit Report" to simulate a compliance audit.
 
 <section class="pricing-section" id="pricing">
 <div class="container">
-<h2>Investment Timeline</h2>
-<p class="sub">Phased approach to minimize risk and prove value fast</p>
+<h2><span class="en-text">Investment Timeline</span><span class="es-text">Cronograma de Inversión</span></h2>
+<p class="sub"><span class="en-text">Phased approach to minimize risk and prove value fast</span><span class="es-text">Enfoque por fases para minimizar riesgo y demostrar valor rápido</span></p>
 <div class="pricing-grid">
 <div class="price-card">
 <h3>Phase 1 — Proof of Value</h3>
@@ -389,9 +396,9 @@ Click "Generate Audit Report" to simulate a compliance audit.
 <section class="cta-section" id="cta">
 <div class="container">
 <div class="cta-box">
-<h2>Ready to make Buildium records immutable?</h2>
-<p>Let's walk through the demo together and map out a timeline for your portfolio.</p>
-<a href="mailto:contact@aurorapathways.com?subject=Buildium%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px">Book a Call →</a>
+<h2><span class="en-text">Ready to make Buildium records immutable?</span><span class="es-text">¿Listo para hacer los registros de Buildium inmutables?</span></h2>
+<p><span class="en-text">Let's walk through the demo together and map out a timeline for your portfolio.</span><span class="es-text">Recorramos la demo juntos y definamos un cronograma para tu portafolio.</span></p>
+<a href="mailto:contact@aurorapathways.com?subject=Buildium%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px"><span class="en-text">Book a Call</span><span class="es-text">Agendar Llamada</span> →</a>
 </div>
 </div>
 </section>
@@ -403,6 +410,7 @@ Click "Generate Audit Report" to simulate a compliance audit.
 </footer>
 
 <script>
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
 // Tabs
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {

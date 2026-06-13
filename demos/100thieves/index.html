@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>100 Thieves — Authentic Merch Platform</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -173,9 +175,14 @@
   .merch-img { width: 100%; height: 160px; background: var(--surface2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 12px; }
   .merch-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
   .merch-detail { font-size: 0.78rem; color: var(--text2); }
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"100 Thieves Demo","short_name":"100T","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
 
 <div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
 <div class="content">
@@ -194,33 +201,33 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Your drops sell out in minutes.<br><span class="highlight">Make every piece provably authentic — forever.</span></h1>
-    <p class="sub">Limited-edition merch is your brand's lifeblood. But once it ships, you lose visibility. No provenance tracking. No resale authentication. No verifiable fan engagement for sponsors.</p>
-    <div class="proof"><span class="dot"></span> Built for 50M+ followers · 100+ drops/year · $50M+ resale market</div>
+    <h1><span class="en-text">Your drops sell out in minutes.</span><span class="es-text">Tus drops se agotan en minutos.</span><br><span class="highlight"><span class="en-text">Make every piece provably authentic — forever.</span><span class="es-text">Haz que cada pieza sea auténtica y verificable — para siempre.</span></span></h1>
+    <p class="sub"><span class="en-text">Limited-edition merch is your brand's lifeblood. But once it ships, you lose visibility. No provenance tracking. No resale authentication. No verifiable fan engagement for sponsors.</span><span class="es-text">El merch de edición limitada es la vida de tu marca. Pero una vez que se envía, pierdes visibilidad. Sin rastreo de procedencia. Sin autenticación de reventa. Sin engagement verificable para patrocinadores.</span></p>
+    <div class="proof"><span class="dot"></span> <span class="en-text">Built for 50M+ followers · 100+ drops/year · $50M+ resale market</span><span class="es-text">Diseñado para 50M+ seguidores · 100+ drops/año · $50M+ mercado de reventa</span></div>
   </div>
 </section>
 
 <!-- THE PROBLEM -->
 <section class="section">
   <div class="container">
-    <span class="section-label">The Problem</span>
-    <h2 class="section-title">Your drops are legendary. The resale market is a free-for-all.</h2>
-    <p class="section-desc">Counterfeits dilute your brand. Fans can't verify authenticity. Sponsors can't verify engagement. Every piece that leaves your warehouse is a missed opportunity for brand value.</p>
+    <span class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></span>
+    <h2 class="section-title"><span class="en-text">Your drops are legendary. The resale market is a free-for-all.</span><span class="es-text">Tus drops son legendarios. El mercado de reventa es un libre para todos.</span></h2>
+    <p class="section-desc"><span class="en-text">Counterfeits dilute your brand. Fans can't verify authenticity. Sponsors can't verify engagement. Every piece that leaves your warehouse is a missed opportunity for brand value.</span><span class="es-text">Las falsificaciones diluyen tu marca. Los fans no pueden verificar la autenticidad. Los patrocinadores no pueden verificar el engagement. Cada pieza que sale de tu almacén es una oportunidad perdida.</span></p>
     <div class="problem-grid">
       <div class="problem-card">
         <div class="problem-icon">🏷️</div>
         <div class="problem-number">$8.4M</div>
-        <div class="problem-text">Estimated annual value lost to counterfeit merch</div>
+        <div class="problem-text"><span class="en-text">Estimated annual value lost to counterfeit merch</span><span class="es-text">Valor anual estimado perdido por merch falsificado</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">📉</div>
         <div class="problem-number">34%</div>
-        <div class="problem-text">Of resale listings can't be verified as authentic</div>
+        <div class="problem-text"><span class="en-text">Of resale listings can't be verified as authentic</span><span class="es-text">De los listados de reventa no pueden verificarse como auténticos</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon">🤝</div>
         <div class="problem-number">$2.1M</div>
-        <div class="problem-text">Sponsor value left on table from unverifiable engagement</div>
+        <div class="problem-text"><span class="en-text">Sponsor value left on table from unverifiable engagement</span><span class="es-text">Valor de patrocinio perdido por engagement no verificable</span></div>
       </div>
     </div>
   </div>
@@ -230,8 +237,8 @@
 <section class="section" style="padding-top:0;">
   <div class="container">
     <div class="calc-wrapper">
-      <div class="calc-title">💰 ROI Calculator</div>
-      <div class="calc-sub">See how much 100 Thieves recovers by authenticating every piece and verifying fan engagement.</div>
+      <div class="calc-title">💰 <span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+      <div class="calc-sub"><span class="en-text">See how much 100 Thieves recovers by authenticating every piece and verifying fan engagement.</span><span class="es-text">Mira cuánto recupera 100 Thieves al autenticar cada pieza y verificar el engagement de fans.</span></div>
       <div class="slider-group">
         <div class="slider-label">
           <span>Limited Drops Per Year</span>
@@ -274,8 +281,8 @@
 <!-- BEFORE VS AFTER -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Before vs After</span>
-    <h2 class="section-title">Unverified drops vs. every piece authenticated on-chain.</h2>
+    <span class="section-label"><span class="en-text">Before vs After</span><span class="es-text">Antes vs Después</span></span>
+    <h2 class="section-title"><span class="en-text">Unverified drops vs. every piece authenticated on-chain.</span><span class="es-text">Drops no verificados vs. cada pieza autenticada on-chain.</span></h2>
     <div class="comp-grid" style="margin-top:32px;">
       <div class="comp-card old">
         <div class="comp-title" style="color:var(--red);">❌ Current State</div>
@@ -307,9 +314,9 @@
 <!-- INTERACTIVE DEMO -->
 <section class="section">
   <div class="container">
-    <span class="section-label">Live Platform Preview</span>
-    <h2 class="section-title">This is what authenticated drops look like.</h2>
-    <p class="section-desc">Click through the tabs to explore. Every item, every experience, every engagement — verifiable.</p>
+    <span class="section-label"><span class="en-text">Live Platform Preview</span><span class="es-text">Vista Previa en Vivo</span></span>
+    <h2 class="section-title"><span class="en-text">This is what authenticated drops look like.</span><span class="es-text">Así se ven los drops autenticados.</span></h2>
+    <p class="section-desc"><span class="en-text">Click through the tabs to explore. Every item, every experience, every engagement — verifiable.</span><span class="es-text">Explora las pestañas. Cada artículo, cada experiencia, cada interacción — verificable.</span></p>
 
     <div class="demo-tabs">
       <button class="demo-tab active" onclick="showPanel('p-dash')">📊 Dashboard</button>
@@ -595,8 +602,8 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="cta-title">Ready to make every drop provably authentic?</h2>
-    <p class="cta-desc">30-minute call. We'll map your drop pipeline, estimate your brand value recovery, and show you exactly how the platform works.</p>
+    <h2 class="cta-title"><span class="en-text">Ready to make every drop provably authentic?</span><span class="es-text">¿Listo para hacer cada drop auténtico y verificable?</span></h2>
+    <p class="cta-desc"><span class="en-text">30-minute call. We'll map your drop pipeline, estimate your brand value recovery, and show you exactly how the platform works.</span><span class="es-text">Llamada de 30 minutos. Mapearemos tu pipeline de drops, estimaremos la recuperación de valor de marca y te mostraremos cómo funciona la plataforma.</span></p>
     <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
     <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
   </div>
@@ -614,6 +621,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
 const drops = [
   { m: 'Jan', units: 12000, resale: 3200 }, { m: 'Feb', units: 8000, resale: 2100 }, { m: 'Mar', units: 15000, resale: 4800 },
   { m: 'Apr', units: 22000, resale: 6200 }, { m: 'May', units: 18000, resale: 5400 }, { m: 'Jun', units: 25000, resale: 7800 },

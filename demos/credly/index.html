@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
 <title>Aurora Pathways × Credly — Trustless Credential Verification</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -152,14 +154,20 @@ h2{font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;text-align:cente
 footer{text-align:center;padding:40px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
 
 @media(max-width:768px){
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
 .form-row,.roi-grid,.ba-grid,.analytics-grid{grid-template-columns:1fr}
 .hero-stats{gap:24px}
 .verify-input-group{flex-direction:column}
 nav .nav-links{display:none}
 }
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Credly Demo","short_name":"Credly","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
 <div class="aurora"></div>
 
 <nav>
@@ -180,13 +188,13 @@ nav .nav-links{display:none}
 <div class="container">
 <div class="hero-content">
 <div class="badge">Aurora Pathways × Credly</div>
-<h1>Trustless Credentials for a <em>Borderless World</em></h1>
-<p class="hero-quote">"A credential that works even if the issuing platform goes offline. That's trustless verification."</p>
+<h1><span class="en-text">Trustless Credentials for a <em>Borderless World</em></span><span class="es-text">Credenciales Sin Confianza para un <em>Mundo Sin Fronteras</em></span></h1>
+<p class="hero-quote"><span class="en-text">"A credential that works even if the issuing platform goes offline. That's trustless verification."</span><span class="es-text">"Una credencial que funciona aunque la plataforma emisora se desconecte. Eso es verificación sin confianza."</span></p>
 <p style="color:var(--muted);margin-bottom:8px">Credly powers 3,000+ organizations and millions of credentials. But centralized infrastructure creates single points of failure. We eliminate them.</p>
 <div class="hero-stats">
-<div><strong>$600B</strong>Fraud cost / year</div>
-<div><strong>40%</strong>Slower intl. verification</div>
-<div><strong>100%</strong>Uptime with on-chain</div>
+<div><strong>$600B</strong><span class="en-text">Fraud cost / year</span><span class="es-text">Costo de fraude / año</span></div>
+<div><strong>40%</strong><span class="en-text">Slower intl. verification</span><span class="es-text">Verificación intl. más lenta</span></div>
+<div><strong>100%</strong><span class="en-text">Uptime with on-chain</span><span class="es-text">Disponibilidad en cadena</span></div>
 </div>
 </div>
 </div>
@@ -195,7 +203,7 @@ nav .nav-links{display:none}
 <!-- Problem -->
 <section>
 <div class="container">
-<h2>The Problem</h2>
+<h2><span class="en-text">The Problem</span><span class="es-text">El Problema</span></h2>
 <p class="section-sub">Today's digital credentials are only as reliable as the servers that host them.</p>
 <div class="problem-grid">
 <div class="problem-card">
@@ -220,7 +228,7 @@ nav .nav-links{display:none}
 <!-- Interactive Demo -->
 <section id="demo">
 <div class="container">
-<h2>Interactive Demo</h2>
+<h2><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></h2>
 <p class="section-sub">Explore how on-chain credentials work across the full lifecycle.</p>
 
 <div class="tabs">
@@ -361,7 +369,7 @@ nav .nav-links{display:none}
 <!-- ROI Calculator -->
 <section id="roi">
 <div class="container">
-<h2>ROI Calculator</h2>
+<h2><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></h2>
 <p class="section-sub">See how much fraud you could eliminate with on-chain credentials.</p>
 <div class="roi-section">
 <div class="roi-grid">
@@ -396,7 +404,7 @@ nav .nav-links{display:none}
 <!-- Before / After -->
 <section id="before-after">
 <div class="container">
-<h2>Before vs. After</h2>
+<h2><span class="en-text">Before vs. After</span><span class="es-text">Antes vs. Después</span></h2>
 <p class="section-sub">See exactly what changes when credentials go on-chain.</p>
 <div class="ba-grid">
 <div class="ba-card before">
@@ -422,7 +430,7 @@ nav .nav-links{display:none}
 <!-- Pricing -->
 <section id="pricing">
 <div class="container">
-<h2>Implementation Pricing</h2>
+<h2><span class="en-text">Implementation Pricing</span><span class="es-text">Precios de Implementación</span></h2>
 <p class="section-sub">A phased approach to minimize risk and maximize value.</p>
 <div class="pricing-grid">
 <div class="price-card">
@@ -475,8 +483,8 @@ nav .nav-links{display:none}
 <!-- CTA -->
 <section class="cta-section" id="cta">
 <div class="container">
-<h2>Ready to Make Credentials <em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Trustless</em>?</h2>
-<p>Book a 30-minute call to see how on-chain credentials protect your platform — and your users.</p>
+<h2><span class="en-text">Ready to Make Credentials <em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Trustless</em>?</span><span class="es-text">¿Listo para Hacer las Credenciales <em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Sin Confianza</em>?</span></h2>
+<p><span class="en-text">Book a 30-minute call to see how on-chain credentials protect your platform — and your users.</span><span class="es-text">Reserva una llamada de 30 minutos para ver cómo las credenciales en cadena protegen tu plataforma — y tus usuarios.</span></p>
 <a href="https://calendly.com/aurora-pathways" class="cta-btn" target="_blank">Book a 30-Minute Call →</a>
 </div>
 </section>
@@ -488,6 +496,7 @@ nav .nav-links{display:none}
 </footer>
 
 <script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
 // Tabs
 document.querySelectorAll('.tab-btn').forEach(btn=>{
 btn.addEventListener('click',()=>{

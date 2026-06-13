@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways — Command Center</title>
+<style>
+:root{--bg:#0a0a0f;--card:#12121a;--card2:#1a1a28;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e8;--dim:#6a6a80;--border:#2a2a3a;--success:#4ec9b0;--warn:#f0ad4e;--danger:#e74c3c;--info:#7c5cfc}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.header{background:linear-gradient(135deg,#12121a 0%,#1a1028 100%);border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.header h1{font-size:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+.header .subtitle{color:var(--dim);font-size:13px}
+.container{max-width:1440px;margin:0 auto;padding:24px 32px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,92,252,.15)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));animation:shimmer 3s ease-in-out infinite;background-size:200% 100%}
+@keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.stat-card .num{font-size:32px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-card .label{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.section{margin-bottom:32px}
+.section-title{font-size:18px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-title .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;flex-shrink:0}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.contract-card{display:flex;flex-direction:column;gap:8px}
+.contract-card .name{font-weight:600;font-size:15px}
+.contract-card .addr{font-family:'Courier New',monospace;font-size:12px;color:var(--accent2);word-break:break-all}
+.contract-card .meta{display:flex;gap:12px;font-size:12px;color:var(--dim)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-live{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-preview{background:rgba(240,173,78,.15);color:var(--warn)}
+.badge-polygon{background:rgba(130,71,229,.15);color:#a78bfa}
+table{width:100%;border-collapse:collapse;font-size:13px}
+table th{text-align:left;padding:10px 12px;color:var(--dim);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+table td{padding:10px 12px;border-bottom:1px solid rgba(42,42,58,.5);vertical-align:middle}
+table tr:hover{background:rgba(124,92,252,.04)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px;cursor:pointer;transition:all .2s}
+.btn:hover{border-color:var(--accent);background:rgba(124,92,252,.1)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:#6a4ae0}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-success{background:var(--accent2);color:#000;border-color:var(--accent2)}
+.quick-actions{display:flex;flex-wrap:wrap;gap:12px}
+.wallet-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.wallet-box.connected{border-color:var(--accent2)}
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;border-radius:8px;font-size:13px;color:#fff;animation:slideIn .3s ease;min-width:250px}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast-success{background:linear-gradient(135deg,#1a6b5a,#0d4a3d)}
+.toast-info{background:linear-gradient(135deg,#4a3890,#2d1f6e)}
+.toast-error{background:linear-gradient(135deg,#6b1a1a,#4a0d0d)}
+select{background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;cursor:pointer}
+select:focus{outline:none;border-color:var(--accent)}
+input,textarea{background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;width:100%}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+.status-not-sent{border-left:3px solid var(--dim)}
+.status-sent{border-left:3px solid var(--info)}
+.status-replied{border-left:3px solid var(--warn)}
+.status-meeting{border-left:3px solid var(--accent2)}
+.status-deal{border-left:3px solid #4ec9b0;background:rgba(78,201,176,.05)!important}
+.deploy-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.deploy-card .info{flex:1}
+.deploy-card .proj{font-weight:600;font-size:14px}
+.deploy-card .url{font-size:12px;color:var(--accent2)}
+.scroll-table{max-height:400px;overflow-y:auto}
+.scroll-table::-webkit-scrollbar{width:6px}
+.scroll-table::-webkit-scrollbar-track{background:var(--card)}
+.scroll-table::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+@media(max-width:768px){.container{padding:16px}.stats-row{grid-template-columns:repeat(2,1fr)}.grid-2,.grid-3{grid-template-columns:1fr}.header{padding:16px}table{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>✦ Aurora Pathways Command Center</h1>
+    <div class="subtitle">Prince's unified dashboard — contracts, demos, outreach & deployments</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-sm" onclick="exportOutreach()">📥 Export CSV</button>
+    <span style="color:var(--dim);font-size:12px" id="clock"></span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card"><div class="num">12</div><div class="label">Contracts Deployed</div></div>
+  <div class="stat-card"><div class="num">15</div><div class="label">Demos Built</div></div>
+  <div class="stat-card"><div class="num">4</div><div class="label">Platforms</div></div>
+  <div class="stat-card"><div class="num">547</div><div class="label">Tests Passing</div></div>
+  <div class="stat-card"><div class="num">70</div><div class="label">Upwork Connects</div></div>
+</div>
+
+<!-- CONTRACT MONITOR -->
+<div class="section">
+  <div class="section-title"><div class="icon">⛓</div> Contract Monitor</div>
+  <div class="grid grid-3" id="contracts"></div>
+</div>
+
+<!-- WALLET + QUICK ACTIONS -->
+<div class="section">
+  <div class="grid grid-2" style="margin-bottom:32px">
+    <div>
+      <div class="section-title"><div class="icon">👛</div> Wallet Overview</div>
+      <div class="wallet-box" id="walletBox">
+        <div id="walletDisconnected">
+          <p style="color:var(--dim);margin-bottom:12px">Connect your MetaMask wallet to view balance and tokens.</p>
+          <button class="btn btn-primary" onclick="connectWallet()">🦊 Connect MetaMask</button>
+        </div>
+        <div id="walletConnected" style="display:none">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--accent2)"></div>
+            <span style="font-size:14px;font-weight:600">Connected</span>
+          </div>
+          <div style="margin-bottom:8px"><span style="color:var(--dim);font-size:12px">Address:</span><br><span id="walletAddr" style="font-family:monospace;font-size:13px"></span></div>
+          <div style="margin-bottom:12px"><span style="color:var(--dim);font-size:12px">POL Balance:</span><br><span id="walletBal" style="font-size:20px;font-weight:700;color:var(--accent2)"></span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a id="walletScanLink" href="#" target="_blank" class="btn btn-sm">🔍 Polygonscan</a>
+            <button class="btn btn-sm" onclick="disconnectWallet()">Disconnect</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title"><div class="icon">⚡</div> Quick Actions</div>
+      <div class="quick-actions">
+        <button class="btn" onclick="window.open('https://polygonscan.com','_blank')">🔍 Open Polygonscan</button>
+        <button class="btn" onclick="window.open('https://vercel.com/dashboard','_blank')">▲ Open Vercel Dashboard</button>
+        <button class="btn" onclick="window.open('https://github.com/prinsog-ai/aurora-pathways-site','_blank')">📂 View GitHub Repo</button>
+        <button class="btn" onclick="copyToast('https://calendly.com/aurorapathways','Calendly link')">📅 Book a Call Link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO LINKS -->
+<div class="section">
+  <div class="section-title"><div class="icon">🔗</div> Demo Links Manager</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <div class="scroll-table">
+      <table>
+        <thead><tr><th>Client</th><th>Demo URL</th><th>Platform</th><th>Status</th><th>Deployed</th><th></th></tr></thead>
+        <tbody id="demosTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- DEPLOYMENT STATUS -->
+<div class="section">
+  <div class="section-title"><div class="icon">▲</div> Deployment Status</div>
+  <div class="grid grid-3" id="deployments"></div>
+</div>
+
+<!-- OUTREACH TRACKER -->
+<div class="section">
+  <div class="section-title"><div class="icon">📬</div> Outreach Tracker</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <div class="scroll-table" style="max-height:500px">
+      <table>
+        <thead><tr><th>Company</th><th>Contact</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody id="outreachTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="toast-container" id="toasts"></div>
+
+<script>
+// --- DATA ---
+const contracts=[
+  {name:"Forekast",addr:"0xf6108Cc31397933f148982e3e5101d52Ac2b177B"},
+  {name:"RideP2P",addr:"0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434"},
+  {name:"TaskEscrowV2",addr:"0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e"},
+  {name:"PledglyV2",addr:"0x6fC43293a013da29180E229d1728fEA7eBE93149"},
+  {name:"CarbonCredit",addr:"0x142707fEAC23638365a7aFed331F9d375591322a"},
+  {name:"CreditSplitter",addr:"0x5766664e8e6B01d1f1859a49df6C3F6529Da3A10"},
+  {name:"AttestationModule",addr:"0xbA94c904E031872AC37Cb301322149798A3a1dF7"},
+  {name:"WESJobTicket",addr:"0x7C9f7100056E70Aaa64b3243d8BA28AE5e687697"},
+  {name:"WESCompliance",addr:"0x9b3B5997871Bc099b8330Cd4BC40877f03a77e70"},
+  {name:"AcmeAuditTrail",addr:"0x422907ceE2A3e36B19693116c0B68A5A3038Bc20"},
+  {name:"AcmeSupplyChain",addr:"0x98C0C7e20C998fa673402De5AaAB7D6C01Da36b6"},
+  {name:"AcmeSettlement",addr:"0x847429dcbF619665fAfEf8DD9e18Ac904af94379"}
+];
+
+const demos=[
+  {client:"Valence",demo:"https://valence.aurorapathways.com",platform:"https://valence-platform.vercel.app",status:"live",deployed:"2026-06-10"},
+  {client:"WES",demo:"https://wes.aurorapathways.com",platform:"https://wes-platform.vercel.app",status:"live",deployed:"2026-06-09"},
+  {client:"Acme",demo:"https://acme.aurorapathways.com",platform:"https://acme-platform.vercel.app",status:"live",deployed:"2026-06-08"},
+  {client:"Noble",demo:"https://noble.aurorapathways.com",platform:"https://noble-platform.vercel.app",status:"live",deployed:"2026-06-07"},
+  {client:"Buildium",demo:"https://buildium.aurorapathways.com",platform:"https://buildium-platform.vercel.app",status:"live",deployed:"2026-06-06"},
+  {client:"CareCloud",demo:"https://carecloud.aurorapathways.com",platform:"https://carecloud-platform.vercel.app",status:"preview",deployed:"2026-06-05"},
+  {client:"LendingClub",demo:"https://lendingclub.aurorapathways.com",platform:"https://lendingclub-platform.vercel.app",status:"live",deployed:"2026-06-05"},
+  {client:"DistroKid",demo:"https://distorkid.aurorapathways.com",platform:"https://distorkid-platform.vercel.app",status:"preview",deployed:"2026-06-04"},
+  {client:"100 Thieves",demo:"https://100thieves.aurorapathways.com",platform:"https://100thieves-platform.vercel.app",status:"live",deployed:"2026-06-03"},
+  {client:"Credly",demo:"https://credly.aurorapathways.com",platform:"https://credly-platform.vercel.app",status:"live",deployed:"2026-06-03"},
+  {client:"Granicus",demo:"https://granicus.aurorapathways.com",platform:"https://granicus-platform.vercel.app",status:"live",deployed:"2026-06-02"},
+  {client:"Yotpo",demo:"https://yotpo.aurorapathways.com",platform:"https://yotpo-platform.vercel.app",status:"preview",deployed:"2026-06-01"},
+  {client:"Ironclad",demo:"https://ironclad.aurorapathways.com",platform:"https://ironclad-platform.vercel.app",status:"live",deployed:"2026-06-01"},
+  {client:"Snapshot",demo:"https://snapshot.aurorapathways.com",platform:"https://snapshot-platform.vercel.app",status:"live",deployed:"2026-05-30"},
+  {client:"Centrifuge",demo:"https://centrifuge.aurorapathways.com",platform:"https://centrifuge-platform.vercel.app",status:"preview",deployed:"2026-05-28"}
+];
+
+const deployments=[
+  {name:"aurora-pathways-site",url:"https://aurora-pathways-site.vercel.app",live:true},
+  {name:"valence-demo",url:"https://valence-platform.vercel.app",live:true},
+  {name:"wes-demo",url:"https://wes-platform.vercel.app",live:true},
+  {name:"acme-demo",url:"https://acme-platform.vercel.app",live:true},
+  {name:"noble-demo",url:"https://noble-platform.vercel.app",live:true},
+  {name:"buildium-demo",url:"https://buildium-platform.vercel.app",live:true},
+  {name:"carecloud-demo",url:"https://carecloud-platform.vercel.app",live:true},
+  {name:"lendingclub-demo",url:"https://lendingclub-platform.vercel.app",live:true},
+  {name:"distorkid-demo",url:"https://distorkid-platform.vercel.app",live:true},
+  {name:"100thieves-demo",url:"https://100thieves-platform.vercel.app",live:true},
+  {name:"credly-demo",url:"https://credly-platform.vercel.app",live:true},
+  {name:"granicus-demo",url:"https://granicus-platform.vercel.app",live:true},
+  {name:"yotpo-demo",url:"https://yotpo-platform.vercel.app",live:true},
+  {name:"ironclad-demo",url:"https://ironclad-platform.vercel.app",live:true},
+  {name:"snapshot-demo",url:"https://snapshot-platform.vercel.app",live:true},
+  {name:"centrifuge-demo",url:"https://centrifuge-platform.vercel.app",live:true}
+];
+
+const outreachCompanies=["Valence","WES","Acme","Noble","Drosera","Karsa","Blaze","Pod Network","Telcoin","MetaWealth","ZedAI","Estakio","Figure","Perpetuals","Buildium","CareCloud","LendingClub","DistroKid","100 Thieves","Credly","Granicus","Yotpo","Ironclad","Snapshot","Centrifuge"];
+
+// --- RENDER CONTRACTS ---
+function renderContracts(){
+  const el=document.getElementById('contracts');
+  el.innerHTML=contracts.map(c=>`
+    <div class="card contract-card">
+      <div class="name">${c.name}</div>
+      <a href="https://polygonscan.com/address/${c.addr}" target="_blank" class="addr">${c.addr.slice(0,10)}...${c.addr.slice(-8)}</a>
+      <div class="meta">
+        <span class="badge badge-polygon">Polygon</span>
+        <span>🔗 <a href="https://polygonscan.com/address/${c.addr}" target="_blank">Polygonscan</a></span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// --- RENDER DEMOS ---
+function renderDemos(){
+  const el=document.getElementById('demosTable');
+  el.innerHTML=demos.map(d=>`
+    <tr>
+      <td><strong>${d.client}</strong></td>
+      <td><a href="${d.demo}" target="_blank">${d.demo.replace('https://','')}</a> <button class="btn btn-sm" onclick="copyToast('${d.demo}','Demo URL')" style="margin-left:4px;padding:2px 6px">📋</button></td>
+      <td><a href="${d.platform}" target="_blank">${d.platform.replace('https://','')}</a> <button class="btn btn-sm" onclick="copyToast('${d.platform}','Platform URL')" style="margin-left:4px;padding:2px 6px">📋</button></td>
+      <td><span class="badge badge-${d.status}">${d.status}</span></td>
+      <td style="color:var(--dim);font-size:12px">${d.deployed}</td>
+    </tr>
+  `).join('');
+}
+
+// --- RENDER DEPLOYMENTS ---
+function renderDeployments(){
+  const el=document.getElementById('deployments');
+  el.innerHTML=deployments.map(d=>`
+    <div class="card deploy-card">
+      <div class="info">
+        <div class="proj">${d.name}</div>
+        <a href="${d.url}" target="_blank" class="url">${d.url.replace('https://','')}</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="badge badge-live">● Live</span>
+        <a href="https://vercel.com/dashboard" target="_blank" class="btn btn-sm">▲</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// --- OUTREACH ---
+function loadOutreach(){
+  const saved=localStorage.getItem('ap_outreach');
+  if(saved) return JSON.parse(saved);
+  return outreachCompanies.map(c=>({company:c,contact:'',status:'Not Sent',notes:''}));
+}
+function saveOutreach(data){localStorage.setItem('ap_outreach',JSON.stringify(data))}
+function renderOutreach(){
+  const data=loadOutreach();
+  const el=document.getElementById('outreachTable');
+  el.innerHTML=data.map((r,i)=>`
+    <tr class="status-${r.status.toLowerCase().replace(/ /g,'-')}" id="outreach-${i}">
+      <td><strong>${r.company}</strong></td>
+      <td><input value="${r.contact}" onchange="updateOutreach(${i},'contact',this.value)" placeholder="email/name" style="width:140px"></td>
+      <td>
+        <select onchange="updateOutreach(${i},'status',this.value)">
+          ${['Not Sent','Sent','Replied','Meeting','Deal'].map(s=>`<option ${r.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><input value="${r.notes}" onchange="updateOutreach(${i},'notes',this.value)" placeholder="Notes..." style="width:200px"></td>
+    </tr>
+  `).join('');
+}
+function updateOutreach(idx,field,val){
+  const data=loadOutreach();
+  data[idx][field]=val;
+  saveOutreach(data);
+  if(field==='status') renderOutreach();
+}
+function exportOutreach(){
+  const data=loadOutreach();
+  let csv="Company,Contact,Status,Notes\n";
+  data.forEach(r=>{csv+=`"${r.company}","${r.contact}","${r.status}","${r.notes}"\n`});
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='outreach_tracker.csv';
+  a.click();
+  toast('Outreach exported to CSV','success');
+}
+
+// --- WALLET ---
+async function connectWallet(){
+  if(!window.ethereum){toast('MetaMask not detected. Install MetaMask extension.','error');return}
+  try{
+    const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
+    const addr=accounts[0];
+    document.getElementById('walletDisconnected').style.display='none';
+    document.getElementById('walletConnected').style.display='block';
+    document.getElementById('walletAddr').textContent=addr;
+    document.getElementById('walletScanLink').href=`https://polygonscan.com/address/${addr}`;
+    document.getElementById('walletBox').classList.add('connected');
+    // Try getting balance
+    try{
+      const bal=await window.ethereum.request({method:'eth_getBalance',params:[addr,'latest']});
+      const polBal=(parseInt(bal,16)/1e18).toFixed(4);
+      document.getElementById('walletBal').textContent=polBal+' POL';
+    }catch(e){document.getElementById('walletBal').textContent='—';}
+    toast('Wallet connected','success');
+  }catch(e){toast('Connection rejected','error')}
+}
+function disconnectWallet(){
+  document.getElementById('walletDisconnected').style.display='block';
+  document.getElementById('walletConnected').style.display='none';
+  document.getElementById('walletBox').classList.remove('connected');
+  toast('Wallet disconnected','info');
+}
+
+// --- TOAST ---
+function toast(msg,type='info'){
+  const el=document.createElement('div');
+  el.className=`toast toast-${type}`;
+  el.textContent=msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+function copyToast(text,label){
+  navigator.clipboard.writeText(text).then(()=>toast(`${label} copied!`,'success')).catch(()=>toast('Copy failed','error'));
+}
+
+// --- CLOCK ---
+setInterval(()=>{
+  document.getElementById('clock').textContent=new Date().toLocaleString();
+},1000);
+
+// --- INIT ---
+renderContracts();
+renderDemos();
+renderDeployments();
+renderOutreach();
+</script>
+</body>
+</html>
