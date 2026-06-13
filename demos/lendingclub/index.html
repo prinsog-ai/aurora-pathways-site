@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways × LendingClub — Immutable Loan Records</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#a0a0b0;--card:#12121e;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+nav{padding:20px 0;border-bottom:1px solid var(--border)}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.9rem;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.btn{display:inline-block;padding:12px 28px;border-radius:8px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:all .3s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6a4ce0);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.3)}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:8px 18px;font-size:.85rem}
+.hero{padding:100px 0 80px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.3);font-size:.8rem;color:var(--accent);margin-bottom:28px}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.2;margin-bottom:20px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p.sub{font-size:1.15rem;color:var(--text2);max-width:620px;margin:0 auto 36px;line-height:1.7}
+.hero-quote{font-size:1.25rem;font-style:italic;color:var(--accent2);max-width:650px;margin:0 auto 40px;padding:24px;border-left:3px solid var(--accent);background:rgba(78,201,176,.05);border-radius:0 8px 8px 0;text-align:left}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.before-after{padding:80px 0}
+.before-after h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.before-after .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.ba-grid{grid-template-columns:1fr}}
+.ba-card{padding:32px;border-radius:12px;border:1px solid var(--border)}
+.ba-card.before{background:rgba(220,50,50,.05);border-color:rgba(220,50,50,.2)}
+.ba-card.after{background:rgba(78,201,176,.05);border-color:rgba(78,201,176,.2)}
+.ba-card h3{font-size:1.1rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.ba-card.before h3{color:#e55555}
+.ba-card.after h3{color:var(--accent2)}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.ba-card li{padding-left:24px;position:relative;font-size:.95rem;color:var(--text2);line-height:1.5}
+.ba-card.before li::before{content:'✕';position:absolute;left:0;color:#e55555;font-weight:700}
+.ba-card.after li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+.demo-section{padding:80px 0}
+.demo-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.demo-section .sub{text-align:center;color:var(--text2);margin-bottom:40px}
+.tabs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.tab-btn{padding:10px 24px;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:8px 8px 0 0;font-family:inherit;font-size:.9rem;transition:all .2s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:32px;min-height:400px}
+.tab-panel.active{display:block}
+.demo-mockup{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.demo-mockup{grid-template-columns:1fr}}
+.stat-card{background:rgba(124,92,252,.05);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:20px}
+.stat-card .label{font-size:.8rem;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.stat-card .value{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-card .change{font-size:.8rem;color:var(--accent2);margin-top:4px}
+.mock-table{width:100%;border-collapse:collapse;margin-top:16px}
+.mock-table th,.mock-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.85rem}
+.mock-table th{color:var(--text2);font-weight:500;text-transform:uppercase;font-size:.75rem;letter-spacing:.05em}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-purple{background:rgba(124,92,252,.15);color:var(--accent)}
+.badge-yellow{background:rgba(255,200,50,.15);color:#ffc832}
+.badge-blue{background:rgba(80,150,255,.15);color:#5096ff}
+.mock-input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.9rem;margin-bottom:12px}
+.mock-input:focus{outline:none;border-color:var(--accent)}
+.mock-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;font-size:.85rem}
+.mock-log{background:var(--bg);border-radius:8px;padding:16px;margin-top:16px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent2);line-height:1.8;max-height:250px;overflow-y:auto}
+.roi-section{padding:80px 0}
+.roi-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.roi-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.roi-grid{grid-template-columns:1fr}}
+.roi-inputs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px}
+.roi-inputs label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:6px;margin-top:16px}
+.roi-inputs label:first-child{margin-top:0}
+.roi-inputs input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:4px}
+.roi-inputs .range-val{font-size:.9rem;font-weight:600;color:var(--accent)}
+.roi-result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.roi-result .big{font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:16px 0}
+.roi-result .roi-label{font-size:1rem;color:var(--text2)}
+.pricing-section{padding:80px 0}
+.pricing-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.pricing-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;position:relative;transition:transform .3s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.featured{border-color:var(--accent);box-shadow:0 0 40px rgba(124,92,252,.15)}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 16px;border-radius:12px;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+.price-card h3{font-size:1.1rem;margin-bottom:8px}
+.price-card .price{font-size:2.5rem;font-weight:800;color:var(--accent);margin:16px 0}
+.price-card .price span{font-size:.9rem;font-weight:400;color:var(--text2)}
+.price-card ul{list-style:none;text-align:left;margin:24px 0}
+.price-card li{padding:8px 0 8px 24px;position:relative;font-size:.9rem;color:var(--text2)}
+.price-card li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+.cta-section{padding:80px 0;text-align:center}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid rgba(124,92,252,.3);border-radius:16px;padding:60px 40px}
+.cta-box h2{font-size:2rem;margin-bottom:12px}
+.cta-box p{color:var(--text2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:.85rem}
+.timeline{position:relative;padding-left:40px;margin-top:16px}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:24px}
+.timeline-item::before{content:'';position:absolute;left:-30px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline-item .t-title{font-weight:600;font-size:.95rem;margin-bottom:4px}
+.timeline-item .t-detail{font-size:.85rem;color:var(--text2)}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="container">
+<div class="logo">◆ Aurora Pathways</div>
+<div class="nav-links">
+<a href="#demo">Demo</a>
+<a href="#roi">ROI</a>
+<a href="#pricing">Pricing</a>
+<a href="#cta" class="btn btn-sm btn-primary">Book a Call</a>
+</div>
+</div>
+</nav>
+
+<section class="hero">
+<div class="container">
+<div class="hero-badge"><span class="dot"></span> Partnership Proposal for LendingClub (NYSE: LC)</div>
+<h1>Every loan. Every payment.<br><em>One ledger nobody can edit.</em></h1>
+<p class="sub">LendingClub has facilitated over $80B in loans. We make every origination, payment, and transfer verifiable on an immutable ledger — cutting settlement from T+2 to instant and compliance costs by up to 60%.</p>
+<div class="hero-quote">"Every loan. Every payment. Every transfer. One ledger nobody can edit."</div>
+<div class="hero-cta">
+<a href="#demo" class="btn btn-primary">See the Demo</a>
+<a href="#roi" class="btn btn-outline">Calculate Your ROI</a>
+</div>
+</div>
+</section>
+
+<section class="before-after">
+<div class="container">
+<h2>What Changes</h2>
+<p class="sub">From opaque loan lifecycles and T+2 settlement to transparent, instant, auditable lending</p>
+<div class="ba-grid">
+<div class="ba-card before">
+<h3>✕ Before Aurora</h3>
+<ul>
+<li>Loan lifecycle tracking spans multiple systems — origination, servicing, secondary market</li>
+<li>Settlement takes T+2, tying up capital and creating counterparty risk</li>
+<li>Compliance reports require manual compilation from siloed data</li>
+<li>Investors can't independently verify loan provenance</li>
+<li>Securitization opacity creates regulatory and reputational risk</li>
+</ul>
+</div>
+<div class="ba-card after">
+<h3>✓ After Aurora</h3>
+<ul>
+<li>Complete loan provenance from origination to secondary market — one chain</li>
+<li>Instant P2P settlement — no T+2 delay, no counterparty risk window</li>
+<li>Regulatory reports generated in seconds from on-chain data</li>
+<li>Investors independently verify any loan's history and status</li>
+<li>Transparent securitization builds trust with regulators and investors</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="demo-section" id="demo">
+<div class="container">
+<h2>Interactive Demo</h2>
+<p class="sub">See how LendingClub loans would flow through an immutable ledger</p>
+<div class="tabs">
+<button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+<button class="tab-btn" data-tab="lifecycle">Loan Lifecycle</button>
+<button class="tab-btn" data-tab="settlement">Settlement</button>
+<button class="tab-btn" data-tab="compliance">Compliance</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="demo-mockup">
+<div class="stat-card">
+<div class="label">Active Loans</div>
+<div class="value">142,891</div>
+<div class="change">$4.2B total value</div>
+</div>
+<div class="stat-card">
+<div class="label">On-Chain Records</div>
+<div class="value">1.2M+</div>
+<div class="change">Every event tracked</div>
+</div>
+<div class="stat-card">
+<div class="label">Avg Settlement Time</div>
+<div class="value">&lt; 30s</div>
+<div class="change">Down from T+2</div>
+</div>
+<div class="stat-card">
+<div class="label">Compliance Prep Time</div>
+<div class="value">2 min</div>
+<div class="change">Down from 3 weeks</div>
+</div>
+</div>
+<div class="mock-log" style="margin-top:24px">
+[14:02:11] Loan #LC-482191 — Originated, hash: 0x7a3f...e2c1<br>
+[14:02:08] Payment #PM-991234 — $487.20 received, recorded on-chain<br>
+[14:01:45] Transfer #TR-12847 — Loan transferred to secondary market<br>
+[14:01:02] Regulatory report auto-generated for Q4 2025 (142,891 loans)<br>
+[13:58:33] Settlement #ST-8821 — Instant P2P, $125,000 confirmed
+</div>
+</div>
+
+<div class="tab-panel" id="tab-lifecycle">
+<div class="demo-mockup">
+<div>
+<h3 style="margin-bottom:20px;font-size:1.1rem">Track a Loan</h3>
+<input class="mock-input" type="text" placeholder="Loan ID" value="LC-482191">
+<button class="mock-btn" onclick="trackLoan()">View On-Chain History</button>
+<div class="mock-log" id="lifecycle-log" style="display:none"></div>
+</div>
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Loan LC-482191 — Lifecycle</h3>
+<div class="timeline">
+<div class="timeline-item">
+<div class="t-title">Origination</div>
+<div class="t-detail">2025-03-15 · $25,000 · Grade B · 36 months<br>Hash: 0x7a3f...e2c1</div>
+</div>
+<div class="timeline-item">
+<div class="t-title">First Payment</div>
+<div class="t-detail">2025-04-15 · $487.20 · On-time<br>Hash: 0x8b4e...f3d2</div>
+</div>
+<div class="timeline-item">
+<div class="t-title">Servicing Transfer</div>
+<div class="t-detail">2025-06-01 · Servicer updated<br>Hash: 0x2c7d...a1e9</div>
+</div>
+<div class="timeline-item">
+<div class="t-title">Secondary Market Sale</div>
+<div class="t-detail">2025-09-01 · Investor: Fund Alpha<br>Hash: 0x5e9f...b8c4</div>
+</div>
+<div class="timeline-item">
+<div class="t-title">Current Status</div>
+<div class="t-detail" style="color:var(--accent2)">Active · 28 of 36 payments made · No delinquencies</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-settlement">
+<div class="demo-mockup">
+<div>
+<h3 style="margin-bottom:20px;font-size:1.1rem">Initiate Settlement</h3>
+<input class="mock-input" type="text" placeholder="Loan ID" value="LC-482191">
+<input class="mock-input" type="text" placeholder="From (Seller)" value="LendingClub Pool #47">
+<input class="mock-input" type="text" placeholder="To (Buyer)" value="Fund Alpha Capital">
+<input class="mock-input" type="text" placeholder="Amount" value="$22,187.50">
+<button class="mock-btn" onclick="settleNow()">Settle Instantly</button>
+<div class="mock-log" id="settle-log" style="display:none"></div>
+</div>
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Settlement Comparison</h3>
+<div style="background:var(--bg);border-radius:10px;padding:20px;margin-bottom:16px">
+<div style="font-weight:600;color:#e55555;margin-bottom:12px">Traditional (T+2)</div>
+<div style="font-size:.9rem;color:var(--text2);line-height:1.8">
+Day 0: Trade agreed<br>
+Day 1: Confirmation &amp; clearing<br>
+Day 2: Settlement &amp; fund transfer<br>
+<strong style="color:#e55555">Capital locked: 48+ hours</strong>
+</div>
+</div>
+<div style="background:var(--bg);border-radius:10px;padding:20px">
+<div style="font-weight:600;color:var(--accent2);margin-bottom:12px">Aurora (Instant)</div>
+<div style="font-size:.9rem;color:var(--text2);line-height:1.8">
+Second 0: Trade agreed &amp; executed<br>
+Second 1: On-chain confirmation<br>
+Second 2: Funds transferred<br>
+<strong style="color:var(--accent2)">Capital locked: &lt; 30 seconds</strong>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-compliance">
+<h3 style="margin-bottom:20px;font-size:1.1rem">Regulatory Report Generator</h3>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+<select class="mock-input" style="width:auto;flex:1">
+<option>All Loans (142,891)</option>
+<option>Consumer Loans</option>
+<option>Commercial Loans</option>
+<option>Secondary Market</option>
+</select>
+<select class="mock-input" style="width:auto;flex:1">
+<option>Full Regulatory Report</option>
+<option>SEC Filing Support</option>
+<option>Risk Assessment</option>
+<option>Investor Transparency Report</option>
+</select>
+<button class="mock-btn" onclick="runCompliance()">Generate Report</button>
+</div>
+<div class="mock-log" id="compliance-log">
+Click "Generate Report" to simulate regulatory report generation.
+</div>
+</div>
+</div>
+</section>
+
+<section class="roi-section" id="roi">
+<div class="container">
+<h2>Your ROI Calculator</h2>
+<p class="sub">Model savings based on LendingClub's actual lending volume</p>
+<div class="roi-grid">
+<div class="roi-inputs">
+<label>Annual Loan Volume ($M)</label>
+<input type="range" id="r-volume" min="1000" max="20000" value="12000" step="500" oninput="calcROI()">
+<div class="range-val" id="r-volume-v">$12,000M</div>
+
+<label>Settlement Cost per Loan ($)</label>
+<input type="range" id="r-settle" min="5" max="100" value="35" step="5" oninput="calcROI()">
+<div class="range-val" id="r-settle-v">$35</div>
+
+<label>Avg Loan Size ($)</label>
+<input type="range" id="r-loansize" min="5000" max="100000" value="15000" step="1000" oninput="calcROI()">
+<div class="range-val" id="r-loansize-v">$15,000</div>
+
+<label>Annual Compliance Cost ($K)</label>
+<input type="range" id="r-comp" min="500" max="10000" value="3000" step="100" oninput="calcROI()">
+<div class="range-val" id="r-comp-v">$3,000K</div>
+</div>
+<div class="roi-result">
+<div class="roi-label">Estimated Annual Savings</div>
+<div class="big" id="roi-total">$2.4M</div>
+<div class="roi-label" id="roi-detail">Based on $12B volume · $15K avg loan · $35 settlement cost</div>
+<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border);width:100%">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Loans processed</span>
+<span id="roi-loans" style="font-weight:600;color:var(--accent2)">800,000/year</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Settlement savings</span>
+<span id="roi-settle-sav" style="font-weight:600;color:var(--accent2)">$28M</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Compliance savings (60%)</span>
+<span id="roi-comp-sav" style="font-weight:600;color:var(--accent2)">$1.8M</span>
+</div>
+<div style="display:flex;justify-content:space-between">
+<span style="color:var(--text2);font-size:.85rem">Phase 1 investment</span>
+<span style="font-weight:600;color:var(--text)">$20,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="pricing-section" id="pricing">
+<div class="container">
+<h2>Investment Timeline</h2>
+<p class="sub">Built for the scale and regulatory requirements of public lending marketplaces</p>
+<div class="pricing-grid">
+<div class="price-card">
+<h3>Phase 1 — Loan Tracking</h3>
+<div class="price">$20,000 <span>one-time</span></div>
+<ul>
+<li>Loan origination hashing</li>
+<li>Payment event recording</li>
+<li>Basic lifecycle dashboard</li>
+<li>Integration with existing loan management system</li>
+<li>12-week delivery timeline</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Start Here</a>
+</div>
+<div class="price-card featured">
+<h3>Phase 2 — Full Platform</h3>
+<div class="price">$50,000 <span>one-time</span></div>
+<ul>
+<li>Complete loan lifecycle on-chain</li>
+<li>Instant P2P settlement engine</li>
+<li>Secondary market transfer tracking</li>
+<li>Investor verification portal</li>
+<li>Securitization transparency layer</li>
+<li>Custom analytics dashboard</li>
+</ul>
+<a href="#cta" class="btn btn-primary btn-sm" style="margin-top:12px">Book a Call</a>
+</div>
+<div class="price-card">
+<h3>Phase 3 — Compliance</h3>
+<div class="price">$15,000 <span>/year</span></div>
+<ul>
+<li>Automated regulatory reports</li>
+<li>SEC audit trail generation</li>
+<li>Risk assessment automation</li>
+<li>Regulatory change monitoring</li>
+<li>Priority support &amp; SLA</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Learn More</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2>Ready to put every loan on an immutable ledger?</h2>
+<p>Let's build a proof of concept with your actual loan data and show your team what instant settlement looks like.</p>
+<a href="mailto:contact@aurorapathways.com?subject=LendingClub%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px">Book a Call →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>Aurora Pathways · Blockchain Infrastructure for Financial Services · <a href="mailto:contact@aurorapathways.com" style="color:var(--accent);text-decoration:none">contact@aurorapathways.com</a></p>
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+function calcROI() {
+  const volume = +document.getElementById('r-volume').value;
+  const settle = +document.getElementById('r-settle').value;
+  const loansize = +document.getElementById('r-loansize').value;
+  const comp = +document.getElementById('r-comp').value;
+  document.getElementById('r-volume-v').textContent = '$' + volume.toLocaleString() + 'M';
+  document.getElementById('r-settle-v').textContent = '$' + settle;
+  document.getElementById('r-loansize-v').textContent = '$' + loansize.toLocaleString();
+  document.getElementById('r-comp-v').textContent = '$' + comp.toLocaleString() + 'K';
+  const numLoans = Math.round((volume * 1e6) / loansize);
+  const settleSavings = numLoans * settle * 0.85; // 85% reduction in settlement cost
+  const compSavings = comp * 1000 * 0.6; // 60% compliance reduction
+  const total = settleSavings + compSavings;
+  document.getElementById('roi-total').textContent = total >= 1e6 ? '$' + (total / 1e6).toFixed(1) + 'M' : '$' + Math.round(total).toLocaleString();
+  document.getElementById('roi-detail').textContent = `Based on $${volume.toLocaleString()}M volume · $${loansize.toLocaleString()} avg loan · $${settle} settlement cost`;
+  document.getElementById('roi-loans').textContent = numLoans.toLocaleString() + '/year';
+  document.getElementById('roi-settle-sav').textContent = '$' + (settleSavings / 1e6).toFixed(1) + 'M';
+  document.getElementById('roi-comp-sav').textContent = '$' + (compSavings / 1e6).toFixed(1) + 'M';
+}
+calcROI();
+
+function trackLoan() {
+  const log = document.getElementById('lifecycle-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Querying on-chain records for LC-482191...<br>';
+  setTimeout(() => {
+    log.innerHTML += 'Found: 14 on-chain events<br>';
+    log.innerHTML += '├─ 2025-03-15 — Origination (hash: 0x7a3f...e2c1)<br>';
+    log.innerHTML += '├─ 2025-04-15 — Payment #1 (hash: 0x8b4e...f3d2)<br>';
+    log.innerHTML += '├─ 2025-05-15 — Payment #2 (hash: 0x3c1a...d5e7)<br>';
+  }, 500);
+  setTimeout(() => {
+    log.innerHTML += '├─ ...<br>';
+    log.innerHTML += '├─ 2025-09-01 — Secondary market transfer (hash: 0x5e9f...b8c4)<br>';
+    log.innerHTML += '├─ 2026-01-15 — Payment #10 (hash: 0x9d2b...a3f6)<br>';
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Full provenance verified. 14 events, all hashes valid.</span>';
+  }, 1200);
+}
+
+function settleNow() {
+  const log = document.getElementById('settle-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Initiating instant settlement...<br>';
+  setTimeout(() => {
+    log.innerHTML += 'Seller verified: LendingClub Pool #47<br>';
+    log.innerHTML += 'Buyer verified: Fund Alpha Capital<br>';
+  }, 300);
+  setTimeout(() => {
+    log.innerHTML += 'Loan LC-482191 ownership transfer in progress...<br>';
+  }, 600);
+  setTimeout(() => {
+    const hash = '0x' + Array.from({length:8}, () => Math.floor(Math.random()*16).toString(16)).join('') + '...' + Array.from({length:4}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    log.innerHTML += `Settlement hash: <strong>${hash}</strong><br>`;
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Settled instantly. $22,187.50 transferred. Ownership updated.</span><br>';
+    log.innerHTML += `<span style="color:var(--text2);font-size:.75rem">Time elapsed: 0.4 seconds (vs. 48+ hours traditional)</span>`;
+  }, 1000);
+}
+
+function runCompliance() {
+  const log = document.getElementById('compliance-log');
+  log.innerHTML = 'Generating regulatory report from on-chain data...<br>';
+  const steps = [
+    'Pulling loan origination records... 142,891 loans found',
+    'Verifying payment histories... 1.2M payment events',
+    'Cross-referencing secondary market transfers...',
+    'Calculating risk metrics from on-chain data...',
+    'Generating investor transparency figures...',
+    'Compiling SEC-ready compliance package...',
+  ];
+  steps.forEach((s, i) => {
+    setTimeout(() => { log.innerHTML += s + '<br>'; }, (i + 1) * 400);
+  });
+  setTimeout(() => {
+    log.innerHTML += '<br><strong style="color:#4ec9b0">═══ REPORT COMPLETE ═══</strong><br>';
+    log.innerHTML += 'Loans covered: 142,891<br>';
+    log.innerHTML += 'Total value: $4.2B<br>';
+    log.innerHTML += 'Payment events verified: 1,247,891<br>';
+    log.innerHTML += 'Discrepancies: 0<br>';
+    log.innerHTML += 'Report hash: 0xf7a2...c8e1<br>';
+    log.innerHTML += 'Generated: ' + new Date().toISOString() + '<br>';
+    log.innerHTML += '<span style="color:var(--text2);font-size:.75rem">Time: 2.1 seconds (vs. 3 weeks manual)</span>';
+  }, steps.length * 400 + 400);
+}
+</script>
+</body>
+</html>

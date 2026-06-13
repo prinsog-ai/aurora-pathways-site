@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways × Credly — Trustless Credential Verification</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--muted:#888;--card:#12121f;--border:#2a2a3e}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Aurora background */
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden}
+.aurora::before,.aurora::after{content:'';position:absolute;border-radius:50%;filter:blur(120px);opacity:.15}
+.aurora::before{width:600px;height:600px;background:var(--accent);top:-200px;left:-100px;animation:f1 12s ease-in-out infinite alternate}
+.aurora::after{width:500px;height:500px;background:var(--accent2);bottom:-200px;right:-100px;animation:f2 10s ease-in-out infinite alternate}
+@keyframes f1{to{transform:translate(80px,60px) scale(1.1)}}
+@keyframes f2{to{transform:translate(-60px,-80px) scale(1.15)}}
+
+/* Nav */
+nav{position:fixed;top:0;width:100%;backdrop-filter:blur(20px);background:rgba(10,10,15,.8);z-index:100;border-bottom:1px solid var(--border);padding:16px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.2rem;color:#fff}
+.logo span{color:var(--accent)}
+nav a{color:var(--muted);text-decoration:none;font-size:.9rem;margin-left:32px;transition:color .2s}
+nav a:hover{color:var(--accent2)}
+.nav-links{display:flex;align-items:center}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:80px}
+.hero-content{max-width:700px}
+.badge{display:inline-block;background:rgba(124,92,252,.15);border:1px solid rgba(124,92,252,.3);color:var(--accent);font-size:.8rem;font-weight:600;padding:6px 16px;border-radius:20px;margin-bottom:24px}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:20px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-quote{font-size:1.25rem;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:16px;margin:28px 0;font-weight:500}
+.hero-stats{display:flex;gap:40px;margin-top:32px;flex-wrap:wrap}
+.hero-stats div{font-size:.85rem;color:var(--muted)}
+.hero-stats strong{display:block;font-size:1.6rem;color:#fff}
+
+/* Sections */
+section{padding:80px 0}
+h2{font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;text-align:center}
+.section-sub{text-align:center;color:var(--muted);margin-bottom:48px;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* Problem */
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.problem-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;transition:border-color .3s}
+.problem-card:hover{border-color:var(--accent)}
+.problem-icon{font-size:2rem;margin-bottom:16px}
+.problem-card h3{color:#fff;font-size:1.1rem;margin-bottom:8px}
+.problem-card p{font-size:.9rem;color:var(--muted)}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+.tab-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 24px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.9rem;transition:all .2s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.tab-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px}
+
+/* Dashboard */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);border-radius:10px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:700;color:#fff}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.cred-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.cred-table th{text-align:left;padding:12px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:500}
+.cred-table td{padding:12px;border-bottom:1px solid rgba(42,42,62,.4)}
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.status.verified{background:rgba(78,201,176,.15);color:var(--accent2)}
+.status.pending{background:rgba(255,193,7,.15);color:#ffc107}
+
+/* Forms */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:inherit;font-size:.9rem;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.btn{padding:12px 28px;border:none;border-radius:8px;font-family:inherit;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#6a4ae0;transform:translateY(-1px)}
+.btn-secondary{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent2);color:var(--accent2)}
+
+/* Verify */
+.verify-box{max-width:600px;margin:0 auto;text-align:center}
+.verify-input-group{display:flex;gap:12px;margin:24px 0}
+.verify-input-group input{flex:1;padding:14px 20px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:inherit;font-size:1rem}
+.verify-result{background:rgba(78,201,176,.08);border:1px solid rgba(78,201,176,.25);border-radius:12px;padding:32px;margin-top:24px;display:none}
+.verify-result.show{display:block;animation:fadeIn .4s}
+.verify-result h3{color:var(--accent2);margin-bottom:8px}
+.verify-detail{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(42,42,62,.4);font-size:.9rem}
+.verify-detail:last-child{border:none}
+.verify-detail span:first-child{color:var(--muted)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Analytics */
+.analytics-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+.chart-placeholder{background:rgba(124,92,252,.05);border:1px solid var(--border);border-radius:10px;padding:24px;min-height:260px;position:relative;overflow:hidden}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:200px;padding-top:20px}
+.chart-bar{flex:1;background:linear-gradient(to top,var(--accent),var(--accent2));border-radius:4px 4px 0 0;min-height:10px;transition:height .5s ease;position:relative}
+.chart-bar::after{content:attr(data-label);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:.65rem;color:var(--muted);white-space:nowrap}
+.geo-list{list-style:none}
+.geo-list li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:.9rem}
+.geo-list li span:last-child{color:var(--accent2);font-weight:600}
+
+/* ROI */
+.roi-section{background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border-radius:16px;padding:48px;border:1px solid var(--border)}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.roi-inputs .form-group input{font-size:1.1rem;font-weight:600}
+.roi-result{background:var(--card);border-radius:12px;padding:32px;text-align:center}
+.roi-result .big-num{font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.roi-result p{color:var(--muted);font-size:.9rem;margin-top:8px}
+
+/* Before/After */
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.ba-card{border-radius:12px;padding:32px}
+.ba-card.before{background:rgba(220,53,69,.06);border:1px solid rgba(220,53,69,.2)}
+.ba-card.after{background:rgba(78,201,176,.06);border:1px solid rgba(78,201,176,.2)}
+.ba-card h3{margin-bottom:20px;font-size:1.2rem}
+.ba-card.before h3{color:#dc3545}
+.ba-card.after h3{color:var(--accent2)}
+.ba-item{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;font-size:.9rem}
+.ba-item .icon{font-size:1.1rem;margin-top:2px}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;transition:border-color .3s,transform .2s}
+.price-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.price-card.featured{border-color:var(--accent);position:relative}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:4px 14px;border-radius:10px}
+.price-phase{font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff}
+.price-amount small{font-size:.9rem;color:var(--muted);font-weight:400}
+.price-title{font-size:1.1rem;color:#fff;margin:12px 0 4px}
+.price-desc{font-size:.85rem;color:var(--muted);margin-bottom:24px}
+.price-features{list-style:none;text-align:left;margin-bottom:28px}
+.price-features li{padding:8px 0;font-size:.85rem;border-bottom:1px solid rgba(42,42,62,.4)}
+.price-features li::before{content:'✓ ';color:var(--accent2);font-weight:700}
+
+/* CTA */
+.cta-section{text-align:center;padding:100px 0}
+.cta-section h2{font-size:2.4rem}
+.cta-section p{color:var(--muted);margin:16px 0 32px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,var(--accent),#6a4ae0);color:#fff;padding:16px 40px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.1rem;transition:transform .2s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.35)}
+
+footer{text-align:center;padding:40px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
+
+@media(max-width:768px){
+.form-row,.roi-grid,.ba-grid,.analytics-grid{grid-template-columns:1fr}
+.hero-stats{gap:24px}
+.verify-input-group{flex-direction:column}
+nav .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+
+<nav>
+<div class="container">
+<div class="logo">Aurora <span>Pathways</span></div>
+<div class="nav-links">
+<a href="#demo">Demo</a>
+<a href="#roi">ROI Calculator</a>
+<a href="#before-after">Before / After</a>
+<a href="#pricing">Pricing</a>
+<a href="#cta" class="btn btn-primary" style="padding:8px 20px;margin-left:16px">Book a Call</a>
+</div>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+<div class="hero-content">
+<div class="badge">Aurora Pathways × Credly</div>
+<h1>Trustless Credentials for a <em>Borderless World</em></h1>
+<p class="hero-quote">"A credential that works even if the issuing platform goes offline. That's trustless verification."</p>
+<p style="color:var(--muted);margin-bottom:8px">Credly powers 3,000+ organizations and millions of credentials. But centralized infrastructure creates single points of failure. We eliminate them.</p>
+<div class="hero-stats">
+<div><strong>$600B</strong>Fraud cost / year</div>
+<div><strong>40%</strong>Slower intl. verification</div>
+<div><strong>100%</strong>Uptime with on-chain</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Problem -->
+<section>
+<div class="container">
+<h2>The Problem</h2>
+<p class="section-sub">Today's digital credentials are only as reliable as the servers that host them.</p>
+<div class="problem-grid">
+<div class="problem-card">
+<div class="problem-icon">🔴</div>
+<h3>Platform Dependency</h3>
+<p>If Credly servers go down, millions of credentials become unverifiable overnight. Employers can't validate candidates.</p>
+</div>
+<div class="problem-card">
+<div class="problem-icon">🐌</div>
+<h3>Slow Cross-Border Verification</h3>
+<p>International credential checks take days or weeks. In a global workforce, that's a dealbreaker for hiring velocity.</p>
+</div>
+<div class="problem-card">
+<div class="problem-icon">💸</div>
+<h3>$600B in Degree Fraud</h3>
+<p>Fake degrees and credentials cost employers globally. Centralized systems can't prevent tampering at the source.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Interactive Demo -->
+<section id="demo">
+<div class="container">
+<h2>Interactive Demo</h2>
+<p class="section-sub">Explore how on-chain credentials work across the full lifecycle.</p>
+
+<div class="tabs">
+<button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+<button class="tab-btn" data-tab="issue">🎓 Issue Credentials</button>
+<button class="tab-btn" data-tab="verify">🔍 Verify</button>
+<button class="tab-btn" data-tab="analytics">📈 Analytics</button>
+</div>
+
+<!-- Dashboard -->
+<div class="tab-content active" id="tab-dashboard">
+<div class="tab-panel">
+<div class="stats-row">
+<div class="stat-card"><div class="num">1.2M</div><div class="label">Credentials On-Chain</div></div>
+<div class="stat-card"><div class="num">3,847</div><div class="label">Issuing Organizations</div></div>
+<div class="stat-card"><div class="num">98.6%</div><div class="label">Verification Success Rate</div></div>
+<div class="stat-card"><div class="num">&lt; 2s</div><div class="label">Avg Verification Time</div></div>
+</div>
+<table class="cred-table">
+<thead><tr><th>Credential ID</th><th>Recipient</th><th>Type</th><th>Issuer</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--accent)">0x7a3f...c912</td><td>Maria Chen</td><td>AWS Solutions Architect</td><td>Amazon Web Services</td><td><span class="status verified">✓ Verified</span></td></tr>
+<tr><td style="color:var(--accent)">0x8b2e...d4a7</td><td>James Okafor</td><td>Google Data Analytics</td><td>Google Career Certs</td><td><span class="status verified">✓ Verified</span></td></tr>
+<tr><td style="color:var(--accent)">0x1c9d...e8f3</td><td>Priya Sharma</td><td>CompTIA Security+</td><td>CompTIA</td><td><span class="status pending">⏳ Pending</span></td></tr>
+<tr><td style="color:var(--accent)">0x4f6a...b2c5</td><td>David Kim</td><td>PMP Certification</td><td>PMI</td><td><span class="status verified">✓ Verified</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Issue -->
+<div class="tab-content" id="tab-issue">
+<div class="tab-panel">
+<h3 style="color:#fff;margin-bottom:24px">Mint On-Chain Credential</h3>
+<div class="form-row">
+<div class="form-group">
+<label>Recipient Name</label>
+<input type="text" placeholder="e.g. Sarah Johnson" id="rcpt-name">
+</div>
+<div class="form-group">
+<label>Recipient Email</label>
+<input type="email" placeholder="sarah@example.com" id="rcpt-email">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Credential Type</label>
+<select id="cred-type">
+<option>AWS Solutions Architect</option>
+<option>Google Data Analytics</option>
+<option>CompTIA Security+</option>
+<option>PMP Certification</option>
+<option>Meta Front-End Developer</option>
+<option>IBM Data Science</option>
+<option>Custom...</option>
+</select>
+</div>
+<div class="form-group">
+<label>Issuing Organization</label>
+<input type="text" placeholder="e.g. Amazon Web Services" id="issuer-name">
+</div>
+</div>
+<div class="form-group">
+<label>Description / Skills Validated</label>
+<textarea rows="3" placeholder="Describe the skills and competencies this credential validates..." id="cred-desc"></textarea>
+</div>
+<div style="display:flex;gap:12px;align-items:center;margin-top:8px">
+<button class="btn btn-primary" onclick="mintCredential()">⛓ Mint Credential On-Chain</button>
+<span id="mint-status" style="font-size:.85rem;color:var(--accent2)"></span>
+</div>
+</div>
+</div>
+
+<!-- Verify -->
+<div class="tab-content" id="tab-verify">
+<div class="tab-panel verify-box">
+<h3 style="color:#fff;margin-bottom:8px">Instant Credential Verification</h3>
+<p style="color:var(--muted);margin-bottom:24px">Enter a credential ID to verify it on-chain — no platform login required.</p>
+<div class="verify-input-group">
+<input type="text" placeholder="Enter credential ID (e.g. 0x7a3f...c912)" id="verify-input">
+<button class="btn btn-primary" onclick="verifyCred()">Verify</button>
+</div>
+<div class="verify-result" id="verify-result">
+<div style="font-size:2rem;margin-bottom:12px">✅</div>
+<h3>Credential Verified</h3>
+<p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">This credential exists on-chain and has not been tampered with.</p>
+<div class="verify-detail"><span>Recipient</span><span style="color:#fff">Maria Chen</span></div>
+<div class="verify-detail"><span>Credential</span><span style="color:#fff">AWS Solutions Architect</span></div>
+<div class="verify-detail"><span>Issuer</span><span style="color:#fff">Amazon Web Services</span></div>
+<div class="verify-detail"><span>Issued</span><span style="color:#fff">March 14, 2026</span></div>
+<div class="verify-detail"><span>Chain</span><span style="color:#fff">Ethereum L2 (verified in 1.3s)</span></div>
+<div class="verify-detail"><span>Status</span><span style="color:var(--accent2);font-weight:600">✓ Valid & Tamper-Proof</span></div>
+</div>
+</div>
+</div>
+
+<!-- Analytics -->
+<div class="tab-content" id="tab-analytics">
+<div class="tab-panel">
+<div class="analytics-grid">
+<div>
+<h3 style="color:#fff;margin-bottom:16px">Verifications Per Month</h3>
+<div class="chart-placeholder">
+<div class="chart-bars">
+<div class="chart-bar" style="height:40%" data-label="Jan"></div>
+<div class="chart-bar" style="height:55%" data-label="Feb"></div>
+<div class="chart-bar" style="height:48%" data-label="Mar"></div>
+<div class="chart-bar" style="height:70%" data-label="Apr"></div>
+<div class="chart-bar" style="height:62%" data-label="May"></div>
+<div class="chart-bar" style="height:85%" data-label="Jun"></div>
+<div class="chart-bar" style="height:78%" data-label="Jul"></div>
+<div class="chart-bar" style="height:90%" data-label="Aug"></div>
+<div class="chart-bar" style="height:95%" data-label="Sep"></div>
+<div class="chart-bar" style="height:88%" data-label="Oct"></div>
+<div class="chart-bar" style="height:100%" data-label="Nov"></div>
+<div class="chart-bar" style="height:92%" data-label="Dec"></div>
+</div>
+</div>
+</div>
+<div>
+<h3 style="color:#fff;margin-bottom:16px">Top Regions</h3>
+<ul class="geo-list">
+<li><span>🇺🇸 United States</span><span>34%</span></li>
+<li><span>🇬🇧 United Kingdom</span><span>18%</span></li>
+<li><span>🇮🇳 India</span><span>14%</span></li>
+<li><span>🇩🇪 Germany</span><span>9%</span></li>
+<li><span>🇧🇷 Brazil</span><span>7%</span></li>
+<li><span>🇨🇦 Canada</span><span>6%</span></li>
+<li><span>🌍 Other</span><span>12%</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ROI Calculator -->
+<section id="roi">
+<div class="container">
+<h2>ROI Calculator</h2>
+<p class="section-sub">See how much fraud you could eliminate with on-chain credentials.</p>
+<div class="roi-section">
+<div class="roi-grid">
+<div class="roi-inputs">
+<div class="form-group">
+<label>Credentials Issued Per Year</label>
+<input type="number" id="roi-creds" value="500000" oninput="calcROI()">
+</div>
+<div class="form-group">
+<label>Estimated Fraud Rate (%)</label>
+<input type="number" id="roi-fraud" value="3" step="0.1" oninput="calcROI()">
+</div>
+<div class="form-group">
+<label>Average Cost Per Fraud Incident ($)</label>
+<input type="number" id="roi-cost" value="5000" oninput="calcROI()">
+</div>
+</div>
+<div class="roi-result">
+<p style="color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:1px">Annual Fraud Exposure</p>
+<div class="big-num" id="roi-total">$75,000,000</div>
+<p>With on-chain verification, <strong style="color:var(--accent2)">95%+ of credential fraud is eliminated</strong></p>
+<div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+<p style="font-size:.85rem;color:var(--muted)">Estimated Annual Savings</p>
+<p style="font-size:1.6rem;font-weight:700;color:var(--accent2)" id="roi-savings">$71,250,000</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Before / After -->
+<section id="before-after">
+<div class="container">
+<h2>Before vs. After</h2>
+<p class="section-sub">See exactly what changes when credentials go on-chain.</p>
+<div class="ba-grid">
+<div class="ba-card before">
+<h3>❌ Before — Centralized</h3>
+<div class="ba-item"><span class="icon">⚠️</span><span>Credentials depend on Credly servers being online — single point of failure</span></div>
+<div class="ba-item"><span class="icon">🕐</span><span>International verification takes days via email and manual checks</span></div>
+<div class="ba-item"><span class="icon">🔓</span><span>Fake degrees easily created — no tamper-proof verification layer</span></div>
+<div class="ba-item"><span class="icon">📧</span><span>Employers must contact issuers directly for background checks</span></div>
+<div class="ba-item"><span class="icon">🏢</span><span>Credential data locked to one platform ecosystem</span></div>
+</div>
+<div class="ba-card after">
+<h3>✅ After — On-Chain</h3>
+<div class="ba-item"><span class="icon">🌐</span><span>Independently verifiable from any device, anywhere — no platform needed</span></div>
+<div class="ba-item"><span class="icon">⚡</span><span>Instant cross-border verification in under 2 seconds</span></div>
+<div class="ba-item"><span class="icon">🛡️</span><span>Tamper-proof — credentials can't be forged or altered once minted</span></div>
+<div class="ba-item"><span class="icon">🔗</span><span>One-click verification via credential ID — no back-and-forth</span></div>
+<div class="ba-item"><span class="icon">🔓</span><span>Open standard — interoperable across platforms and borders</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+<div class="container">
+<h2>Implementation Pricing</h2>
+<p class="section-sub">A phased approach to minimize risk and maximize value.</p>
+<div class="pricing-grid">
+<div class="price-card">
+<div class="price-phase">Phase 1</div>
+<div class="price-amount">$15K</div>
+<div class="price-title">On-Chain Issuance</div>
+<div class="price-desc">Mint credentials on-chain alongside existing Credly system</div>
+<ul class="price-features">
+<li>Smart contract development</li>
+<li>On-chain minting pipeline</li>
+<li>Basic verification portal</li>
+<li>Integration with Credly API</li>
+<li>4-week delivery</li>
+</ul>
+<button class="btn btn-outline" style="width:100%">Start Phase 1</button>
+</div>
+<div class="price-card featured">
+<div class="price-phase">Phase 2</div>
+<div class="price-amount">$40K</div>
+<div class="price-title">Full Platform</div>
+<div class="price-desc">Complete on-chain credentialing platform with analytics</div>
+<ul class="price-features">
+<li>Everything in Phase 1</li>
+<li>Full verification engine</li>
+<li>Analytics dashboard</li>
+<li>Cross-border instant verify</li>
+<li>Employer verification API</li>
+<li>8-week delivery</li>
+</ul>
+<button class="btn btn-primary" style="width:100%">Start Phase 2</button>
+</div>
+<div class="price-card">
+<div class="price-phase">Phase 3</div>
+<div class="price-amount">$12K<small>/yr</small></div>
+<div class="price-title">Maintenance & Scale</div>
+<div class="price-desc">Ongoing support, upgrades, and chain optimization</div>
+<ul class="price-features">
+<li>24/7 monitoring & support</li>
+<li>Gas optimization</li>
+<li>Feature updates</li>
+<li>Multi-chain expansion</li>
+<li>Compliance updates</li>
+</ul>
+<button class="btn btn-outline" style="width:100%">Learn More</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+<div class="container">
+<h2>Ready to Make Credentials <em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Trustless</em>?</h2>
+<p>Book a 30-minute call to see how on-chain credentials protect your platform — and your users.</p>
+<a href="https://calendly.com/aurora-pathways" class="cta-btn" target="_blank">Book a 30-Minute Call →</a>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>Aurora Pathways × Credly — Trustless Credential Verification Demo</p>
+</div>
+</footer>
+
+<script>
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+btn.classList.add('active');
+document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+});
+});
+
+// Mint simulation
+function mintCredential(){
+const s=document.getElementById('mint-status');
+const name=document.getElementById('rcpt-name').value||'Recipient';
+s.textContent='⏳ Minting on-chain...';
+setTimeout(()=>{s.textContent='✅ Credential minted! ID: 0x'+Math.random().toString(16).slice(2,6)+'...'+Math.random().toString(16).slice(2,6)},2000);
+}
+
+// Verify simulation
+function verifyCred(){
+const r=document.getElementById('verify-result');
+r.classList.remove('show');
+setTimeout(()=>r.classList.add('show'),600);
+}
+
+// ROI
+function calcROI(){
+const c=parseFloat(document.getElementById('roi-creds').value)||0;
+const f=parseFloat(document.getElementById('roi-fraud').value)||0;
+const co=parseFloat(document.getElementById('roi-cost').value)||0;
+const total=c*(f/100)*co;
+document.getElementById('roi-total').textContent='$'+total.toLocaleString('en-US');
+document.getElementById('roi-savings').textContent='$'+(total*.95).toLocaleString('en-US');
+}
+calcROI();
+</script>
+</body>
+</html>
