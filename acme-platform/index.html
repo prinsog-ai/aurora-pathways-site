@@ -4,60 +4,145 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acme Cloud ERP — Blockchain Modules</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg1:#0a0a0f;--bg2:#1a1a2e;--card:#12121e;--border:#2a2a3e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#888;--danger:#e74c3c;--success:#27ae60}
-body{font-family:'SFNS','SF Pro Display','SF Pro Text',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);min-height:100vh}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.container{max-width:1100px;margin:0 auto;padding:16px}
+:root{--bg1:#0a0a0f;--bg2:#1a1a2e;--card:#12121e;--card-hover:#181830;--border:#2a2a3e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#888;--danger:#e74c3c;--success:#27ae60;--warn:#f0ad4e}
+body{font-family:-apple-system,'SFNS','SF Pro Display','SF Pro Text',BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Particles */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;opacity:.3;animation:floatUp linear infinite}
+@keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.4}90%{opacity:.2}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+.container{max-width:1100px;margin:0 auto;padding:16px;position:relative;z-index:1}
+
+/* Header */
 header{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
-header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.wallet-info{display:flex;align-items:center;gap:12px;font-size:.85rem}
-.wallet-info .addr{background:var(--card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-family:monospace;font-size:.8rem}
+header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.wallet-info{display:flex;align-items:center;gap:12px;font-size:.85rem;flex-wrap:wrap}
+.wallet-info .addr{background:var(--card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-family:monospace;font-size:.8rem;cursor:pointer;transition:.2s}
+.wallet-info .addr:hover{border-color:var(--accent)}
 .wallet-info .bal{color:var(--accent2);font-weight:600}
 #connectBtn{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.2s}
 #connectBtn:hover{opacity:.85}
-.tabs{display:flex;gap:4px;margin-top:16px;border-bottom:1px solid var(--border);overflow-x:auto}
-.tab-btn{background:none;border:none;color:var(--text2);padding:10px 18px;cursor:pointer;font-size:.85rem;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-content{display:none;padding:20px 0}
-.tab-content.active{display:block}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
-.card h3{margin-bottom:14px;font-size:1rem;color:var(--accent)}
-label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:4px;margin-top:10px}
-input,select,textarea{width:100%;padding:10px 12px;background:#0d0d16;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:.2s}
-input:focus,select:focus,textarea:focus{border-color:var(--accent)}
-textarea{resize:vertical;min-height:60px}
-button.action{background:var(--accent);color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s}
-button.action:hover{opacity:.85}
-button.action2{background:var(--accent2);color:#000;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s}
-button.danger{background:var(--danger)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:600px){.row{grid-template-columns:1fr}}
-.output{margin-top:12px;padding:12px;background:#0a0a12;border:1px solid var(--border);border-radius:6px;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto;font-family:monospace;line-height:1.6}
-.output .ok{color:var(--success)}.output .err{color:var(--danger)}.output .info{color:var(--accent2)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
-.stat .val{font-size:1.8rem;font-weight:700;color:var(--accent)}
-.stat .lbl{font-size:.75rem;color:var(--text2);margin-top:4px}
-.contract-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.contract-links a{background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:6px;font-size:.8rem;transition:.2s}
-.contract-links a:hover{border-color:var(--accent)}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .status-dot.on{background:var(--success)}.status-dot.off{background:var(--danger)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-top:16px;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-btn{background:none;border:none;color:var(--text2);padding:10px 18px;cursor:pointer;font-size:.85rem;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap;font-family:inherit}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn:hover{color:var(--text)}
+.tab-content{display:none;padding:20px 0;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px;transition:all .3s ease}
+.card:hover{border-color:rgba(124,92,252,.3);box-shadow:0 4px 20px rgba(124,92,252,.08);transform:translateY(-1px)}
+.card h3{margin-bottom:14px;font-size:1rem;color:var(--accent)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.05));border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;position:relative;overflow:hidden;transition:all .3s ease}
+.stat:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 24px rgba(124,92,252,.12)}
+.stat::before{content:'';position:absolute;top:0;left:-100%;width:200%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{0%{left:-100%}100%{left:100%}}
+.stat .val{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat .lbl{font-size:.75rem;color:var(--text2);margin-top:4px}
+
+/* Forms */
+label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:4px;margin-top:10px}
+input,select,textarea{width:100%;padding:10px 12px;background:#0d0d16;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,92,252,.15)}
+textarea{resize:vertical;min-height:60px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:768px){.row{grid-template-columns:1fr}}
+@media(max-width:640px){.container{padding:10px}.stats{grid-template-columns:1fr 1fr}.tabs{gap:2px}.tab-btn{padding:8px 12px;font-size:.78rem}}
+
+button.action{background:var(--accent);color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s;font-family:inherit}
+button.action:hover{opacity:.85;transform:translateY(-1px)}
+button.action2{background:var(--accent2);color:#000;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s;font-family:inherit}
+button.action2:hover{opacity:.85}
+button.danger{background:var(--danger)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Output log */
+.output{margin-top:12px;padding:12px;background:#0a0a12;border:1px solid var(--border);border-radius:6px;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto;font-family:'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;line-height:1.6}
+.output .ok{color:var(--success)}.output .err{color:var(--danger)}.output .info{color:var(--accent2)}.output .warn{color:var(--warn)}
+
+/* Contract links */
+.contract-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.contract-links a{background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:6px;font-size:.8rem;transition:.2s}
+.contract-links a:hover{border-color:var(--accent);text-decoration:none}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,var(--card) 25%,#1a1a30 50%,var(--card) 75%);background-size:200% 100%;animation:skeleton-pulse 1.5s infinite;border-radius:6px;height:1em;display:inline-block;min-width:80px}
+@keyframes skeleton-pulse{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Toast */
+#toastContainer{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:12px 20px;border-radius:8px;font-size:.85rem;font-weight:500;pointer-events:auto;animation:toastIn .3s ease;max-width:360px;word-break:break-word;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.success{background:#0d2818;border:1px solid var(--success);color:var(--success)}
+.toast.error{background:#2d0a0a;border:1px solid var(--danger);color:var(--danger)}
+.toast.info{background:#0a1a2d;border:1px solid var(--accent);color:var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
+/* Activity feed */
+.activity-item{padding:10px 0;border-bottom:1px solid rgba(42,42,62,.5);font-size:.85rem}
+.activity-item:last-child{border-bottom:none}
+.activity-item .act-time{color:var(--text2);font-size:.75rem}
+.activity-item .act-contract{color:var(--accent);font-weight:600;font-size:.75rem}
+
+/* Timeline */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:16px;padding:12px;background:#0d0d16;border:1px solid var(--border);border-radius:8px}
+.timeline-item::before{content:'';position:absolute;left:-22px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg1)}
+.timeline-item .tl-label{font-size:.75rem;color:var(--accent2);margin-bottom:4px}
+.timeline-item .tl-detail{font-size:.85rem}
+
+/* Pie chart */
+.pie-chart{width:180px;height:180px;border-radius:50%;margin:0 auto}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:12px}
+.chart-legend-item{display:flex;align-items:center;gap:6px;font-size:.8rem}
+.chart-legend-dot{width:10px;height:10px;border-radius:50%}
+
+/* Status badges */
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge.pending{background:rgba(240,173,78,.15);color:var(--warn)}
+.badge.settled{background:rgba(39,174,96,.15);color:var(--success)}
+.badge.disputed{background:rgba(231,76,60,.15);color:var(--danger)}
+
+/* Settlement list */
+.settle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(42,42,62,.5);font-size:.85rem;flex-wrap:wrap;gap:8px}
+.settle-row:last-child{border-bottom:none}
+
+/* Table export */
+.export-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;transition:.2s;font-family:inherit}
+.export-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Network info */
+.net-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.85rem}
+.net-info dt{color:var(--text2);font-size:.75rem}.net-info dd{margin-bottom:8px}
 </style>
 </head>
 <body>
+<div id="particles"></div>
+<div id="toastContainer"></div>
+
 <div class="container">
 <header>
 <h1>⬡ Acme Cloud ERP — Blockchain Modules</h1>
 <div class="wallet-info">
 <span id="networkBadge"></span>
-<span class="addr" id="addrDisplay" style="display:none"></span>
+<span class="addr" id="addrDisplay" style="display:none" title="Click to copy" onclick="copyAddr()"></span>
 <span class="bal" id="balDisplay" style="display:none"></span>
+<span id="chainIdDisplay" style="display:none;font-size:.75rem;color:var(--text2)"></span>
 <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
 </div>
 </header>
@@ -67,15 +152,21 @@ button.danger{background:var(--danger)}
 <button class="tab-btn" onclick="showTab(1)">Audit Trail</button>
 <button class="tab-btn" onclick="showTab(2)">Supply Chain</button>
 <button class="tab-btn" onclick="showTab(3)">Settlement</button>
-<button class="tab-btn" onclick="showTab(4)">Admin</button>
+<button class="tab-btn" onclick="showTab(4)">Analytics</button>
+<button class="tab-btn" onclick="showTab(5)">Admin</button>
 </div>
 
-<!-- DASHBOARD -->
+<!-- ====== DASHBOARD ====== -->
 <div class="tab-content active" id="tab0">
 <div class="stats">
-<div class="stat"><div class="val" id="sAudit">—</div><div class="lbl">Audit Entries</div></div>
-<div class="stat"><div class="val" id="sSettle">—</div><div class="lbl">Settlements</div></div>
-<div class="stat"><div class="val" id="sBal">—</div><div class="lbl">Settlement Balance (POL)</div></div>
+<div class="stat"><div class="val" id="sAudit"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div><div class="lbl">Total Audit Entries</div></div>
+<div class="stat"><div class="val" id="sProducts"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div><div class="lbl">Products Tracked</div></div>
+<div class="stat"><div class="val" id="sSettle"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div><div class="lbl">Active Settlements</div></div>
+<div class="stat"><div class="val" id="sTotalSettled"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div><div class="lbl">Total Settled Value (POL)</div></div>
+</div>
+<div class="card">
+<h3>Recent Activity (Last 5 Events)</h3>
+<div id="activityFeed" style="font-size:.85rem;color:var(--text2)">Connect wallet to load activity.</div>
 </div>
 <div class="card">
 <h3>Deployed Contracts (Polygon Mainnet)</h3>
@@ -85,22 +176,39 @@ button.danger{background:var(--danger)}
 <a href="https://polygonscan.com/address/0x847429dcbf619665fafef8dd9e18ac904af94379" target="_blank">AcmeSettlement</a>
 </div>
 </div>
-<div class="output" id="dashLog">Connect wallet to load dashboard data.</div>
 </div>
 
-<!-- AUDIT TRAIL -->
+<!-- ====== AUDIT TRAIL ====== -->
 <div class="tab-content" id="tab1">
 <div class="card">
 <h3>Record Audit Entry</h3>
 <div class="row">
-<div><label>Entity Type</label><select id="aType"><option>Invoice</option><option>PurchaseOrder</option><option>PatientRecord</option><option>Contract</option></select></div>
+<div><label>Entity Type</label><select id="aType"><option>Invoice</option><option>PurchaseOrder</option><option>PatientRecord</option><option>Contract</option><option>Employee</option></select></div>
 <div><label>Entity ID</label><input id="aId" placeholder="e.g. INV-2026-001"></div>
 </div>
 <div class="row">
-<div><label>Action</label><select id="aAction"><option>Created</option><option>Updated</option><option>Approved</option><option>Deleted</option></select></div>
-<div><label>Data Hash (keccak256)</label><input id="aHash" placeholder="0x..."></div>
+<div><label>Action</label><select id="aAction"><option>Created</option><option>Updated</option><option>Approved</option><option>Deleted</option><option>Paid</option><option>Refunded</option></select></div>
+<div><label>Data Hash (keccak256)</label><input id="aHash" placeholder="0x...">
+<button class="action2" style="margin-top:6px;padding:6px 12px;font-size:.78rem" onclick="generateHash()">🎲 Generate Hash</button>
+</div>
 </div>
 <button class="action" onclick="doRecord()">Record Entry</button>
+</div>
+<div class="row" style="margin-bottom:16px">
+<div class="card" style="margin-bottom:0">
+<h3>Entry Count</h3>
+<div style="font-size:1.6rem;font-weight:700;color:var(--accent)" id="auditEntryCount">—</div>
+</div>
+<div class="card" style="margin-bottom:0">
+<h3>Last Chain Hash</h3>
+<div style="font-size:.78rem;font-family:monospace;word-break:break-all;color:var(--accent2)" id="lastChainHash">—</div>
+</div>
+</div>
+<div class="card">
+<h3>Entity History Viewer</h3>
+<label>Entity ID</label><input id="hId" placeholder="e.g. INV-2026-001">
+<button class="action" onclick="doHistory()">Get History</button>
+<div id="historyResults"></div>
 </div>
 <div class="card">
 <h3>Verify Integrity</h3>
@@ -110,16 +218,15 @@ button.danger{background:var(--danger)}
 </div>
 <button class="action" onclick="doVerify()">Verify</button>
 </div>
-<div class="card">
-<h3>Entity History</h3>
-<label>Entity ID</label><input id="hId" placeholder="e.g. INV-2026-001">
-<button class="action" onclick="doHistory()">Get History</button>
-</div>
 <div class="output" id="auditLog"></div>
 </div>
 
-<!-- SUPPLY CHAIN -->
+<!-- ====== SUPPLY CHAIN ====== -->
 <div class="tab-content" id="tab2">
+<div class="stats">
+<div class="stat"><div class="val" id="scProductCount">—</div><div class="lbl">Products Created</div></div>
+<div class="stat"><div class="val" id="scTransferCount">—</div><div class="lbl">Total Transfers</div></div>
+</div>
 <div class="card">
 <h3>Create Product</h3>
 <div class="row">
@@ -143,17 +250,30 @@ button.danger{background:var(--danger)}
 <button class="action" onclick="doTransfer()">Record Transfer</button>
 </div>
 <div class="card">
-<h3>View Product Chain</h3>
+<h3>Authorize Handler</h3>
+<div class="row">
+<div><label>Handler Address</label><input id="scAuthAddr" placeholder="0x..."></div>
+<div><label>Status</label><select id="scAuthStatus"><option value="true">Authorize</option><option value="false">Revoke</option></select></div>
+</div>
+<button class="action" onclick="doScAuthHandler()">Submit</button>
+</div>
+<div class="card">
+<h3>Product Chain Viewer</h3>
 <div class="row">
 <div><label>Product ID</label><input id="cPid" type="number" placeholder="0"></div>
 <div style="display:flex;align-items:flex-end"><button class="action" onclick="doProductChain()">View Chain</button></div>
 </div>
+<div id="chainTimeline"></div>
 </div>
 <div class="output" id="scLog"></div>
 </div>
 
-<!-- SETTLEMENT -->
+<!-- ====== SETTLEMENT ====== -->
 <div class="tab-content" id="tab3">
+<div class="stats">
+<div class="stat"><div class="val" id="setBalance">—</div><div class="lbl">Your Settlement Balance (POL)</div></div>
+<div class="stat"><div class="val" id="setTotalValue">—</div><div class="lbl">Total Settled Value (POL)</div></div>
+</div>
 <div class="card">
 <h3>Deposit POL</h3>
 <label>Amount (POL)</label><input id="dAmt" placeholder="1.0">
@@ -173,26 +293,61 @@ button.danger{background:var(--danger)}
 <button class="action" onclick="doCreateSettlement()">Create Settlement</button>
 </div>
 <div class="card">
-<h3>Manage Settlement</h3>
-<div class="row">
-<div><label>Settlement ID</label><input id="mSid" type="number" placeholder="0"></div>
-<div class="btn-row" style="align-items:flex-end;padding-bottom:2px">
-<button class="action" onclick="doSettle()">Settle</button>
-<button class="action danger" onclick="doDispute()">Dispute</button>
+<h3>Settlements</h3>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<span style="font-size:.8rem;color:var(--text2)">All settlements</span>
+<button class="export-btn" onclick="exportSettlements()">Export CSV</button>
 </div>
-</div>
+<div id="settlementList" style="font-size:.85rem;color:var(--text2)">Connect wallet to view.</div>
 </div>
 <div class="card">
 <h3>Withdraw</h3>
-<button class="action2" onclick="doWithdraw()">Withdraw All</button>
+<button class="action2" onclick="doWithdraw()">Withdraw Available Balance</button>
 </div>
 <div class="output" id="setLog"></div>
 </div>
 
-<!-- ADMIN -->
+<!-- ====== ANALYTICS ====== -->
 <div class="tab-content" id="tab4">
+<div class="row">
 <div class="card">
-<h3>Authorize Handler (Supply Chain)</h3>
+<h3>Entity Type Distribution</h3>
+<div id="pieContainer" style="text-align:center">
+<div class="pie-chart" id="entityPie" style="background:conic-gradient(var(--border) 0% 100%)"></div>
+<div class="chart-legend" id="pieLegend"></div>
+</div>
+</div>
+<div class="card">
+<h3>Settlement Status Breakdown</h3>
+<div id="settlementChart" style="text-align:center">
+<div class="pie-chart" id="settlePie" style="background:conic-gradient(var(--border) 0% 100%)"></div>
+<div class="chart-legend" id="settleLegend"></div>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Supply Chain Activity</h3>
+<div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;padding:20px 0">
+<div style="text-align:center"><div style="font-size:2.5rem;font-weight:700;color:var(--accent)" id="anProducts">—</div><div style="font-size:.8rem;color:var(--text2)">Products Created</div></div>
+<div style="text-align:center"><div style="font-size:2.5rem;font-weight:700;color:var(--accent2)" id="anTransfers">—</div><div style="font-size:.8rem;color:var(--text2)">Transfers Recorded</div></div>
+</div>
+</div>
+<button class="action" onclick="refreshAnalytics()">Refresh Analytics</button>
+</div>
+
+<!-- ====== ADMIN ====== -->
+<div class="tab-content" id="tab5">
+<div class="card">
+<h3>Network Information</h3>
+<dl class="net-info">
+<dt>Chain ID</dt><dd id="netChainId">—</dd>
+<dt>Network</dt><dd id="netName">—</dd>
+<dt>Connected Account</dt><dd id="netAccount">—</dd>
+<dt>Block Number</dt><dd id="netBlock">—</dd>
+</dl>
+</div>
+<div class="card">
+<h3>Authorize Supply Chain Handler</h3>
 <div class="row">
 <div><label>Handler Address</label><input id="admAddr" placeholder="0x..."></div>
 <div><label>Status</label><select id="admStatus"><option value="true">Authorize</option><option value="false">Revoke</option></select></div>
@@ -204,14 +359,21 @@ button.danger{background:var(--danger)}
 <label>Address</label><input id="chkAddr" placeholder="0x...">
 <button class="action" onclick="doCheckHandler()">Check</button>
 </div>
+<div class="card">
+<h3>Owner Operations</h3>
+<p style="font-size:.85rem;color:var(--text2)">Settlement settle and dispute operations require appropriate roles. Use the Settlement tab for those.</p>
+</div>
 <div class="output" id="admLog"></div>
 </div>
 </div>
 
 <script>
+/* ========== CONFIG ========== */
 const AUDIT_ADDR='0x422907cee2a3e36b19693116c0b68a5a3038bc20';
 const SC_ADDR='0x98c0c7e20c998fa673402de5aaab7d6c01da36b6';
 const SET_ADDR='0x847429dcbf619665fafef8dd9e18ac904af94379';
+const CHAIN_ID=137;
+const EXPLORER='https://polygonscan.com';
 
 const AUDIT_ABI=[
   'record(string entityType, string entityId, string action, string dataHash)',
@@ -228,7 +390,8 @@ const SC_ABI=[
   'getTransferCount(uint256 productId) view returns (uint256)',
   'getProductChain(uint256 productId) view returns (tuple(uint256 id,address from,address to,string location,string conditionHash,string notes,uint256 timestamp)[])',
   'products(uint256) view returns (uint256 id, string name, string manufacturer, string metadataHash, address creator, uint256 createdAt)',
-  'authorizedHandlers(address) view returns (bool)'
+  'authorizedHandlers(address) view returns (bool)',
+  'productCount() view returns (uint256)'
 ];
 const SET_ABI=[
   'receive() external payable',
@@ -241,216 +404,495 @@ const SET_ABI=[
   'settlements(uint256) view returns (uint256 id, address sender, address receiver, uint256 amount, string currency, string sourceCountry, string destCountry, uint8 status, uint256 createdAt)'
 ];
 
-let provider, signer, audit, sc, sett;
+let provider, signer, audit, sc, sett, currentAddr, connected=false;
 
+/* ========== PARTICLES ========== */
+(function initParticles(){
+  const c=document.getElementById('particles');
+  const colors=['#7c5cfc','#4ec9b0','#7c5cfc44','#4ec9b044'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const s=Math.random()*4+2;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${colors[i%colors.length]};animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s`;
+    c.appendChild(p);
+  }
+})();
+
+/* ========== TOAST ========== */
+function toast(msg,type='info'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.animation='toastOut .3s ease forwards';setTimeout(()=>t.remove(),300)},4000);
+}
+
+/* ========== TABS ========== */
 function showTab(i){
   document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
   document.querySelectorAll('.tab-content').forEach((c,j)=>c.classList.toggle('active',j===i));
+  if(i===4&&connected)refreshAnalytics();
+  if(i===5)refreshAdmin();
 }
 
+/* ========== LOGGING ========== */
 function log(el,msg,type=''){
   const d=document.getElementById(el);
-  const cls=type==='ok'?'ok':type==='err'?'err':'info';
+  if(!d)return;
+  const cls=type==='ok'?'ok':type==='err'?'err':type==='warn'?'warn':'info';
   d.innerHTML+=`<div class="${cls}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
   d.scrollTop=d.scrollHeight;
 }
 
-async function connectWallet(){
-  if(!window.ethereum){alert('MetaMask required');return}
+/* ========== HELPERS ========== */
+function shortAddr(a){return a?(a.slice(0,6)+'…'+a.slice(-4)):'—'}
+function polyLink(hash){return `<a href="${EXPLORER}/tx/${hash}" target="_blank">${hash.slice(0,14)}…</a>`}
+function addrLink(a){return `<a href="${EXPLORER}/address/${a}" target="_blank">${shortAddr(a)}</a>`}
+function toCsvCell(v){v=String(v);return v.includes(',')||v.includes('"')?'"'+v.replace(/"/g,'""')+'"':v}
+
+function generateHash(){
+  const arr=new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  document.getElementById('aHash').value='0x'+Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+  toast('Random hash generated','info');
+}
+
+function copyAddr(){
+  if(!currentAddr)return;
+  navigator.clipboard.writeText(currentAddr).then(()=>toast('Address copied!','success')).catch(()=>{});
+}
+
+async function sendTx(label,fn,logEl){
   try{
-    await window.ethereum.request({method:'wallet_requestWalletPermissions',params:[{eth_accounts:{}}]}).catch(()=>{});
+    log(logEl,`${label}: sending transaction…`);
+    const btn=event?.target;if(btn)btn.disabled=true;
+    const tx=await fn();
+    log(logEl,`TX sent: ${polyLink(tx.hash)}`,'info');
+    toast(`${label}: TX submitted`,'info');
+    const r=await tx.wait();
+    log(logEl,`Confirmed in block ${r.blockNumber}`,'ok');
+    toast(`${label}: Confirmed ✓`,'success');
+    if(btn)btn.disabled=false;
+    return r;
+  }catch(e){
+    log(logEl,`Error: ${e.message||e}`,'err');
+    toast(`${label}: ${e.message?.slice(0,80)||'Failed'}`,'error');
+    const btn=event?.target;if(btn)btn.disabled=false;
+    throw e;
+  }
+}
+
+function exportTableToCsv(filename,headers,rows){
+  let csv=headers.join(',')+'\n';
+  rows.forEach(r=>{csv+=r.map(toCsvCell).join(',')+'\n'});
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  toast(`Exported ${filename}`,'success');
+}
+
+/* ========== WALLET ========== */
+async function connectWallet(){
+  if(!window.ethereum){toast('MetaMask is required','error');return}
+  try{
     provider=new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts',[]);
     signer=await provider.getSigner();
-    const addr=await signer.getAddress();
+    currentAddr=await signer.getAddress();
     const net=await provider.getNetwork();
-    if(Number(net.chainId)!==137){
+    const cid=Number(net.chainId);
+
+    if(cid!==CHAIN_ID){
       try{await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x89'}]})}
-      catch(e){log('dashLog','Please switch to Polygon Mainnet (137)','err');return}
+      catch(e){toast('Please switch to Polygon Mainnet (137)','error');return}
     }
-    document.getElementById('addrDisplay').textContent=addr.slice(0,6)+'…'+addr.slice(-4);
-    document.getElementById('addrDisplay').style.display='';
-    document.getElementById('networkBadge').innerHTML='<span class="status-dot on"></span>Polygon';
-    document.getElementById('connectBtn').textContent='Connected';
 
     audit=new ethers.Contract(AUDIT_ADDR,AUDIT_ABI,signer);
     sc=new ethers.Contract(SC_ADDR,SC_ABI,signer);
     sett=new ethers.Contract(SET_ADDR,SET_ABI,signer);
+    connected=true;
 
-    await refreshDashboard(addr);
-  }catch(e){log('dashLog','Connect failed: '+e.message,'err')}
+    document.getElementById('addrDisplay').textContent=shortAddr(currentAddr);
+    document.getElementById('addrDisplay').style.display='';
+    document.getElementById('chainIdDisplay').textContent='Chain: 137';
+    document.getElementById('chainIdDisplay').style.display='';
+    document.getElementById('networkBadge').innerHTML='<span class="status-dot on"></span>Polygon';
+    document.getElementById('connectBtn').textContent='Disconnect';
+    document.getElementById('connectBtn').onclick=disconnectWallet;
+
+    toast('Wallet connected','success');
+    await refreshDashboard();
+  }catch(e){toast('Connect failed: '+e.message,'error')}
 }
 
-async function refreshDashboard(addr){
+function disconnectWallet(){
+  connected=false;provider=null;signer=null;audit=null;sc=null;sett=null;currentAddr=null;
+  document.getElementById('addrDisplay').style.display='none';
+  document.getElementById('balDisplay').style.display='none';
+  document.getElementById('chainIdDisplay').style.display='none';
+  document.getElementById('networkBadge').innerHTML='';
+  document.getElementById('connectBtn').textContent='Connect Wallet';
+  document.getElementById('connectBtn').onclick=connectWallet;
+  toast('Wallet disconnected','info');
+}
+
+/* Auto-refresh on account/chain change */
+if(window.ethereum){
+  window.ethereum.on('accountsChanged',()=>{if(connected)connectWallet()});
+  window.ethereum.on('chainChanged',()=>{if(connected)connectWallet()});
+}
+
+/* ========== DASHBOARD ========== */
+async function refreshDashboard(){
+  if(!connected)return;
   try{
-    const bal=await provider.getBalance(addr);
+    const bal=await provider.getBalance(currentAddr);
     document.getElementById('balDisplay').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4)+' POL';
     document.getElementById('balDisplay').style.display='';
+
     const ac=await audit.getEntryCount();
     document.getElementById('sAudit').textContent=ac.toString();
+
+    let pCount=0;
+    try{pCount=await sc.productCount();document.getElementById('scProductCount')&&(document.getElementById('scProductCount').textContent=pCount.toString())}catch(e){}
+    document.getElementById('sProducts').textContent=pCount.toString();
+
     const sCnt=await sett.getSettlementCount();
-    document.getElementById('sSettle').textContent=sCnt.toString();
-    const sBal=await sett.getBalance(addr);
-    document.getElementById('sBal').textContent=parseFloat(ethers.formatEther(sBal)).toFixed(4);
-    const lh=await audit.lastHash();
-    log('dashLog',`Dashboard loaded. Audit entries: ${ac}, Settlements: ${sCnt}, Balance: ${ethers.formatEther(sBal)} POL, LastHash: ${lh}`,'ok');
-  }catch(e){log('dashLog','Dashboard error: '+e.message,'err')}
+    let activeCount=0;let totalSettledVal=0n;
+    for(let i=0;i<Number(sCnt);i++){
+      try{
+        const s=await sett.settlements(i);
+        if(s.status===0)activeCount++;
+        if(s.status===1)totalSettledVal+=s.amount;
+      }catch(e){break}
+    }
+    document.getElementById('sSettle').textContent=activeCount.toString();
+    document.getElementById('sTotalSettled').textContent=parseFloat(ethers.formatEther(totalSettledVal)).toFixed(4);
+
+    // Recent activity feed
+    await loadActivityFeed(ac,sCnt,pCount);
+
+    toast('Dashboard refreshed','success');
+  }catch(e){toast('Dashboard error: '+e.message,'error')}
 }
 
-async function doRecord(){
+async function loadActivityFeed(auditCount,settleCount,prodCount){
+  const feed=document.getElementById('activityFeed');
+  const events=[];
   try{
-    log('auditLog','Sending audit record tx…');
-    const tx=await audit.record(
+    const aEnd=Math.max(0,Number(auditCount)-3);
+    for(let i=Number(auditCount)-1;i>=aEnd&&i>=0;i--){
+      try{
+        const e=await audit.entries(i);
+        events.push({time:Number(e.timestamp),contract:'Audit',detail:`${e.action} ${e.entityType} #${e.entityId}`,by:e.recordedBy});
+      }catch(ex){}
+    }
+  }catch(e){}
+  try{
+    const sEnd=Math.max(0,Number(settleCount)-3);
+    for(let i=Number(settleCount)-1;i>=sEnd&&i>=0;i--){
+      try{
+        const s=await sett.settlements(i);
+        const statusNames=['Created','Settled','Disputed'];
+        events.push({time:Number(s.createdAt),contract:'Settlement',detail:`${statusNames[s.status]} → ${shortAddr(s.receiver)} (${ethers.formatEther(s.amount)} POL)`,by:s.sender});
+      }catch(ex){}
+    }
+  }catch(e){}
+  try{
+    const pEnd=Math.max(0,Number(prodCount)-3);
+    for(let i=Number(prodCount)-1;i>=pEnd&&i>=0;i--){
+      try{
+        const p=await sc.products(i);
+        events.push({time:Number(p.createdAt),contract:'SupplyChain',detail:`Product "${p.name}" by ${p.manufacturer}`,by:p.creator});
+      }catch(ex){}
+    }
+  }catch(e){}
+
+  events.sort((a,b)=>b.time-a.time);
+  const top5=events.slice(0,5);
+  if(top5.length===0){feed.textContent='No recent events found.';return}
+  feed.innerHTML=top5.map(ev=>`<div class="activity-item"><span class="act-contract">[${ev.contract}]</span> ${ev.detail}<br><span class="act-time">${new Date(ev.time*1000).toLocaleString()} · ${shortAddr(ev.by)}</span></div>`).join('');
+}
+
+/* ========== AUDIT TRAIL ========== */
+async function doRecord(){
+  await sendTx('Record Audit Entry',()=>
+    audit.record(
       document.getElementById('aType').value,
       document.getElementById('aId').value,
       document.getElementById('aAction').value,
       document.getElementById('aHash').value
-    );
-    log('auditLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('auditLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('auditLog','Error: '+e.message,'err')}
+    ),'auditLog');
+  refreshAuditInfo();
+}
+
+async function refreshAuditInfo(){
+  if(!audit)return;
+  try{
+    const cnt=await audit.getEntryCount();
+    document.getElementById('auditEntryCount').textContent=cnt.toString();
+    const lh=await audit.lastHash();
+    document.getElementById('lastChainHash').textContent=lh;
+  }catch(e){}
+}
+
+async function doHistory(){
+  const hDiv=document.getElementById('historyResults');
+  hDiv.innerHTML='<div class="skeleton" style="width:100%;height:60px"></div>';
+  try{
+    const ids=await audit.getEntityHistory(document.getElementById('hId').value);
+    if(ids.length===0){hDiv.innerHTML='<div style="padding:12px;color:var(--text2)">No history found.</div>';return}
+    let html=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:.85rem;color:var(--accent2)">${ids.length} entries found</span><button class="export-btn" onclick="exportAuditHistory()">Export CSV</button></div><div style="max-height:300px;overflow-y:auto;margin-top:8px">`;
+    window._auditHistoryData=[];
+    for(const id of ids){
+      const e=await audit.entries(id);
+      const ts=new Date(Number(e.timestamp)*1000).toLocaleString();
+      window._auditHistoryData.push([e.id.toString(),e.entityType,e.entityId,e.action,e.dataHash,e.recordedBy,ts]);
+      html+=`<div style="padding:8px;border-bottom:1px solid var(--border);font-size:.82rem"><strong>#${e.id}</strong> · <span style="color:var(--accent)">${e.entityType}</span> · ${e.action} · <span style="font-family:monospace;font-size:.75rem">${e.dataHash.slice(0,18)}…</span><br><span style="color:var(--text2);font-size:.75rem">${ts} · ${shortAddr(e.recordedBy)}</span></div>`;
+    }
+    html+='</div></div>';
+    hDiv.innerHTML=html;
+  }catch(e){hDiv.innerHTML=`<div style="padding:12px;color:var(--danger)">Error: ${e.message}</div>`}
+}
+
+function exportAuditHistory(){
+  if(!window._auditHistoryData?.length)return;
+  exportTableToCsv('audit_history.csv',['ID','EntityType','EntityId','Action','DataHash','RecordedBy','Timestamp'],window._auditHistoryData);
 }
 
 async function doVerify(){
   try{
-    const res=await audit.verifyIntegrity(
-      document.getElementById('vId').value,
-      document.getElementById('vHash').value
-    );
+    const res=await audit.verifyIntegrity(document.getElementById('vId').value,document.getElementById('vHash').value);
     log('auditLog',`Integrity: ${res?'✅ VALID':'❌ MISMATCH'}`,res?'ok':'err');
-  }catch(e){log('auditLog','Error: '+e.message,'err')}
+    toast(res?'Integrity verified ✓':'Integrity mismatch',res?'success':'error');
+  }catch(e){log('auditLog','Error: '+e.message,'err');toast('Verify failed','error')}
 }
 
-async function doHistory(){
-  try{
-    const ids=await audit.getEntityHistory(document.getElementById('hId').value);
-    if(ids.length===0){log('auditLog','No history found.');return}
-    log('auditLog',`Found ${ids.length} entries: ${ids.map(i=>i.toString()).join(', ')}`,'info');
-    for(const id of ids){
-      const e=await audit.entries(id);
-      log('auditLog',`  #${e.id} | ${e.entityType} | ${e.action} | ${e.dataHash} | ${new Date(Number(e.timestamp)*1000).toISOString()}`);
-    }
-  }catch(e){log('auditLog','Error: '+e.message,'err')}
-}
-
+/* ========== SUPPLY CHAIN ========== */
 async function doCreateProduct(){
-  try{
-    log('scLog','Creating product…');
-    const tx=await sc.createProduct(
-      document.getElementById('pName').value,
-      document.getElementById('pMfg').value,
-      document.getElementById('pMeta').value
-    );
-    log('scLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('scLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('scLog','Error: '+e.message,'err')}
+  await sendTx('Create Product',()=>
+    sc.createProduct(document.getElementById('pName').value,document.getElementById('pMfg').value,document.getElementById('pMeta').value)
+  ,'scLog');
 }
 
 async function doTransfer(){
-  try{
-    log('scLog','Recording transfer…');
-    const tx=await sc.recordTransfer(
-      document.getElementById('tPid').value,
-      document.getElementById('tTo').value,
-      document.getElementById('tLoc').value,
-      document.getElementById('tCond').value,
-      document.getElementById('tNotes').value
-    );
-    log('scLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('scLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('scLog','Error: '+e.message,'err')}
+  await sendTx('Record Transfer',()=>
+    sc.recordTransfer(document.getElementById('tPid').value,document.getElementById('tTo').value,document.getElementById('tLoc').value,document.getElementById('tCond').value,document.getElementById('tNotes').value)
+  ,'scLog');
+}
+
+async function doScAuthHandler(){
+  await sendTx('Authorize Handler',()=>
+    sc.authorizeHandler(document.getElementById('scAuthAddr').value,document.getElementById('scAuthStatus').value==='true')
+  ,'scLog');
 }
 
 async function doProductChain(){
+  const tlDiv=document.getElementById('chainTimeline');
+  tlDiv.innerHTML='<div class="skeleton" style="width:100%;height:80px;margin-top:12px"></div>';
   try{
     const pid=document.getElementById('cPid').value;
     const p=await sc.products(pid);
-    log('scLog',`Product #${p.id}: ${p.name} by ${p.manufacturer} | Creator: ${p.creator}`,'info');
+    log('scLog',`Product #${p.id}: "${p.name}" by ${p.manufacturer} | Creator: ${shortAddr(p.creator)}`,'info');
     const chain=await sc.getProductChain(pid);
-    if(chain.length===0){log('scLog','  No transfers recorded.');return}
+    const tCount=await sc.getTransferCount(pid);
+    document.getElementById('scTransferCount')&&(document.getElementById('scTransferCount').textContent=tCount.toString());
+
+    if(chain.length===0){tlDiv.innerHTML='<div style="padding:12px;color:var(--text2);margin-top:8px">No transfers recorded for this product.</div>';return}
+
+    let html=`<div style="margin-top:12px;font-size:.85rem;color:var(--accent2);margin-bottom:8px">${chain.length} transfer(s) in chain of custody</div><div class="timeline">`;
     for(const t of chain){
-      log('scLog',`  Transfer #${t.id}: ${t.from.slice(0,8)}…→${t.to.slice(0,8)}… | ${t.location} | ${t.notes} | ${new Date(Number(t.timestamp)*1000).toISOString()}`);
+      const ts=new Date(Number(t.timestamp)*1000).toLocaleString();
+      html+=`<div class="timeline-item"><div class="tl-label">${ts}</div><div class="tl-detail"><strong>Transfer #${t.id}</strong><br>From: ${shortAddr(t.from)} → To: ${shortAddr(t.to)}<br>📍 ${t.location}<br>📝 ${t.notes||'—'}<br><span style="font-family:monospace;font-size:.75rem;color:var(--text2)">Condition: ${t.conditionHash?.slice(0,18)}…</span></div></div>`;
     }
-  }catch(e){log('scLog','Error: '+e.message,'err')}
+    html+='</div>';
+    tlDiv.innerHTML=html;
+  }catch(e){tlDiv.innerHTML=`<div style="padding:12px;color:var(--danger)">Error: ${e.message}</div>`}
 }
 
+/* ========== SETTLEMENT ========== */
 async function doDeposit(){
-  try{
-    log('setLog','Depositing POL…');
-    const tx=await signer.sendTransaction({to:SET_ADDR,value:ethers.parseEther(document.getElementById('dAmt').value)});
-    log('setLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('setLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('setLog','Error: '+e.message,'err')}
+  await sendTx('Deposit POL',()=>
+    signer.sendTransaction({to:SET_ADDR,value:ethers.parseEther(document.getElementById('dAmt').value)})
+  ,'setLog');
 }
 
 async function doCreateSettlement(){
-  try{
-    log('setLog','Creating settlement…');
-    const tx=await sett.createSettlement(
-      document.getElementById('sRecv').value,
-      document.getElementById('sAmt').value,
-      document.getElementById('sCurr').value,
-      document.getElementById('sSrc').value,
-      document.getElementById('sDst').value
-    );
-    log('setLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('setLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('setLog','Error: '+e.message,'err')}
+  await sendTx('Create Settlement',()=>
+    sett.createSettlement(document.getElementById('sRecv').value,document.getElementById('sAmt').value,document.getElementById('sCurr').value,document.getElementById('sSrc').value,document.getElementById('sDst').value)
+  ,'setLog');
 }
 
-async function doSettle(){
-  try{
-    log('setLog','Settling…');
-    const tx=await sett.settle(document.getElementById('mSid').value);
-    log('setLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('setLog',`Settled in block ${r.blockNumber}`,'ok');
-  }catch(e){log('setLog','Error: '+e.message,'err')}
+async function doSettle(id){
+  const sid=id??document.getElementById('mSid')?.value;
+  if(sid===undefined){toast('No settlement ID','error');return}
+  await sendTx('Settle',()=>sett.settle(sid),'setLog');
+  loadSettlements();
 }
 
-async function doDispute(){
-  try{
-    log('setLog','Disputing…');
-    const tx=await sett.dispute(document.getElementById('mSid').value);
-    log('setLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('setLog',`Disputed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('setLog','Error: '+e.message,'err')}
+async function doDispute(id){
+  const sid=id??document.getElementById('mSid')?.value;
+  if(sid===undefined){toast('No settlement ID','error');return}
+  await sendTx('Dispute',()=>sett.dispute(sid),'setLog');
+  loadSettlements();
 }
 
 async function doWithdraw(){
+  await sendTx('Withdraw',()=>sett.withdraw(),'setLog');
+}
+
+async function loadSettlements(){
+  if(!sett||!currentAddr)return;
+  const listDiv=document.getElementById('settlementList');
+  listDiv.innerHTML='<div class="skeleton" style="width:100%;height:100px"></div>';
   try{
-    log('setLog','Withdrawing…');
-    const tx=await sett.withdraw();
-    log('setLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('setLog',`Withdrawn in block ${r.blockNumber}`,'ok');
-  }catch(e){log('setLog','Error: '+e.message,'err')}
+    const cnt=await sett.getSettlementCount();
+    const bal=await sett.getBalance(currentAddr);
+    document.getElementById('setBalance').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4);
+
+    let totalSettled=0n;
+    const statusNames=['Pending','Settled','Disputed'];
+    const statusClasses=['pending','settled','disputed'];
+    window._settlementData=[];
+    let html='';
+    for(let i=Number(cnt)-1;i>=0&&i>=Number(cnt)-50;i--){
+      try{
+        const s=await sett.settlements(i);
+        if(s.status===1)totalSettled+=s.amount;
+        const canSettle=s.status===0;
+        const canDispute=s.status===0;
+        window._settlementData.push([s.id.toString(),shortAddr(s.sender),shortAddr(s.receiver),ethers.formatEther(s.amount),s.currency,s.sourceCountry,s.destCountry,statusNames[s.status],new Date(Number(s.createdAt)*1000).toLocaleString()]);
+        html+=`<div class="settle-row"><div><strong>#${s.id}</strong> <span class="badge ${statusClasses[s.status]}">${statusNames[s.status]}</span><br><span style="font-size:.78rem;color:var(--text2)">${shortAddr(s.sender)} → ${shortAddr(s.receiver)} · ${ethers.formatEther(s.amount)} ${s.currency} · ${s.sourceCountry}→${s.destCountry}</span></div><div class="btn-row">`;
+        if(canSettle)html+=`<button class="action" style="margin:0;padding:5px 12px;font-size:.78rem" onclick="doSettle(${s.id})">Settle</button>`;
+        if(canDispute)html+=`<button class="action danger" style="margin:0;padding:5px 12px;font-size:.78rem" onclick="doDispute(${s.id})">Dispute</button>`;
+        html+=`</div></div>`;
+      }catch(ex){break}
+    }
+    document.getElementById('setTotalValue').textContent=parseFloat(ethers.formatEther(totalSettled)).toFixed(4);
+    if(!html)html='<div style="padding:12px;color:var(--text2)">No settlements found.</div>';
+    listDiv.innerHTML=html;
+  }catch(e){listDiv.innerHTML=`<div style="color:var(--danger)">Error: ${e.message}</div>`}
+}
+
+function exportSettlements(){
+  if(!window._settlementData?.length){toast('No data to export','info');return}
+  exportTableToCsv('settlements.csv',['ID','Sender','Receiver','Amount','Currency','SrcCountry','DstCountry','Status','Created'],window._settlementData);
+}
+
+/* ========== ANALYTICS ========== */
+async function refreshAnalytics(){
+  if(!connected){toast('Connect wallet first','info');return}
+  try{
+    // Entity type distribution
+    const entityTypes={Invoice:0,PurchaseOrder:0,PatientRecord:0,Contract:0,Employee:0};
+    const ac=await audit.getEntryCount();
+    const sampleSize=Math.min(Number(ac),50);
+    for(let i=0;i<sampleSize;i++){
+      try{const e=await audit.entries(i);entityTypes[e.entityType]=(entityTypes[e.entityType]||0)+1}catch(e){}
+    }
+    const total=Object.values(entityTypes).reduce((a,b)=>a+b,0);
+    const colors={'Invoice':'#7c5cfc','PurchaseOrder':'#4ec9b0','PatientRecord':'#ff6b9d','Contract':'#f0ad4e','Employee':'#3498db'};
+    let deg=0;
+    let gradientParts=[];
+    let legendHtml='';
+    for(const [type,count]of Object.entries(entityTypes)){
+      if(count===0)continue;
+      const pct=(count/total)*100;
+      gradientParts.push(`${colors[type]||'#555'} ${deg}% ${deg+pct}%`);
+      legendHtml+=`<div class="chart-legend-item"><div class="chart-legend-dot" style="background:${colors[type]}"></div>${type}: ${count}</div>`;
+      deg+=pct;
+    }
+    document.getElementById('entityPie').style.background=`conic-gradient(${gradientParts.join(',')||'#333 0% 100%'})`;
+    document.getElementById('pieLegend').innerHTML=legendHtml||'<div style="color:var(--text2)">No data</div>';
+
+    // Settlement status
+    const sc=await sett.getSettlementCount();
+    const statusCounts=[0,0,0]; // pending, settled, disputed
+    for(let i=0;i<Number(sc);i++){
+      try{const s=await sett.settlements(i);statusCounts[s.status]++}catch(e){}
+    }
+    const st=statusCounts.reduce((a,b)=>a+b,0);
+    const stColors=['#f0ad4e','#27ae60','#e74c3c'];
+    const stLabels=['Pending','Settled','Disputed'];
+    let stDeg=0,stGrad=[];
+    let stLegend='';
+    statusCounts.forEach((cnt,i)=>{
+      if(cnt===0)return;
+      const pct=(cnt/st)*100;
+      stGrad.push(`${stColors[i]} ${stDeg}% ${stDeg+pct}%`);
+      stLegend+=`<div class="chart-legend-item"><div class="chart-legend-dot" style="background:${stColors[i]}"></div>${stLabels[i]}: ${cnt}</div>`;
+      stDeg+=pct;
+    });
+    document.getElementById('settlePie').style.background=`conic-gradient(${stGrad.join(',')||'#333 0% 100%'})`;
+    document.getElementById('settleLegend').innerHTML=stLegend||'<div style="color:var(--text2)">No data</div>';
+
+    // Supply chain
+    let pCount=0,tTotal=0;
+    try{
+      pCount=Number(await sc.productCount());
+      for(let i=0;i<pCount;i++){
+        try{tTotal+=Number(await sc.getTransferCount(i))}catch(e){}
+      }
+    }catch(e){}
+    document.getElementById('anProducts').textContent=pCount;
+    document.getElementById('anTransfers').textContent=tTotal;
+    document.getElementById('scProductCount').textContent=pCount;
+    document.getElementById('scTransferCount').textContent=tTotal;
+
+    toast('Analytics refreshed','success');
+  }catch(e){toast('Analytics error: '+e.message,'error')}
+}
+
+/* ========== ADMIN ========== */
+async function refreshAdmin(){
+  if(!connected)return;
+  try{
+    const net=await provider.getNetwork();
+    document.getElementById('netChainId').textContent=net.chainId.toString();
+    document.getElementById('netName').textContent='Polygon Mainnet';
+    document.getElementById('netAccount').textContent=currentAddr;
+    const block=await provider.getBlockNumber();
+    document.getElementById('netBlock').textContent=block.toString();
+  }catch(e){}
 }
 
 async function doAuthHandler(){
-  try{
-    log('admLog','Authorizing handler…');
-    const tx=await sc.authorizeHandler(
-      document.getElementById('admAddr').value,
-      document.getElementById('admStatus').value==='true'
-    );
-    log('admLog',`TX: ${tx.hash}`,'info');
-    const r=await tx.wait();
-    log('admLog',`Confirmed in block ${r.blockNumber}`,'ok');
-  }catch(e){log('admLog','Error: '+e.message,'err')}
+  await sendTx('Authorize Handler',()=>
+    sc.authorizeHandler(document.getElementById('admAddr').value,document.getElementById('admStatus').value==='true')
+  ,'admLog');
 }
 
 async function doCheckHandler(){
   try{
     const res=await sc.authorizedHandlers(document.getElementById('chkAddr').value);
     log('admLog',`Handler authorized: ${res?'✅ Yes':'❌ No'}`,res?'ok':'err');
-  }catch(e){log('admLog','Error: '+e.message,'err')}
+    toast(`Handler: ${res?'Authorized':'Not authorized'}`,res?'success':'info');
+  }catch(e){log('admLog','Error: '+e.message,'err');toast('Check failed','error')}
 }
+
+/* ========== INIT ========== */
+(async function(){
+  // Try auto-connect if already authorized
+  if(window.ethereum){
+    try{
+      const accounts=await window.ethereum.request({method:'eth_accounts'});
+      if(accounts.length>0)connectWallet();
+    }catch(e){}
+  }
+  // Load audit info if possible
+  try{
+    if(window.ethereum){
+      const p=new ethers.BrowserProvider(window.ethereum);
+      const a=new ethers.Contract(AUDIT_ADDR,AUDIT_ABI,p);
+      const cnt=await a.getEntryCount();
+      document.getElementById('sAudit').textContent=cnt.toString();
+      document.getElementById('auditEntryCount').textContent=cnt.toString();
+      const lh=await a.lastHash();
+      document.getElementById('lastChainHash').textContent=lh;
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>

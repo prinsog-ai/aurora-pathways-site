@@ -17,26 +17,68 @@
 html{font-family:'SF Pro Display','SFNS','SF Pro Text','Segoe UI',system-ui,-apple-system,sans-serif;
   background:var(--bg-dark);color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
 body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--bg-mid) 50%,#0d1b2a 100%);background-attachment:fixed}
+
+/* Aurora background */
 .aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
 .aurora::before{content:'';position:absolute;top:-30%;left:-20%;width:140%;height:140%;
   background:radial-gradient(ellipse 600px 300px at 30% 20%,rgba(124,92,252,.12),transparent),
              radial-gradient(ellipse 500px 250px at 70% 70%,rgba(78,201,176,.08),transparent);
   animation:auroraShift 20s ease-in-out infinite alternate}
+.aurora::after{content:'';position:absolute;top:10%;right:-10%;width:80%;height:80%;
+  background:radial-gradient(ellipse 400px 400px at 60% 40%,rgba(124,92,252,.06),transparent),
+             radial-gradient(ellipse 300px 300px at 20% 80%,rgba(78,201,176,.05),transparent);
+  animation:auroraShift2 25s ease-in-out infinite alternate-reverse}
 @keyframes auroraShift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.05)}}
+@keyframes auroraShift2{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-20px,15px) rotate(3deg)}}
 
-.app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+/* Particles */
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;width:3px;height:3px;background:var(--accent);border-radius:50%;opacity:0;
+  animation:particleFloat linear infinite}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:.6}
+  90%{opacity:.3}
+  100%{opacity:0;transform:translateY(-10vh) scale(1)}
+}
+
+.app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+
+/* Toast notifications */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;max-width:420px}
+.toast{padding:14px 20px;border-radius:var(--radius-sm);font-size:.85rem;backdrop-filter:blur(16px);
+  animation:toastIn .35s ease;cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.toast-out{animation:toastOut .3s ease forwards}
+.toast.success{background:rgba(78,201,176,.12);border:1px solid rgba(78,201,176,.3);color:var(--teal)}
+.toast.success::before{background:var(--teal)}
+.toast.error{background:rgba(255,77,106,.12);border:1px solid rgba(255,77,106,.3);color:var(--danger)}
+.toast.error::before{background:var(--danger)}
+.toast.info{background:rgba(124,92,252,.12);border:1px solid rgba(124,92,252,.3);color:var(--accent)}
+.toast.info::before{background:var(--accent)}
+.toast .toast-title{font-weight:700;margin-bottom:4px;font-size:.88rem}
+.toast .toast-body{opacity:.85;word-break:break-all}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px);height:0;padding:0;margin:0;border:0}}
 
 /* Header */
 .header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 28px;gap:16px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:12px;font-size:1.35rem;font-weight:700;color:var(--text-bright);letter-spacing:-.02em}
 .logo .icon{width:36px;height:36px;border-radius:10px;
   background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;
-  font-size:18px;color:#fff;font-weight:800}
+  font-size:18px;color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(124,92,252,.3)}
 .wallet-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .chain-badge{font-size:.72rem;padding:4px 10px;border-radius:20px;
-  background:rgba(124,92,252,.15);color:var(--accent);border:1px solid rgba(124,92,252,.25);font-weight:600}
+  background:rgba(124,92,252,.15);color:var(--accent);border:1px solid rgba(124,92,252,.25);font-weight:600;
+  display:flex;align-items:center;gap:6px}
+.chain-badge .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);
+  animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .address-pill{font-size:.8rem;padding:6px 14px;border-radius:20px;
-  background:rgba(255,255,255,.06);color:var(--teal);border:1px solid rgba(78,201,176,.2);font-family:'SF Mono',Consolas,monospace;font-weight:500}
+  background:rgba(255,255,255,.06);color:var(--teal);border:1px solid rgba(78,201,176,.2);
+  font-family:'SF Mono',Consolas,monospace;font-weight:500;cursor:pointer;transition:all .2s}
+.address-pill:hover{background:rgba(78,201,176,.1);border-color:rgba(78,201,176,.4)}
 .balance-pill{font-size:.8rem;padding:6px 14px;border-radius:20px;
   background:rgba(255,255,255,.06);color:var(--text-dim);border:1px solid var(--border);font-weight:500}
 .btn{cursor:pointer;border:none;font-family:inherit;font-weight:600;border-radius:var(--radius-sm);transition:all .2s}
@@ -49,12 +91,18 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
 .btn-teal{background:linear-gradient(135deg,var(--teal),#3ba898);color:#0a0a0f}
 .btn-teal:hover{filter:brightness(1.15)}
 .btn-danger{background:linear-gradient(135deg,var(--danger),#cc3050);color:#fff}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border);padding:7px 14px;font-size:.78rem}
+.btn-ghost:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.btn-icon{display:inline-flex;align-items:center;gap:6px}
 
 /* Tabs */
-.tabs{display:flex;gap:4px;background:rgba(255,255,255,.03);border-radius:10px;padding:4px;margin-bottom:28px;border:1px solid var(--border);overflow-x:auto}
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.03);border-radius:10px;padding:4px;margin-bottom:28px;border:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
 .tab-btn{padding:10px 20px;font-size:.84rem;font-weight:600;color:var(--text-dim);border-radius:var(--radius-sm);background:transparent;
-  cursor:pointer;border:none;font-family:inherit;white-space:nowrap;transition:all .2s}
+  cursor:pointer;border:none;font-family:inherit;white-space:nowrap;transition:all .2s;position:relative}
 .tab-btn.active{background:rgba(124,92,252,.15);color:var(--accent)}
+.tab-btn.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;
+  background:var(--accent);border-radius:2px}
 .tab-btn:hover:not(.active){color:var(--text);background:rgba(255,255,255,.03)}
 .tab-content{display:none;animation:fadeUp .35s ease}
 .tab-content.active{display:block}
@@ -62,22 +110,35 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
 
 /* Cards */
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:18px;
-  backdrop-filter:blur(12px);transition:background .2s}
-.card:hover{background:var(--bg-card-hover)}
+  backdrop-filter:blur(12px);transition:all .25s}
+.card:hover{background:var(--bg-card-hover);border-color:rgba(255,255,255,.12)}
 .card-title{font-size:1.05rem;font-weight:700;color:var(--text-bright);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--teal)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
-.stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px}
-.stat-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:6px;font-weight:600}
-.stat-value{font-size:1.5rem;font-weight:800;color:var(--text-bright);font-variant-numeric:tabular-nums}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.card-title .dot.accent{background:var(--accent)}
+.card-title .dot.danger{background:var(--danger)}
+.card-subtitle{font-size:.88rem;color:var(--text-dim);margin-bottom:16px;line-height:1.6}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;
+  transition:all .25s;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
+.stat:hover::before{background:var(--accent)}
+.stat:hover{background:rgba(255,255,255,.05);transform:translateY(-2px)}
+.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:6px;font-weight:600}
+.stat-value{font-size:1.4rem;font-weight:800;color:var(--text-bright);font-variant-numeric:tabular-nums;
+  transition:all .5s}
 .stat-value.accent{color:var(--accent)}
 .stat-value.teal{color:var(--teal)}
+.stat-change{font-size:.72rem;margin-top:4px;font-weight:600}
+.stat-change.up{color:var(--teal)}
+.stat-change.down{color:var(--danger)}
 
 /* Links */
 .contract-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);
   background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:var(--text);
   transition:all .2s;font-size:.85rem}
-.contract-link:hover{background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.25)}
+.contract-link:hover{background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.25);transform:translateX(4px)}
 .contract-link .label{font-weight:700;color:var(--text-bright);min-width:140px}
 .contract-link .addr{font-family:'SF Mono',Consolas,monospace;color:var(--teal);font-size:.82rem;word-break:break-all}
 .contract-link .ext{color:var(--text-dim);font-size:.75rem;margin-left:auto}
@@ -87,8 +148,10 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
 .form-label{display:block;font-size:.82rem;font-weight:600;color:var(--text-dim);margin-bottom:6px}
 .form-input,.form-select,.form-textarea{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);
   border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-bright);font-family:inherit;
-  font-size:.9rem;transition:border-color .2s;outline:none}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+  font-size:.9rem;transition:all .2s;outline:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.06);
+  box-shadow:0 0 0 3px rgba(124,92,252,.1)}
+.form-input::placeholder{color:rgba(255,255,255,.25)}
 .form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .form-select option{background:var(--bg-mid);color:var(--text)}
@@ -115,13 +178,42 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
   border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Responsive */
-@media(max-width:640px){
-  .form-row{grid-template-columns:1fr}
-  .header{flex-direction:column;align-items:flex-start}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .tab-btn{padding:9px 14px;font-size:.8rem}
-}
+/* Skeleton loading */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius-sm)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Data table */
+.data-table{width:100%;border-collapse:collapse;margin-top:12px}
+.data-table th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);font-weight:600;
+  text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+.data-table td{font-size:.85rem;padding:12px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table .mono{font-family:'SF Mono',Consolas,monospace;font-size:.8rem;color:var(--teal)}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px}
+.pagination .pg-btn{padding:6px 12px;font-size:.78rem;border-radius:6px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:inherit}
+.pagination .pg-btn:hover{background:rgba(124,92,252,.1);color:var(--accent)}
+.pagination .pg-btn.active{background:rgba(124,92,252,.2);color:var(--accent);border-color:rgba(124,92,252,.4)}
+.pagination .pg-btn:disabled{opacity:.3;cursor:not-allowed}
+.pagination .pg-info{font-size:.78rem;color:var(--text-dim)}
+
+/* Activity list */
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);margin-bottom:8px;transition:all .2s;background:rgba(255,255,255,.02)}
+.activity-item:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12)}
+.activity-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0}
+.activity-icon.mint{background:rgba(124,92,252,.15);color:var(--accent)}
+.activity-icon.retire{background:rgba(78,201,176,.15);color:var(--teal)}
+.activity-icon.transfer{background:rgba(255,165,0,.15);color:#ffa500}
+.activity-icon.attest{background:rgba(78,201,176,.15);color:var(--teal)}
+.activity-body{flex:1;min-width:0}
+.activity-title{font-size:.85rem;font-weight:600;color:var(--text-bright)}
+.activity-meta{font-size:.75rem;color:var(--text-dim);margin-top:2px;display:flex;gap:12px;flex-wrap:wrap}
+.activity-meta .mono{font-family:'SF Mono',Consolas,monospace;font-size:.73rem}
 
 /* Attestation detail */
 .att-detail{font-size:.85rem;line-height:1.7}
@@ -130,18 +222,68 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
 .tag-finalized{background:rgba(78,201,176,.15);color:var(--teal)}
 .tag-disputed{background:rgba(255,77,106,.15);color:var(--danger)}
 .tag-pending{background:rgba(124,92,252,.15);color:var(--accent)}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:600}
+.badge-success{background:rgba(78,201,176,.15);color:var(--teal)}
+.badge-warning{background:rgba(255,200,0,.15);color:#ffc800}
+.badge-danger{background:rgba(255,77,106,.15);color:var(--danger)}
+
+/* Grid layout for 2-column */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-2 > .card{margin-bottom:0}
+
+/* Disconnect btn */
+.btn-disconnect{background:transparent;border:1px solid rgba(255,77,106,.3);color:var(--danger);padding:5px 12px;
+  font-size:.72rem;border-radius:16px;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s}
+.btn-disconnect:hover{background:rgba(255,77,106,.1)}
+
+/* Tooltip */
+[data-tooltip]{position:relative}
+[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);padding:6px 12px;border-radius:6px;background:var(--bg-mid);border:1px solid var(--border);
+  color:var(--text);font-size:.75rem;white-space:nowrap;z-index:100;pointer-events:none;animation:fadeUp .2s ease}
+
+/* Modal overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;display:none;
+  align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg-mid);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:500px;
+  width:100%;animation:fadeUp .3s ease}
+.modal-title{font-size:1.1rem;font-weight:700;color:var(--text-bright);margin-bottom:16px}
+.modal-close{position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text-dim);
+  cursor:pointer;font-size:1.2rem;padding:4px}
+
+/* Responsive */
+@media(max-width:768px){
+  .grid-2{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .data-table{font-size:.8rem}
+  .data-table th,.data-table td{padding:8px 6px}
+}
+@media(max-width:640px){
+  .form-row{grid-template-columns:1fr}
+  .header{flex-direction:column;align-items:flex-start}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .tab-btn{padding:9px 14px;font-size:.8rem}
+  .toast-container{left:10px;right:10px;max-width:none}
+}
 </style>
 </head>
 <body>
 <div class="aurora"></div>
+<div class="particles" id="particles"></div>
+<div class="toast-container" id="toastContainer"></div>
+
 <div class="app">
   <header class="header">
     <div class="logo"><div class="icon">V</div>Valence Carbon</div>
     <div class="wallet-bar">
-      <span class="chain-badge">Polygon Mainnet</span>
+      <span class="chain-badge"><span class="pulse-dot"></span>Polygon Mainnet</span>
       <span class="balance-pill" id="polBalance" style="display:none"></span>
-      <span class="address-pill" id="walletAddr" style="display:none"></span>
+      <span class="address-pill" id="walletAddr" style="display:none" data-tooltip="Click to copy address" onclick="copyAddress()"></span>
       <button class="btn btn-primary" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+      <button class="btn-disconnect" id="disconnectBtn" style="display:none" onclick="disconnectWallet()">Disconnect</button>
     </div>
   </header>
 
@@ -149,7 +291,9 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
     <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
     <button class="tab-btn" data-tab="mrv" onclick="switchTab('mrv')">MRV Portal</button>
     <button class="tab-btn" data-tab="credits" onclick="switchTab('credits')">Credits</button>
+    <button class="tab-btn" data-tab="transfer" onclick="switchTab('transfer')">Transfer</button>
     <button class="tab-btn" data-tab="sites" onclick="switchTab('sites')">Sites</button>
+    <button class="tab-btn" data-tab="activity" onclick="switchTab('activity')">Activity</button>
     <button class="tab-btn" data-tab="admin" onclick="switchTab('admin')">Admin</button>
   </nav>
 
@@ -158,10 +302,30 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
     <div class="card">
       <div class="card-title"><span class="dot"></span>Platform Overview</div>
       <div class="stats-grid">
-        <div class="stat"><div class="stat-label">Total Minted</div><div class="stat-value accent" id="dashMinted">—</div></div>
-        <div class="stat"><div class="stat-label">Total Retired</div><div class="stat-value teal" id="dashRetired">—</div></div>
-        <div class="stat"><div class="stat-label">Your Balance</div><div class="stat-value" id="dashBalance">—</div></div>
-        <div class="stat"><div class="stat-label">Dispute Window</div><div class="stat-value" id="dashDisputeWindow">—</div></div>
+        <div class="stat">
+          <div class="stat-label">Total Minted</div>
+          <div class="stat-value accent" id="dashMinted">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Total Retired</div>
+          <div class="stat-value teal" id="dashRetired">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Your Balance</div>
+          <div class="stat-value" id="dashBalance">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Active Supply</div>
+          <div class="stat-value" id="dashActive">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Registered Sites</div>
+          <div class="stat-value accent" id="dashSites">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Dispute Window</div>
+          <div class="stat-value" id="dashDisputeWindow">—</div>
+        </div>
       </div>
     </div>
     <div class="card">
@@ -176,13 +340,19 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
         <span class="label">AttestationModule</span><span class="addr">0xba94c…3a1df7</span><span class="ext">↗</span>
       </a>
     </div>
+    <div class="card">
+      <div class="card-title"><span class="dot accent"></span>Recent Activity</div>
+      <div id="dashActivity">
+        <div class="empty"><div class="icon">📊</div><p>Connect wallet to see recent activity</p></div>
+      </div>
+    </div>
   </section>
 
   <!-- MRV Portal -->
   <section class="tab-content" id="tab-mrv">
     <div class="card">
       <div class="card-title"><span class="dot"></span>Measurement, Reporting &amp; Verification</div>
-      <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:20px">Submit a new attestation for gas capture volume at a registered site.</p>
+      <p class="card-subtitle">Submit a new attestation for gas capture volume at a registered site. Attestations go through a dispute window before finalization.</p>
       <div class="form-group">
         <label class="form-label">Site ID</label>
         <select class="form-select" id="mrvSite">
@@ -213,6 +383,14 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
       </div>
       <div id="mrvLookupResult" style="margin-top:14px"></div>
     </div>
+    <div class="card">
+      <div class="card-title"><span class="dot accent"></span>Recent Attestations</div>
+      <div id="recentAttestations">
+        <div class="skeleton" style="height:120px;margin-bottom:10px"></div>
+        <div class="skeleton" style="height:120px"></div>
+      </div>
+      <div class="pagination" id="attPagination" style="display:none"></div>
+    </div>
   </section>
 
   <!-- Credits -->
@@ -223,11 +401,12 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
         <div class="stat"><div class="stat-label">Your Balance</div><div class="stat-value accent" id="crBalance">—</div></div>
         <div class="stat"><div class="stat-label">Total Minted</div><div class="stat-value" id="crMinted">—</div></div>
         <div class="stat"><div class="stat-label">Total Retired</div><div class="stat-value teal" id="crRetired">—</div></div>
+        <div class="stat"><div class="stat-label">Retirement %</div><div class="stat-value" id="crRetiredPct">—</div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-title"><span class="dot"></span>Retire Credits</div>
-      <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:16px">Permanently retire carbon credits to claim offset. This action is irreversible.</p>
+      <p class="card-subtitle">Permanently retire carbon credits to claim offset. This action is irreversible.</p>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Amount</label>
@@ -238,8 +417,43 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
           <input class="form-input" id="retireReason" placeholder="e.g. Q2 2026 offset">
         </div>
       </div>
-      <button class="btn btn-teal" id="retireBtn" onclick="retireCredits()">Retire Credits</button>
+      <button class="btn btn-teal btn-icon" id="retireBtn" onclick="retireCredits()">♻️ Retire Credits</button>
       <div class="status-msg" id="retireStatus"></div>
+    </div>
+  </section>
+
+  <!-- Transfer -->
+  <section class="tab-content" id="tab-transfer">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Transfer Credits</div>
+      <p class="card-subtitle">Send carbon credits to another wallet address. Ensure the recipient address is correct — transfers cannot be reversed.</p>
+      <div class="form-group">
+        <label class="form-label">Recipient Address</label>
+        <input class="form-input" id="transferTo" placeholder="0x…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <input class="form-input" id="transferAmount" type="number" min="1" step="1" placeholder="Credits to transfer">
+        <div class="form-hint" id="transferMax"></div>
+      </div>
+      <button class="btn btn-primary btn-icon" id="transferBtn" onclick="transferCredits()">↗️ Send Credits</button>
+      <div class="status-msg" id="transferStatus"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot accent"></span>Distribute via CreditSplitter</div>
+      <p class="card-subtitle">Distribute credits to a registered site. The splitter handles revenue sharing based on site owner BPS.</p>
+      <div class="form-group">
+        <label class="form-label">Site ID</label>
+        <select class="form-select" id="distributeSite">
+          <option value="">Select a registered site…</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <input class="form-input" id="distributeAmount" type="number" min="1" step="1" placeholder="Credits to distribute">
+      </div>
+      <button class="btn btn-outline btn-icon" id="distributeBtn" onclick="distributeCredits()">📤 Distribute</button>
+      <div class="status-msg" id="distributeStatus"></div>
     </div>
   </section>
 
@@ -271,6 +485,38 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
       <button class="btn btn-primary" id="siteRegBtn" onclick="registerSite()">Register Site</button>
       <div class="status-msg" id="siteStatus"></div>
     </div>
+    <div class="card">
+      <div class="card-title"><span class="dot accent"></span>Update Site Share</div>
+      <div class="form-group">
+        <label class="form-label">Site ID</label>
+        <input class="form-input" id="updateSiteId" placeholder="e.g. landfill-sf-001">
+      </div>
+      <div class="form-group">
+        <label class="form-label">New Share (BPS)</label>
+        <input class="form-input" id="updateSiteShare" type="number" min="0" max="10000" step="1" placeholder="e.g. 7500 = 75%">
+      </div>
+      <button class="btn btn-outline" id="updateShareBtn" onclick="updateSiteShare()">Update Share</button>
+      <div class="status-msg" id="updateShareStatus"></div>
+    </div>
+  </section>
+
+  <!-- Activity -->
+  <section class="tab-content" id="tab-activity">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Transaction History</div>
+      <p class="card-subtitle">Your on-chain credit transfer events from the CarbonCredit contract.</p>
+      <div id="activityList">
+        <div class="empty"><div class="icon">📋</div><p>Connect wallet to view transaction history</p></div>
+      </div>
+      <div class="pagination" id="activityPagination" style="display:none"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot accent"></span>All Attestations</div>
+      <div id="allAttestations">
+        <div class="skeleton" style="height:200px"></div>
+      </div>
+      <div class="pagination" id="allAttPagination" style="display:none"></div>
+    </div>
   </section>
 
   <!-- Admin -->
@@ -280,29 +526,44 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
     </div>
     <div id="adminContent">
       <div class="card">
-        <div class="card-title"><span class="dot"></span>Finalize Attestation</div>
-        <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:14px">Mark an attestation as verified after the dispute window expires.</p>
-        <div class="form-row" style="margin-bottom:0">
+        <div class="card-title"><span class="dot"></span>Mint Credits</div>
+        <p class="card-subtitle">Mint new carbon credits to a recipient address.</p>
+        <div class="form-group">
+          <label class="form-label">Recipient Address</label>
+          <input class="form-input" id="adminMintTo" placeholder="0x… (defaults to your address)">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Amount</label>
+            <input class="form-input" id="adminMintAmount" type="number" min="1" step="1" placeholder="Credits to mint">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Site ID</label>
+            <input class="form-input" id="adminMintSite" placeholder="e.g. landfill-sf-001">
+          </div>
+        </div>
+        <button class="btn btn-primary" id="adminMintBtn" onclick="adminMint()">Mint Credits</button>
+        <div class="status-msg" id="adminMintStatus"></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>Finalize Attestation</div>
+          <p class="card-subtitle">Mark an attestation as verified after the dispute window expires.</p>
           <div class="form-group" style="margin-bottom:0">
             <input class="form-input" id="adminFinalizeId" type="number" min="0" placeholder="Attestation ID">
           </div>
-          <div style="display:flex;align-items:flex-end">
-            <button class="btn btn-primary btn-sm" id="adminFinalizeBtn" onclick="adminFinalize()">Finalize</button>
-          </div>
+          <button class="btn btn-primary btn-sm" id="adminFinalizeBtn" onclick="adminFinalize()" style="margin-top:12px">Finalize</button>
+          <div class="status-msg" id="adminFinalizeStatus"></div>
         </div>
-        <div class="status-msg" id="adminFinalizeStatus"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><span class="dot"></span>Dispute Attestation</div>
-        <div class="form-row" style="margin-bottom:0">
+        <div class="card">
+          <div class="card-title"><span class="dot danger"></span>Dispute Attestation</div>
+          <p class="card-subtitle">Flag an attestation for dispute during the dispute window.</p>
           <div class="form-group" style="margin-bottom:0">
             <input class="form-input" id="adminDisputeId" type="number" min="0" placeholder="Attestation ID">
           </div>
-          <div style="display:flex;align-items:flex-end">
-            <button class="btn btn-danger btn-sm" id="adminDisputeBtn" onclick="adminDispute()">Dispute</button>
-          </div>
+          <button class="btn btn-danger btn-sm" id="adminDisputeBtn" onclick="adminDispute()" style="margin-top:12px">Dispute</button>
+          <div class="status-msg" id="adminDisputeStatus"></div>
         </div>
-        <div class="status-msg" id="adminDisputeStatus"></div>
       </div>
       <div class="card">
         <div class="card-title"><span class="dot"></span>Resolve Dispute</div>
@@ -332,6 +593,19 @@ body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--
         </div>
         <div class="status-msg" id="adminWindowStatus"></div>
       </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Set Minter</div>
+        <p class="card-subtitle">Grant minting rights to another address.</p>
+        <div class="form-row" style="margin-bottom:0">
+          <div class="form-group" style="margin-bottom:0">
+            <input class="form-input" id="adminMinterAddr" placeholder="0x… new minter address">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn-outline btn-sm" id="adminMinterBtn" onclick="adminSetMinter()">Set Minter</button>
+          </div>
+        </div>
+        <div class="status-msg" id="adminMinterStatus"></div>
+      </div>
     </div>
   </section>
 </div>
@@ -351,6 +625,7 @@ const ABIS = {
   carbonCredit: [
     'function mint(address to, uint256 amount, string siteId)',
     'function retire(uint256 amount, string reason)',
+    'function transfer(address to, uint256 amount) returns (bool)',
     'function balanceOf(address) view returns (uint256)',
     'function totalMinted() view returns (uint256)',
     'function totalRetired() view returns (uint256)',
@@ -364,7 +639,10 @@ const ABIS = {
     'function distribute(string siteId, uint256 amount)',
     'function updateShare(string siteId, uint256 newShareBps)',
     'function getSiteCount() view returns (uint256)',
-    'function owner() view returns (address)'
+    'function owner() view returns (address)',
+    'function sites(string) view returns (address owner, uint256 shareBps, bool exists)',
+    'event SiteRegistered(string siteId, address owner, uint256 shareBps)',
+    'event Distribution(string siteId, uint256 amount)'
   ],
   attestationModule: [
     'function attest(string siteId, uint256 gasVolumeMCF)',
@@ -372,8 +650,10 @@ const ABIS = {
     'function dispute(uint256 attestationId)',
     'function resolveDispute(uint256 attestationId, bool approve)',
     'function attestations(uint256) view returns (string siteId, uint256 gasVolumeMCF, uint256 timestamp, uint256 status, address submitter, bool finalized, bool disputed)',
+    'function attestationCount() view returns (uint256)',
     'function disputeWindow() view returns (uint256)',
-    'function setDisputeWindow(uint256)'
+    'function setDisputeWindow(uint256)',
+    'event AttestationSubmitted(uint256 indexed attestationId, string siteId, address submitter)'
   ]
 };
 
@@ -382,11 +662,48 @@ let provider = null;
 let signer = null;
 let userAddress = null;
 let contracts = {};
+let knownSites = new Set();
+let activityPage = 0;
+let attPage = 0;
+const PAGE_SIZE = 10;
+
+// ─── Particles ────────────────────────────────────────────────────
+function initParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    if (Math.random() > 0.5) p.style.background = 'var(--teal)';
+    container.appendChild(p);
+  }
+}
+initParticles();
+
+// ─── Toast Notifications ──────────────────────────────────────────
+function showToast(title, body, type = 'info', duration = 5000) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.innerHTML = '<div class="toast-title">' + escHtml(title) + '</div><div class="toast-body">' + body + '</div>';
+  toast.onclick = () => dismissToast(toast);
+  container.appendChild(toast);
+  setTimeout(() => dismissToast(toast), duration);
+}
+
+function dismissToast(toast) {
+  if (!toast.parentNode) return;
+  toast.classList.add('toast-out');
+  setTimeout(() => toast.remove(), 300);
+}
 
 // ─── Wallet ───────────────────────────────────────────────────────
 async function connectWallet() {
   if (!window.ethereum) {
-    alert('MetaMask is required. Please install MetaMask to use this dApp.');
+    showToast('MetaMask Required', 'Please install MetaMask to use this dApp.', 'error');
     return;
   }
   try {
@@ -405,7 +722,7 @@ async function connectWallet() {
         });
         provider = new ethers.BrowserProvider(window.ethereum);
       } catch (switchErr) {
-        showStatus('connectStatus', 'Please switch MetaMask to Polygon Mainnet (chain ID 137).', 'error');
+        showToast('Wrong Network', 'Please switch MetaMask to Polygon Mainnet (chain ID 137).', 'error');
         btn.textContent = 'Connect Wallet';
         btn.disabled = false;
         return;
@@ -424,24 +741,87 @@ async function connectWallet() {
     const shortAddr = userAddress.slice(0, 6) + '…' + userAddress.slice(-4);
     document.getElementById('walletAddr').textContent = shortAddr;
     document.getElementById('walletAddr').style.display = '';
+    document.getElementById('disconnectBtn').style.display = '';
     btn.textContent = 'Connected';
     btn.disabled = true;
 
+    showToast('Connected', 'Wallet: ' + shortAddr, 'success', 3000);
+
     await refreshAll();
+    listenForEvents();
 
   } catch (err) {
     console.error('Connection failed:', err);
     const btn = document.getElementById('connectBtn');
     btn.textContent = 'Connect Wallet';
     btn.disabled = false;
-    showStatus('mrvStatus', 'Connection failed: ' + (err.message || err.reason || err), 'error');
+    showToast('Connection Failed', parseError(err), 'error');
+  }
+}
+
+function disconnectWallet() {
+  provider = null;
+  signer = null;
+  userAddress = null;
+  contracts = {};
+  knownSites = new Set();
+
+  document.getElementById('walletAddr').style.display = 'none';
+  document.getElementById('polBalance').style.display = 'none';
+  document.getElementById('disconnectBtn').style.display = 'none';
+  const btn = document.getElementById('connectBtn');
+  btn.textContent = 'Connect Wallet';
+  btn.disabled = false;
+
+  // Reset dashboard
+  ['dashMinted','dashRetired','dashBalance','dashActive','dashSites','dashDisputeWindow',
+   'crBalance','crMinted','crRetired','crRetiredPct','siteCount'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+
+  document.getElementById('dashActivity').innerHTML = '<div class="empty"><div class="icon">📊</div><p>Connect wallet to see recent activity</p></div>';
+  document.getElementById('activityList').innerHTML = '<div class="empty"><div class="icon">📋</div><p>Connect wallet to view transaction history</p></div>';
+
+  showToast('Disconnected', 'Wallet disconnected.', 'info', 3000);
+}
+
+function copyAddress() {
+  if (!userAddress) return;
+  navigator.clipboard.writeText(userAddress).then(() => {
+    showToast('Copied', 'Address copied to clipboard', 'success', 2000);
+  }).catch(() => {});
+}
+
+// ─── Event Listeners ──────────────────────────────────────────────
+function listenForEvents() {
+  if (!contracts.carbonCredit) return;
+  // Auto-refresh on new Transfer events
+  contracts.carbonCredit.on('Transfer', (from, to, value) => {
+    if (from.toLowerCase() === userAddress.toLowerCase() || to.toLowerCase() === userAddress.toLowerCase()) {
+      refreshAll();
+    }
+  });
+  // Auto-refresh on attestation events
+  if (contracts.attestationModule) {
+    contracts.attestationModule.on('AttestationSubmitted', () => {
+      refreshAll();
+    });
   }
 }
 
 async function refreshAll() {
   if (!signer) return;
   try {
-    await Promise.all([refreshBalance(), refreshDashboard(), refreshCredits(), refreshSites(), refreshAdmin()]);
+    await Promise.all([
+      refreshBalance(),
+      refreshDashboard(),
+      refreshCredits(),
+      refreshSites(),
+      refreshAdmin(),
+      loadActivityPage(0),
+      loadAttestationPage(0)
+    ]);
   } catch (e) {
     console.warn('Refresh partial failure:', e);
   }
@@ -460,20 +840,62 @@ async function refreshBalance() {
 // ─── Dashboard ────────────────────────────────────────────────────
 async function refreshDashboard() {
   try {
-    const [minted, retired, window_] = await Promise.all([
+    const [minted, retired, window_, sites] = await Promise.all([
       contracts.carbonCredit.totalMinted(),
       contracts.carbonCredit.totalRetired(),
-      contracts.attestationModule.disputeWindow()
+      contracts.attestationModule.disputeWindow(),
+      contracts.creditSplitter.getSiteCount()
     ]);
-    document.getElementById('dashMinted').textContent = formatTokens(minted);
-    document.getElementById('dashRetired').textContent = formatTokens(retired);
+    animateValue('dashMinted', formatTokens(minted));
+    animateValue('dashRetired', formatTokens(retired));
+    animateValue('dashSites', sites.toString());
     document.getElementById('dashDisputeWindow').textContent = formatDuration(Number(window_));
+
+    // Active supply = minted - retired
+    const active = minted - retired;
+    animateValue('dashActive', formatTokens(active));
 
     if (userAddress) {
       const bal = await contracts.carbonCredit.balanceOf(userAddress);
-      document.getElementById('dashBalance').textContent = formatTokens(bal);
+      animateValue('dashBalance', formatTokens(bal));
     }
+    await refreshDashActivity();
   } catch (e) { console.warn('Dashboard refresh failed:', e); }
+}
+
+async function refreshDashActivity() {
+  const el = document.getElementById('dashActivity');
+  if (!userAddress) return;
+  try {
+    const filter = contracts.carbonCredit.filters.Transfer(null, userAddress);
+    const events = await contracts.carbonCredit.queryFilter(filter, -10000);
+    const sentFilter = contracts.carbonCredit.filters.Transfer(userAddress, null);
+    const sentEvents = await contracts.carbonCredit.queryFilter(sentFilter, -10000);
+    const allEvents = [...events, ...sentEvents].sort((a, b) => b.blockNumber - a.blockNumber).slice(0, 5);
+
+    if (allEvents.length === 0) {
+      el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>No recent transfer activity</p></div>';
+      return;
+    }
+
+    let html = '';
+    for (const ev of allEvents) {
+      const { from, to, value } = ev.args;
+      const isIncoming = to.toLowerCase() === userAddress.toLowerCase();
+      const amount = formatTokens(value);
+      const other = isIncoming ? from : to;
+      const shortOther = other.slice(0, 6) + '…' + other.slice(-4);
+      html += '<div class="activity-item">' +
+        '<div class="activity-icon ' + (isIncoming ? 'mint' : 'transfer') + '">' + (isIncoming ? '↓' : '↑') + '</div>' +
+        '<div class="activity-body">' +
+        '<div class="activity-title">' + (isIncoming ? 'Received' : 'Sent') + ' ' + amount + ' credits</div>' +
+        '<div class="activity-meta"><span class="mono">' + shortOther + '</span><span>Block ' + ev.blockNumber + '</span></div>' +
+        '</div></div>';
+    }
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = '<div class="empty"><p style="font-size:.82rem">Could not load activity</p></div>';
+  }
 }
 
 // ─── MRV Portal ───────────────────────────────────────────────────
@@ -490,10 +912,13 @@ async function submitAttestation() {
   try {
     const tx = await contracts.attestationModule.attest(siteId, BigInt(volume));
     showStatus('mrvStatus', 'Transaction submitted: <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">' + tx.hash + '</a>', 'info');
+    showToast('Attestation Submitted', 'Waiting for confirmation…', 'info');
     const receipt = await tx.wait();
     showStatus('mrvStatus', '✓ Attestation confirmed in block ' + receipt.blockNumber + '. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View on Polygonscan</a>', 'success');
+    showToast('Attestation Confirmed', 'Block ' + receipt.blockNumber, 'success');
     document.getElementById('mrvVolume').value = '';
     document.getElementById('mrvSiteCustom').value = '';
+    await loadAttestationPage(0);
   } catch (err) {
     showStatus('mrvStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
@@ -506,6 +931,7 @@ async function lookupAttestation() {
   const id = document.getElementById('mrvLookupId').value;
   if (id === '' || Number(id) < 0) return;
   const el = document.getElementById('mrvLookupResult');
+  el.innerHTML = '<div class="skeleton" style="height:100px"></div>';
   try {
     const att = await contracts.attestationModule.attestations(BigInt(id));
     const siteId = att[0], volume = att[1], ts = att[2], status = att[3], submitter = att[4], finalized = att[5], disputed = att[6];
@@ -516,14 +942,84 @@ async function lookupAttestation() {
     else { statusLabel = 'Pending'; statusClass = 'pending'; }
     el.innerHTML = '<div class="card" style="margin-bottom:0;padding:16px">' +
       '<div class="att-detail">' +
+      '<strong>ID:</strong> ' + id + '<br>' +
       '<strong>Site:</strong> ' + escHtml(siteId) + '<br>' +
       '<strong>Volume:</strong> ' + formatTokens(volume) + ' MCF<br>' +
       '<strong>Submitted:</strong> ' + date + '<br>' +
-      '<strong>Submitter:</strong> <span style="font-family:monospace;font-size:.82rem;color:var(--teal)">' + submitter + '</span><br>' +
+      '<strong>Submitter:</strong> <span class="mono">' + submitter + '</span><br>' +
       '<strong>Status:</strong> ' + statusLabel + ' <span class="tag tag-' + statusClass + '">' + statusLabel + '</span>' +
       '</div></div>';
   } catch (err) {
     el.innerHTML = '<div class="status-msg show error">Not found or error: ' + escHtml(parseError(err)) + '</div>';
+  }
+}
+
+async function loadAttestationPage(page) {
+  attPage = page;
+  const el = document.getElementById('recentAttestations');
+  const allEl = document.getElementById('allAttestations');
+  const pagEl = document.getElementById('attPagination');
+  const allPagEl = document.getElementById('allAttPagination');
+
+  try {
+    let count;
+    try { count = Number(await contracts.attestationModule.attestationCount()); } catch { count = 0; }
+
+    if (count === 0) {
+      el.innerHTML = '<div class="empty"><div class="icon">📄</div><p>No attestations yet</p></div>';
+      allEl.innerHTML = '<div class="empty"><div class="icon">📄</div><p>No attestations yet</p></div>';
+      return;
+    }
+
+    const totalPages = Math.ceil(count / PAGE_SIZE);
+    const start = Math.max(0, count - 1 - page * PAGE_SIZE);
+    const end = Math.max(-1, start - PAGE_SIZE);
+    const attestations = [];
+
+    for (let i = start; i > end && i >= 0; i--) {
+      try {
+        const att = await contracts.attestationModule.attestations(BigInt(i));
+        attestations.push({ id: i, siteId: att[0], volume: att[1], timestamp: att[2], status: att[3], submitter: att[4], finalized: att[5], disputed: att[6] });
+      } catch { break; }
+    }
+
+    const renderList = (items) => {
+      if (items.length === 0) return '<div class="empty"><p>No attestations found</p></div>';
+      let html = '';
+      for (const att of items) {
+        const date = new Date(Number(att.timestamp) * 1000).toLocaleString();
+        let statusLabel, statusClass;
+        if (att.finalized) { statusLabel = 'Finalized'; statusClass = 'finalized'; }
+        else if (att.disputed) { statusLabel = 'Disputed'; statusClass = 'disputed'; }
+        else { statusLabel = 'Pending'; statusClass = 'pending'; }
+        html += '<div class="activity-item">' +
+          '<div class="activity-icon attest">📋</div>' +
+          '<div class="activity-body">' +
+          '<div class="activity-title">#' + att.id + ' — ' + escHtml(att.siteId) + ' <span class="tag tag-' + statusClass + '">' + statusLabel + '</span></div>' +
+          '<div class="activity-meta"><span>' + formatTokens(att.volume) + ' MCF</span><span class="mono">' + att.submitter.slice(0, 8) + '…</span><span>' + date + '</span></div>' +
+          '</div></div>';
+      }
+      return html;
+    };
+
+    el.innerHTML = renderList(attestations.slice(0, 5));
+    allEl.innerHTML = renderList(attestations);
+
+    const renderPagination = (container, currentPage, total) => {
+      if (total <= 1) { container.style.display = 'none'; return; }
+      container.style.display = 'flex';
+      let html = '<button class="pg-btn" onclick="loadAttestationPage(' + (currentPage - 1) + ')" ' + (currentPage === 0 ? 'disabled' : '') + '>‹ Prev</button>';
+      html += '<span class="pg-info">Page ' + (currentPage + 1) + ' of ' + total + '</span>';
+      html += '<button class="pg-btn" onclick="loadAttestationPage(' + (currentPage + 1) + ')" ' + (currentPage >= total - 1 ? 'disabled' : '') + '>Next ›</button>';
+      container.innerHTML = html;
+    };
+
+    renderPagination(pagEl, page, totalPages);
+    renderPagination(allPagEl, page, totalPages);
+
+  } catch (e) {
+    el.innerHTML = '<div class="empty"><p style="font-size:.82rem">Could not load attestations</p></div>';
+    allEl.innerHTML = '<div class="empty"><p style="font-size:.82rem">Could not load attestations</p></div>';
   }
 }
 
@@ -537,9 +1033,18 @@ async function refreshCredits() {
     document.getElementById('crMinted').textContent = formatTokens(minted);
     document.getElementById('crRetired').textContent = formatTokens(retired);
 
+    // Calculate retirement percentage
+    if (minted > 0n) {
+      const pct = Number((retired * 10000n) / minted) / 100;
+      document.getElementById('crRetiredPct').textContent = pct.toFixed(1) + '%';
+    } else {
+      document.getElementById('crRetiredPct').textContent = '0%';
+    }
+
     if (userAddress) {
       const bal = await contracts.carbonCredit.balanceOf(userAddress);
       document.getElementById('crBalance').textContent = formatTokens(bal);
+      document.getElementById('transferMax').textContent = 'Max: ' + formatTokens(bal) + ' credits available';
     }
   } catch (e) { console.warn('Credits refresh failed:', e); }
 }
@@ -557,8 +1062,10 @@ async function retireCredits() {
   try {
     const tx = await contracts.carbonCredit.retire(BigInt(amount), reason);
     showStatus('retireStatus', 'Transaction submitted…', 'info');
+    showToast('Retirement Submitted', 'Waiting for confirmation…', 'info');
     const receipt = await tx.wait();
     showStatus('retireStatus', '✓ ' + amount + ' credits retired. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Credits Retired', amount + ' credits permanently retired', 'success');
     document.getElementById('retireAmount').value = '';
     document.getElementById('retireReason').value = '';
     await refreshCredits();
@@ -566,8 +1073,125 @@ async function retireCredits() {
   } catch (err) {
     showStatus('retireStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
-    btn.textContent = 'Retire Credits';
+    btn.textContent = '♻️ Retire Credits';
     btn.disabled = false;
+  }
+}
+
+// ─── Transfer ─────────────────────────────────────────────────────
+async function transferCredits() {
+  const to = document.getElementById('transferTo').value.trim();
+  const amount = document.getElementById('transferAmount').value;
+  if (!to || !ethers.isAddress(to)) return showStatus('transferStatus', 'Enter a valid recipient address.', 'error');
+  if (!amount || Number(amount) <= 0) return showStatus('transferStatus', 'Enter a valid amount.', 'error');
+
+  const btn = document.getElementById('transferBtn');
+  btn.innerHTML = '<span class="spinner"></span>Sending…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.carbonCredit.transfer(to, BigInt(amount));
+    showStatus('transferStatus', 'Transaction submitted: <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">' + tx.hash.slice(0, 16) + '…</a>', 'info');
+    showToast('Transfer Submitted', 'Sending ' + amount + ' credits…', 'info');
+    const receipt = await tx.wait();
+    showStatus('transferStatus', '✓ ' + amount + ' credits sent to ' + to.slice(0, 10) + '…. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Transfer Complete', amount + ' credits sent', 'success');
+    document.getElementById('transferTo').value = '';
+    document.getElementById('transferAmount').value = '';
+    await refreshCredits();
+    await refreshDashboard();
+  } catch (err) {
+    showStatus('transferStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = '↗️ Send Credits';
+    btn.disabled = false;
+  }
+}
+
+async function distributeCredits() {
+  const siteId = document.getElementById('distributeSite').value;
+  const amount = document.getElementById('distributeAmount').value;
+  if (!siteId) return showStatus('distributeStatus', 'Select a site.', 'error');
+  if (!amount || Number(amount) <= 0) return showStatus('distributeStatus', 'Enter a valid amount.', 'error');
+
+  const btn = document.getElementById('distributeBtn');
+  btn.innerHTML = '<span class="spinner"></span>Distributing…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.creditSplitter.distribute(siteId, BigInt(amount));
+    showStatus('distributeStatus', 'Transaction submitted…', 'info');
+    showToast('Distribution Submitted', 'Distributing to ' + siteId + '…', 'info');
+    await tx.wait();
+    showStatus('distributeStatus', '✓ ' + amount + ' credits distributed to site "' + escHtml(siteId) + '". <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Distribution Complete', amount + ' credits distributed', 'success');
+    document.getElementById('distributeAmount').value = '';
+  } catch (err) {
+    showStatus('distributeStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = '📤 Distribute';
+    btn.disabled = false;
+  }
+}
+
+// ─── Activity ─────────────────────────────────────────────────────
+async function loadActivityPage(page) {
+  activityPage = page;
+  const el = document.getElementById('activityList');
+  const pagEl = document.getElementById('activityPagination');
+  if (!userAddress || !contracts.carbonCredit) return;
+
+  try {
+    // Get Transfer events involving user (last 50000 blocks)
+    const receivedFilter = contracts.carbonCredit.filters.Transfer(null, userAddress);
+    const sentFilter = contracts.carbonCredit.filters.Transfer(userAddress, null);
+    const [received, sent] = await Promise.all([
+      contracts.carbonCredit.queryFilter(receivedFilter, -50000),
+      contracts.carbonCredit.queryFilter(sentFilter, -50000)
+    ]);
+
+    const allEvents = [...received.map(e => ({ ...e, _type: 'in' })), ...sent.map(e => ({ ...e, _type: 'out' }))]
+      .sort((a, b) => b.blockNumber - a.blockNumber || b.transactionIndex - a.transactionIndex);
+
+    const totalPages = Math.ceil(allEvents.length / PAGE_SIZE);
+    const pageEvents = allEvents.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+    if (pageEvents.length === 0) {
+      el.innerHTML = '<div class="empty"><div class="icon">📋</div><p>No transfer history found</p></div>';
+      pagEl.style.display = 'none';
+      return;
+    }
+
+    let html = '';
+    for (const ev of pageEvents) {
+      const { from, to, value } = ev.args;
+      const isIncoming = ev._type === 'in';
+      const amount = formatTokens(value);
+      const other = isIncoming ? from : to;
+      const shortOther = other.slice(0, 8) + '…' + other.slice(-6);
+      html += '<div class="activity-item">' +
+        '<div class="activity-icon ' + (isIncoming ? 'mint' : 'transfer') + '">' + (isIncoming ? '↓' : '↑') + '</div>' +
+        '<div class="activity-body">' +
+        '<div class="activity-title">' + (isIncoming ? 'Received' : 'Sent') + ' ' + amount + ' credits ' + (isIncoming ? 'from' : 'to') + '</div>' +
+        '<div class="activity-meta">' +
+        '<span class="mono">' + shortOther + '</span>' +
+        '<span>Block ' + ev.blockNumber + '</span>' +
+        '<a href="' + EXPLORER + '/tx/' + ev.transactionHash + '" target="_blank" style="color:var(--accent);text-decoration:none;font-size:.73rem">↗ Tx</a>' +
+        '</div></div></div>';
+    }
+    el.innerHTML = html;
+
+    if (totalPages > 1) {
+      pagEl.style.display = 'flex';
+      let pagHtml = '<button class="pg-btn" onclick="loadActivityPage(' + (page - 1) + ')" ' + (page === 0 ? 'disabled' : '') + '>‹ Prev</button>';
+      pagHtml += '<span class="pg-info">Page ' + (page + 1) + ' of ' + totalPages + '</span>';
+      pagHtml += '<button class="pg-btn" onclick="loadActivityPage(' + (page + 1) + ')" ' + (page >= totalPages - 1 ? 'disabled' : '') + '>Next ›</button>';
+      pagEl.innerHTML = pagHtml;
+    } else {
+      pagEl.style.display = 'none';
+    }
+  } catch (e) {
+    el.innerHTML = '<div class="empty"><p style="font-size:.82rem">Could not load activity. The RPC may have rate-limited event queries.</p></div>';
   }
 }
 
@@ -576,8 +1200,35 @@ async function refreshSites() {
   try {
     const count = await contracts.creditSplitter.getSiteCount();
     document.getElementById('siteCount').textContent = count.toString();
-    // Populate MRV site dropdown if we can read events (basic: just show count)
+
+    // Try to populate site dropdowns from SiteRegistered events
+    await populateSiteDropdowns();
   } catch (e) { console.warn('Sites refresh failed:', e); }
+}
+
+async function populateSiteDropdowns() {
+  try {
+    const filter = contracts.creditSplitter.filters.SiteRegistered();
+    const events = await contracts.creditSplitter.queryFilter(filter, -100000);
+    knownSites = new Set(events.map(e => e.args.siteId));
+
+    const selectors = ['mrvSite', 'distributeSite'];
+    for (const selId of selectors) {
+      const sel = document.getElementById(selId);
+      const current = sel.value;
+      // Keep first option
+      while (sel.options.length > 1) sel.remove(1);
+      for (const siteId of knownSites) {
+        const opt = document.createElement('option');
+        opt.value = siteId;
+        opt.textContent = siteId;
+        sel.appendChild(opt);
+      }
+      if (current && knownSites.has(current)) sel.value = current;
+    }
+  } catch (e) {
+    console.warn('Could not populate site dropdowns:', e);
+  }
 }
 
 async function registerSite() {
@@ -595,8 +1246,10 @@ async function registerSite() {
   try {
     const tx = await contracts.creditSplitter.registerSite(siteId, owner, BigInt(share));
     showStatus('siteStatus', 'Transaction submitted…', 'info');
+    showToast('Site Registration', 'Registering site "' + siteId + '"…', 'info');
     const receipt = await tx.wait();
     showStatus('siteStatus', '✓ Site "' + escHtml(siteId) + '" registered. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Site Registered', '"' + siteId + '" registered successfully', 'success');
     document.getElementById('siteId').value = '';
     document.getElementById('siteOwner').value = '';
     document.getElementById('siteShare').value = '';
@@ -605,6 +1258,32 @@ async function registerSite() {
     showStatus('siteStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
     btn.textContent = 'Register Site';
+    btn.disabled = false;
+  }
+}
+
+async function updateSiteShare() {
+  const siteId = document.getElementById('updateSiteId').value.trim();
+  const share = document.getElementById('updateSiteShare').value;
+  if (!siteId) return showStatus('updateShareStatus', 'Please enter a site ID.', 'error');
+  if (share === '' || Number(share) < 0 || Number(share) > 10000) return showStatus('updateShareStatus', 'Share must be between 0 and 10000 BPS.', 'error');
+
+  const btn = document.getElementById('updateShareBtn');
+  btn.innerHTML = '<span class="spinner"></span>Updating…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.creditSplitter.updateShare(siteId, BigInt(share));
+    showStatus('updateShareStatus', 'Transaction submitted…', 'info');
+    await tx.wait();
+    showStatus('updateShareStatus', '✓ Share updated for "' + escHtml(siteId) + '" to ' + share + ' BPS. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Share Updated', siteId + ' → ' + share + ' BPS', 'success');
+    document.getElementById('updateSiteId').value = '';
+    document.getElementById('updateSiteShare').value = '';
+  } catch (err) {
+    showStatus('updateShareStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Update Share';
     btn.disabled = false;
   }
 }
@@ -623,6 +1302,38 @@ async function refreshAdmin() {
   }
 }
 
+async function adminMint() {
+  let to = document.getElementById('adminMintTo').value.trim();
+  const amount = document.getElementById('adminMintAmount').value;
+  const siteId = document.getElementById('adminMintSite').value.trim();
+  if (!to) to = userAddress;
+  if (!ethers.isAddress(to)) return showStatus('adminMintStatus', 'Invalid recipient address.', 'error');
+  if (!amount || Number(amount) <= 0) return showStatus('adminMintStatus', 'Enter a valid amount.', 'error');
+  if (!siteId) return showStatus('adminMintStatus', 'Enter a site ID.', 'error');
+
+  const btn = document.getElementById('adminMintBtn');
+  btn.innerHTML = '<span class="spinner"></span>Minting…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.carbonCredit.mint(to, BigInt(amount), siteId);
+    showStatus('adminMintStatus', 'Transaction submitted…', 'info');
+    const receipt = await tx.wait();
+    showStatus('adminMintStatus', '✓ ' + amount + ' credits minted to ' + to.slice(0, 10) + '…. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Credits Minted', amount + ' new credits created', 'success');
+    document.getElementById('adminMintTo').value = '';
+    document.getElementById('adminMintAmount').value = '';
+    document.getElementById('adminMintSite').value = '';
+    await refreshDashboard();
+    await refreshCredits();
+  } catch (err) {
+    showStatus('adminMintStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Mint Credits';
+    btn.disabled = false;
+  }
+}
+
 async function adminFinalize() {
   const id = document.getElementById('adminFinalizeId').value;
   if (id === '' || Number(id) < 0) return showStatus('adminFinalizeStatus', 'Enter an attestation ID.', 'error');
@@ -634,6 +1345,8 @@ async function adminFinalize() {
     showStatus('adminFinalizeStatus', 'Submitted…', 'info');
     await tx.wait();
     showStatus('adminFinalizeStatus', '✓ Attestation #' + id + ' finalized. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Finalized', 'Attestation #' + id + ' finalized', 'success');
+    await loadAttestationPage(attPage);
   } catch (err) {
     showStatus('adminFinalizeStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
@@ -653,6 +1366,8 @@ async function adminDispute() {
     showStatus('adminDisputeStatus', 'Submitted…', 'info');
     await tx.wait();
     showStatus('adminDisputeStatus', '✓ Attestation #' + id + ' disputed. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Disputed', 'Attestation #' + id + ' flagged', 'info');
+    await loadAttestationPage(attPage);
   } catch (err) {
     showStatus('adminDisputeStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
@@ -673,6 +1388,8 @@ async function adminResolve() {
     showStatus('adminResolveStatus', 'Submitted…', 'info');
     await tx.wait();
     showStatus('adminResolveStatus', '✓ Dispute #' + id + ' resolved (' + (approve ? 'approved' : 'rejected') + '). <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Dispute Resolved', '#' + id + ' ' + (approve ? 'approved' : 'rejected'), 'success');
+    await loadAttestationPage(attPage);
   } catch (err) {
     showStatus('adminResolveStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
@@ -692,11 +1409,33 @@ async function adminSetWindow() {
     showStatus('adminWindowStatus', 'Submitted…', 'info');
     await tx.wait();
     showStatus('adminWindowStatus', '✓ Dispute window updated to ' + formatDuration(Number(val)) + '. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Window Updated', formatDuration(Number(val)), 'success');
     await refreshDashboard();
   } catch (err) {
     showStatus('adminWindowStatus', 'Failed: ' + parseError(err), 'error');
   } finally {
     btn.textContent = 'Update';
+    btn.disabled = false;
+  }
+}
+
+async function adminSetMinter() {
+  const addr = document.getElementById('adminMinterAddr').value.trim();
+  if (!addr || !ethers.isAddress(addr)) return showStatus('adminMinterStatus', 'Enter a valid address.', 'error');
+  const btn = document.getElementById('adminMinterBtn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+  try {
+    const tx = await contracts.carbonCredit.setMinter(addr);
+    showStatus('adminMinterStatus', 'Submitted…', 'info');
+    await tx.wait();
+    showStatus('adminMinterStatus', '✓ Minter set to ' + addr.slice(0, 10) + '…. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    showToast('Minter Updated', 'New minter: ' + addr.slice(0, 10) + '…', 'success');
+    document.getElementById('adminMinterAddr').value = '';
+  } catch (err) {
+    showStatus('adminMinterStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Set Minter';
     btn.disabled = false;
   }
 }
@@ -710,7 +1449,6 @@ function switchTab(name) {
 
 // ─── Helpers ──────────────────────────────────────────────────────
 function formatTokens(bigint) {
-  // Tokens may have 18 decimals — show formatted
   try {
     const val = parseFloat(ethers.formatUnits(bigint, 18));
     if (val >= 1e6) return (val / 1e6).toFixed(2) + 'M';
@@ -764,6 +1502,21 @@ function showStatus(id, msg, type) {
   if (!el) return;
   el.className = 'status-msg show ' + type;
   el.innerHTML = msg;
+}
+
+// Animated value change
+function animateValue(elementId, newValue) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const oldVal = el.textContent;
+  if (oldVal === newValue) return;
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(-4px)';
+  setTimeout(() => {
+    el.textContent = newValue;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, 150);
 }
 
 // ─── Auto-connect if already authorized ───────────────────────────
