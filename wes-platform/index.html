@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WES Field Operations Platform</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#888;--card:#12121e;--border:#2a2a3e;--red:#e04050;--yellow:#e0a030}
+body{font-family:'SF Pro Display','SF Pro Text','SFNS','SFNS Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,var(--bg),var(--bg2));color:var(--text);min-height:100vh}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(10,10,15,0.8);position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#connectBtn{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
+#connectBtn:hover{opacity:0.9}
+#connectBtn.connected{background:var(--accent2)}
+.wallet-info{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text2)}
+.tabs{display:flex;gap:4px;padding:12px 24px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:.2s;white-space:nowrap}
+.tab:hover{background:rgba(124,92,252,.1)}
+.tab.active{background:var(--accent);color:#fff}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.card h3{margin-bottom:12px;font-size:16px;color:var(--accent2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-grid.full{grid-template-columns:1fr}
+label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px}
+input,select,textarea{width:100%;padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:inherit}
+textarea{resize:vertical;min-height:60px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+button{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit}
+button:hover{opacity:.85}
+button.secondary{background:var(--accent2)}
+button.danger{background:var(--red)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat .val{font-size:28px;font-weight:700;color:var(--accent)}
+.stat .lbl{font-size:12px;color:var(--text2);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px;color:var(--text2);border-bottom:1px solid var(--border);font-weight:500}
+td{padding:8px;border-bottom:1px solid rgba(42,42,62,.5)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-created{background:rgba(124,92,252,.2);color:var(--accent)}
+.badge-assigned{background:rgba(224,160,48,.2);color:var(--yellow)}
+.badge-inprogress{background:rgba(78,201,176,.2);color:var(--accent2)}
+.badge-completed{background:rgba(78,201,176,.4);color:#fff}
+.badge-disputed{background:rgba(224,64,80,.2);color:var(--red)}
+.badge-resolved{background:rgba(255,255,255,.1);color:var(--text)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);padding:12px 20px;border-radius:8px;font-size:13px;z-index:999;max-width:400px;display:none}
+.toast.show{display:block;animation:slideIn .3s}
+.toast.error{border-color:var(--red)}
+@keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.hidden{display:none}
+.chain-warn{background:rgba(224,64,80,.15);border:1px solid var(--red);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;text-align:center}
+@media(max-width:768px){.form-grid{grid-template-columns:1fr}.header{flex-wrap:wrap;gap:8px}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">⛏ WES Field Operations</div>
+  <div class="wallet-info">
+    <span id="chainName"></span>
+    <span id="polBalance"></span>
+    <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="dashboard">Dashboard</div>
+  <div class="tab" data-tab="jobs">Job Dispatch</div>
+  <div class="tab" data-tab="crew">Crew Manager</div>
+  <div class="tab" data-tab="compliance">Compliance</div>
+  <div class="tab" data-tab="incidents">Incidents</div>
+</div>
+<div class="container">
+  <!-- Dashboard -->
+  <div id="tab-dashboard">
+    <div id="chainWarn" class="chain-warn hidden">⚠️ Please switch to Polygon Mainnet (Chain ID 137)</div>
+    <div class="stats" id="dashStats"></div>
+    <div class="card">
+      <h3>🔗 Contract Links</h3>
+      <p style="margin-bottom:8px">
+        <strong>WESJobTicket:</strong> 
+        <a href="https://polygonscan.com/address/0x7c9f7100056e70aaa64b3243d8ba28ae5e687697" target="_blank">
+          0x7c9f…7697
+        </a>
+      </p>
+      <p>
+        <strong>WESCompliance:</strong> 
+        <a href="https://polygonscan.com/address/0x9b3b5997871bc099b8330cd4bc40877f03a77e70" target="_blank">
+          0x9b3b…7e70
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Jobs -->
+  <div id="tab-jobs" class="hidden">
+    <div class="card">
+      <h3>📋 Create Job Ticket</h3>
+      <div class="form-grid">
+        <div><label>Client Address</label><input id="jClient" placeholder="0x..."></div>
+        <div><label>Site Location</label><input id="jSite" placeholder="Well pad, basin, etc."></div>
+        <div><label>Service Type</label>
+          <select id="jService">
+            <option value="0">Roustabout</option>
+            <option value="1">Hydro Excavation</option>
+            <option value="2">Welding</option>
+            <option value="3">Corrosion Protection</option>
+            <option value="4">Other</option>
+          </select>
+        </div>
+        <div><label>Estimated Amount (POL)</label><input id="jAmount" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="full"><label>Description</label><textarea id="jDesc" placeholder="Job details..."></textarea></div>
+      </div>
+      <button onclick="createJob()" style="margin-top:12px">Create Job</button>
+    </div>
+    <div class="card">
+      <h3>📊 Job List</h3>
+      <div id="jobList"><p style="color:var(--text2)">Connect wallet to view jobs</p></div>
+    </div>
+  </div>
+
+  <!-- Crew -->
+  <div id="tab-crew" class="hidden">
+    <div class="card">
+      <h3>👷 Register Crew</h3>
+      <div class="form-grid">
+        <div><label>Crew Address</label><input id="cAddr" placeholder="0x..."></div>
+        <div><label>Name</label><input id="cName" placeholder="Full name"></div>
+        <div><label>Role</label><input id="cRole" placeholder="e.g. Welder, Foreman"></div>
+      </div>
+      <button onclick="registerCrew()" style="margin-top:12px">Register</button>
+    </div>
+    <div class="card">
+      <h3>✅ Verify / Safety Score</h3>
+      <div class="form-grid">
+        <div><label>Crew Address</label><input id="cvAddr" placeholder="0x..."></div>
+        <div><label>Safety Score (0-100)</label><input id="cvScore" type="number" min="0" max="100" placeholder="85"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="secondary" onclick="verifyCrew(true)">Verify ✓</button>
+        <button class="danger" onclick="verifyCrew(false)">Revoke ✗</button>
+        <button onclick="updateSafety()">Update Score</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔍 Look Up Crew</h3>
+      <div class="form-grid">
+        <div><label>Address</label><input id="clAddr" placeholder="0x..."></div>
+        <div style="display:flex;align-items:flex-end"><button onclick="lookupCrew()">Look Up</button></div>
+      </div>
+      <div id="crewInfo" style="margin-top:12px;font-size:13px"></div>
+    </div>
+  </div>
+
+  <!-- Compliance -->
+  <div id="tab-compliance" class="hidden">
+    <div class="card">
+      <h3>📜 Record Compliance</h3>
+      <div class="form-grid">
+        <div><label>Crew Address</label><input id="coAddr" placeholder="0x..."></div>
+        <div><label>Compliance Type</label>
+          <select id="coType">
+            <option value="0">OSHA</option><option value="1">NDIC</option><option value="2">EPA</option><option value="3">DOT</option>
+            <option value="4">H2S</option><option value="5">Confined Space</option><option value="6">Hot Work</option><option value="7">CDL</option>
+          </select>
+        </div>
+        <div><label>Issued Date</label><input id="coIssued" type="date"></div>
+        <div><label>Expiry Date</label><input id="coExpiry" type="date"></div>
+        <div class="full"><label>Document Hash (IPFS/SHA)</label><input id="coHash" placeholder="Qm... or sha256..."></div>
+      </div>
+      <button onclick="recordCompliance()" style="margin-top:12px">Record</button>
+    </div>
+    <div class="card">
+      <h3>🔍 Check Compliance</h3>
+      <div class="form-grid">
+        <div><label>Crew Address</label><input id="ckAddr" placeholder="0x..."></div>
+        <div><label>Compliance Type</label>
+          <select id="ckType">
+            <option value="0">OSHA</option><option value="1">NDIC</option><option value="2">EPA</option><option value="3">DOT</option>
+            <option value="4">H2S</option><option value="5">Confined Space</option><option value="6">Hot Work</option><option value="7">CDL</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="checkCompliance()" style="margin-top:12px">Check</button>
+      <div id="compResult" style="margin-top:12px;font-size:13px"></div>
+    </div>
+  </div>
+
+  <!-- Incidents -->
+  <div id="tab-incidents" class="hidden">
+    <div class="card">
+      <h3>🚨 Report Incident</h3>
+      <div class="form-grid">
+        <div><label>Crew Address</label><input id="iAddr" placeholder="0x..."></div>
+        <div><label>Severity (1-5)</label><input id="iSev" type="number" min="1" max="5" placeholder="3"></div>
+        <div class="full"><label>Description</label><textarea id="iDesc" placeholder="Incident details..."></textarea></div>
+        <div class="full"><label>Evidence Hash</label><input id="iHash" placeholder="Qm... or sha256..."></div>
+      </div>
+      <button onclick="reportIncident()" style="margin-top:12px">Report</button>
+    </div>
+    <div class="card">
+      <h3>📋 Incidents</h3>
+      <div id="incidentList"><p style="color:var(--text2)">Connect wallet to view incidents</p></div>
+    </div>
+    <div class="card">
+      <h3>✅ Resolve Incident</h3>
+      <div class="form-grid">
+        <div><label>Incident ID</label><input id="riId" type="number" placeholder="0"></div>
+        <div class="full"><label>Corrective Action</label><textarea id="riAction" placeholder="What was done to resolve..."></textarea></div>
+      </div>
+      <button onclick="resolveIncident()" style="margin-top:12px">Resolve</button>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const JOB_ADDR = '0x7c9f7100056e70aaa64b3243d8ba28ae5e687697';
+const COMP_ADDR = '0x9b3b5997871bc099b8330cd4bc40877f03a77e70';
+
+const JOB_ABI = [
+  'function createJob(address client, string siteLocation, uint8 service, string description, uint256 estimatedAmount) returns (uint256)',
+  'function assignCrew(uint256 jobId, address crew)',
+  'function startJob(uint256 jobId)',
+  'function completeJob(uint256 jobId, string evidenceHash)',
+  'function disputeJob(uint256 jobId, string reason)',
+  'function resolveDispute(uint256 jobId, bool approve)',
+  'function markPaid(uint256 jobId)',
+  'function registerCrew(address crew, string name, string role)',
+  'function verifyCrew(address crew, bool status)',
+  'function updateSafetyScore(address crew, uint256 score)',
+  'function getJobCount() view returns (uint256)',
+  'function getJobStatus(uint256 jobId) view returns (uint8)',
+  'function jobs(uint256) view returns (uint256 id, address client, address crew, string siteLocation, uint8 service, string description, uint8 status, uint256 estimatedAmount, uint256 createdAt, string evidenceHash)',
+  'function crews(address) view returns (string name, string role, uint256 safetyScore, bool registered)',
+  'function verifiedCrew(address) view returns (bool)'
+];
+
+const COMP_ABI = [
+  'function recordCompliance(address crew, uint8 compType, uint256 issued, uint256 expiry, string docHash)',
+  'function isCompliant(address crew, uint8 compType) view returns (bool)',
+  'function reportIncident(address crew, string desc, uint256 severity, string evidenceHash) returns (uint256)',
+  'function resolveIncident(uint256 id, string correctiveAction)',
+  'function getIncidentCount() view returns (uint256)',
+  'function incidents(uint256) view returns (uint256 id, address reporter, address crew, string description, uint256 severity, uint8 status, string evidenceHash, uint256 timestamp, string correctiveAction)',
+  'function records(address,uint8,uint256) view returns (address crew, uint8 compType, uint256 issued, uint256 expiry, string docHash)'
+];
+
+const STATUS = ['Created','Assigned','InProgress','Completed','Disputed','Resolved'];
+const BADGE = ['created','assigned','inprogress','completed','disputed','resolved'];
+const SERVICES = ['Roustabout','Hydro Excavation','Welding','Corrosion Protection','Other'];
+const COMP_TYPES = ['OSHA','NDIC','EPA','DOT','H2S','Confined Space','Hot Work','CDL'];
+
+let provider, signer, jobContract, compContract, userAddr;
+
+function toast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' error' : '');
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.className = 'toast', 4000);
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('[id^="tab-"]').forEach(x => x.classList.add('hidden'));
+    document.getElementById('tab-' + t.dataset.tab).classList.remove('hidden');
+    if (t.dataset.tab === 'jobs' && jobContract) loadJobs();
+    if (t.dataset.tab === 'incidents' && compContract) loadIncidents();
+  });
+});
+
+async function connectWallet() {
+  if (!window.ethereum) { toast('Install MetaMask', true); return; }
+  try {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    signer = await provider.getSigner();
+    userAddr = await signer.getAddress();
+
+    const net = await provider.getNetwork();
+    document.getElementById('chainName').textContent = net.chainId === 137n ? 'Polygon' : 'Chain ' + net.chainId;
+    document.getElementById('chainWarn').classList.toggle('hidden', net.chainId === 137n);
+
+    const bal = await provider.getBalance(userAddr);
+    document.getElementById('polBalance').textContent = parseFloat(ethers.formatEther(bal)).toFixed(4) + ' POL';
+
+    const btn = document.getElementById('connectBtn');
+    btn.textContent = userAddr.slice(0,6) + '…' + userAddr.slice(-4);
+    btn.classList.add('connected');
+
+    jobContract = new ethers.Contract(JOB_ADDR, JOB_ABI, signer);
+    compContract = new ethers.Contract(COMP_ADDR, COMP_ABI, signer);
+
+    loadDashboard();
+    toast('Connected: ' + userAddr.slice(0,10) + '…');
+  } catch (e) { toast(e.message || e, true); }
+}
+
+async function loadDashboard() {
+  try {
+    const jc = await jobContract.getJobCount();
+    const ic = await compContract.getIncidentCount();
+    document.getElementById('dashStats').innerHTML = `
+      <div class="stat"><div class="val">${jc}</div><div class="lbl">Total Jobs</div></div>
+      <div class="stat"><div class="val">${ic}</div><div class="lbl">Incidents</div></div>
+      <div class="stat"><div class="val" style="font-size:14px;word-break:break-all">${userAddr}</div><div class="lbl">Wallet</div></div>`;
+  } catch (e) { toast('Dashboard load error: ' + e.message, true); }
+}
+
+async function createJob() {
+  try {
+    const client = document.getElementById('jClient').value.trim();
+    const site = document.getElementById('jSite').value.trim();
+    const service = parseInt(document.getElementById('jService').value);
+    const desc = document.getElementById('jDesc').value.trim();
+    const amount = document.getElementById('jAmount').value;
+    if (!client || !site || !desc) { toast('Fill all fields', true); return; }
+    const tx = await jobContract.createJob(client, site, service, desc, ethers.parseEther(amount || '0'));
+    toast('Tx sent: ' + tx.hash);
+    await tx.wait();
+    toast('Job created!');
+    loadJobs();
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function loadJobs() {
+  try {
+    const count = await jobContract.getJobCount();
+    if (count == 0n) { document.getElementById('jobList').innerHTML = '<p style="color:var(--text2)">No jobs yet</p>'; return; }
+    let rows = '';
+    for (let i = count - 1n; i >= 0n && i >= count - 50n; i--) {
+      const j = await jobContract.jobs(i);
+      const s = Number(j.status);
+      rows += `<tr>
+        <td>#${j.id}</td><td>${j.siteLocation}</td><td>${SERVICES[j.service]}</td>
+        <td><span class="badge badge-${BADGE[s]}">${STATUS[s]}</span></td>
+        <td>${ethers.formatEther(j.estimatedAmount)} POL</td>
+        <td style="font-size:11px">${j.client.slice(0,6)}…${j.client.slice(-4)}</td>
+      </tr>`;
+    }
+    document.getElementById('jobList').innerHTML = `<table><thead><tr><th>ID</th><th>Site</th><th>Service</th><th>Status</th><th>Amount</th><th>Client</th></tr></thead><tbody>${rows}</tbody></table>`;
+  } catch (e) { toast('Job load error: ' + e.message, true); }
+}
+
+async function registerCrew() {
+  try {
+    const addr = document.getElementById('cAddr').value.trim();
+    const name = document.getElementById('cName').value.trim();
+    const role = document.getElementById('cRole').value.trim();
+    if (!addr || !name || !role) { toast('Fill all fields', true); return; }
+    const tx = await jobContract.registerCrew(addr, name, role);
+    toast('Tx sent'); await tx.wait(); toast('Crew registered!');
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function verifyCrew(status) {
+  try {
+    const addr = document.getElementById('cvAddr').value.trim();
+    if (!addr) { toast('Enter address', true); return; }
+    const tx = await jobContract.verifyCrew(addr, status);
+    toast('Tx sent'); await tx.wait(); toast('Crew ' + (status ? 'verified' : 'revoked') + '!');
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function updateSafety() {
+  try {
+    const addr = document.getElementById('cvAddr').value.trim();
+    const score = parseInt(document.getElementById('cvScore').value);
+    if (!addr || isNaN(score)) { toast('Fill fields', true); return; }
+    const tx = await jobContract.updateSafetyScore(addr, score);
+    toast('Tx sent'); await tx.wait(); toast('Safety score updated!');
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function lookupCrew() {
+  try {
+    const addr = document.getElementById('clAddr').value.trim();
+    if (!addr) { toast('Enter address', true); return; }
+    const c = await jobContract.crews(addr);
+    const v = await jobContract.verifiedCrew(addr);
+    document.getElementById('crewInfo').innerHTML = `
+      <p><strong>Name:</strong> ${c.name || '—'}</p>
+      <p><strong>Role:</strong> ${c.role || '—'}</p>
+      <p><strong>Safety Score:</strong> ${c.safetyScore}</p>
+      <p><strong>Registered:</strong> ${c.registered ? 'Yes' : 'No'}</p>
+      <p><strong>Verified:</strong> ${v ? '✅ Yes' : '❌ No'}</p>`;
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function recordCompliance() {
+  try {
+    const addr = document.getElementById('coAddr').value.trim();
+    const type = parseInt(document.getElementById('coType').value);
+    const issued = Math.floor(new Date(document.getElementById('coIssued').value).getTime() / 1000);
+    const expiry = Math.floor(new Date(document.getElementById('coExpiry').value).getTime() / 1000);
+    const hash = document.getElementById('coHash').value.trim();
+    if (!addr || !hash) { toast('Fill all fields', true); return; }
+    const tx = await compContract.recordCompliance(addr, type, issued, expiry, hash);
+    toast('Tx sent'); await tx.wait(); toast('Compliance recorded!');
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function checkCompliance() {
+  try {
+    const addr = document.getElementById('ckAddr').value.trim();
+    const type = parseInt(document.getElementById('ckType').value);
+    if (!addr) { toast('Enter address', true); return; }
+    const ok = await compContract.isCompliant(addr, type);
+    document.getElementById('compResult').innerHTML = ok
+      ? `<span style="color:var(--accent2)">✅ Compliant with ${COMP_TYPES[type]}</span>`
+      : `<span style="color:var(--red)">❌ Not compliant with ${COMP_TYPES[type]}</span>`;
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function reportIncident() {
+  try {
+    const addr = document.getElementById('iAddr').value.trim();
+    const desc = document.getElementById('iDesc').value.trim();
+    const sev = parseInt(document.getElementById('iSev').value);
+    const hash = document.getElementById('iHash').value.trim();
+    if (!addr || !desc) { toast('Fill all fields', true); return; }
+    const tx = await compContract.reportIncident(addr, desc, sev || 3, hash || '');
+    toast('Tx sent'); await tx.wait(); toast('Incident reported!');
+    loadIncidents();
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+
+async function loadIncidents() {
+  try {
+    const count = await compContract.getIncidentCount();
+    if (count == 0n) { document.getElementById('incidentList').innerHTML = '<p style="color:var(--text2)">No incidents</p>'; return; }
+    const iStatus = ['Open','Resolved'];
+    let rows = '';
+    for (let i = count - 1n; i >= 0n && i >= count - 50n; i--) {
+      const inc = await compContract.incidents(i);
+      rows += `<tr>
+        <td>#${inc.id}</td><td>Sev ${inc.severity}</td><td>${inc.description.slice(0,40)}</td>
+        <td>${iStatus[inc.status] || 'Unknown'}</td>
+        <td style="font-size:11px">${inc.crew.slice(0,6)}…${inc.crew.slice(-4)}</td>
+      </tr>`;
+    }
+    document.getElementById('incidentList').innerHTML = `<table><thead><tr><th>ID</th><th>Severity</th><th>Description</th><th>Status</th><th>Crew</th></tr></thead><tbody>${rows}</tbody></table>`;
+  } catch (e) { toast('Incident load error: ' + e.message, true); }
+}
+
+async function resolveIncident() {
+  try {
+    const id = document.getElementById('riId').value;
+    const action = document.getElementById('riAction').value.trim();
+    if (!id || !action) { toast('Fill all fields', true); return; }
+    const tx = await compContract.resolveIncident(id, action);
+    toast('Tx sent'); await tx.wait(); toast('Incident resolved!');
+    loadIncidents();
+  } catch (e) { toast(e.reason || e.message, true); }
+}
+</script>
+</body>
+</html>

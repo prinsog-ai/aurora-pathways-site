@@ -1,0 +1,19 @@
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+broadcast/
+
+# Docs
+docs/
+
+# Env
+.env
+
+# Dependencies
+lib/
+
+# IDE
+.idea/
+.vscode/

@@ -7,7 +7,7 @@ Mark complete with `[x]` — agent updates this file when done.
 
 ## In Progress
 
-_(empty)_
+- [x] **Valence Carbon Credit** — ERC-20 (VCC) + platform for MRV data, credit issuance, revenue splitting (59 tests)
 
 ## Queued
 
@@ -24,6 +24,7 @@ _(empty)_
 - [x] **Staking Contract** — Stake AURA tokens, earn rewards over time (44 tests)
 - [x] **Multi-Sig Factory** — Deploy custom multi-sigs for clients on demand (28 tests)
 - [x] **Airdrop/Merkle Distributor** — Gas-efficient ERC-20 airdrop via Merkle proofs (34 tests)
+- [x] **Valence Carbon Credit** — ERC-20 (VCC) + platform for MRV data, credit issuance, revenue splitting (59 tests)
 
 ---
 

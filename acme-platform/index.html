@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acme Cloud ERP — Blockchain Modules</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg1:#0a0a0f;--bg2:#1a1a2e;--card:#12121e;--border:#2a2a3e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#888;--danger:#e74c3c;--success:#27ae60}
+body{font-family:'SFNS','SF Pro Display','SF Pro Text',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.wallet-info{display:flex;align-items:center;gap:12px;font-size:.85rem}
+.wallet-info .addr{background:var(--card);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-family:monospace;font-size:.8rem}
+.wallet-info .bal{color:var(--accent2);font-weight:600}
+#connectBtn{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.2s}
+#connectBtn:hover{opacity:.85}
+.tabs{display:flex;gap:4px;margin-top:16px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab-btn{background:none;border:none;color:var(--text2);padding:10px 18px;cursor:pointer;font-size:.85rem;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none;padding:20px 0}
+.tab-content.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h3{margin-bottom:14px;font-size:1rem;color:var(--accent)}
+label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:4px;margin-top:10px}
+input,select,textarea{width:100%;padding:10px 12px;background:#0d0d16;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:60px}
+button.action{background:var(--accent);color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s}
+button.action:hover{opacity:.85}
+button.action2{background:var(--accent2);color:#000;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:.2s}
+button.danger{background:var(--danger)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.output{margin-top:12px;padding:12px;background:#0a0a12;border:1px solid var(--border);border-radius:6px;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto;font-family:monospace;line-height:1.6}
+.output .ok{color:var(--success)}.output .err{color:var(--danger)}.output .info{color:var(--accent2)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.stat .val{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat .lbl{font-size:.75rem;color:var(--text2);margin-top:4px}
+.contract-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.contract-links a{background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:6px;font-size:.8rem;transition:.2s}
+.contract-links a:hover{border-color:var(--accent)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.status-dot.on{background:var(--success)}.status-dot.off{background:var(--danger)}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>⬡ Acme Cloud ERP — Blockchain Modules</h1>
+<div class="wallet-info">
+<span id="networkBadge"></span>
+<span class="addr" id="addrDisplay" style="display:none"></span>
+<span class="bal" id="balDisplay" style="display:none"></span>
+<button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+</div>
+</header>
+
+<div class="tabs">
+<button class="tab-btn active" onclick="showTab(0)">Dashboard</button>
+<button class="tab-btn" onclick="showTab(1)">Audit Trail</button>
+<button class="tab-btn" onclick="showTab(2)">Supply Chain</button>
+<button class="tab-btn" onclick="showTab(3)">Settlement</button>
+<button class="tab-btn" onclick="showTab(4)">Admin</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="tab-content active" id="tab0">
+<div class="stats">
+<div class="stat"><div class="val" id="sAudit">—</div><div class="lbl">Audit Entries</div></div>
+<div class="stat"><div class="val" id="sSettle">—</div><div class="lbl">Settlements</div></div>
+<div class="stat"><div class="val" id="sBal">—</div><div class="lbl">Settlement Balance (POL)</div></div>
+</div>
+<div class="card">
+<h3>Deployed Contracts (Polygon Mainnet)</h3>
+<div class="contract-links">
+<a href="https://polygonscan.com/address/0x422907cee2a3e36b19693116c0b68a5a3038bc20" target="_blank">AcmeAuditTrail</a>
+<a href="https://polygonscan.com/address/0x98c0c7e20c998fa673402de5aaab7d6c01da36b6" target="_blank">AcmeSupplyChain</a>
+<a href="https://polygonscan.com/address/0x847429dcbf619665fafef8dd9e18ac904af94379" target="_blank">AcmeSettlement</a>
+</div>
+</div>
+<div class="output" id="dashLog">Connect wallet to load dashboard data.</div>
+</div>
+
+<!-- AUDIT TRAIL -->
+<div class="tab-content" id="tab1">
+<div class="card">
+<h3>Record Audit Entry</h3>
+<div class="row">
+<div><label>Entity Type</label><select id="aType"><option>Invoice</option><option>PurchaseOrder</option><option>PatientRecord</option><option>Contract</option></select></div>
+<div><label>Entity ID</label><input id="aId" placeholder="e.g. INV-2026-001"></div>
+</div>
+<div class="row">
+<div><label>Action</label><select id="aAction"><option>Created</option><option>Updated</option><option>Approved</option><option>Deleted</option></select></div>
+<div><label>Data Hash (keccak256)</label><input id="aHash" placeholder="0x..."></div>
+</div>
+<button class="action" onclick="doRecord()">Record Entry</button>
+</div>
+<div class="card">
+<h3>Verify Integrity</h3>
+<div class="row">
+<div><label>Entry ID</label><input id="vId" type="number" placeholder="0"></div>
+<div><label>Data Hash</label><input id="vHash" placeholder="0x..."></div>
+</div>
+<button class="action" onclick="doVerify()">Verify</button>
+</div>
+<div class="card">
+<h3>Entity History</h3>
+<label>Entity ID</label><input id="hId" placeholder="e.g. INV-2026-001">
+<button class="action" onclick="doHistory()">Get History</button>
+</div>
+<div class="output" id="auditLog"></div>
+</div>
+
+<!-- SUPPLY CHAIN -->
+<div class="tab-content" id="tab2">
+<div class="card">
+<h3>Create Product</h3>
+<div class="row">
+<div><label>Product Name</label><input id="pName" placeholder="Widget Pro"></div>
+<div><label>Manufacturer</label><input id="pMfg" placeholder="Acme Corp"></div>
+</div>
+<label>Metadata Hash</label><input id="pMeta" placeholder="0x...">
+<button class="action" onclick="doCreateProduct()">Create Product</button>
+</div>
+<div class="card">
+<h3>Record Transfer</h3>
+<div class="row">
+<div><label>Product ID</label><input id="tPid" type="number" placeholder="0"></div>
+<div><label>To Address</label><input id="tTo" placeholder="0x..."></div>
+</div>
+<div class="row">
+<div><label>Location</label><input id="tLoc" placeholder="Warehouse B, TX"></div>
+<div><label>Condition Hash</label><input id="tCond" placeholder="0x..."></div>
+</div>
+<label>Notes</label><input id="tNotes" placeholder="Shipped via freight">
+<button class="action" onclick="doTransfer()">Record Transfer</button>
+</div>
+<div class="card">
+<h3>View Product Chain</h3>
+<div class="row">
+<div><label>Product ID</label><input id="cPid" type="number" placeholder="0"></div>
+<div style="display:flex;align-items:flex-end"><button class="action" onclick="doProductChain()">View Chain</button></div>
+</div>
+</div>
+<div class="output" id="scLog"></div>
+</div>
+
+<!-- SETTLEMENT -->
+<div class="tab-content" id="tab3">
+<div class="card">
+<h3>Deposit POL</h3>
+<label>Amount (POL)</label><input id="dAmt" placeholder="1.0">
+<button class="action" onclick="doDeposit()">Deposit</button>
+</div>
+<div class="card">
+<h3>Create Settlement</h3>
+<div class="row">
+<div><label>Receiver Address</label><input id="sRecv" placeholder="0x..."></div>
+<div><label>Amount (wei)</label><input id="sAmt" placeholder="1000000000000000000"></div>
+</div>
+<div class="row">
+<div><label>Currency</label><input id="sCurr" placeholder="POL"></div>
+<div><label>Source Country</label><input id="sSrc" placeholder="US"></div>
+</div>
+<label>Destination Country</label><input id="sDst" placeholder="DE">
+<button class="action" onclick="doCreateSettlement()">Create Settlement</button>
+</div>
+<div class="card">
+<h3>Manage Settlement</h3>
+<div class="row">
+<div><label>Settlement ID</label><input id="mSid" type="number" placeholder="0"></div>
+<div class="btn-row" style="align-items:flex-end;padding-bottom:2px">
+<button class="action" onclick="doSettle()">Settle</button>
+<button class="action danger" onclick="doDispute()">Dispute</button>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Withdraw</h3>
+<button class="action2" onclick="doWithdraw()">Withdraw All</button>
+</div>
+<div class="output" id="setLog"></div>
+</div>
+
+<!-- ADMIN -->
+<div class="tab-content" id="tab4">
+<div class="card">
+<h3>Authorize Handler (Supply Chain)</h3>
+<div class="row">
+<div><label>Handler Address</label><input id="admAddr" placeholder="0x..."></div>
+<div><label>Status</label><select id="admStatus"><option value="true">Authorize</option><option value="false">Revoke</option></select></div>
+</div>
+<button class="action" onclick="doAuthHandler()">Submit</button>
+</div>
+<div class="card">
+<h3>Check Handler Status</h3>
+<label>Address</label><input id="chkAddr" placeholder="0x...">
+<button class="action" onclick="doCheckHandler()">Check</button>
+</div>
+<div class="output" id="admLog"></div>
+</div>
+</div>
+
+<script>
+const AUDIT_ADDR='0x422907cee2a3e36b19693116c0b68a5a3038bc20';
+const SC_ADDR='0x98c0c7e20c998fa673402de5aaab7d6c01da36b6';
+const SET_ADDR='0x847429dcbf619665fafef8dd9e18ac904af94379';
+
+const AUDIT_ABI=[
+  'record(string entityType, string entityId, string action, string dataHash)',
+  'verifyIntegrity(uint256 entryId, string dataHash) view returns (bool)',
+  'getEntityHistory(string entityId) view returns (uint256[])',
+  'getEntryCount() view returns (uint256)',
+  'entries(uint256) view returns (uint256 id, string entityType, string entityId, string action, string dataHash, address recordedBy, uint256 timestamp, bytes32 prevHash)',
+  'lastHash() view returns (bytes32)'
+];
+const SC_ABI=[
+  'createProduct(string name, string manufacturer, string metadataHash)',
+  'recordTransfer(uint256 productId, address to, string location, string conditionHash, string notes)',
+  'authorizeHandler(address handler, bool status)',
+  'getTransferCount(uint256 productId) view returns (uint256)',
+  'getProductChain(uint256 productId) view returns (tuple(uint256 id,address from,address to,string location,string conditionHash,string notes,uint256 timestamp)[])',
+  'products(uint256) view returns (uint256 id, string name, string manufacturer, string metadataHash, address creator, uint256 createdAt)',
+  'authorizedHandlers(address) view returns (bool)'
+];
+const SET_ABI=[
+  'receive() external payable',
+  'createSettlement(address receiver, uint256 amount, string currency, string sourceCountry, string destCountry)',
+  'settle(uint256 settlementId)',
+  'dispute(uint256 settlementId)',
+  'withdraw()',
+  'getSettlementCount() view returns (uint256)',
+  'getBalance(address account) view returns (uint256)',
+  'settlements(uint256) view returns (uint256 id, address sender, address receiver, uint256 amount, string currency, string sourceCountry, string destCountry, uint8 status, uint256 createdAt)'
+];
+
+let provider, signer, audit, sc, sett;
+
+function showTab(i){
+  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  document.querySelectorAll('.tab-content').forEach((c,j)=>c.classList.toggle('active',j===i));
+}
+
+function log(el,msg,type=''){
+  const d=document.getElementById(el);
+  const cls=type==='ok'?'ok':type==='err'?'err':'info';
+  d.innerHTML+=`<div class="${cls}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+  d.scrollTop=d.scrollHeight;
+}
+
+async function connectWallet(){
+  if(!window.ethereum){alert('MetaMask required');return}
+  try{
+    await window.ethereum.request({method:'wallet_requestWalletPermissions',params:[{eth_accounts:{}}]}).catch(()=>{});
+    provider=new ethers.BrowserProvider(window.ethereum);
+    signer=await provider.getSigner();
+    const addr=await signer.getAddress();
+    const net=await provider.getNetwork();
+    if(Number(net.chainId)!==137){
+      try{await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x89'}]})}
+      catch(e){log('dashLog','Please switch to Polygon Mainnet (137)','err');return}
+    }
+    document.getElementById('addrDisplay').textContent=addr.slice(0,6)+'…'+addr.slice(-4);
+    document.getElementById('addrDisplay').style.display='';
+    document.getElementById('networkBadge').innerHTML='<span class="status-dot on"></span>Polygon';
+    document.getElementById('connectBtn').textContent='Connected';
+
+    audit=new ethers.Contract(AUDIT_ADDR,AUDIT_ABI,signer);
+    sc=new ethers.Contract(SC_ADDR,SC_ABI,signer);
+    sett=new ethers.Contract(SET_ADDR,SET_ABI,signer);
+
+    await refreshDashboard(addr);
+  }catch(e){log('dashLog','Connect failed: '+e.message,'err')}
+}
+
+async function refreshDashboard(addr){
+  try{
+    const bal=await provider.getBalance(addr);
+    document.getElementById('balDisplay').textContent=parseFloat(ethers.formatEther(bal)).toFixed(4)+' POL';
+    document.getElementById('balDisplay').style.display='';
+    const ac=await audit.getEntryCount();
+    document.getElementById('sAudit').textContent=ac.toString();
+    const sCnt=await sett.getSettlementCount();
+    document.getElementById('sSettle').textContent=sCnt.toString();
+    const sBal=await sett.getBalance(addr);
+    document.getElementById('sBal').textContent=parseFloat(ethers.formatEther(sBal)).toFixed(4);
+    const lh=await audit.lastHash();
+    log('dashLog',`Dashboard loaded. Audit entries: ${ac}, Settlements: ${sCnt}, Balance: ${ethers.formatEther(sBal)} POL, LastHash: ${lh}`,'ok');
+  }catch(e){log('dashLog','Dashboard error: '+e.message,'err')}
+}
+
+async function doRecord(){
+  try{
+    log('auditLog','Sending audit record tx…');
+    const tx=await audit.record(
+      document.getElementById('aType').value,
+      document.getElementById('aId').value,
+      document.getElementById('aAction').value,
+      document.getElementById('aHash').value
+    );
+    log('auditLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('auditLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('auditLog','Error: '+e.message,'err')}
+}
+
+async function doVerify(){
+  try{
+    const res=await audit.verifyIntegrity(
+      document.getElementById('vId').value,
+      document.getElementById('vHash').value
+    );
+    log('auditLog',`Integrity: ${res?'✅ VALID':'❌ MISMATCH'}`,res?'ok':'err');
+  }catch(e){log('auditLog','Error: '+e.message,'err')}
+}
+
+async function doHistory(){
+  try{
+    const ids=await audit.getEntityHistory(document.getElementById('hId').value);
+    if(ids.length===0){log('auditLog','No history found.');return}
+    log('auditLog',`Found ${ids.length} entries: ${ids.map(i=>i.toString()).join(', ')}`,'info');
+    for(const id of ids){
+      const e=await audit.entries(id);
+      log('auditLog',`  #${e.id} | ${e.entityType} | ${e.action} | ${e.dataHash} | ${new Date(Number(e.timestamp)*1000).toISOString()}`);
+    }
+  }catch(e){log('auditLog','Error: '+e.message,'err')}
+}
+
+async function doCreateProduct(){
+  try{
+    log('scLog','Creating product…');
+    const tx=await sc.createProduct(
+      document.getElementById('pName').value,
+      document.getElementById('pMfg').value,
+      document.getElementById('pMeta').value
+    );
+    log('scLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('scLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('scLog','Error: '+e.message,'err')}
+}
+
+async function doTransfer(){
+  try{
+    log('scLog','Recording transfer…');
+    const tx=await sc.recordTransfer(
+      document.getElementById('tPid').value,
+      document.getElementById('tTo').value,
+      document.getElementById('tLoc').value,
+      document.getElementById('tCond').value,
+      document.getElementById('tNotes').value
+    );
+    log('scLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('scLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('scLog','Error: '+e.message,'err')}
+}
+
+async function doProductChain(){
+  try{
+    const pid=document.getElementById('cPid').value;
+    const p=await sc.products(pid);
+    log('scLog',`Product #${p.id}: ${p.name} by ${p.manufacturer} | Creator: ${p.creator}`,'info');
+    const chain=await sc.getProductChain(pid);
+    if(chain.length===0){log('scLog','  No transfers recorded.');return}
+    for(const t of chain){
+      log('scLog',`  Transfer #${t.id}: ${t.from.slice(0,8)}…→${t.to.slice(0,8)}… | ${t.location} | ${t.notes} | ${new Date(Number(t.timestamp)*1000).toISOString()}`);
+    }
+  }catch(e){log('scLog','Error: '+e.message,'err')}
+}
+
+async function doDeposit(){
+  try{
+    log('setLog','Depositing POL…');
+    const tx=await signer.sendTransaction({to:SET_ADDR,value:ethers.parseEther(document.getElementById('dAmt').value)});
+    log('setLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('setLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('setLog','Error: '+e.message,'err')}
+}
+
+async function doCreateSettlement(){
+  try{
+    log('setLog','Creating settlement…');
+    const tx=await sett.createSettlement(
+      document.getElementById('sRecv').value,
+      document.getElementById('sAmt').value,
+      document.getElementById('sCurr').value,
+      document.getElementById('sSrc').value,
+      document.getElementById('sDst').value
+    );
+    log('setLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('setLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('setLog','Error: '+e.message,'err')}
+}
+
+async function doSettle(){
+  try{
+    log('setLog','Settling…');
+    const tx=await sett.settle(document.getElementById('mSid').value);
+    log('setLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('setLog',`Settled in block ${r.blockNumber}`,'ok');
+  }catch(e){log('setLog','Error: '+e.message,'err')}
+}
+
+async function doDispute(){
+  try{
+    log('setLog','Disputing…');
+    const tx=await sett.dispute(document.getElementById('mSid').value);
+    log('setLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('setLog',`Disputed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('setLog','Error: '+e.message,'err')}
+}
+
+async function doWithdraw(){
+  try{
+    log('setLog','Withdrawing…');
+    const tx=await sett.withdraw();
+    log('setLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('setLog',`Withdrawn in block ${r.blockNumber}`,'ok');
+  }catch(e){log('setLog','Error: '+e.message,'err')}
+}
+
+async function doAuthHandler(){
+  try{
+    log('admLog','Authorizing handler…');
+    const tx=await sc.authorizeHandler(
+      document.getElementById('admAddr').value,
+      document.getElementById('admStatus').value==='true'
+    );
+    log('admLog',`TX: ${tx.hash}`,'info');
+    const r=await tx.wait();
+    log('admLog',`Confirmed in block ${r.blockNumber}`,'ok');
+  }catch(e){log('admLog','Error: '+e.message,'err')}
+}
+
+async function doCheckHandler(){
+  try{
+    const res=await sc.authorizedHandlers(document.getElementById('chkAddr').value);
+    log('admLog',`Handler authorized: ${res?'✅ Yes':'❌ No'}`,res?'ok':'err');
+  }catch(e){log('admLog','Error: '+e.message,'err')}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valence — Carbon Credit Platform</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-dark:#0a0a0f;--bg-mid:#1a1a2e;--bg-card:rgba(255,255,255,.04);
+  --bg-card-hover:rgba(255,255,255,.07);--border:rgba(255,255,255,.08);
+  --accent:#7c5cfc;--teal:#4ec9b0;--text:#e0e0e0;--text-dim:rgba(255,255,255,.5);
+  --text-bright:#fff;--danger:#ff4d6a;--success:#4ec9b0;
+  --radius:12px;--radius-sm:8px;
+}
+html{font-family:'SF Pro Display','SFNS','SF Pro Text','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg-dark);color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:linear-gradient(160deg,var(--bg-dark) 0%,var(--bg-mid) 50%,#0d1b2a 100%);background-attachment:fixed}
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.aurora::before{content:'';position:absolute;top:-30%;left:-20%;width:140%;height:140%;
+  background:radial-gradient(ellipse 600px 300px at 30% 20%,rgba(124,92,252,.12),transparent),
+             radial-gradient(ellipse 500px 250px at 70% 70%,rgba(78,201,176,.08),transparent);
+  animation:auroraShift 20s ease-in-out infinite alternate}
+@keyframes auroraShift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.05)}}
+
+.app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 28px;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px;font-size:1.35rem;font-weight:700;color:var(--text-bright);letter-spacing:-.02em}
+.logo .icon{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:#fff;font-weight:800}
+.wallet-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chain-badge{font-size:.72rem;padding:4px 10px;border-radius:20px;
+  background:rgba(124,92,252,.15);color:var(--accent);border:1px solid rgba(124,92,252,.25);font-weight:600}
+.address-pill{font-size:.8rem;padding:6px 14px;border-radius:20px;
+  background:rgba(255,255,255,.06);color:var(--teal);border:1px solid rgba(78,201,176,.2);font-family:'SF Mono',Consolas,monospace;font-weight:500}
+.balance-pill{font-size:.8rem;padding:6px 14px;border-radius:20px;
+  background:rgba(255,255,255,.06);color:var(--text-dim);border:1px solid var(--border);font-weight:500}
+.btn{cursor:pointer;border:none;font-family:inherit;font-weight:600;border-radius:var(--radius-sm);transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6a4ce0);color:#fff;padding:10px 22px;font-size:.88rem}
+.btn-primary:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid rgba(124,92,252,.35);padding:9px 20px;font-size:.85rem}
+.btn-outline:hover{background:rgba(124,92,252,.1)}
+.btn-sm{padding:7px 16px;font-size:.8rem}
+.btn-teal{background:linear-gradient(135deg,var(--teal),#3ba898);color:#0a0a0f}
+.btn-teal:hover{filter:brightness(1.15)}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#cc3050);color:#fff}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.03);border-radius:10px;padding:4px;margin-bottom:28px;border:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:10px 20px;font-size:.84rem;font-weight:600;color:var(--text-dim);border-radius:var(--radius-sm);background:transparent;
+  cursor:pointer;border:none;font-family:inherit;white-space:nowrap;transition:all .2s}
+.tab-btn.active{background:rgba(124,92,252,.15);color:var(--accent)}
+.tab-btn:hover:not(.active){color:var(--text);background:rgba(255,255,255,.03)}
+.tab-content{display:none;animation:fadeUp .35s ease}
+.tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:18px;
+  backdrop-filter:blur(12px);transition:background .2s}
+.card:hover{background:var(--bg-card-hover)}
+.card-title{font-size:1.05rem;font-weight:700;color:var(--text-bright);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px}
+.stat-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:6px;font-weight:600}
+.stat-value{font-size:1.5rem;font-weight:800;color:var(--text-bright);font-variant-numeric:tabular-nums}
+.stat-value.accent{color:var(--accent)}
+.stat-value.teal{color:var(--teal)}
+
+/* Links */
+.contract-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:var(--text);
+  transition:all .2s;font-size:.85rem}
+.contract-link:hover{background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.25)}
+.contract-link .label{font-weight:700;color:var(--text-bright);min-width:140px}
+.contract-link .addr{font-family:'SF Mono',Consolas,monospace;color:var(--teal);font-size:.82rem;word-break:break-all}
+.contract-link .ext{color:var(--text-dim);font-size:.75rem;margin-left:auto}
+
+/* Form */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:.82rem;font-weight:600;color:var(--text-dim);margin-bottom:6px}
+.form-input,.form-select,.form-textarea{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-bright);font-family:inherit;
+  font-size:.9rem;transition:border-color .2s;outline:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-select option{background:var(--bg-mid);color:var(--text)}
+.form-textarea{min-height:80px;resize:vertical}
+.form-hint{font-size:.75rem;color:var(--text-dim);margin-top:5px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* Status */
+.status-msg{padding:12px 16px;border-radius:var(--radius-sm);font-size:.85rem;margin-top:12px;display:none;
+  animation:fadeUp .3s ease;word-break:break-all}
+.status-msg.show{display:block}
+.status-msg.success{background:rgba(78,201,176,.1);border:1px solid rgba(78,201,176,.25);color:var(--teal)}
+.status-msg.error{background:rgba(255,77,106,.1);border:1px solid rgba(255,77,106,.25);color:var(--danger)}
+.status-msg.info{background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.25);color:var(--accent)}
+.tx-link{color:var(--teal);text-decoration:underline;word-break:break-all}
+
+/* Empty state */
+.empty{text-align:center;padding:40px 20px;color:var(--text-dim)}
+.empty .icon{font-size:2.5rem;margin-bottom:12px;opacity:.5}
+.empty p{font-size:.9rem}
+
+/* Loader */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);
+  border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Responsive */
+@media(max-width:640px){
+  .form-row{grid-template-columns:1fr}
+  .header{flex-direction:column;align-items:flex-start}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .tab-btn{padding:9px 14px;font-size:.8rem}
+}
+
+/* Attestation detail */
+.att-detail{font-size:.85rem;line-height:1.7}
+.att-detail strong{color:var(--text-bright)}
+.att-detail .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:700;margin-left:6px}
+.tag-finalized{background:rgba(78,201,176,.15);color:var(--teal)}
+.tag-disputed{background:rgba(255,77,106,.15);color:var(--danger)}
+.tag-pending{background:rgba(124,92,252,.15);color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<div class="app">
+  <header class="header">
+    <div class="logo"><div class="icon">V</div>Valence Carbon</div>
+    <div class="wallet-bar">
+      <span class="chain-badge">Polygon Mainnet</span>
+      <span class="balance-pill" id="polBalance" style="display:none"></span>
+      <span class="address-pill" id="walletAddr" style="display:none"></span>
+      <button class="btn btn-primary" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+    <button class="tab-btn" data-tab="mrv" onclick="switchTab('mrv')">MRV Portal</button>
+    <button class="tab-btn" data-tab="credits" onclick="switchTab('credits')">Credits</button>
+    <button class="tab-btn" data-tab="sites" onclick="switchTab('sites')">Sites</button>
+    <button class="tab-btn" data-tab="admin" onclick="switchTab('admin')">Admin</button>
+  </nav>
+
+  <!-- Dashboard -->
+  <section class="tab-content active" id="tab-dashboard">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Platform Overview</div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">Total Minted</div><div class="stat-value accent" id="dashMinted">—</div></div>
+        <div class="stat"><div class="stat-label">Total Retired</div><div class="stat-value teal" id="dashRetired">—</div></div>
+        <div class="stat"><div class="stat-label">Your Balance</div><div class="stat-value" id="dashBalance">—</div></div>
+        <div class="stat"><div class="stat-label">Dispute Window</div><div class="stat-value" id="dashDisputeWindow">—</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Deployed Contracts</div>
+      <a class="contract-link" href="https://polygonscan.com/address/0x142707feac23638365a7afed331f9d375591322a" target="_blank" rel="noopener">
+        <span class="label">CarbonCredit</span><span class="addr">0x142707…91322a</span><span class="ext">↗</span>
+      </a>
+      <a class="contract-link" href="https://polygonscan.com/address/0x5766664e8e6b01d1f1859a49df6c3f6529da3a10" target="_blank" rel="noopener">
+        <span class="label">CreditSplitter</span><span class="addr">0x57666…da3a10</span><span class="ext">↗</span>
+      </a>
+      <a class="contract-link" href="https://polygonscan.com/address/0xba94c904e031872ac37cb301322149798a3a1df7" target="_blank" rel="noopener">
+        <span class="label">AttestationModule</span><span class="addr">0xba94c…3a1df7</span><span class="ext">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- MRV Portal -->
+  <section class="tab-content" id="tab-mrv">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Measurement, Reporting &amp; Verification</div>
+      <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:20px">Submit a new attestation for gas capture volume at a registered site.</p>
+      <div class="form-group">
+        <label class="form-label">Site ID</label>
+        <select class="form-select" id="mrvSite">
+          <option value="">Select or enter a site…</option>
+        </select>
+        <div class="form-hint">Choose from registered sites or enter a custom site ID below</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Custom Site ID (optional)</label>
+        <input class="form-input" id="mrvSiteCustom" placeholder="e.g. landfill-sf-001">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gas Volume (MCF)</label>
+        <input class="form-input" id="mrvVolume" type="number" min="0" step="1" placeholder="e.g. 5000">
+      </div>
+      <button class="btn btn-primary" id="mrvSubmit" onclick="submitAttestation()">Submit Attestation</button>
+      <div class="status-msg" id="mrvStatus"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Lookup Attestation</div>
+      <div class="form-row" style="margin-bottom:0">
+        <div class="form-group" style="margin-bottom:0">
+          <input class="form-input" id="mrvLookupId" type="number" min="0" placeholder="Attestation ID">
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn btn-outline btn-sm" onclick="lookupAttestation()">Lookup</button>
+        </div>
+      </div>
+      <div id="mrvLookupResult" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- Credits -->
+  <section class="tab-content" id="tab-credits">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Credit Balances</div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">Your Balance</div><div class="stat-value accent" id="crBalance">—</div></div>
+        <div class="stat"><div class="stat-label">Total Minted</div><div class="stat-value" id="crMinted">—</div></div>
+        <div class="stat"><div class="stat-label">Total Retired</div><div class="stat-value teal" id="crRetired">—</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Retire Credits</div>
+      <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:16px">Permanently retire carbon credits to claim offset. This action is irreversible.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <input class="form-input" id="retireAmount" type="number" min="1" step="1" placeholder="Credits to retire">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reason</label>
+          <input class="form-input" id="retireReason" placeholder="e.g. Q2 2026 offset">
+        </div>
+      </div>
+      <button class="btn btn-teal" id="retireBtn" onclick="retireCredits()">Retire Credits</button>
+      <div class="status-msg" id="retireStatus"></div>
+    </div>
+  </section>
+
+  <!-- Sites -->
+  <section class="tab-content" id="tab-sites">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Registered Sites</div>
+      <div class="stats-grid" style="margin-bottom:0">
+        <div class="stat"><div class="stat-label">Total Sites</div><div class="stat-value accent" id="siteCount">—</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Register New Site</div>
+      <div class="form-group">
+        <label class="form-label">Site ID</label>
+        <input class="form-input" id="siteId" placeholder="e.g. landfill-sf-001">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Owner Address</label>
+          <input class="form-input" id="siteOwner" placeholder="0x… (defaults to your address)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Share (BPS)</label>
+          <input class="form-input" id="siteShare" type="number" min="0" max="10000" step="1" placeholder="e.g. 5000 = 50%">
+          <div class="form-hint">100 BPS = 1%. 10000 = 100%</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="siteRegBtn" onclick="registerSite()">Register Site</button>
+      <div class="status-msg" id="siteStatus"></div>
+    </div>
+  </section>
+
+  <!-- Admin -->
+  <section class="tab-content" id="tab-admin">
+    <div id="adminNotOwner" class="card" style="display:none">
+      <div class="empty"><div class="icon">🔒</div><p>Admin functions are restricted to the contract owner.</p><p style="margin-top:8px;font-size:.82rem">Connect with the deployer wallet to access admin controls.</p></div>
+    </div>
+    <div id="adminContent">
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Finalize Attestation</div>
+        <p style="font-size:.88rem;color:var(--text-dim);margin-bottom:14px">Mark an attestation as verified after the dispute window expires.</p>
+        <div class="form-row" style="margin-bottom:0">
+          <div class="form-group" style="margin-bottom:0">
+            <input class="form-input" id="adminFinalizeId" type="number" min="0" placeholder="Attestation ID">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn-primary btn-sm" id="adminFinalizeBtn" onclick="adminFinalize()">Finalize</button>
+          </div>
+        </div>
+        <div class="status-msg" id="adminFinalizeStatus"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Dispute Attestation</div>
+        <div class="form-row" style="margin-bottom:0">
+          <div class="form-group" style="margin-bottom:0">
+            <input class="form-input" id="adminDisputeId" type="number" min="0" placeholder="Attestation ID">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn-danger btn-sm" id="adminDisputeBtn" onclick="adminDispute()">Dispute</button>
+          </div>
+        </div>
+        <div class="status-msg" id="adminDisputeStatus"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Resolve Dispute</div>
+        <div class="form-row">
+          <div class="form-group">
+            <input class="form-input" id="adminResolveId" type="number" min="0" placeholder="Attestation ID">
+          </div>
+          <div class="form-group">
+            <select class="form-select" id="adminResolveDecision">
+              <option value="true">Approve ✓</option>
+              <option value="false">Reject ✗</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-outline" id="adminResolveBtn" onclick="adminResolve()">Resolve</button>
+        <div class="status-msg" id="adminResolveStatus"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Set Dispute Window</div>
+        <div class="form-row" style="margin-bottom:0">
+          <div class="form-group" style="margin-bottom:0">
+            <input class="form-input" id="adminWindow" type="number" min="0" placeholder="Seconds (e.g. 86400 = 1 day)">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn-outline btn-sm" id="adminWindowBtn" onclick="adminSetWindow()">Update</button>
+          </div>
+        </div>
+        <div class="status-msg" id="adminWindowStatus"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────
+const CHAIN_ID = 137;
+const EXPLORER = 'https://polygonscan.com';
+
+const CONTRACTS = {
+  carbonCredit: '0x142707feac23638365a7afed331f9d375591322a',
+  creditSplitter: '0x5766664e8e6b01d1f1859a49df6c3f6529da3a10',
+  attestationModule: '0xba94c904e031872ac37cb301322149798a3a1df7'
+};
+
+const ABIS = {
+  carbonCredit: [
+    'function mint(address to, uint256 amount, string siteId)',
+    'function retire(uint256 amount, string reason)',
+    'function balanceOf(address) view returns (uint256)',
+    'function totalMinted() view returns (uint256)',
+    'function totalRetired() view returns (uint256)',
+    'function name() view returns (string)',
+    'function symbol() view returns (string)',
+    'function setMinter(address)',
+    'event Transfer(address indexed from, address indexed to, uint256 value)'
+  ],
+  creditSplitter: [
+    'function registerSite(string siteId, address owner, uint256 shareBps)',
+    'function distribute(string siteId, uint256 amount)',
+    'function updateShare(string siteId, uint256 newShareBps)',
+    'function getSiteCount() view returns (uint256)',
+    'function owner() view returns (address)'
+  ],
+  attestationModule: [
+    'function attest(string siteId, uint256 gasVolumeMCF)',
+    'function finalize(uint256 attestationId)',
+    'function dispute(uint256 attestationId)',
+    'function resolveDispute(uint256 attestationId, bool approve)',
+    'function attestations(uint256) view returns (string siteId, uint256 gasVolumeMCF, uint256 timestamp, uint256 status, address submitter, bool finalized, bool disputed)',
+    'function disputeWindow() view returns (uint256)',
+    'function setDisputeWindow(uint256)'
+  ]
+};
+
+// ─── State ────────────────────────────────────────────────────────
+let provider = null;
+let signer = null;
+let userAddress = null;
+let contracts = {};
+
+// ─── Wallet ───────────────────────────────────────────────────────
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert('MetaMask is required. Please install MetaMask to use this dApp.');
+    return;
+  }
+  try {
+    const btn = document.getElementById('connectBtn');
+    btn.innerHTML = '<span class="spinner"></span>Connecting…';
+    btn.disabled = true;
+
+    provider = new ethers.BrowserProvider(window.ethereum);
+    const network = await provider.getNetwork();
+
+    if (Number(network.chainId) !== CHAIN_ID) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x' + CHAIN_ID.toString(16) }]
+        });
+        provider = new ethers.BrowserProvider(window.ethereum);
+      } catch (switchErr) {
+        showStatus('connectStatus', 'Please switch MetaMask to Polygon Mainnet (chain ID 137).', 'error');
+        btn.textContent = 'Connect Wallet';
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    signer = await provider.getSigner();
+    userAddress = await signer.getAddress();
+
+    // Init contracts
+    contracts.carbonCredit = new ethers.Contract(CONTRACTS.carbonCredit, ABIS.carbonCredit, signer);
+    contracts.creditSplitter = new ethers.Contract(CONTRACTS.creditSplitter, ABIS.creditSplitter, signer);
+    contracts.attestationModule = new ethers.Contract(CONTRACTS.attestationModule, ABIS.attestationModule, signer);
+
+    // Update UI
+    const shortAddr = userAddress.slice(0, 6) + '…' + userAddress.slice(-4);
+    document.getElementById('walletAddr').textContent = shortAddr;
+    document.getElementById('walletAddr').style.display = '';
+    btn.textContent = 'Connected';
+    btn.disabled = true;
+
+    await refreshAll();
+
+  } catch (err) {
+    console.error('Connection failed:', err);
+    const btn = document.getElementById('connectBtn');
+    btn.textContent = 'Connect Wallet';
+    btn.disabled = false;
+    showStatus('mrvStatus', 'Connection failed: ' + (err.message || err.reason || err), 'error');
+  }
+}
+
+async function refreshAll() {
+  if (!signer) return;
+  try {
+    await Promise.all([refreshBalance(), refreshDashboard(), refreshCredits(), refreshSites(), refreshAdmin()]);
+  } catch (e) {
+    console.warn('Refresh partial failure:', e);
+  }
+}
+
+async function refreshBalance() {
+  try {
+    const bal = await provider.getBalance(userAddress);
+    const pol = parseFloat(ethers.formatEther(bal)).toFixed(4);
+    const pill = document.getElementById('polBalance');
+    pill.textContent = pol + ' POL';
+    pill.style.display = '';
+  } catch (e) { console.warn('Balance fetch failed:', e); }
+}
+
+// ─── Dashboard ────────────────────────────────────────────────────
+async function refreshDashboard() {
+  try {
+    const [minted, retired, window_] = await Promise.all([
+      contracts.carbonCredit.totalMinted(),
+      contracts.carbonCredit.totalRetired(),
+      contracts.attestationModule.disputeWindow()
+    ]);
+    document.getElementById('dashMinted').textContent = formatTokens(minted);
+    document.getElementById('dashRetired').textContent = formatTokens(retired);
+    document.getElementById('dashDisputeWindow').textContent = formatDuration(Number(window_));
+
+    if (userAddress) {
+      const bal = await contracts.carbonCredit.balanceOf(userAddress);
+      document.getElementById('dashBalance').textContent = formatTokens(bal);
+    }
+  } catch (e) { console.warn('Dashboard refresh failed:', e); }
+}
+
+// ─── MRV Portal ───────────────────────────────────────────────────
+async function submitAttestation() {
+  const siteId = document.getElementById('mrvSiteCustom').value.trim() || document.getElementById('mrvSite').value;
+  const volume = document.getElementById('mrvVolume').value;
+  if (!siteId) return showStatus('mrvStatus', 'Please enter or select a site ID.', 'error');
+  if (!volume || Number(volume) <= 0) return showStatus('mrvStatus', 'Please enter a valid gas volume.', 'error');
+
+  const btn = document.getElementById('mrvSubmit');
+  btn.innerHTML = '<span class="spinner"></span>Submitting…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.attestationModule.attest(siteId, BigInt(volume));
+    showStatus('mrvStatus', 'Transaction submitted: <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">' + tx.hash + '</a>', 'info');
+    const receipt = await tx.wait();
+    showStatus('mrvStatus', '✓ Attestation confirmed in block ' + receipt.blockNumber + '. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View on Polygonscan</a>', 'success');
+    document.getElementById('mrvVolume').value = '';
+    document.getElementById('mrvSiteCustom').value = '';
+  } catch (err) {
+    showStatus('mrvStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Submit Attestation';
+    btn.disabled = false;
+  }
+}
+
+async function lookupAttestation() {
+  const id = document.getElementById('mrvLookupId').value;
+  if (id === '' || Number(id) < 0) return;
+  const el = document.getElementById('mrvLookupResult');
+  try {
+    const att = await contracts.attestationModule.attestations(BigInt(id));
+    const siteId = att[0], volume = att[1], ts = att[2], status = att[3], submitter = att[4], finalized = att[5], disputed = att[6];
+    const date = new Date(Number(ts) * 1000).toLocaleString();
+    let statusLabel, statusClass;
+    if (finalized) { statusLabel = 'Finalized'; statusClass = 'finalized'; }
+    else if (disputed) { statusLabel = 'Disputed'; statusClass = 'disputed'; }
+    else { statusLabel = 'Pending'; statusClass = 'pending'; }
+    el.innerHTML = '<div class="card" style="margin-bottom:0;padding:16px">' +
+      '<div class="att-detail">' +
+      '<strong>Site:</strong> ' + escHtml(siteId) + '<br>' +
+      '<strong>Volume:</strong> ' + formatTokens(volume) + ' MCF<br>' +
+      '<strong>Submitted:</strong> ' + date + '<br>' +
+      '<strong>Submitter:</strong> <span style="font-family:monospace;font-size:.82rem;color:var(--teal)">' + submitter + '</span><br>' +
+      '<strong>Status:</strong> ' + statusLabel + ' <span class="tag tag-' + statusClass + '">' + statusLabel + '</span>' +
+      '</div></div>';
+  } catch (err) {
+    el.innerHTML = '<div class="status-msg show error">Not found or error: ' + escHtml(parseError(err)) + '</div>';
+  }
+}
+
+// ─── Credits ──────────────────────────────────────────────────────
+async function refreshCredits() {
+  try {
+    const [minted, retired] = await Promise.all([
+      contracts.carbonCredit.totalMinted(),
+      contracts.carbonCredit.totalRetired()
+    ]);
+    document.getElementById('crMinted').textContent = formatTokens(minted);
+    document.getElementById('crRetired').textContent = formatTokens(retired);
+
+    if (userAddress) {
+      const bal = await contracts.carbonCredit.balanceOf(userAddress);
+      document.getElementById('crBalance').textContent = formatTokens(bal);
+    }
+  } catch (e) { console.warn('Credits refresh failed:', e); }
+}
+
+async function retireCredits() {
+  const amount = document.getElementById('retireAmount').value;
+  const reason = document.getElementById('retireReason').value.trim();
+  if (!amount || Number(amount) <= 0) return showStatus('retireStatus', 'Enter a valid amount.', 'error');
+  if (!reason) return showStatus('retireStatus', 'Please provide a reason for retirement.', 'error');
+
+  const btn = document.getElementById('retireBtn');
+  btn.innerHTML = '<span class="spinner"></span>Retiring…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.carbonCredit.retire(BigInt(amount), reason);
+    showStatus('retireStatus', 'Transaction submitted…', 'info');
+    const receipt = await tx.wait();
+    showStatus('retireStatus', '✓ ' + amount + ' credits retired. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    document.getElementById('retireAmount').value = '';
+    document.getElementById('retireReason').value = '';
+    await refreshCredits();
+    await refreshDashboard();
+  } catch (err) {
+    showStatus('retireStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Retire Credits';
+    btn.disabled = false;
+  }
+}
+
+// ─── Sites ────────────────────────────────────────────────────────
+async function refreshSites() {
+  try {
+    const count = await contracts.creditSplitter.getSiteCount();
+    document.getElementById('siteCount').textContent = count.toString();
+    // Populate MRV site dropdown if we can read events (basic: just show count)
+  } catch (e) { console.warn('Sites refresh failed:', e); }
+}
+
+async function registerSite() {
+  const siteId = document.getElementById('siteId').value.trim();
+  let owner = document.getElementById('siteOwner').value.trim();
+  const share = document.getElementById('siteShare').value;
+  if (!siteId) return showStatus('siteStatus', 'Please enter a site ID.', 'error');
+  if (!owner) owner = userAddress;
+  if (!share || Number(share) < 0 || Number(share) > 10000) return showStatus('siteStatus', 'Share must be between 0 and 10000 BPS.', 'error');
+
+  const btn = document.getElementById('siteRegBtn');
+  btn.innerHTML = '<span class="spinner"></span>Registering…';
+  btn.disabled = true;
+
+  try {
+    const tx = await contracts.creditSplitter.registerSite(siteId, owner, BigInt(share));
+    showStatus('siteStatus', 'Transaction submitted…', 'info');
+    const receipt = await tx.wait();
+    showStatus('siteStatus', '✓ Site "' + escHtml(siteId) + '" registered. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    document.getElementById('siteId').value = '';
+    document.getElementById('siteOwner').value = '';
+    document.getElementById('siteShare').value = '';
+    await refreshSites();
+  } catch (err) {
+    showStatus('siteStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Register Site';
+    btn.disabled = false;
+  }
+}
+
+// ─── Admin ────────────────────────────────────────────────────────
+async function refreshAdmin() {
+  try {
+    const owner = await contracts.creditSplitter.owner();
+    const isOwner = userAddress && owner.toLowerCase() === userAddress.toLowerCase();
+    document.getElementById('adminNotOwner').style.display = isOwner ? 'none' : '';
+    document.getElementById('adminContent').style.display = isOwner ? '' : 'none';
+  } catch (e) {
+    console.warn('Admin check failed:', e);
+    document.getElementById('adminNotOwner').style.display = '';
+    document.getElementById('adminContent').style.display = 'none';
+  }
+}
+
+async function adminFinalize() {
+  const id = document.getElementById('adminFinalizeId').value;
+  if (id === '' || Number(id) < 0) return showStatus('adminFinalizeStatus', 'Enter an attestation ID.', 'error');
+  const btn = document.getElementById('adminFinalizeBtn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+  try {
+    const tx = await contracts.attestationModule.finalize(BigInt(id));
+    showStatus('adminFinalizeStatus', 'Submitted…', 'info');
+    await tx.wait();
+    showStatus('adminFinalizeStatus', '✓ Attestation #' + id + ' finalized. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+  } catch (err) {
+    showStatus('adminFinalizeStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Finalize';
+    btn.disabled = false;
+  }
+}
+
+async function adminDispute() {
+  const id = document.getElementById('adminDisputeId').value;
+  if (id === '' || Number(id) < 0) return showStatus('adminDisputeStatus', 'Enter an attestation ID.', 'error');
+  const btn = document.getElementById('adminDisputeBtn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+  try {
+    const tx = await contracts.attestationModule.dispute(BigInt(id));
+    showStatus('adminDisputeStatus', 'Submitted…', 'info');
+    await tx.wait();
+    showStatus('adminDisputeStatus', '✓ Attestation #' + id + ' disputed. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+  } catch (err) {
+    showStatus('adminDisputeStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Dispute';
+    btn.disabled = false;
+  }
+}
+
+async function adminResolve() {
+  const id = document.getElementById('adminResolveId').value;
+  const approve = document.getElementById('adminResolveDecision').value === 'true';
+  if (id === '' || Number(id) < 0) return showStatus('adminResolveStatus', 'Enter an attestation ID.', 'error');
+  const btn = document.getElementById('adminResolveBtn');
+  btn.innerHTML = '<span class="spinner"></span>Resolving…';
+  btn.disabled = true;
+  try {
+    const tx = await contracts.attestationModule.resolveDispute(BigInt(id), approve);
+    showStatus('adminResolveStatus', 'Submitted…', 'info');
+    await tx.wait();
+    showStatus('adminResolveStatus', '✓ Dispute #' + id + ' resolved (' + (approve ? 'approved' : 'rejected') + '). <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+  } catch (err) {
+    showStatus('adminResolveStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Resolve';
+    btn.disabled = false;
+  }
+}
+
+async function adminSetWindow() {
+  const val = document.getElementById('adminWindow').value;
+  if (!val || Number(val) < 0) return showStatus('adminWindowStatus', 'Enter a valid duration in seconds.', 'error');
+  const btn = document.getElementById('adminWindowBtn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+  try {
+    const tx = await contracts.attestationModule.setDisputeWindow(BigInt(val));
+    showStatus('adminWindowStatus', 'Submitted…', 'info');
+    await tx.wait();
+    showStatus('adminWindowStatus', '✓ Dispute window updated to ' + formatDuration(Number(val)) + '. <a class="tx-link" href="' + EXPLORER + '/tx/' + tx.hash + '" target="_blank">View tx</a>', 'success');
+    await refreshDashboard();
+  } catch (err) {
+    showStatus('adminWindowStatus', 'Failed: ' + parseError(err), 'error');
+  } finally {
+    btn.textContent = 'Update';
+    btn.disabled = false;
+  }
+}
+
+// ─── Tabs ─────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-content').forEach(s => s.classList.toggle('active', s.id === 'tab-' + name));
+  if (signer) refreshAll();
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────
+function formatTokens(bigint) {
+  // Tokens may have 18 decimals — show formatted
+  try {
+    const val = parseFloat(ethers.formatUnits(bigint, 18));
+    if (val >= 1e6) return (val / 1e6).toFixed(2) + 'M';
+    if (val >= 1e3) return (val / 1e3).toFixed(2) + 'K';
+    return val.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  } catch {
+    return bigint.toString();
+  }
+}
+
+function formatDuration(seconds) {
+  if (seconds === 0) return '0s';
+  const d = Math.floor(seconds / 86400);
+  const h = Math.floor((seconds % 86400) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  let parts = [];
+  if (d) parts.push(d + 'd');
+  if (h) parts.push(h + 'h');
+  if (m) parts.push(m + 'm');
+  if (s && parts.length === 0) parts.push(s + 's');
+  return parts.join(' ');
+}
+
+function parseError(err) {
+  if (err?.reason) return err.reason;
+  if (err?.error?.message) return err.error.message;
+  if (err?.data) {
+    try {
+      const iface = new ethers.Interface(['function Error(string)', 'function Panic(uint256)']);
+      const decoded = iface.parseError(err.data);
+      return decoded?.args?.[0] || err.data;
+    } catch {}
+  }
+  if (err?.message) {
+    const m = err.message.match(/reason="([^"]+)"/);
+    if (m) return m[1];
+    return err.message.slice(0, 200);
+  }
+  return String(err).slice(0, 200);
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'status-msg show ' + type;
+  el.innerHTML = msg;
+}
+
+// ─── Auto-connect if already authorized ───────────────────────────
+(async () => {
+  if (window.ethereum) {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts.length > 0) {
+        await connectWallet();
+      }
+    } catch {}
+  }
+})();
+
+// ─── Listen for account/chain changes ─────────────────────────────
+if (window.ethereum) {
+  window.ethereum.on('accountsChanged', () => { location.reload(); });
+  window.ethereum.on('chainChanged', () => { location.reload(); });
+}
+</script>
+</body>
+</html>
