@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noble Oil Field Services — Blockchain Platform</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg1:#0a0a0f;--bg2:#1a1a2e;--bg3:#0d1b2a;
+  --card:#12121e;--card-hover:#181830;--card-glass:rgba(255,255,255,.04);
+  --border:#2a2a3e;--border-light:rgba(255,255,255,.08);
+  --accent:#f59e0b;--accent2:#d97706;--accent-glow:rgba(245,158,11,.2);
+  --teal:#4ec9b0;--purple:#7c5cfc;
+  --text:#e0e0e0;--text-dim:rgba(255,255,255,.5);--text-bright:#fff;
+  --danger:#ff4d6a;--success:#10b981;--warn:#f59e0b;--info:#3b82f6;
+  --radius:12px;--radius-sm:8px;
+}
+html{font-family:'SF Pro Display','SFNS','SF Pro Text','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg1);color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);background-attachment:fixed}
+
+/* Aurora glow background */
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.aurora::before{content:'';position:absolute;top:-30%;left:-20%;width:140%;height:140%;
+  background:radial-gradient(ellipse 600px 300px at 30% 20%,rgba(245,158,11,.08),transparent),
+             radial-gradient(ellipse 500px 250px at 70% 70%,rgba(78,201,176,.06),transparent);
+  animation:auroraShift 20s ease-in-out infinite alternate}
+.aurora::after{content:'';position:absolute;top:10%;right:-10%;width:80%;height:80%;
+  background:radial-gradient(ellipse 400px 400px at 60% 40%,rgba(245,158,11,.05),transparent),
+             radial-gradient(ellipse 300px 300px at 20% 80%,rgba(124,92,252,.04),transparent);
+  animation:auroraShift2 25s ease-in-out infinite alternate-reverse}
+@keyframes auroraShift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.05)}}
+@keyframes auroraShift2{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-20px,15px) rotate(3deg)}}
+
+/* Oil drop particles */
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;opacity:0;animation:particleFloat linear infinite}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:.6}90%{opacity:.3}
+  100%{opacity:0;transform:translateY(-10vh) scale(1)}}
+
+.app{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:24px 20px 60px}
+
+/* Toasts */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;max-width:420px}
+.toast{padding:14px 20px;border-radius:var(--radius-sm);font-size:.85rem;backdrop-filter:blur(16px);
+  animation:toastIn .35s ease;cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.toast-out{animation:toastOut .3s ease forwards}
+.toast.success{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:var(--success)}
+.toast.success::before{background:var(--success)}
+.toast.error{background:rgba(255,77,106,.12);border:1px solid rgba(255,77,106,.3);color:var(--danger)}
+.toast.error::before{background:var(--danger)}
+.toast.info{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--accent)}
+.toast.info::before{background:var(--accent)}
+.toast .toast-title{font-weight:700;margin-bottom:4px;font-size:.88rem}
+.toast .toast-body{opacity:.85;word-break:break-all;font-size:.8rem}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px);height:0;padding:0;margin:0;border:0}}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 28px;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px;font-size:1.35rem;font-weight:700;color:var(--text-bright);letter-spacing:-.02em}
+.logo .icon{width:40px;height:40px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:#fff;font-weight:800;box-shadow:0 4px 16px rgba(245,158,11,.3)}
+.logo .subtitle{display:block;font-size:.7rem;color:var(--text-dim);font-weight:400;letter-spacing:.05em;text-transform:uppercase}
+.wallet-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chain-badge{font-size:.72rem;padding:4px 10px;border-radius:20px;
+  background:rgba(124,92,252,.15);color:var(--purple);border:1px solid rgba(124,92,252,.25);font-weight:600;
+  display:flex;align-items:center;gap:6px}
+.chain-badge .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--success);
+  animation:pulse 2s ease-in-out infinite}
+.chain-badge .pulse-dot.offline{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.address-pill{font-size:.78rem;padding:6px 14px;border-radius:20px;
+  background:rgba(255,255,255,.06);color:var(--teal);border:1px solid rgba(78,201,176,.2);
+  font-family:'SF Mono',Consolas,monospace;font-weight:500;cursor:pointer;transition:all .2s}
+.address-pill:hover{background:rgba(78,201,176,.1);border-color:rgba(78,201,176,.4)}
+.balance-pill{font-size:.78rem;padding:6px 14px;border-radius:20px;
+  background:rgba(255,255,255,.06);color:var(--accent);border:1px solid rgba(245,158,11,.2);font-weight:600}
+.btn{cursor:pointer;border:none;font-family:inherit;font-weight:600;border-radius:var(--radius-sm);transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;padding:10px 22px;font-size:.88rem}
+.btn-primary:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid rgba(245,158,11,.35);padding:9px 20px;font-size:.85rem}
+.btn-outline:hover{background:rgba(245,158,11,.1)}
+.btn-sm{padding:7px 16px;font-size:.8rem}
+.btn-teal{background:linear-gradient(135deg,var(--teal),#3ba898);color:#0a0a0f}
+.btn-teal:hover{filter:brightness(1.15)}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#cc3050);color:#fff}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-light);padding:7px 14px;font-size:.78rem}
+.btn-ghost:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.btn-icon{display:inline-flex;align-items:center;gap:6px}
+.btn-matic{background:linear-gradient(135deg,#8247e5,#6f3bd6);color:#fff;padding:10px 22px;font-size:.88rem}
+.btn-matic:hover{filter:brightness(1.15)}
+
+/* Tabs */
+.tabs{display:flex;gap:3px;background:rgba(255,255,255,.03);border-radius:10px;padding:4px;margin-bottom:28px;
+  border:1px solid var(--border-light);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:var(--text-dim);padding:10px 18px;cursor:pointer;font-size:.82rem;
+  border-radius:var(--radius-sm);transition:all .2s;white-space:nowrap;font-family:inherit;font-weight:500}
+.tab-btn.active{background:rgba(245,158,11,.12);color:var(--accent);font-weight:600}
+.tab-btn:hover:not(.active){color:var(--text);background:rgba(255,255,255,.04)}
+.tab-content{display:none;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Stats grid */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.stat{background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(78,201,176,.03));
+  border:1px solid var(--border-light);border-radius:var(--radius);padding:22px;text-align:center;
+  position:relative;overflow:hidden;transition:all .3s ease}
+.stat:hover{border-color:rgba(245,158,11,.3);transform:translateY(-2px);box-shadow:0 8px 32px rgba(245,158,11,.08)}
+.stat::before{content:'';position:absolute;top:0;left:-100%;width:200%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),var(--teal),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{0%{left:-100%}100%{left:100%}}
+.stat .val{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat .lbl{font-size:.72rem;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius);padding:24px;
+  margin-bottom:16px;transition:all .3s ease;backdrop-filter:blur(8px)}
+.card:hover{border-color:rgba(245,158,11,.2);box-shadow:0 4px 24px rgba(245,158,11,.06);transform:translateY(-1px)}
+.card h3{margin-bottom:16px;font-size:1rem;color:var(--accent);display:flex;align-items:center;gap:8px}
+.card h3 .card-icon{font-size:1.2rem}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:20px}
+
+/* Forms */
+label{display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;margin-top:14px}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,.3);border:1px solid var(--border-light);
+  border-radius:var(--radius-sm);color:var(--text);font-size:.88rem;font-family:inherit;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+textarea{resize:vertical;min-height:70px}
+select option{background:var(--card);color:var(--text)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* Table */
+.table-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--radius);border:1px solid var(--border-light)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead{background:rgba(245,158,11,.06)}
+th{text-align:left;padding:12px 14px;color:var(--accent);font-weight:600;font-size:.75rem;
+  text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border-light);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid rgba(42,42,62,.3);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+.badge-active{background:rgba(16,185,129,.12);color:var(--success);border:1px solid rgba(16,185,129,.25)}
+.badge-pending{background:rgba(245,158,11,.12);color:var(--warn);border:1px solid rgba(245,158,11,.25)}
+.badge-completed{background:rgba(124,92,252,.12);color:var(--purple);border:1px solid rgba(124,92,252,.25)}
+.badge-cancelled{background:rgba(255,77,106,.12);color:var(--danger);border:1px solid rgba(255,77,106,.25)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Output / Log */
+.output{margin-top:14px;padding:14px;background:rgba(0,0,0,.35);border:1px solid var(--border-light);
+  border-radius:var(--radius-sm);font-size:.82rem;white-space:pre-wrap;word-break:break-all;
+  max-height:350px;overflow-y:auto;font-family:'SF Mono',Consolas,Menlo,monospace;line-height:1.6}
+.output .ok{color:var(--success)}.output .err{color:var(--danger)}.output .info{color:var(--accent)}.output .warn{color:var(--warn)}
+
+/* Activity feed */
+.activity-item{padding:12px 0;border-bottom:1px solid rgba(42,42,62,.4);font-size:.84rem;display:flex;gap:12px;align-items:flex-start}
+.activity-item:last-child{border-bottom:none}
+.activity-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0}
+.activity-icon.pump{background:rgba(245,158,11,.12);color:var(--accent)}
+.activity-icon.contract{background:rgba(124,92,252,.12);color:var(--purple)}
+.activity-icon.payment{background:rgba(16,185,129,.12);color:var(--success)}
+.activity-icon.alert{background:rgba(255,77,106,.12);color:var(--danger)}
+.activity-body{flex:1}
+.activity-title{font-weight:600;color:var(--text-bright);margin-bottom:2px}
+.activity-meta{font-size:.75rem;color:var(--text-dim)}
+.activity-time{font-size:.7rem;color:var(--text-dim);flex-shrink:0;margin-top:2px}
+
+/* Contracts */
+.contract-item{background:rgba(255,255,255,.03);border:1px solid var(--border-light);border-radius:var(--radius);
+  padding:18px;margin-bottom:12px;transition:all .25s ease}
+.contract-item:hover{border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.03)}
+.contract-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.contract-title{font-weight:600;color:var(--text-bright);font-size:.95rem}
+.contract-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;font-size:.8rem}
+.contract-detail-label{color:var(--text-dim);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.contract-detail-val{color:var(--text);font-weight:500;margin-top:2px}
+
+/* Map placeholder */
+.map-placeholder{background:linear-gradient(135deg,rgba(13,27,42,.8),rgba(26,26,46,.8));
+  border:1px dashed rgba(245,158,11,.2);border-radius:var(--radius);padding:60px 20px;text-align:center;
+  color:var(--text-dim);font-size:.9rem}
+.map-placeholder .map-icon{font-size:2.5rem;margin-bottom:12px;opacity:.6}
+
+/* Skeleton loader */
+.skeleton{background:linear-gradient(90deg,var(--card) 25%,#1a1a30 50%,var(--card) 75%);
+  background-size:200% 100%;animation:skeleton-pulse 1.5s infinite;border-radius:6px;height:1em;display:inline-block;min-width:80px}
+@keyframes skeleton-pulse{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Responsive */
+@media(max-width:768px){
+  .row,.row-3{grid-template-columns:1fr}
+  .card-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .header{flex-direction:column;align-items:flex-start}
+  .wallet-bar{width:100%}
+}
+@media(max-width:480px){
+  .app{padding:14px 12px 40px}
+  .stats{grid-template-columns:1fr}
+  .tabs{gap:1px}
+  .tab-btn{padding:8px 12px;font-size:.76rem}
+  .contract-details{grid-template-columns:1fr}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(245,158,11,.25);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(245,158,11,.4)}
+
+/* Hidden helper */
+.hidden{display:none!important}
+
+/* Contract address link */
+.contract-addr{font-family:'SF Mono',Consolas,monospace;font-size:.72rem;color:var(--purple);
+  text-decoration:none;opacity:.7;transition:.2s}
+.contract-addr:hover{opacity:1;text-decoration:underline}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;
+  display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border-light);border-radius:var(--radius);
+  padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;animation:fadeIn .3s ease}
+.modal h2{font-size:1.1rem;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.modal .close-btn{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-dim);
+  font-size:1.2rem;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="aurora"></div>
+<div class="particles" id="particles"></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal for detailed views -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="icon">⛽</div>
+      <div>
+        Noble Oil Field Services
+        <span class="subtitle">Blockchain-Verified Operations Platform</span>
+      </div>
+    </div>
+    <div class="wallet-bar" id="walletBar">
+      <div class="chain-badge" id="chainBadge">
+        <span class="pulse-dot offline" id="chainDot"></span>
+        <span id="chainName">Disconnected</span>
+      </div>
+      <button class="btn btn-primary" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="statsGrid">
+    <div class="stat"><div class="val" id="statContracts">--</div><div class="lbl">Active Contracts</div></div>
+    <div class="stat"><div class="val" id="statEquipment">--</div><div class="lbl">Equipment Units</div></div>
+    <div class="stat"><div class="val" id="statPayments">--</div><div class="lbl">Payments (MATIC)</div></div>
+    <div class="stat"><div class="val" id="statRecords">--</div><div class="lbl">Field Records</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button class="tab-btn" data-tab="contracts" onclick="switchTab('contracts')">📋 Service Contracts</button>
+    <button class="tab-btn" data-tab="equipment" onclick="switchTab('equipment')">🔧 Equipment</button>
+    <button class="tab-btn" data-tab="payments" onclick="switchTab('payments')">💰 Payments</button>
+    <button class="tab-btn" data-tab="fieldlog" onclick="switchTab('fieldlog')">📝 Field Log</button>
+    <button class="tab-btn" data-tab="supplychain" onclick="switchTab('supplychain')">⛓️ Supply Chain</button>
+    <button class="tab-btn" data-tab="activity" onclick="switchTab('activity')">📈 Activity</button>
+    <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">⚙️ Settings</button>
+  </div>
+
+  <!-- ===== DASHBOARD TAB ===== -->
+  <div class="tab-content active" id="tab-dashboard">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="card-icon">⛽</span> Field Operations Overview</h3>
+        <div id="dashboardSummary">
+          <p style="color:var(--text-dim);font-size:.88rem;margin-bottom:14px">Connect your wallet to view real-time field operations data stored on Polygon.</p>
+          <div class="row" style="margin-bottom:12px">
+            <div>
+              <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em">Network</div>
+              <div style="font-weight:600;color:var(--purple);margin-top:4px">Polygon PoS (137)</div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em">Gas Token</div>
+              <div style="font-weight:600;color:var(--accent);margin-top:4px">MATIC</div>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em">Status</div>
+              <div id="dashStatus" style="font-weight:600;color:var(--text-dim);margin-top:4px">Awaiting connection...</div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em">Block Height</div>
+              <div id="dashBlock" style="font-weight:600;color:var(--text-dim);margin-top:4px">--</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="card-icon">🗺️</span> Active Operations Map</h3>
+        <div class="map-placeholder">
+          <div class="map-icon">🛢️</div>
+          <div>Field operation zones will appear here</div>
+          <div style="font-size:.75rem;margin-top:6px;opacity:.7">Connect wallet and log field data to populate</div>
+        </div>
+        <div id="activeZones" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">⚡</span> Recent Activity</h3>
+      <div id="dashActivity">
+        <div style="color:var(--text-dim);font-size:.85rem;padding:20px 0;text-align:center">
+          No activity recorded yet. Connect wallet to begin.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTRACTS TAB ===== -->
+  <div class="tab-content" id="tab-contracts">
+    <div class="card">
+      <h3><span class="card-icon">📋</span> Create Service Contract</h3>
+      <div class="row">
+        <div>
+          <label>Client Name</label>
+          <input type="text" id="contractClient" placeholder="e.g. Permian Basin Corp">
+        </div>
+        <div>
+          <label>Service Type</label>
+          <select id="contractType">
+            <option value="drilling">Drilling Services</option>
+            <option value="fracking">Hydraulic Fracturing</option>
+            <option value="completion">Well Completion</option>
+            <option value="workover">Workover Operations</option>
+            <option value="maintenance">Maintenance & Repair</option>
+            <option value="testing">Well Testing</option>
+            <option value="cementing">Cementing Services</option>
+            <option value="logging">Wireline Logging</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Well / Site ID</label>
+          <input type="text" id="contractWellId" placeholder="e.g. PB-WELL-2847">
+        </div>
+        <div>
+          <label>Location</label>
+          <input type="text" id="contractLocation" placeholder="e.g. Midland County, TX">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Contract Value (MATIC)</label>
+          <input type="number" id="contractValue" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Estimated Duration (days)</label>
+          <input type="number" id="contractDuration" placeholder="30" min="1">
+        </div>
+      </div>
+      <label>Scope of Work</label>
+      <textarea id="contractScope" placeholder="Describe the service scope, deliverables, and key milestones..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-icon" onclick="createContract()" id="createContractBtn">
+          ⛓️ Deploy Contract to Chain
+        </button>
+      </div>
+      <div class="output hidden" id="contractOutput"></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">📂</span> Active Contracts</h3>
+      <div id="contractsList">
+        <div style="color:var(--text-dim);font-size:.85rem;padding:20px 0;text-align:center">
+          No contracts created yet. Deploy your first service contract above.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EQUIPMENT TAB ===== -->
+  <div class="tab-content" id="tab-equipment">
+    <div class="card">
+      <h3><span class="card-icon">🔧</span> Register Equipment</h3>
+      <div class="row-3">
+        <div>
+          <label>Equipment Name</label>
+          <input type="text" id="equipName" placeholder="e.g. Rig #12">
+        </div>
+        <div>
+          <label>Category</label>
+          <select id="equipCategory">
+            <option value="rig">Drilling Rig</option>
+            <option value="pump">Pump Unit</option>
+            <option value="blowout">Blowout Preventer</option>
+            <option value="separator">Separator</option>
+            <option value="tank">Storage Tank</option>
+            <option value="valve">Valve Assembly</option>
+            <option value="pipe">Pipe/Casing</option>
+            <option value="instrument">Instrumentation</option>
+            <option value="vehicle">Vehicle/Transport</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Serial / Asset ID</label>
+          <input type="text" id="equipSerial" placeholder="e.g. EQ-2024-0847">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Current Location / Assignment</label>
+          <input type="text" id="equipLocation" placeholder="e.g. PB-WELL-2847">
+        </div>
+        <div>
+          <label>Status</label>
+          <select id="equipStatus">
+            <option value="operational">Operational</option>
+            <option value="maintenance">Under Maintenance</option>
+            <option value="standby">Standby</option>
+            <option value="deployed">Deployed</option>
+            <option value="decommissioned">Decommissioned</option>
+          </select>
+        </div>
+      </div>
+      <label>Notes / Certification Info</label>
+      <textarea id="equipNotes" placeholder="Last inspection date, certification expiry, condition notes..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-icon" onclick="registerEquipment()" id="regEquipBtn">
+          🔧 Register on Chain
+        </button>
+      </div>
+      <div class="output hidden" id="equipOutput"></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">📊</span> Equipment Registry</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Name</th><th>Category</th><th>Serial</th><th>Status</th><th>Location</th><th>Timestamp</th></tr>
+          </thead>
+          <tbody id="equipTableBody">
+            <tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:30px">No equipment registered yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAYMENTS TAB ===== -->
+  <div class="tab-content" id="tab-payments">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="card-icon">💸</span> Send Payment</h3>
+        <label>Recipient Address</label>
+        <input type="text" id="payTo" placeholder="0x...">
+        <label>Amount (MATIC)</label>
+        <input type="number" id="payAmount" placeholder="0.00" step="0.001" min="0">
+        <label>Payment Reference</label>
+        <input type="text" id="payRef" placeholder="e.g. INV-2024-0147 / Contract #3 milestone">
+        <label>Notes (optional)</label>
+        <textarea id="payNotes" placeholder="Payment description..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-matic btn-icon" onclick="sendPayment()" id="sendPayBtn">
+            💸 Send MATIC Payment
+          </button>
+        </div>
+        <div class="output hidden" id="payOutput"></div>
+      </div>
+
+      <div class="card">
+        <h3><span class="card-icon">🧾</span> Request Payment</h3>
+        <label>Payer Address</label>
+        <input type="text" id="reqFrom" placeholder="0x...">
+        <label>Amount (MATIC)</label>
+        <input type="number" id="reqAmount" placeholder="0.00" step="0.001" min="0">
+        <label>Invoice Reference</label>
+        <input type="text" id="reqRef" placeholder="e.g. INV-2024-0148">
+        <label>Description</label>
+        <textarea id="reqDesc" placeholder="Describe the service or deliverable..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-teal btn-icon" onclick="requestPayment()" id="reqPayBtn">
+            📤 Create Invoice
+          </button>
+        </div>
+        <div class="output hidden" id="reqOutput"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">📜</span> Payment History</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Counterparty</th><th>Amount</th><th>Reference</th><th>Tx Hash</th><th>Time</th></tr>
+          </thead>
+          <tbody id="payTableBody">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:30px">No payment history yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FIELD LOG TAB ===== -->
+  <div class="tab-content" id="tab-fieldlog">
+    <div class="card">
+      <h3><span class="card-icon">📝</span> Record Field Data</h3>
+      <div class="row-3">
+        <div>
+          <label>Well / Site ID</label>
+          <input type="text" id="logWellId" placeholder="e.g. PB-WELL-2847">
+        </div>
+        <div>
+          <label>Record Type</label>
+          <select id="logType">
+            <option value="pressure">Pressure Reading</option>
+            <option value="temperature">Temperature Reading</option>
+            <option value="flow">Flow Rate</option>
+            <option value="production">Production Volume</option>
+            <option value="inspection">Safety Inspection</option>
+            <option value="incident">Incident Report</option>
+            <option value="maintenance">Maintenance Log</option>
+            <option value="environmental">Environmental Check</option>
+            <option value="compliance">Compliance Record</option>
+          </select>
+        </div>
+        <div>
+          <label>Value / Reading</label>
+          <input type="text" id="logValue" placeholder="e.g. 2847 PSI">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Operator</label>
+          <input type="text" id="logOperator" placeholder="e.g. J. Martinez, Senior Field Tech">
+        </div>
+        <div>
+          <label>Priority</label>
+          <select id="logPriority">
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </div>
+      </div>
+      <label>Detailed Notes</label>
+      <textarea id="logNotes" placeholder="Detailed field observations, measurements, anomalies, corrective actions..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-icon" onclick="submitFieldLog()" id="logBtn">
+          📝 Submit to Blockchain
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="clearFieldLog()">Clear Form</button>
+      </div>
+      <div class="output hidden" id="logOutput"></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">📚</span> Field Records</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Well/Site</th><th>Type</th><th>Value</th><th>Operator</th><th>Priority</th><th>Time</th></tr>
+          </thead>
+          <tbody id="logTableBody">
+            <tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:30px">No field records yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUPPLY CHAIN TAB ===== -->
+  <div class="tab-content" id="tab-supplychain">
+    <div class="card">
+      <h3><span class="card-icon">⛓️</span> Track Supply Chain Event</h3>
+      <div class="row">
+        <div>
+          <label>Material / Item</label>
+          <input type="text" id="scItem" placeholder="e.g. Drill Pipe 5\" S-135">
+        </div>
+        <div>
+          <label>Event Type</label>
+          <select id="scEvent">
+            <option value="ordered">Ordered</option>
+            <option value="shipped">Shipped</option>
+            <option value="received">Received</option>
+            <option value="inspected">Quality Inspected</option>
+            <option value="deployed">Deployed to Site</option>
+            <option value="returned">Returned</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Quantity</label>
+          <input type="text" id="scQty" placeholder="e.g. 200 joints">
+        </div>
+        <div>
+          <label>From / To</label>
+          <input type="text" id="scFromTo" placeholder="e.g. Supplier → PB-WELL-2847">
+        </div>
+      </div>
+      <label>Details / Certifications</label>
+      <textarea id="scDetails" placeholder="Material certifications, lot numbers, inspection results..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-icon" onclick="trackSupplyChain()" id="scBtn">
+          ⛓️ Record Supply Event
+        </button>
+      </div>
+      <div class="output hidden" id="scOutput"></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">🔗</span> Supply Chain Ledger</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Item</th><th>Event</th><th>Qty</th><th>From/To</th><th>Time</th></tr>
+          </thead>
+          <tbody id="scTableBody">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:30px">No supply chain events recorded</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVITY TAB ===== -->
+  <div class="tab-content" id="tab-activity">
+    <div class="card">
+      <h3><span class="card-icon">📈</span> Platform Activity Feed</h3>
+      <div id="activityFeed">
+        <div style="color:var(--text-dim);font-size:.85rem;padding:30px 0;text-align:center">
+          Activity feed is empty. Perform operations to see them logged here.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SETTINGS TAB ===== -->
+  <div class="tab-content" id="tab-settings">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="card-icon">🔗</span> Wallet & Network</h3>
+        <div style="margin-bottom:14px">
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Connected Address</div>
+          <div id="settAddr" style="font-family:monospace;font-size:.85rem;color:var(--teal);word-break:break-all">Not connected</div>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Network</div>
+          <div id="settNetwork" style="font-weight:600;color:var(--text)">--</div>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">MATIC Balance</div>
+          <div id="settBalance" style="font-weight:600;color:var(--accent);font-size:1.2rem">--</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" onclick="refreshBalance()">Refresh Balance</button>
+          <button class="btn btn-ghost btn-sm" onclick="switchToPolygon()">Switch to Polygon</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="card-icon">📁</span> Data Management</h3>
+        <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:16px">
+          All operational data is stored on-chain via Polygon transactions. Local cache provides fast access to recent records.
+        </p>
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" onclick="exportData()">📥 Export All Data (JSON)</button>
+          <button class="btn btn-danger btn-sm" onclick="clearLocalData()">🗑️ Clear Local Cache</button>
+        </div>
+        <div style="margin-top:14px">
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Local Records</div>
+          <div id="settLocalCount" style="font-weight:600;color:var(--text)">--</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="card-icon">ℹ️</span> Platform Information</h3>
+      <div class="row">
+        <div>
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Version</div>
+          <div style="font-weight:600;color:var(--text)">1.0.0</div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Network</div>
+          <div style="font-weight:600;color:var(--purple)">Polygon PoS (Chain 137)</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:.82rem;color:var(--text-dim);line-height:1.7">
+        <strong style="color:var(--text)">Noble Oil Field Services Blockchain Platform</strong><br>
+        A decentralized application for managing oil field service operations with on-chain verification.
+        All service contracts, equipment registrations, field data logs, payment records, and supply chain events
+        are recorded as immutable transactions on the Polygon blockchain, providing a tamper-proof audit trail
+        for regulatory compliance and operational transparency.
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <a href="https://polygonscan.com" target="_blank" rel="noopener"
+           class="contract-addr" style="background:var(--card);border:1px solid var(--border-light);padding:6px 12px;border-radius:6px;font-size:.78rem">
+          🔍 PolygonScan
+        </a>
+        <a href="https://polygon.technology" target="_blank" rel="noopener"
+           class="contract-addr" style="background:var(--card);border:1px solid var(--border-light);padding:6px 12px;border-radius:6px;font-size:.78rem">
+          🔗 Polygon Network
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// Noble Oil Field Services — Production dApp
+// Polygon PoS Chain ID 137 | ethers.js v6
+// ============================================================
+
+const POLYGON_CHAIN_ID = '0x89'; // 137
+const POLYGON_CHAIN_ID_DEC = 137;
+const STORAGE_KEY = 'noble-oil-field-data';
+
+// State
+let provider = null;
+let signer = null;
+let userAddress = null;
+let chainId = null;
+let appData = loadLocalData();
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+
+function loadLocalData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { console.warn('Failed to load local data:', e); }
+  return { contracts: [], equipment: [], payments: [], fieldLogs: [], supplyChain: [], activity: [], invoices: [] };
+}
+
+function saveLocalData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    updateLocalCount();
+  } catch (e) { console.warn('Failed to save local data:', e); }
+}
+
+function updateLocalCount() {
+  const el = document.getElementById('settLocalCount');
+  if (!el) return;
+  const total = (appData.contracts?.length||0) + (appData.equipment?.length||0) +
+    (appData.payments?.length||0) + (appData.fieldLogs?.length||0) +
+    (appData.supplyChain?.length||0) + (appData.invoices?.length||0);
+  el.textContent = `${total} records across all categories`;
+}
+
+function shortAddr(addr) {
+  if (!addr) return '--';
+  return addr.slice(0, 6) + '...' + addr.slice(-4);
+}
+
+function shortTx(hash) {
+  if (!hash) return '--';
+  return hash.slice(0, 10) + '...' + hash.slice(-6);
+}
+
+function formatTime(ts) {
+  if (!ts) return '--';
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' +
+    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+function showToast(type, title, body, duration = 4500) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<div class="toast-title">${title}</div>${body ? `<div class="toast-body">${body}</div>` : ''}`;
+  container.appendChild(toast);
+  toast.onclick = () => removeToast(toast);
+  setTimeout(() => removeToast(toast), duration);
+}
+
+function removeToast(toast) {
+  toast.classList.add('toast-out');
+  setTimeout(() => toast.remove(), 300);
+}
+
+function logOutput(el, msg, cls = '') {
+  el.classList.remove('hidden');
+  const span = document.createElement('span');
+  if (cls) span.className = cls;
+  span.textContent = msg + '\n';
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearOutput(el) {
+  el.innerHTML = '';
+  el.classList.add('hidden');
+}
+
+function addActivity(type, title, detail, txHash = null) {
+  appData.activity.unshift({
+    type, title, detail, txHash,
+    timestamp: Date.now()
+  });
+  if (appData.activity.length > 200) appData.activity = appData.activity.slice(0, 200);
+  saveLocalData();
+  renderActivity();
+  renderDashActivity();
+}
+
+// ============================================================
+// PARTICLES
+// ============================================================
+(function initParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#f59e0b', '#d97706', '#4ec9b0', '#7c5cfc'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (8 + Math.random() * 15) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    container.appendChild(p);
+  }
+})();
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+}
+
+// ============================================================
+// WALLET CONNECTION
+// ============================================================
+async function connectWallet() {
+  if (!window.ethereum) {
+    showToast('error', 'No Wallet Detected', 'Install MetaMask or a Web3 wallet to use this platform.');
+    return;
+  }
+
+  try {
+    const btn = document.getElementById('connectBtn');
+    btn.disabled = true;
+    btn.textContent = 'Connecting...';
+
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    provider = new ethers.BrowserProvider(window.ethereum);
+    signer = await provider.getSigner();
+    userAddress = accounts[0];
+    chainId = await window.ethereum.request({ method: 'eth_chainId' });
+
+    await updateNetworkStatus();
+    await updateBalance();
+
+    document.getElementById('connectBtn').textContent = 'Connected';
+    document.getElementById('connectBtn').classList.remove('btn-primary');
+    document.getElementById('connectBtn').classList.add('btn-ghost');
+
+    showToast('success', 'Wallet Connected', `Connected as ${shortAddr(userAddress)}`);
+    addActivity('contract', 'Wallet Connected', `Address: ${userAddress}`);
+
+    // Listen for account/network changes
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+    window.ethereum.on('chainChanged', () => window.location.reload());
+
+    renderAll();
+  } catch (err) {
+    showToast('error', 'Connection Failed', err.message?.substring(0, 100));
+    document.getElementById('connectBtn').disabled = false;
+    document.getElementById('connectBtn').textContent = 'Connect Wallet';
+  }
+}
+
+function handleAccountsChanged(accounts) {
+  if (accounts.length === 0) {
+    userAddress = null;
+    signer = null;
+    document.getElementById('connectBtn').textContent = 'Connect Wallet';
+    document.getElementById('connectBtn').classList.add('btn-primary');
+    document.getElementById('connectBtn').classList.remove('btn-ghost');
+    showToast('info', 'Wallet Disconnected', 'Please reconnect your wallet.');
+  } else {
+    userAddress = accounts[0];
+    showToast('info', 'Account Changed', `Now using ${shortAddr(userAddress)}`);
+    updateBalance();
+    renderAll();
+  }
+}
+
+async function updateNetworkStatus() {
+  const dot = document.getElementById('chainDot');
+  const nameEl = document.getElementById('chainName');
+  const badge = document.getElementById('chainBadge');
+
+  chainId = await window.ethereum.request({ method: 'eth_chainId' });
+  const cid = parseInt(chainId, 16);
+
+  if (cid === POLYGON_CHAIN_ID_DEC) {
+    dot.classList.remove('offline');
+    nameEl.textContent = 'Polygon PoS';
+    badge.style.borderColor = 'rgba(16,185,129,.25)';
+    badge.style.background = 'rgba(16,185,129,.1)';
+    badge.style.color = 'var(--success)';
+  } else {
+    dot.classList.add('offline');
+    nameEl.textContent = `Wrong Network (${cid})`;
+    badge.style.borderColor = 'rgba(255,77,106,.25)';
+    badge.style.background = 'rgba(255,77,106,.1)';
+    badge.style.color = 'var(--danger)';
+  }
+
+  document.getElementById('settNetwork').textContent =
+    cid === POLYGON_CHAIN_ID_DEC ? 'Polygon PoS (137) ✓' : `Chain ${cid} — Switch to Polygon (137)`;
+}
+
+async function updateBalance() {
+  if (!provider || !userAddress) return;
+  try {
+    const bal = await provider.getBalance(userAddress);
+    const matic = parseFloat(ethers.formatEther(bal)).toFixed(4);
+    document.getElementById('settBalance').textContent = `${matic} MATIC`;
+
+    // Update or create balance pill
+    let bp = document.querySelector('.balance-pill');
+    if (!bp) {
+      bp = document.createElement('span');
+      bp.className = 'balance-pill';
+      document.getElementById('walletBar').insertBefore(bp, document.getElementById('connectBtn'));
+    }
+    bp.textContent = `${matic} MATIC`;
+
+    // Update or create address pill
+    let ap = document.querySelector('.address-pill');
+    if (!ap) {
+      ap = document.createElement('span');
+      ap.className = 'address-pill';
+      ap.title = 'Click to copy';
+      ap.onclick = () => {
+        navigator.clipboard.writeText(userAddress);
+        showToast('info', 'Copied', 'Address copied to clipboard');
+      };
+      document.getElementById('walletBar').insertBefore(ap, document.getElementById('connectBtn'));
+    }
+    ap.textContent = shortAddr(userAddress);
+    document.getElementById('settAddr').textContent = userAddress;
+  } catch (e) {
+    console.warn('Balance fetch error:', e);
+  }
+}
+
+async function refreshBalance() {
+  await updateBalance();
+  showToast('info', 'Refreshed', 'Balance updated');
+}
+
+async function switchToPolygon() {
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: POLYGON_CHAIN_ID }]
+    });
+    showToast('success', 'Switched', 'Now on Polygon PoS');
+    await updateNetworkStatus();
+  } catch (err) {
+    if (err.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId: POLYGON_CHAIN_ID,
+            chainName: 'Polygon PoS',
+            nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+            rpcUrls: ['https://polygon-rpc.com/', 'https://rpc-mainnet.maticvigil.com/'],
+            blockExplorerUrls: ['https://polygonscan.com/']
+          }]
+        });
+        showToast('success', 'Polygon Added', 'Network added and switched');
+      } catch (addErr) {
+        showToast('error', 'Failed', addErr.message?.substring(0, 100));
+      }
+    } else {
+      showToast('error', 'Switch Failed', err.message?.substring(0, 100));
+    }
+  }
+}
+
+// ============================================================
+// SERVICE CONTRACTS
+// ============================================================
+async function createContract() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+  await ensurePolygon();
+  if (parseInt(chainId, 16) !== POLYGON_CHAIN_ID_DEC) return;
+
+  const client = document.getElementById('contractClient').value.trim();
+  const type = document.getElementById('contractType').value;
+  const wellId = document.getElementById('contractWellId').value.trim();
+  const location = document.getElementById('contractLocation').value.trim();
+  const value = document.getElementById('contractValue').value;
+  const duration = document.getElementById('contractDuration').value;
+  const scope = document.getElementById('contractScope').value.trim();
+
+  if (!client || !wellId || !value) {
+    return showToast('error', 'Missing Fields', 'Client, Well ID, and Value are required.');
+  }
+
+  const out = document.getElementById('contractOutput');
+  clearOutput(out);
+  const btn = document.getElementById('createContractBtn');
+  btn.disabled = true;
+
+  try {
+    logOutput(out, `📋 Creating service contract for ${client}...`, 'info');
+    logOutput(out, `   Type: ${type} | Well: ${wellId} | Value: ${value} MATIC`, 'info');
+
+    const payload = JSON.stringify({
+      v: 1, op: 'service_contract',
+      client, type, wellId, location, value, duration, scope,
+      created: Date.now()
+    });
+
+    const tx = await signer.sendTransaction({
+      to: userAddress,
+      value: 0n,
+      data: ethers.hexlify(ethers.toUtf8Bytes(payload))
+    });
+
+    logOutput(out, `⏳ Transaction submitted: ${tx.hash}`, 'warn');
+    logOutput(out, '   Waiting for confirmation...', 'info');
+
+    const receipt = await tx.wait();
+    logOutput(out, `✅ Contract deployed! Block: ${receipt.blockNumber}`, 'ok');
+    logOutput(out, `   Tx: https://polygonscan.com/tx/${tx.hash}`, 'ok');
+
+    const contract = {
+      id: appData.contracts.length + 1,
+      client, type, wellId, location,
+      value: parseFloat(value),
+      duration: parseInt(duration) || 30,
+      scope, status: 'active',
+      txHash: tx.hash,
+      blockNumber: receipt.blockNumber,
+      timestamp: Date.now()
+    };
+    appData.contracts.push(contract);
+    saveLocalData();
+
+    addActivity('contract', `Contract Created: ${client}`, `${type} at ${wellId} — ${value} MATIC`, tx.hash);
+    showToast('success', 'Contract Created', `Service contract for ${client} deployed to Polygon`);
+
+    // Clear form
+    ['contractClient', 'contractWellId', 'contractLocation', 'contractValue', 'contractDuration', 'contractScope'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    renderContracts();
+    updateStats();
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+    showToast('error', 'Transaction Failed', err.message?.substring(0, 100));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderContracts() {
+  const container = document.getElementById('contractsList');
+  if (!appData.contracts.length) {
+    container.innerHTML = '<div style="color:var(--text-dim);font-size:.85rem;padding:20px 0;text-align:center">No contracts created yet. Deploy your first service contract above.</div>';
+    return;
+  }
+
+  container.innerHTML = appData.contracts.slice().reverse().map(c => {
+    const statusClass = c.status === 'active' ? 'badge-active' :
+                        c.status === 'completed' ? 'badge-completed' :
+                        c.status === 'pending' ? 'badge-pending' : 'badge-cancelled';
+    return `
+      <div class="contract-item">
+        <div class="contract-header">
+          <span class="contract-title">#${c.id} — ${c.client}</span>
+          <span class="badge ${statusClass}"><span class="badge-dot"></span> ${c.status}</span>
+        </div>
+        <div class="contract-details">
+          <div><div class="contract-detail-label">Service</div><div class="contract-detail-val">${c.type}</div></div>
+          <div><div class="contract-detail-label">Well/Site</div><div class="contract-detail-val">${c.wellId}</div></div>
+          <div><div class="contract-detail-label">Location</div><div class="contract-detail-val">${c.location || '--'}</div></div>
+          <div><div class="contract-detail-label">Value</div><div class="contract-detail-val" style="color:var(--accent)">${c.value} MATIC</div></div>
+          <div><div class="contract-detail-label">Duration</div><div class="contract-detail-val">${c.duration} days</div></div>
+          <div><div class="contract-detail-label">Created</div><div class="contract-detail-val">${formatTime(c.timestamp)}</div></div>
+        </div>
+        ${c.scope ? `<div style="margin-top:10px;font-size:.8rem;color:var(--text-dim);line-height:1.6">${c.scope}</div>` : ''}
+        ${c.txHash ? `<div style="margin-top:8px"><a href="https://polygonscan.com/tx/${c.txHash}" target="_blank" class="contract-addr">🔍 ${shortTx(c.txHash)}</a></div>` : ''}
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          ${c.status === 'active' ? `
+            <button class="btn btn-teal btn-sm" onclick="updateContractStatus(${c.id},'completed')">Mark Complete</button>
+            <button class="btn btn-danger btn-sm" onclick="updateContractStatus(${c.id},'cancelled')">Cancel</button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateContractStatus(id, newStatus) {
+  const c = appData.contracts.find(x => x.id === id);
+  if (c) {
+    c.status = newStatus;
+    saveLocalData();
+    addActivity('contract', `Contract #${id} → ${newStatus}`, `${c.client} — ${c.wellId}`);
+    showToast('info', 'Status Updated', `Contract #${id} marked as ${newStatus}`);
+    renderContracts();
+    updateStats();
+  }
+}
+
+// ============================================================
+// EQUIPMENT
+// ============================================================
+async function registerEquipment() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+  await ensurePolygon();
+  if (parseInt(chainId, 16) !== POLYGON_CHAIN_ID_DEC) return;
+
+  const name = document.getElementById('equipName').value.trim();
+  const category = document.getElementById('equipCategory').value;
+  const serial = document.getElementById('equipSerial').value.trim();
+  const location = document.getElementById('equipLocation').value.trim();
+  const status = document.getElementById('equipStatus').value;
+  const notes = document.getElementById('equipNotes').value.trim();
+
+  if (!name || !serial) {
+    return showToast('error', 'Missing Fields', 'Equipment name and serial are required.');
+  }
+
+  const out = document.getElementById('equipOutput');
+  clearOutput(out);
+  const btn = document.getElementById('regEquipBtn');
+  btn.disabled = true;
+
+  try {
+    logOutput(out, `🔧 Registering equipment: ${name} (${serial})...`, 'info');
+
+    const payload = JSON.stringify({
+      v: 1, op: 'equipment_register',
+      name, category, serial, location, status, notes,
+      timestamp: Date.now()
+    });
+
+    const tx = await signer.sendTransaction({
+      to: userAddress,
+      value: 0n,
+      data: ethers.hexlify(ethers.toUtf8Bytes(payload))
+    });
+
+    logOutput(out, `⏳ Tx: ${tx.hash}`, 'warn');
+    const receipt = await tx.wait();
+    logOutput(out, `✅ Equipment registered! Block: ${receipt.blockNumber}`, 'ok');
+
+    const equip = {
+      id: appData.equipment.length + 1,
+      name, category, serial, location, status, notes,
+      txHash: tx.hash,
+      blockNumber: receipt.blockNumber,
+      timestamp: Date.now()
+    };
+    appData.equipment.push(equip);
+    saveLocalData();
+
+    addActivity('pump', `Equipment Registered: ${name}`, `${category} — ${serial}`, tx.hash);
+    showToast('success', 'Equipment Registered', `${name} (${serial}) added to blockchain`);
+
+    ['equipName', 'equipSerial', 'equipLocation', 'equipNotes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    renderEquipment();
+    updateStats();
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+    showToast('error', 'Registration Failed', err.message?.substring(0, 100));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderEquipment() {
+  const tbody = document.getElementById('equipTableBody');
+  if (!appData.equipment.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:30px">No equipment registered yet</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = appData.equipment.slice().reverse().map(e => {
+    const statusClass = e.status === 'operational' ? 'badge-active' :
+                        e.status === 'deployed' ? 'badge-completed' :
+                        e.status === 'maintenance' ? 'badge-pending' :
+                        e.status === 'standby' ? 'badge-pending' : 'badge-cancelled';
+    return `<tr>
+      <td>${e.id}</td>
+      <td style="font-weight:600">${e.name}</td>
+      <td>${e.category}</td>
+      <td style="font-family:monospace;font-size:.78rem">${e.serial}</td>
+      <td><span class="badge ${statusClass}"><span class="badge-dot"></span> ${e.status}</span></td>
+      <td>${e.location || '--'}</td>
+      <td style="font-size:.78rem">${formatTime(e.timestamp)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// PAYMENTS
+// ============================================================
+async function sendPayment() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+  await ensurePolygon();
+  if (parseInt(chainId, 16) !== POLYGON_CHAIN_ID_DEC) return;
+
+  const to = document.getElementById('payTo').value.trim();
+  const amount = document.getElementById('payAmount').value;
+  const ref = document.getElementById('payRef').value.trim();
+  const notes = document.getElementById('payNotes').value.trim();
+
+  if (!to || !amount || parseFloat(amount) <= 0) {
+    return showToast('error', 'Invalid Input', 'Recipient and valid amount are required.');
+  }
+  if (!ethers.isAddress(to)) {
+    return showToast('error', 'Invalid Address', 'Please enter a valid Ethereum/Polygon address.');
+  }
+
+  const out = document.getElementById('payOutput');
+  clearOutput(out);
+  const btn = document.getElementById('sendPayBtn');
+  btn.disabled = true;
+
+  try {
+    const valueWei = ethers.parseEther(amount);
+    logOutput(out, `💸 Sending ${amount} MATIC to ${shortAddr(to)}...`, 'info');
+
+    // Encode payment metadata in tx data
+    const meta = JSON.stringify({ v: 1, op: 'payment', ref, notes, ts: Date.now() });
+    const data = ethers.hexlify(ethers.toUtf8Bytes(meta));
+
+    const tx = await signer.sendTransaction({
+      to,
+      value: valueWei,
+      data
+    });
+
+    logOutput(out, `⏳ Tx: ${tx.hash}`, 'warn');
+    const receipt = await tx.wait();
+    logOutput(out, `✅ Payment confirmed! Block: ${receipt.blockNumber}`, 'ok');
+    logOutput(out, `   https://polygonscan.com/tx/${tx.hash}`, 'ok');
+
+    const payment = {
+      id: appData.payments.length + 1,
+      type: 'sent',
+      to, amount: parseFloat(amount),
+      reference: ref, notes,
+      txHash: tx.hash,
+      blockNumber: receipt.blockNumber,
+      timestamp: Date.now()
+    };
+    appData.payments.push(payment);
+    saveLocalData();
+
+    addActivity('payment', `Payment Sent: ${amount} MATIC`, `To ${shortAddr(to)} — ${ref || 'No reference'}`, tx.hash);
+    showToast('success', 'Payment Sent', `${amount} MATIC sent to ${shortAddr(to)}`);
+
+    ['payTo', 'payAmount', 'payRef', 'payNotes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    updateBalance();
+    renderPayments();
+    updateStats();
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+    showToast('error', 'Payment Failed', err.message?.substring(0, 100));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function requestPayment() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+
+  const from = document.getElementById('reqFrom').value.trim();
+  const amount = document.getElementById('reqAmount').value;
+  const ref = document.getElementById('reqRef').value.trim();
+  const desc = document.getElementById('reqDesc').value.trim();
+
+  if (!amount || parseFloat(amount) <= 0) {
+    return showToast('error', 'Invalid Input', 'Valid amount is required.');
+  }
+
+  const out = document.getElementById('reqOutput');
+  clearOutput(out);
+
+  try {
+    logOutput(out, `📤 Creating invoice...`, 'info');
+
+    const invoice = {
+      id: appData.invoices ? appData.invoices.length + 1 : 1,
+      from: from || 'Pending',
+      amount: parseFloat(amount),
+      reference: ref || `INV-${Date.now()}`,
+      description: desc,
+      status: 'pending',
+      createdBy: userAddress,
+      timestamp: Date.now()
+    };
+    if (!appData.invoices) appData.invoices = [];
+    appData.invoices.push(invoice);
+    saveLocalData();
+
+    logOutput(out, `✅ Invoice created: ${invoice.reference}`, 'ok');
+    logOutput(out, `   Amount: ${amount} MATIC`, 'ok');
+    logOutput(out, `   ${from ? `From: ${shortAddr(from)}` : 'Awaiting payer assignment'}`, 'info');
+
+    addActivity('payment', `Invoice Created: ${ref || invoice.reference}`, `${amount} MATIC — ${desc || 'No description'}`);
+    showToast('success', 'Invoice Created', `${invoice.reference} for ${amount} MATIC`);
+
+    ['reqFrom', 'reqAmount', 'reqRef', 'reqDesc'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+  }
+}
+
+function renderPayments() {
+  const tbody = document.getElementById('payTableBody');
+  const items = appData.payments.slice().reverse();
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:30px">No payment history yet</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = items.map(p => `<tr>
+    <td><span class="badge ${p.type === 'sent' ? 'badge-pending' : 'badge-active'}">${p.type}</span></td>
+    <td style="font-family:monospace;font-size:.78rem">${p.type === 'sent' ? shortAddr(p.to) : shortAddr(p.from || '--')}</td>
+    <td style="color:var(--accent);font-weight:600">${p.amount} MATIC</td>
+    <td>${p.reference || '--'}</td>
+    <td><a href="https://polygonscan.com/tx/${p.txHash}" target="_blank" class="contract-addr">${shortTx(p.txHash)}</a></td>
+    <td style="font-size:.78rem">${formatTime(p.timestamp)}</td>
+  </tr>`).join('');
+}
+
+// ============================================================
+// FIELD LOG
+// ============================================================
+async function submitFieldLog() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+  await ensurePolygon();
+  if (parseInt(chainId, 16) !== POLYGON_CHAIN_ID_DEC) return;
+
+  const wellId = document.getElementById('logWellId').value.trim();
+  const type = document.getElementById('logType').value;
+  const value = document.getElementById('logValue').value.trim();
+  const operator = document.getElementById('logOperator').value.trim();
+  const priority = document.getElementById('logPriority').value;
+  const notes = document.getElementById('logNotes').value.trim();
+
+  if (!wellId || !value) {
+    return showToast('error', 'Missing Fields', 'Well ID and value reading are required.');
+  }
+
+  const out = document.getElementById('logOutput');
+  clearOutput(out);
+  const btn = document.getElementById('logBtn');
+  btn.disabled = true;
+
+  try {
+    logOutput(out, `📝 Submitting field record for ${wellId}...`, 'info');
+    logOutput(out, `   Type: ${type} | Value: ${value} | Priority: ${priority}`, 'info');
+
+    const payload = JSON.stringify({
+      v: 1, op: 'field_log',
+      wellId, type, value, operator, priority, notes,
+      timestamp: Date.now()
+    });
+
+    const tx = await signer.sendTransaction({
+      to: userAddress,
+      value: 0n,
+      data: ethers.hexlify(ethers.toUtf8Bytes(payload))
+    });
+
+    logOutput(out, `⏳ Tx: ${tx.hash}`, 'warn');
+    const receipt = await tx.wait();
+    logOutput(out, `✅ Field record stored! Block: ${receipt.blockNumber}`, 'ok');
+    logOutput(out, `   https://polygonscan.com/tx/${tx.hash}`, 'ok');
+
+    const record = {
+      id: appData.fieldLogs.length + 1,
+      wellId, type, value, operator, priority, notes,
+      txHash: tx.hash,
+      blockNumber: receipt.blockNumber,
+      timestamp: Date.now()
+    };
+    appData.fieldLogs.push(record);
+    saveLocalData();
+
+    const icon = priority === 'critical' ? 'alert' : 'pump';
+    addActivity(icon, `Field Log: ${type} at ${wellId}`, `${value} — ${operator || 'Unknown'} [${priority}]`, tx.hash);
+    showToast('success', 'Record Stored', `${type} for ${wellId} recorded on Polygon`);
+
+    if (priority === 'critical') {
+      showToast('error', '⚠️ CRITICAL', `Critical field reading at ${wellId}: ${value}`, 8000);
+    }
+
+    clearFieldLog();
+    renderFieldLogs();
+    updateStats();
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+    showToast('error', 'Submission Failed', err.message?.substring(0, 100));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function clearFieldLog() {
+  ['logWellId', 'logValue', 'logOperator', 'logNotes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+function renderFieldLogs() {
+  const tbody = document.getElementById('logTableBody');
+  const items = appData.fieldLogs.slice().reverse();
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:30px">No field records yet</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = items.map(l => {
+    const prioClass = l.priority === 'critical' ? 'badge-cancelled' :
+                      l.priority === 'high' ? 'badge-pending' : 'badge-active';
+    return `<tr>
+      <td>${l.id}</td>
+      <td style="font-weight:600">${l.wellId}</td>
+      <td>${l.type}</td>
+      <td style="color:var(--accent);font-weight:500">${l.value}</td>
+      <td>${l.operator || '--'}</td>
+      <td><span class="badge ${prioClass}">${l.priority}</span></td>
+      <td style="font-size:.78rem">${formatTime(l.timestamp)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// SUPPLY CHAIN
+// ============================================================
+async function trackSupplyChain() {
+  if (!signer) return showToast('error', 'Not Connected', 'Connect your wallet first.');
+  await ensurePolygon();
+  if (parseInt(chainId, 16) !== POLYGON_CHAIN_ID_DEC) return;
+
+  const item = document.getElementById('scItem').value.trim();
+  const event = document.getElementById('scEvent').value;
+  const qty = document.getElementById('scQty').value.trim();
+  const fromTo = document.getElementById('scFromTo').value.trim();
+  const details = document.getElementById('scDetails').value.trim();
+
+  if (!item || !event) {
+    return showToast('error', 'Missing Fields', 'Item and event type are required.');
+  }
+
+  const out = document.getElementById('scOutput');
+  clearOutput(out);
+  const btn = document.getElementById('scBtn');
+  btn.disabled = true;
+
+  try {
+    logOutput(out, `⛓️ Recording supply chain event: ${event} — ${item}...`, 'info');
+
+    const payload = JSON.stringify({
+      v: 1, op: 'supply_chain',
+      item, event, qty, fromTo, details,
+      timestamp: Date.now()
+    });
+
+    const tx = await signer.sendTransaction({
+      to: userAddress,
+      value: 0n,
+      data: ethers.hexlify(ethers.toUtf8Bytes(payload))
+    });
+
+    logOutput(out, `⏳ Tx: ${tx.hash}`, 'warn');
+    const receipt = await tx.wait();
+    logOutput(out, `✅ Supply event recorded! Block: ${receipt.blockNumber}`, 'ok');
+
+    const scEntry = {
+      id: appData.supplyChain.length + 1,
+      item, event, qty, fromTo, details,
+      txHash: tx.hash,
+      blockNumber: receipt.blockNumber,
+      timestamp: Date.now()
+    };
+    appData.supplyChain.push(scEntry);
+    saveLocalData();
+
+    addActivity('contract', `Supply: ${event} — ${item}`, `${qty || 'N/A'} | ${fromTo || 'N/A'}`, tx.hash);
+    showToast('success', 'Supply Event Recorded', `${event}: ${item} logged to blockchain`);
+
+    ['scItem', 'scQty', 'scFromTo', 'scDetails'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    renderSupplyChain();
+  } catch (err) {
+    logOutput(out, `❌ Error: ${err.message?.substring(0, 150)}`, 'err');
+    showToast('error', 'Recording Failed', err.message?.substring(0, 100));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderSupplyChain() {
+  const tbody = document.getElementById('scTableBody');
+  const items = appData.supplyChain.slice().reverse();
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:30px">No supply chain events recorded</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = items.map(s => `<tr>
+    <td>${s.id}</td>
+    <td style="font-weight:500">${s.item}</td>
+    <td><span class="badge badge-active">${s.event}</span></td>
+    <td>${s.qty || '--'}</td>
+    <td style="font-size:.8rem">${s.fromTo || '--'}</td>
+    <td style="font-size:.78rem">${formatTime(s.timestamp)}</td>
+  </tr>`).join('');
+}
+
+// ============================================================
+// ACTIVITY FEED
+// ============================================================
+function renderActivity() {
+  const container = document.getElementById('activityFeed');
+  const items = appData.activity.slice(0, 50);
+  if (!items.length) {
+    container.innerHTML = '<div style="color:var(--text-dim);font-size:.85rem;padding:30px 0;text-align:center">Activity feed is empty. Perform operations to see them logged here.</div>';
+    return;
+  }
+
+  container.innerHTML = items.map(a => {
+    const iconClass = a.type === 'payment' ? 'payment' :
+                      a.type === 'contract' ? 'contract' :
+                      a.type === 'alert' ? 'alert' : 'pump';
+    const icons = { payment: '💸', contract: '📋', alert: '⚠️', pump: '⛽' };
+    return `
+      <div class="activity-item">
+        <div class="activity-icon ${iconClass}">${icons[a.type] || '📌'}</div>
+        <div class="activity-body">
+          <div class="activity-title">${a.title}</div>
+          <div class="activity-meta">${a.detail || ''}</div>
+          ${a.txHash ? `<a href="https://polygonscan.com/tx/${a.txHash}" target="_blank" class="contract-addr" style="font-size:.7rem">${shortTx(a.txHash)}</a>` : ''}
+        </div>
+        <div class="activity-time">${formatTime(a.timestamp)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderDashActivity() {
+  const container = document.getElementById('dashActivity');
+  const items = appData.activity.slice(0, 5);
+  if (!items.length) {
+    container.innerHTML = '<div style="color:var(--text-dim);font-size:.85rem;padding:20px 0;text-align:center">No activity recorded yet. Connect wallet to begin.</div>';
+    return;
+  }
+
+  container.innerHTML = items.map(a => {
+    const iconClass = a.type === 'payment' ? 'payment' :
+                      a.type === 'contract' ? 'contract' :
+                      a.type === 'alert' ? 'alert' : 'pump';
+    const icons = { payment: '💸', contract: '📋', alert: '⚠️', pump: '⛽' };
+    return `
+      <div class="activity-item">
+        <div class="activity-icon ${iconClass}">${icons[a.type] || '📌'}</div>
+        <div class="activity-body">
+          <div class="activity-title">${a.title}</div>
+          <div class="activity-meta">${a.detail || ''}</div>
+        </div>
+        <div class="activity-time">${formatTime(a.timestamp)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  document.getElementById('statContracts').textContent =
+    appData.contracts.filter(c => c.status === 'active').length || appData.contracts.length;
+  document.getElementById('statEquipment').textContent = appData.equipment.length;
+  document.getElementById('statPayments').textContent =
+    appData.payments.reduce((sum, p) => sum + (p.amount || 0), 0).toFixed(1);
+  document.getElementById('statRecords').textContent = appData.fieldLogs.length;
+
+  // Update active zones on dashboard
+  const zones = document.getElementById('activeZones');
+  const wells = [...new Set(appData.fieldLogs.map(l => l.wellId).concat(appData.contracts.map(c => c.wellId)))].filter(Boolean);
+  if (wells.length) {
+    zones.innerHTML = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+      ${wells.map(w => `<span class="badge badge-active"><span class="badge-dot"></span> ${w}</span>`).join('')}
+    </div>`;
+  }
+
+  // Update dashboard status
+  if (userAddress) {
+    document.getElementById('dashStatus').textContent = 'Connected & Operational';
+    document.getElementById('dashStatus').style.color = 'var(--success)';
+  }
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+async function updateDashBlock() {
+  if (!provider) return;
+  try {
+    const block = await provider.getBlockNumber();
+    document.getElementById('dashBlock').textContent = block.toLocaleString();
+  } catch (e) { /* silent */ }
+}
+
+// ============================================================
+// SETTINGS ACTIONS
+// ============================================================
+function exportData() {
+  const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `noble-oil-data-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('success', 'Data Exported', 'JSON file downloaded');
+}
+
+function clearLocalData() {
+  if (!confirm('Clear all locally cached data? On-chain records remain immutable.')) return;
+  appData = { contracts: [], equipment: [], payments: [], fieldLogs: [], supplyChain: [], activity: [], invoices: [] };
+  saveLocalData();
+  renderAll();
+  showToast('info', 'Cache Cleared', 'Local data cleared. On-chain records unaffected.');
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  renderContracts();
+  renderEquipment();
+  renderPayments();
+  renderFieldLogs();
+  renderSupplyChain();
+  renderActivity();
+  renderDashActivity();
+  updateStats();
+  updateDashBlock();
+  updateLocalCount();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(async function init() {
+  // Auto-connect if already authorized
+  if (window.ethereum) {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts.length > 0) {
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+        userAddress = accounts[0];
+        chainId = await window.ethereum.request({ method: 'eth_chainId' });
+
+        await updateNetworkStatus();
+        await updateBalance();
+
+        document.getElementById('connectBtn').textContent = 'Connected';
+        document.getElementById('connectBtn').classList.remove('btn-primary');
+        document.getElementById('connectBtn').classList.add('btn-ghost');
+
+        window.ethereum.on('accountsChanged', handleAccountsChanged);
+        window.ethereum.on('chainChanged', () => window.location.reload());
+      }
+    } catch (e) { console.warn('Auto-connect failed:', e); }
+  }
+
+  renderAll();
+
+  // Periodic block height update
+  setInterval(updateDashBlock, 15000);
+})();
+</script>
+</body>
+</html>

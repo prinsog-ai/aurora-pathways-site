@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noble Oil Field Services — Multi-Division Field Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f; --surface: #0f0f16; --surface2: #15151f; --surface3: #1a1a28;
+    --text: #e8e8ed; --text2: #8a8a9a; --text3: #5a5a6a;
+    --accent: #7c5cfc; --accent2: #4ec9b0; --accent3: #ff6b9d;
+    --green: #22c55e; --orange: #f59e0b; --red: #ef4444;
+    --gold: #f5c842;
+    --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.06); --radius: 16px; --radius-sm: 10px;
+    --casing: #4ec9b0; --roustabout: #7c5cfc; --trucking: #f5c842; --wellservice: #ff6b9d;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 14px 0; }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-weight: 800; font-size: 1.1rem; color: var(--text); }
+  .logo span { color: var(--gold); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-tag { font-size: 0.7rem; background: rgba(245,200,66,0.15); color: var(--gold); padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+
+  /* HERO */
+  .hero { padding: 80px 0 40px; text-align: center; }
+  .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 .highlight { background: linear-gradient(135deg, var(--gold), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .sub { color: var(--text2); font-size: 1.15rem; max-width: 680px; margin: 0 auto 16px; }
+  .hero .proof { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 30px; padding: 8px 20px; font-size: 0.8rem; color: var(--text2); margin-top: 12px; }
+  .hero .proof .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* DIVISION PILLS */
+  .div-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
+  .div-pill { padding: 8px 18px; border-radius: 24px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--glass-border); background: var(--surface); color: var(--text2); transition: all 0.2s; font-family: inherit; }
+  .div-pill.active { color: #0a0a0f; border-color: transparent; }
+  .div-pill[data-d="all"].active { background: var(--gold); }
+  .div-pill[data-d="casing"].active { background: var(--casing); }
+  .div-pill[data-d="roustabout"].active { background: var(--roustabout); }
+  .div-pill[data-d="trucking"].active { background: var(--trucking); color: #0a0a0f; }
+  .div-pill[data-d="wellservice"].active { background: var(--wellservice); }
+
+  /* SECTIONS */
+  .section { padding: 60px 0; }
+  .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+  .section-desc { color: var(--text2); font-size: 1rem; max-width: 620px; margin-bottom: 32px; }
+
+  /* PROBLEM */
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .problem-card { background: var(--surface); border: 1px solid rgba(239,68,68,0.2); border-radius: var(--radius); padding: 28px; text-align: center; }
+  .problem-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .problem-number { font-size: 2.5rem; font-weight: 900; color: var(--red); }
+  .problem-text { color: var(--text2); font-size: 0.9rem; margin-top: 4px; }
+
+  /* DIVISION CARDS */
+  .div-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .div-card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+  .div-card:hover { border-color: rgba(245,200,66,0.3); transform: translateY(-2px); }
+  .div-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .div-card.casing::before { background: linear-gradient(90deg, var(--casing), #2dd4a8); }
+  .div-card.roustabout::before { background: linear-gradient(90deg, var(--roustabout), #5a3fd4); }
+  .div-card.trucking::before { background: linear-gradient(90deg, var(--trucking), #f59e0b); }
+  .div-card.wellservice::before { background: linear-gradient(90deg, var(--wellservice), #e0557a); }
+  .div-icon { font-size: 2rem; margin-bottom: 12px; }
+  .div-name { font-weight: 800; font-size: 1.05rem; margin-bottom: 6px; }
+  .div-desc { color: var(--text2); font-size: 0.82rem; margin-bottom: 12px; }
+  .div-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .div-tag { font-size: 0.62rem; padding: 3px 8px; border-radius: 12px; font-weight: 600; background: var(--glass2); color: var(--text2); }
+
+  /* CALCULATOR */
+  .calc-wrapper { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 40px; max-width: 700px; margin: 0 auto; }
+  .calc-title { font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
+  .calc-sub { color: var(--text2); text-align: center; font-size: 0.9rem; margin-bottom: 28px; }
+  .slider-group { margin-bottom: 28px; }
+  .slider-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .slider-label span { font-size: 0.85rem; color: var(--text2); }
+  .slider-label strong { font-size: 1.1rem; color: var(--gold); }
+  input[type="range"] { width: 100%; height: 6px; -webkit-appearance: none; background: var(--surface3); border-radius: 3px; outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); cursor: pointer; }
+  .calc-result { background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(124,92,252,0.1)); border: 1px solid rgba(245,200,66,0.2); border-radius: var(--radius-sm); padding: 24px; text-align: center; margin-top: 8px; }
+  .calc-result-value { font-size: 2.8rem; font-weight: 900; color: var(--gold); }
+  .calc-result-label { color: var(--text2); font-size: 0.85rem; }
+  .calc-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .calc-break-item { background: var(--surface2); border-radius: 8px; padding: 16px; text-align: center; }
+  .calc-break-value { font-size: 1.4rem; font-weight: 700; }
+  .calc-break-label { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+
+  /* STEPS */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px; text-align: center; position: relative; }
+  .step-num { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; border-radius: 50%; background: var(--gold); color: #0a0a0f; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+  .step-icon { font-size: 2rem; margin: 12px 0 8px; }
+  .step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+  .step-desc { color: var(--text2); font-size: 0.8rem; }
+  .step-arrow { position: absolute; right: -20px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 1.2rem; z-index: 2; }
+
+  /* DEMO TABS */
+  .demo-tabs { display: flex; gap: 4px; background: var(--surface); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 24px; overflow-x: auto; }
+  .demo-tab { padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: var(--text2); cursor: pointer; transition: all 0.2s; border: none; background: none; font-family: inherit; white-space: nowrap; }
+  .demo-tab.active { background: var(--gold); color: #0a0a0f; }
+  .demo-tab:hover:not(.active) { color: var(--text); background: var(--glass2); }
+  .demo-panel { display: none; }
+  .demo-panel.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .card-title { font-size: 0.95rem; font-weight: 700; }
+  .badge { font-size: 0.68rem; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge-orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .badge-purple { background: rgba(124,92,252,0.15); color: var(--accent); }
+  .badge-gold { background: rgba(245,200,66,0.15); color: var(--gold); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge-pink { background: rgba(255,107,157,0.15); color: var(--accent3); }
+  .badge-teal { background: rgba(78,201,176,0.15); color: var(--casing); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { text-align: left; padding: 10px 14px; color: var(--text3); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--glass-border); }
+  td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  tr:hover td { background: var(--glass); }
+
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.75rem; color: var(--text2); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select { width: 100%; padding: 11px 14px; background: var(--surface2); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.85rem; }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--gold); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), #5a3fd4); color: white; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,92,252,0.3); }
+  .btn-gold { background: linear-gradient(135deg, var(--gold), #f59e0b); color: #0a0a0f; font-weight: 800; }
+  .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,200,66,0.3); }
+  .btn-teal { background: linear-gradient(135deg, var(--casing), #2dd4a8); color: #0a0a0f; font-weight: 800; }
+  .btn-teal:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(78,201,176,0.3); }
+
+  /* SITE GRID */
+  .site-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .site-card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px; }
+  .site-name { font-weight: 700; font-size: 0.95rem; }
+  .site-loc { color: var(--text2); font-size: 0.78rem; margin-bottom: 10px; }
+  .site-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .site-metric { background: var(--surface2); border-radius: 8px; padding: 10px; }
+  .site-metric-val { font-size: 1rem; font-weight: 700; color: var(--gold); }
+  .site-metric-lab { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; }
+
+  /* BAR CHART */
+  .bar-chart { display: flex; align-items: flex-end; gap: 10px; height: 180px; padding: 10px 0; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 4px; }
+  .bar-a { background: linear-gradient(180deg, var(--gold), #f59e0b); }
+  .bar-b { background: linear-gradient(180deg, var(--accent2), #2dd4a8); }
+  .bar-label { font-size: 0.65rem; color: var(--text3); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--glass-border); }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-item::before { content: ''; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+  .tl-time { font-size: 0.7rem; color: var(--text3); }
+  .tl-event { font-size: 0.85rem; }
+  .tl-amount { font-size: 0.8rem; color: var(--accent2); font-weight: 600; }
+
+  /* COMPARISON */
+  .comp-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: start; }
+  .comp-card { background: var(--surface); border-radius: var(--radius); padding: 28px; }
+  .comp-card.old { border: 1px solid rgba(239,68,68,0.2); }
+  .comp-card.new { border: 1px solid rgba(78,201,176,0.3); background: linear-gradient(135deg, rgba(78,201,176,0.05), rgba(124,92,252,0.05)); }
+  .comp-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 16px; }
+  .comp-list { list-style: none; }
+  .comp-list li { padding: 10px 0; border-bottom: 1px solid var(--glass-border); font-size: 0.88rem; display: flex; align-items: center; gap: 10px; }
+  .comp-list li:last-child { border: none; }
+  .comp-vs { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: var(--text3); padding-top: 60px; }
+
+  /* SPLIT BAR */
+  .split-bar { display: flex; height: 36px; border-radius: 8px; overflow: hidden; margin: 12px 0; }
+  .split-left { background: linear-gradient(90deg, var(--gold), #f59e0b); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; color: #0a0a0f; }
+  .split-right { background: linear-gradient(90deg, var(--accent2), #2dd4a8); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; color: #0a0a0f; }
+
+  /* CTA */
+  .cta-section { text-align: center; padding: 60px 0; }
+  .cta-title { font-size: 2rem; font-weight: 900; margin-bottom: 12px; }
+  .cta-desc { color: var(--text2); font-size: 1rem; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* FOOTER */
+  footer { padding: 32px 0; text-align: center; color: var(--text3); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--gold); color: var(--text); padding: 14px 22px; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 1000; transform: translateY(100px); opacity: 0; transition: all 0.3s; max-width: 350px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* STATUS */
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .status-active { background: var(--green); }
+  .status-urgent { background: var(--red); animation: pulse 1s infinite; }
+  .status-pending { background: var(--orange); }
+
+  /* DIVISION COLOR MAP */
+  .div-color-casing { color: var(--casing); }
+  .div-color-roustabout { color: var(--roustabout); }
+  .div-color-trucking { color: var(--trucking); }
+  .div-color-wellservice { color: var(--wellservice); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step-arrow { display: none; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .comp-vs { padding: 0; }
+    .calc-breakdown { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .site-grid { grid-template-columns: 1fr; }
+    .div-grid { grid-template-columns: 1fr; }
+    .demo-tabs { overflow-x: auto; }
+    .nav-right { display: none; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* STATS ROW */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .stat-value { font-size: 1.8rem; font-weight: 900; }
+  .stat-label { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* AURORA BG */
+  .aurora { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .aurora-blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.25; }
+  .a1 { width: 600px; height: 300px; background: rgba(245,200,66,0.12); top: 5%; left: 10%; }
+  .a2 { width: 400px; height: 400px; background: rgba(78,201,176,0.08); bottom: 10%; right: 5%; }
+  .content { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<div class="aurora"><div class="aurora-blob a1"></div><div class="aurora-blob a2"></div></div>
+<div class="content">
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">Noble <span>Oil Field Services</span></div>
+    <div class="nav-right">
+      <span class="nav-tag">Platform Preview</span>
+      <span style="color:var(--text3);font-size:0.78rem;">Williston · Cheyenne · Fort Collins · Oklahoma</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Four companies. One platform.<br><span class="highlight">Zero dropped tickets.</span></h1>
+    <p class="sub">Noble runs casing, roustabout crews, trucking, and well service across 4 states. Right now every division has its own spreadsheets, paper tickets, and billing process. One platform unifies it all.</p>
+    <div class="proof"><span class="dot"></span> Built for multi-division oilfield operations — 24/7/365 uptime</div>
+  </div>
+</section>
+
+<!-- DIVISIONS -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Four Divisions</span>
+    <h2 class="section-title">Every division runs on the same platform — with workflows tailored to each.</h2>
+    <p class="section-desc">From casing to trucking to well service, every crew logs in the same way. Dispatchers see everything. Billing is unified.</p>
+    <div class="div-grid">
+      <div class="div-card casing">
+        <div class="div-icon">🔧</div>
+        <div class="div-name" style="color:var(--casing);">Noble Casing & Tubing</div>
+        <div class="div-desc">Running and pulling casing and tubing. Thread inspection, torque monitoring, and tally management — all digital.</div>
+        <div class="div-tags">
+          <span class="div-tag" style="background:rgba(78,201,176,0.15);color:var(--casing);">Casing Running</span>
+          <span class="div-tag" style="background:rgba(78,201,176,0.15);color:var(--casing);">Tubing Pulls</span>
+          <span class="div-tag" style="background:rgba(78,201,176,0.15);color:var(--casing);">Thread Inspection</span>
+          <span class="div-tag" style="background:rgba(78,201,176,0.15);color:var(--casing);">Torque Monitoring</span>
+        </div>
+      </div>
+      <div class="div-card roustabout">
+        <div class="div-icon">🏗️</div>
+        <div class="div-name" style="color:var(--roustabout);">Noble Roustabout</div>
+        <div class="div-desc">Site construction, maintenance, lease roads, tank batteries, and facility builds. From ground-up to ongoing maintenance.</div>
+        <div class="div-tags">
+          <span class="div-tag" style="background:rgba(124,92,252,0.15);color:var(--roustabout);">Site Construction</span>
+          <span class="div-tag" style="background:rgba(124,92,252,0.15);color:var(--roustabout);">Lease Roads</span>
+          <span class="div-tag" style="background:rgba(124,92,252,0.15);color:var(--roustabout);">Tank Batteries</span>
+          <span class="div-tag" style="background:rgba(124,92,252,0.15);color:var(--roustabout);">Facility Maintenance</span>
+        </div>
+      </div>
+      <div class="div-card trucking">
+        <div class="div-icon">🚛</div>
+        <div class="div-name" style="color:var(--trucking);">Noble Trucking</div>
+        <div class="div-desc">Water hauling, equipment transport, hotshot delivery, and frac sand. GPS-tracked fleet with real-time load manifests.</div>
+        <div class="div-tags">
+          <span class="div-tag" style="background:rgba(245,200,66,0.15);color:var(--trucking);">Water Hauling</span>
+          <span class="div-tag" style="background:rgba(245,200,66,0.15);color:var(--trucking);">Equipment Transport</span>
+          <span class="div-tag" style="background:rgba(245,200,66,0.15);color:var(--trucking);">Hotshot</span>
+          <span class="div-tag" style="background:rgba(245,200,66,0.15);color:var(--trucking);">Frac Sand</span>
+        </div>
+      </div>
+      <div class="div-card wellservice">
+        <div class="div-icon">⛽</div>
+        <div class="div-name" style="color:var(--wellservice);">Noble Well Service</div>
+        <div class="div-desc">Workover rigs, rod and pump jobs, well maintenance, and wellbore cleanout. Full well lifecycle support.</div>
+        <div class="div-tags">
+          <span class="div-tag" style="background:rgba(255,107,157,0.15);color:var(--wellservice);">Workover Rigs</span>
+          <span class="div-tag" style="background:rgba(255,107,157,0.15);color:var(--wellservice);">Rod & Pump</span>
+          <span class="div-tag" style="background:rgba(255,107,157,0.15);color:var(--wellservice);">Well Maintenance</span>
+          <span class="div-tag" style="background:rgba(255,107,157,0.15);color:var(--wellservice);">Wellbore Cleanout</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">The Problem</span>
+    <h2 class="section-title">Four divisions means four sets of paperwork — and revenue leaks everywhere.</h2>
+    <p class="section-desc">When each division runs its own process, jobs fall through the cracks, billing is delayed, and no one has a single view of the business.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📋</div>
+        <div class="problem-number">$485K</div>
+        <div class="problem-text">Annual labor cost across 4 divisions spent on manual paperwork and duplicate data entry</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <div class="problem-number">$127K</div>
+        <div class="problem-text">Revenue leaked last year from unbilled services, missed line items, and slow invoicing</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🕐</div>
+        <div class="problem-number">6.8 hrs</div>
+        <div class="problem-text">Average delay between job completion across all divisions and invoice submission</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="calc-wrapper">
+      <div class="calc-title">💰 ROI Calculator — All 4 Divisions</div>
+      <div class="calc-sub">See how much Noble saves by unifying all divisions on one platform — adjust the sliders.</div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Total Field Crews (All Divisions)</span>
+          <strong id="crewVal">32</strong>
+        </div>
+        <input type="range" id="crewSlider" min="10" max="80" value="32" step="1">
+      </div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Jobs Per Crew Per Week</span>
+          <strong id="jobsVal">8</strong>
+        </div>
+        <input type="range" id="jobsSlider" min="3" max="20" value="8" step="1">
+      </div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Avg Invoice Per Job ($)</span>
+          <strong id="invoiceVal">$3,400</strong>
+        </div>
+        <input type="range" id="invoiceSlider" min="500" max="15000" value="3400" step="100">
+      </div>
+      <div class="calc-result">
+        <div class="calc-result-label">Estimated Annual Value Recovered</div>
+        <div class="calc-result-value" id="annualSavings">$0</div>
+        <div class="calc-breakdown">
+          <div class="calc-break-item">
+            <div class="calc-break-value" id="fasterRevenue" style="color:var(--accent2);">$0</div>
+            <div class="calc-break-label">Faster Invoicing Revenue</div>
+          </div>
+          <div class="calc-break-item">
+            <div class="calc-break-value" id="savedHours" style="color:var(--accent);">0</div>
+            <div class="calc-break-label">Labor Hours Saved / Year</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE VS AFTER -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Before vs After</span>
+    <h2 class="section-title">Four separate systems vs. one unified platform.</h2>
+    <div class="comp-grid" style="margin-top:32px;">
+      <div class="comp-card old">
+        <div class="comp-title" style="color:var(--red);">❌ Current Process</div>
+        <ul class="comp-list">
+          <li>📋 Each division has its own ticket system</li>
+          <li>📊 No unified view of revenue or operations</li>
+          <li>📞 Dispatchers coordinate via phone and text</li>
+          <li>💸 Billing across divisions is inconsistent</li>
+          <li>🔍 Compliance tracking varies by division</li>
+          <li>🕐 6+ hour delay from job close to invoice</li>
+        </ul>
+      </div>
+      <div class="comp-vs">VS</div>
+      <div class="comp-card new">
+        <div class="comp-title" style="color:var(--accent2);">✅ Unified Platform</div>
+        <ul class="comp-list">
+          <li>📱 One mobile app for every crew, every division</li>
+          <li>📊 Single dashboard for all 4 divisions</li>
+          <li>🗺️ GPS dispatch and crew tracking in real-time</li>
+          <li>💵 Consistent billing rules, auto-invoicing</li>
+          <li>🔒 Compliance centralized — audit-ready always</li>
+          <li>⚡ Invoices generated in minutes, not hours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">One platform. Every division. Every crew. Every state.</h2>
+    <p class="section-desc">Your crews already carry phones. That's all they need. The platform runs in any browser — no app install, no new hardware.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">📋</div>
+        <div class="step-title">Dispatch</div>
+        <div class="step-desc">Work order created — division, site, scope, crew, and checklist auto-populated from templates.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🔧</div>
+        <div class="step-title">Execute</div>
+        <div class="step-desc">Crew logs in on phone, follows division-specific checklist, captures photos and GPS proof.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">✅</div>
+        <div class="step-title">Verify</div>
+        <div class="step-desc">Supervisor approves. Compliance docs auto-generated. Division-specific rules enforced.</div>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-icon">💰</div>
+        <div class="step-title">Invoice</div>
+        <div class="step-desc">Approved job auto-generates invoice with division-specific rates. Same-day billing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE DEMO -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Live Platform Preview</span>
+    <h2 class="section-title">This is what your dispatchers and division managers would use.</h2>
+    <p class="section-desc">Click through the tabs to explore. Everything below is functional — try dispatching a job ticket.</p>
+
+    <div class="demo-tabs">
+      <button class="demo-tab active" onclick="showPanel('p-dash')">📊 Executive Dashboard</button>
+      <button class="demo-tab" onclick="showPanel('p-dispatch')">📋 Job Dispatch</button>
+      <button class="demo-tab" onclick="showPanel('p-divisions')">🏭 Division Manager</button>
+      <button class="demo-tab" onclick="showPanel('p-compliance')">🔒 Compliance</button>
+      <button class="demo-tab" onclick="showPanel('p-fleet')">🚛 Fleet Tracker</button>
+    </div>
+
+    <!-- EXECUTIVE DASHBOARD -->
+    <div id="p-dash" class="demo-panel active">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--gold);">$1.42M</div>
+          <div class="stat-label">Revenue This Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--green);">28</div>
+          <div class="stat-label">Crews Active Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--accent2);">186</div>
+          <div class="stat-label">Jobs Completed This Week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--accent);">97%</div>
+          <div class="stat-label">Compliance Score</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Revenue by Division — Last 6 Months</span>
+            <span class="badge badge-green">+18% vs last year</span>
+          </div>
+          <div class="bar-chart" id="barChart"></div>
+          <div style="display:flex;gap:20px;margin-top:8px;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--gold);display:inline-block;"></span> Invoiced</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent2);display:inline-block;"></span> Collected</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Live Activity</span></div>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px;">
+        <div class="card" style="text-align:center;border-top:3px solid var(--casing);">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Casing & Tubing</div>
+          <div style="font-size:1.8rem;font-weight:900;color:var(--casing);margin-top:4px;">$384K</div>
+          <div style="font-size:0.75rem;color:var(--text3);">42 jobs · 8 crews</div>
+        </div>
+        <div class="card" style="text-align:center;border-top:3px solid var(--roustabout);">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Roustabout</div>
+          <div style="font-size:1.8rem;font-weight:900;color:var(--roustabout);margin-top:4px;">$412K</div>
+          <div style="font-size:0.75rem;color:var(--text3);">68 jobs · 10 crews</div>
+        </div>
+        <div class="card" style="text-align:center;border-top:3px solid var(--trucking);">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Trucking</div>
+          <div style="font-size:1.8rem;font-weight:900;color:var(--trucking);margin-top:4px;">$298K</div>
+          <div style="font-size:0.75rem;color:var(--text3);">124 loads · 8 trucks</div>
+        </div>
+        <div class="card" style="text-align:center;border-top:3px solid var(--wellservice);">
+          <div style="font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">Well Service</div>
+          <div style="font-size:1.8rem;font-weight:900;color:var(--wellservice);margin-top:4px;">$326K</div>
+          <div style="font-size:0.75rem;color:var(--text3);">38 jobs · 6 rigs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB DISPATCH -->
+    <div id="p-dispatch" class="demo-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 Create Work Order</span>
+            <span class="badge badge-gold">New Job</span>
+          </div>
+          <div class="form-group">
+            <label>Division</label>
+            <select id="fDivision" onchange="updateServices()">
+              <option value="casing">Noble Casing & Tubing</option>
+              <option value="roustabout">Noble Roustabout</option>
+              <option value="trucking">Noble Trucking</option>
+              <option value="wellservice">Noble Well Service</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <select id="fLocation">
+              <option>Williston, ND</option>
+              <option>Cheyenne, WY</option>
+              <option>Fort Collins, CO</option>
+              <option>Oklahoma City, OK</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Service Type</label>
+            <select id="fService">
+              <option>Casing Running — 5½" J55</option>
+              <option>Casing Running — 7" N80</option>
+              <option>Tubing Pull & Re-run</option>
+              <option>Thread Inspection & Torque</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Assigned Crew</label>
+              <select id="fCrew">
+                <option>Casing Crew Alpha</option>
+                <option>Casing Crew Bravo</option>
+                <option>Casing Crew Charlie</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select id="fPriority">
+                <option>Standard</option>
+                <option>Rush (+25%)</option>
+                <option>Emergency (+50%)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Scheduled Date</label>
+              <input type="date" id="fDate" value="2026-06-12">
+            </div>
+            <div class="form-group">
+              <label>Est. Hours</label>
+              <input type="number" id="fHours" value="12" oninput="calcJobTotal()">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Rate ($/hr)</label>
+              <input type="number" id="fRate" value="285" oninput="calcJobTotal()">
+            </div>
+            <div class="form-group">
+              <label>Est. Total</label>
+              <input type="text" id="fTotal" value="$3,420" readonly style="color:var(--gold);font-weight:700;font-size:1.1rem;">
+            </div>
+          </div>
+          <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="submitJob()">📋 Dispatch Job</button>
+          <p style="color:var(--text3);font-size:0.72rem;margin-top:8px;text-align:center;">Dispatched to crew's mobile device instantly. GPS-tracked from dispatch to close.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Active Jobs — All Divisions</span>
+            <span class="badge badge-purple" id="jobCount">8 active</span>
+          </div>
+          <div class="div-pills" style="margin-bottom:16px;">
+            <button class="div-pill active" data-d="all" onclick="filterJobs('all',this)">All</button>
+            <button class="div-pill" data-d="casing" onclick="filterJobs('casing',this)">Casing</button>
+            <button class="div-pill" data-d="roustabout" onclick="filterJobs('roustabout',this)">Roustabout</button>
+            <button class="div-pill" data-d="trucking" onclick="filterJobs('trucking',this)">Trucking</button>
+            <button class="div-pill" data-d="wellservice" onclick="filterJobs('wellservice',this)">Well Service</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Job ID</th><th>Division</th><th>Service</th><th>Location</th><th>Status</th></tr></thead>
+              <tbody id="jobTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIVISION MANAGER -->
+    <div id="p-divisions" class="demo-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <span class="card-title" style="font-size:1.1rem;">🏭 Division Performance</span>
+        <div class="div-pills">
+          <button class="div-pill active" data-d="all" onclick="filterDivisions('all',this)">All Divisions</button>
+          <button class="div-pill" data-d="casing" onclick="filterDivisions('casing',this)">Casing</button>
+          <button class="div-pill" data-d="roustabout" onclick="filterDivisions('roustabout',this)">Roustabout</button>
+          <button class="div-pill" data-d="trucking" onclick="filterDivisions('trucking',this)">Trucking</button>
+          <button class="div-pill" data-d="wellservice" onclick="filterDivisions('wellservice',this)">Well Service</button>
+        </div>
+      </div>
+      <div class="site-grid" id="divisionGrid"></div>
+    </div>
+
+    <!-- COMPLIANCE -->
+    <div id="p-compliance" class="demo-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔒 Compliance Dashboard — All Divisions</span>
+            <span class="badge badge-green">Audit Ready</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--green);">97%</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Overall Score</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--accent2);">847</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Reports This Month</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--accent);">1</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Open Deficiency</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Regulation</th><th>Division</th><th>Status</th><th>Next Due</th></tr></thead>
+              <tbody>
+                <tr><td>NDIC Well Monitoring</td><td><span class="badge badge-teal">Casing</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-08-01</td></tr>
+                <tr><td>EPA Air Emissions (NSPS)</td><td><span class="badge badge-purple">Roustabout</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-10-15</td></tr>
+                <tr><td>DOT Hazmat Transport</td><td><span class="badge badge-gold">Trucking</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-09-01</td></tr>
+                <tr><td>OSHA Safety (H2S)</td><td><span class="badge badge-pink">Well Svc</span></td><td><span class="badge badge-orange">Pending</span></td><td>2026-07-15</td></tr>
+                <tr><td>WY DEQ Spill Reporting</td><td><span class="badge badge-teal">Casing</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-11-01</td></tr>
+                <tr><td>CO CDPHE Water Quality</td><td><span class="badge badge-gold">Trucking</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-08-20</td></tr>
+                <tr><td>OK OER Well Integrity</td><td><span class="badge badge-pink">Well Svc</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-12-01</td></tr>
+                <tr><td>ND DER Spill Reporting</td><td><span class="badge badge-purple">Roustabout</span></td><td><span class="badge badge-green">Compliant</span></td><td>2026-11-20</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Inspections</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Division</th><th>Site</th><th>Findings</th><th>Status</th></tr></thead>
+              <tbody id="inspTable"></tbody>
+            </table>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="card-header"><span class="card-title">Auto-Generated Reports</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('NDIC Monthly Report exported — 62 pages, 4 divisions')">📄 NDIC Report</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('DOT Hazmat Report exported — all trucking routes')">📄 DOT Hazmat Report</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('Safety Incident Log exported — 0 incidents this month')">📄 Safety Log</button>
+              <button class="btn btn-primary" style="font-size:0.78rem;" onclick="toast('Multi-State Compliance Summary exported')">📄 Multi-State Summary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLEET TRACKER -->
+    <div id="p-fleet" class="demo-panel">
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚛 Fleet Status — All Divisions</span>
+            <span class="badge badge-green">All GPS-Connected</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Unit</th><th>Division</th><th>Location</th><th>Current Job</th><th>Status</th></tr></thead>
+              <tbody id="fleetTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Fleet Summary</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--green);">24</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Active Units</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--orange);">4</div>
+              <div style="font-size:0.7rem;color:var(--text3);">En Route</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--text3);">2</div>
+              <div style="font-size:0.7rem;color:var(--text3);">In Maintenance</div>
+            </div>
+            <div style="text-align:center;background:var(--surface2);border-radius:8px;padding:14px;">
+              <div style="font-size:1.3rem;font-weight:800;color:var(--accent);">98.2%</div>
+              <div style="font-size:0.7rem;color:var(--text3);">Uptime</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <div class="card-header"><span class="card-title">By Division</span></div>
+            <div style="margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;"><span style="color:var(--casing);">Casing & Tubing</span><span style="color:var(--text2);">6 units</span></div>
+              <div class="split-bar"><div class="split-left" style="width:60%;background:linear-gradient(90deg,var(--casing),#2dd4a8);">Active</div><div class="split-right" style="width:40%;background:var(--surface3);">Standby</div></div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;"><span style="color:var(--roustabout);">Roustabout</span><span style="color:var(--text2);">8 units</span></div>
+              <div class="split-bar"><div class="split-left" style="width:75%;background:linear-gradient(90deg,var(--roustabout),#5a3fd4);">Active</div><div class="split-right" style="width:25%;background:var(--surface3);">Standby</div></div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;"><span style="color:var(--trucking);">Trucking</span><span style="color:var(--text2);">8 trucks</span></div>
+              <div class="split-bar"><div class="split-left" style="width:85%;background:linear-gradient(90deg,var(--trucking),#f59e0b);">Active</div><div class="split-right" style="width:15%;background:var(--surface3);">Standby</div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;"><span style="color:var(--wellservice);">Well Service</span><span style="color:var(--text2);">6 rigs</span></div>
+              <div class="split-bar"><div class="split-left" style="width:67%;background:linear-gradient(90deg,var(--wellservice),#e0557a);">Active</div><div class="split-right" style="width:33%;background:var(--surface3);">Standby</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section">
+  <div class="container">
+    <span class="section-label">Investment</span>
+    <h2 class="section-title">Start with one division. Prove the ROI. Then unify them all.</h2>
+    <p class="section-desc">Phase 1 deploys in 3 weeks with one division. Your crews start using it day one. You see ROI in month one.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div class="card" style="text-align:center;border-color:rgba(245,200,66,0.3);">
+        <div style="font-size:0.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 1 — Prove It</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--gold);margin:12px 0;">$18,500</div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">1 division, 8 crews,<br>3 weeks to deploy</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ Mobile job dispatch</li>
+          <li style="padding:6px 0;">✅ Division-specific checklists</li>
+          <li style="padding:6px 0;">✅ Auto-invoicing</li>
+          <li style="padding:6px 0;">✅ Compliance dashboard</li>
+          <li style="padding:6px 0;">✅ GPS crew tracking</li>
+        </ul>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:0.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 2 — Unify</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--accent2);margin:12px 0;">$48K</div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">All 4 divisions, all locations,<br>+ $1,200/month platform</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ All 4 divisions on one platform</li>
+          <li style="padding:6px 0;">✅ Cross-division reporting</li>
+          <li style="padding:6px 0;">✅ Fleet tracking (trucking)</li>
+          <li style="padding:6px 0;">✅ Multi-state compliance</li>
+          <li style="padding:6px 0;">✅ Priority support</li>
+        </ul>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Phase 3 — Optimize</div>
+        <div style="font-size:2.5rem;font-weight:900;color:var(--accent);margin:12px 0;">$12K–25K</div>
+        <div style="color:var(--text2);font-size:0.85rem;margin-bottom:16px;">Predictive analytics,<br>full automation suite</div>
+        <ul style="list-style:none;text-align:left;font-size:0.82rem;color:var(--text2);">
+          <li style="padding:6px 0;">✅ Predictive maintenance</li>
+          <li style="padding:6px 0;">✅ Automated compliance filing</li>
+          <li style="padding:6px 0;">✅ Weather-aware scheduling</li>
+          <li style="padding:6px 0;">✅ Inventory auto-reorder</li>
+          <li style="padding:6px 0;">✅ API integrations (SAP, QB)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Ready to unify Noble on one platform?</h2>
+    <p class="cta-desc">30-minute call. We'll map your divisions, estimate your savings, and show you exactly how the platform works.</p>
+    <a href="https://calendly.com/prinsog/30min" target="_blank" class="btn btn-gold" style="font-size:1rem;padding:16px 40px;display:inline-block;text-decoration:none;">Book a 30-Minute Call →</a>
+    <p style="color:var(--text3);font-size:0.8rem;margin-top:16px;">Or email <a href="mailto:hello@aurorapathways.xyz" style="color:var(--gold);">hello@aurorapathways.xyz</a> — response within 24 hours.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Built by <a href="https://aurorapathways.xyz" target="_blank">Aurora Pathways</a> — Field Operations Infrastructure for the Energy Sector</p>
+    <p style="margin-top:4px;">Designed for multi-division oilfield operations · Williston, ND · Cheyenne, WY · Fort Collins, CO · Oklahoma</p>
+  </div>
+</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const jobs = [
+  { id: 'NOB-3201', div: 'casing', service: 'Casing Run 7" N80', loc: 'Williston, ND', status: 'In Progress' },
+  { id: 'NOB-3200', div: 'roustabout', service: 'Site Construction', loc: 'Cheyenne, WY', status: 'In Progress' },
+  { id: 'NOB-3199', div: 'trucking', service: 'Water Haul — 130 bbl', loc: 'Williston, ND', status: 'En Route' },
+  { id: 'NOB-3198', div: 'wellservice', service: 'Rod & Pump Job', loc: 'Oklahoma City, OK', status: 'In Progress' },
+  { id: 'NOB-3197', div: 'casing', service: 'Tubing Pull & Re-run', loc: 'Fort Collins, CO', status: 'Complete' },
+  { id: 'NOB-3196', div: 'roustabout', service: 'Lease Road Repair', loc: 'Williston, ND', status: 'Complete' },
+  { id: 'NOB-3195', div: 'trucking', service: 'Equipment Transport', loc: 'Cheyenne, WY', status: 'Delivered' },
+  { id: 'NOB-3194', div: 'wellservice', service: 'Wellbore Cleanout', loc: 'Williston, ND', status: 'Complete' },
+];
+
+const activities = [
+  { time: '8 min ago', event: 'NOB-3201 started — Casing crew on-site', amt: 'Williston, ND — 7" N80 run' },
+  { time: '22 min ago', event: 'NOB-3199 dispatched — Water haul en route', amt: 'Williston → Tioga — 130 bbl' },
+  { time: '45 min ago', event: 'Invoice #INV-4102 sent', amt: '$8,400 — Casing running' },
+  { time: '1 hr ago', event: 'NOB-3195 delivered — Equipment on location', amt: 'Cheyenne, WY — rig move' },
+  { time: '2 hrs ago', event: 'NOB-3194 closed — auto-invoiced', amt: '$6,200 — Wellbore cleanout' },
+];
+
+const inspections = [
+  { date: '2026-06-12', div: 'Casing', site: 'Williston #47', findings: 'All clear', status: 'Pass' },
+  { date: '2026-06-11', div: 'Trucking', site: 'Cheyenne Yard', findings: 'Brake inspection — all passed', status: 'Pass' },
+  { date: '2026-06-10', div: 'Well Svc', site: 'OKC Well #12', findings: 'BOP test completed', status: 'Pass' },
+  { date: '2026-06-09', div: 'Roustabout', site: 'Williston Site B', findings: 'Minor fence repair needed', status: 'Pass' },
+  { date: '2026-06-08', div: 'Casing', site: 'Fort Collins #8', findings: 'Thread inspection — all within spec', status: 'Pass' },
+];
+
+const months = [
+  { m: 'Jan', v: 1080000, c: 980000 }, { m: 'Feb', v: 1150000, c: 1050000 }, { m: 'Mar', v: 1240000, c: 1140000 },
+  { m: 'Apr', v: 1320000, c: 1220000 }, { m: 'May', v: 1380000, c: 1280000 }, { m: 'Jun', v: 1420000, c: 1340000 },
+];
+
+const divisions = [
+  { name: 'Noble Casing & Tubing', key: 'casing', loc: 'Williston, ND + Fort Collins, CO', crews: 8, jobs: 42, revenue: '$384,200', compliance: 98, uptime: '99.1%' },
+  { name: 'Noble Roustabout', key: 'roustabout', loc: 'Williston, ND + Cheyenne, WY', crews: 10, jobs: 68, revenue: '$412,800', compliance: 97, uptime: '98.4%' },
+  { name: 'Noble Trucking', key: 'trucking', loc: 'All 4 Locations', crews: 8, jobs: 124, revenue: '$298,400', compliance: 96, uptime: '98.8%' },
+  { name: 'Noble Well Service', key: 'wellservice', loc: 'Williston, ND + Oklahoma City, OK', crews: 6, jobs: 38, revenue: '$326,600', compliance: 97, uptime: '97.2%' },
+];
+
+const fleet = [
+  { unit: 'CT-01', div: 'casing', divLabel: 'Casing', loc: 'Williston, ND', job: 'Casing Run 7"', status: 'On Job' },
+  { unit: 'CT-02', div: 'casing', divLabel: 'Casing', loc: 'Fort Collins, CO', job: 'Tubing Pull', status: 'On Job' },
+  { unit: 'CT-03', div: 'casing', divLabel: 'Casing', loc: 'Williston Shop', job: '—', status: 'Standby' },
+  { unit: 'RB-01', div: 'roustabout', divLabel: 'Roustabout', loc: 'Cheyenne, WY', job: 'Site Construction', status: 'On Job' },
+  { unit: 'RB-02', div: 'roustabout', divLabel: 'Roustabout', loc: 'Williston, ND', job: 'Lease Road', status: 'On Job' },
+  { unit: 'RB-03', div: 'roustabout', divLabel: 'Roustabout', loc: 'En Route', job: 'Tank Battery', status: 'En Route' },
+  { unit: 'TK-01', div: 'trucking', divLabel: 'Trucking', loc: 'Williston, ND', job: 'Water Haul 130bbl', status: 'On Job' },
+  { unit: 'TK-02', div: 'trucking', divLabel: 'Trucking', loc: 'Cheyenne, WY', job: 'Equipment Haul', status: 'En Route' },
+  { unit: 'TK-03', div: 'trucking', divLabel: 'Trucking', loc: 'OKC, OK', job: 'Frac Sand', status: 'On Job' },
+  { unit: 'WS-01', div: 'wellservice', divLabel: 'Well Svc', loc: 'Williston, ND', job: 'Rod & Pump', status: 'On Job' },
+  { unit: 'WS-02', div: 'wellservice', divLabel: 'Well Svc', loc: 'OKC, OK', job: 'Wellbore Cleanout', status: 'On Job' },
+  { unit: 'WS-03', div: 'wellservice', divLabel: 'Well Svc', loc: 'Williston Shop', job: '—', status: 'Maintenance' },
+];
+
+const divColors = { casing: 'var(--casing)', roustabout: 'var(--roustabout)', trucking: 'var(--trucking)', wellservice: 'var(--wellservice)' };
+const divBadgeClasses = { casing: 'badge-teal', roustabout: 'badge-purple', trucking: 'badge-gold', wellservice: 'badge-pink' };
+const divLabels = { casing: 'Casing', roustabout: 'Roustabout', trucking: 'Trucking', wellservice: 'Well Svc' };
+
+const servicesByDivision = {
+  casing: ['Casing Running — 5½" J55', 'Casing Running — 7" N80', 'Tubing Pull & Re-run', 'Thread Inspection & Torque'],
+  roustabout: ['Site Construction', 'Lease Road Repair', 'Tank Battery Build', 'Facility Maintenance', 'Dike & Berm Work'],
+  trucking: ['Water Haul — 130 bbl', 'Equipment Transport', 'Hotshot Delivery', 'Frac Sand Haul', 'Waste Disposal'],
+  wellservice: ['Rod & Pump Job', 'Wellbore Cleanout', 'Workover Rig — Full', 'Well Maintenance', 'BOP Test & Inspection'],
+};
+
+const crewsByDivision = {
+  casing: ['Casing Crew Alpha', 'Casing Crew Bravo', 'Casing Crew Charlie'],
+  roustabout: ['Roustabout Crew 1', 'Roustabout Crew 2', 'Roustabout Crew 3', 'Roustabout Crew 4'],
+  trucking: ['Truck Unit TK-01', 'Truck Unit TK-02', 'Truck Unit TK-03', 'Truck Unit TK-04'],
+  wellservice: ['Workover Rig WS-01', 'Workover Rig WS-02', 'Workover Rig WS-03'],
+};
+
+const ratesByDivision = { casing: 285, roustabout: 165, trucking: 145, wellservice: 310 };
+
+let currentJobFilter = 'all';
+let currentDivFilter = 'all';
+
+function showPanel(id) {
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (event && event.target) event.target.classList.add('active');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✅ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function calcJobTotal() {
+  const hrs = parseFloat(document.getElementById('fHours').value) || 0;
+  const rate = parseFloat(document.getElementById('fRate').value) || 0;
+  document.getElementById('fTotal').value = '$' + (hrs * rate).toLocaleString();
+}
+
+function updateServices() {
+  const div = document.getElementById('fDivision').value;
+  const svcSelect = document.getElementById('fService');
+  const crewSelect = document.getElementById('fCrew');
+  svcSelect.innerHTML = servicesByDivision[div].map(s => `<option>${s}</option>`).join('');
+  crewSelect.innerHTML = crewsByDivision[div].map(c => `<option>${c}</option>`).join('');
+  document.getElementById('fRate').value = ratesByDivision[div];
+  calcJobTotal();
+}
+
+function submitJob() {
+  const div = document.getElementById('fDivision').value;
+  const loc = document.getElementById('fLocation').value;
+  const service = document.getElementById('fService').value;
+  const crew = document.getElementById('fCrew').value;
+  const total = document.getElementById('fTotal').value;
+  const id = 'NOB-' + (3202 + jobs.length);
+  jobs.unshift({ id, div, service: service.substring(0, 20), loc: loc.split(',')[0], status: 'Dispatched' });
+  renderJobs();
+  document.getElementById('jobCount').textContent = jobs.filter(j => j.status !== 'Complete' && j.status !== 'Delivered').length + ' active';
+  toast(`${id} dispatched — ${divLabels[div]} crew → ${service} at ${loc}`);
+  setTimeout(() => { jobs[0].status = 'In Progress'; renderJobs(); toast(`${id} accepted by ${crew} — en route`); }, 2500);
+}
+
+function filterJobs(div, el) {
+  currentJobFilter = div;
+  document.querySelectorAll('#p-dispatch .div-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderJobs();
+}
+
+function filterDivisions(div, el) {
+  currentDivFilter = div;
+  document.querySelectorAll('#p-divisions .div-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderDivisions();
+}
+
+function renderBar() {
+  const max = Math.max(...months.map(m => m.v + m.c));
+  document.getElementById('barChart').innerHTML = months.map(m => {
+    const vH = (m.v / max) * 160, cH = (m.c / max) * 160;
+    return `<div class="bar-group"><div style="display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;"><span class="bar-label" style="font-weight:600;color:var(--text2);">$${((m.v+m.c)/1000000).toFixed(2)}M</span><div class="bar bar-a" style="height:${vH}px;"></div><div class="bar bar-b" style="height:${cH}px;"></div></div><span class="bar-label">${m.m}</span></div>`;
+  }).join('');
+}
+
+function renderTimeline() {
+  document.getElementById('timeline').innerHTML = activities.map(a => `<div class="tl-item"><div class="tl-time">${a.time}</div><div class="tl-event">${a.event}</div><div class="tl-amount">${a.amt}</div></div>`).join('');
+}
+
+function renderJobs() {
+  const filtered = currentJobFilter === 'all' ? jobs : jobs.filter(j => j.div === currentJobFilter);
+  document.getElementById('jobTable').innerHTML = filtered.map(j => {
+    let badgeClass, dotClass;
+    if (j.status === 'Complete' || j.status === 'Delivered') { badgeClass = 'badge-green'; dotClass = 'status-active'; }
+    else if (j.status === 'In Progress') { badgeClass = 'badge-purple'; dotClass = 'status-active'; }
+    else if (j.status === 'En Route') { badgeClass = 'badge-orange'; dotClass = 'status-pending'; }
+    else { badgeClass = 'badge-gold'; dotClass = 'status-pending'; }
+    return `<tr><td style="font-weight:600;">${j.id}</td><td><span class="badge ${divBadgeClasses[j.div]}">${divLabels[j.div]}</span></td><td>${j.service}</td><td>${j.loc}</td><td><span class="badge ${badgeClass}"><span class="status-dot ${dotClass}"></span>${j.status}</span></td></tr>`;
+  }).join('');
+}
+
+function renderInsp() {
+  document.getElementById('inspTable').innerHTML = inspections.map(i =>
+    `<tr><td>${i.date}</td><td>${i.div}</td><td>${i.site}</td><td>${i.findings}</td><td><span class="badge badge-green">${i.status}</span></td></tr>`
+  ).join('');
+}
+
+function renderDivisions() {
+  const filtered = currentDivFilter === 'all' ? divisions : divisions.filter(d => d.key === currentDivFilter);
+  document.getElementById('divisionGrid').innerHTML = filtered.map(d => {
+    const compColor = d.compliance >= 98 ? 'var(--green)' : d.compliance >= 90 ? 'var(--orange)' : 'var(--red)';
+    return `<div class="site-card" style="border-top:3px solid ${divColors[d.key]};">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;"><span class="site-name" style="color:${divColors[d.key]};">${d.name}</span><span class="badge badge-green">Active</span></div>
+      <div class="site-loc">${d.loc}</div>
+      <div class="site-metrics">
+        <div class="site-metric"><div class="site-metric-val" style="color:${divColors[d.key]};">${d.crews}</div><div class="site-metric-lab">Crews</div></div>
+        <div class="site-metric"><div class="site-metric-val">${d.jobs}</div><div class="site-metric-lab">Jobs/Mo</div></div>
+        <div class="site-metric"><div class="site-metric-val">${d.revenue}</div><div class="site-metric-lab">Revenue</div></div>
+        <div class="site-metric"><div class="site-metric-val" style="color:${compColor};">${d.compliance}%</div><div class="site-metric-lab">Compliance</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderFleet() {
+  document.getElementById('fleetTable').innerHTML = fleet.map(f => {
+    let statusBadge, dotClass;
+    if (f.status === 'On Job') { statusBadge = 'badge-green'; dotClass = 'status-active'; }
+    else if (f.status === 'En Route') { statusBadge = 'badge-orange'; dotClass = 'status-pending'; }
+    else if (f.status === 'Maintenance') { statusBadge = 'badge-red'; dotClass = 'status-urgent'; }
+    else { statusBadge = 'badge-purple'; dotClass = 'status-pending'; }
+    return `<tr><td style="font-weight:600;">${f.unit}</td><td><span class="badge ${divBadgeClasses[f.div]}">${f.divLabel}</span></td><td>${f.loc}</td><td>${f.job}</td><td><span class="badge ${statusBadge}"><span class="status-dot ${dotClass}"></span>${f.status}</span></td></tr>`;
+  }).join('');
+}
+
+// CALCULATOR
+function updateCalc() {
+  const crews = +document.getElementById('crewSlider').value;
+  const jobsPerWeek = +document.getElementById('jobsSlider').value;
+  const invoice = +document.getElementById('invoiceSlider').value;
+  document.getElementById('crewVal').textContent = crews;
+  document.getElementById('jobsVal').textContent = jobsPerWeek;
+  document.getElementById('invoiceVal').textContent = '$' + invoice.toLocaleString();
+  const annualJobs = crews * jobsPerWeek * 52;
+  const annualRevenue = annualJobs * invoice;
+  const fasterRev = Math.round(annualRevenue * 0.08);
+  const hoursSaved = crews * 10 * 52;
+  const totalSavings = fasterRev + (hoursSaved * 22);
+  document.getElementById('annualSavings').textContent = '$' + totalSavings.toLocaleString();
+  document.getElementById('fasterRevenue').textContent = '$' + fasterRev.toLocaleString();
+  document.getElementById('savedHours').textContent = hoursSaved.toLocaleString();
+}
+document.getElementById('crewSlider').addEventListener('input', updateCalc);
+document.getElementById('jobsSlider').addEventListener('input', updateCalc);
+document.getElementById('invoiceSlider').addEventListener('input', updateCalc);
+
+renderBar(); renderTimeline(); renderJobs(); renderInsp(); renderDivisions(); renderFleet(); updateCalc();
+</script>
+</body>
+</html>
