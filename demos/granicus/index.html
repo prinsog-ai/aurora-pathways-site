@@ -210,7 +210,7 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
-<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
 <div class="aurora-bg"></div>
 
 <!-- NAV -->
@@ -608,7 +608,7 @@ footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color
 </footer>
 
 <script>
-function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
 // Tab switching
 function switchTab(name){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));

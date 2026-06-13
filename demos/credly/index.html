@@ -153,9 +153,9 @@ h2{font-size:2rem;font-weight:700;color:#fff;margin-bottom:12px;text-align:cente
 
 footer{text-align:center;padding:40px 0;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
 
-@media(max-width:768px){
 /* Language Toggle */
 .en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:768px){
 .form-row,.roi-grid,.ba-grid,.analytics-grid{grid-template-columns:1fr}
 .hero-stats{gap:24px}
 .verify-input-group{flex-direction:column}
@@ -167,7 +167,7 @@ nav .nav-links{display:none}
 <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
-<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span> | <span>ES</span></button>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
 <div class="aurora"></div>
 
 <nav>
@@ -496,7 +496,7 @@ nav .nav-links{display:none}
 </footer>
 
 <script>
-function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.querySelector('.active-lang').textContent=isES?'ES':'EN'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.querySelector('.active-lang').textContent='ES'},0)}
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
 // Tabs
 document.querySelectorAll('.tab-btn').forEach(btn=>{
 btn.addEventListener('click',()=>{
