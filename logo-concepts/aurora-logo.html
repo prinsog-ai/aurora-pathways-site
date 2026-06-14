@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Pathways — Logo Concepts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0f;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            padding: 60px 20px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-weight: 300;
+            font-size: 28px;
+            letter-spacing: 0.08em;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-weight: 300;
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 0.04em;
+        }
+
+        .logo-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .logo-card {
+            background: #111118;
+            border: 1px solid #1a1a24;
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .logo-card:hover {
+            border-color: #2a2a3a;
+        }
+
+        .logo-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .logo-card.light-bg {
+            background: #f0f0f4;
+        }
+
+        .logo-card.light-bg .card-label {
+            color: #444;
+        }
+
+        .card-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 24px;
+        }
+
+        canvas {
+            display: block;
+            border-radius: 4px;
+        }
+
+        .vertical-grid {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .vertical-grid .logo-card {
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .logo-grid {
+                grid-template-columns: 1fr;
+            }
+            .logo-card.full-width {
+                grid-column: 1;
+            }
+            .vertical-grid {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Aurora Pathways</h1>
+        <p>Logo Concepts — Canvas Rendered</p>
+    </div>
+
+    <div class="logo-grid">
+
+        <!-- 1. FULL LOCKUP — Dark Background -->
+        <div class="logo-card full-width">
+            <div class="card-label">Full Lockup — Dark Background</div>
+            <canvas id="lockup-dark" width="600" height="200"></canvas>
+        </div>
+
+        <!-- 2. FULL LOCKUP — Light Background -->
+        <div class="logo-card full-width light-bg">
+            <div class="card-label">Full Lockup — Light Background</div>
+            <canvas id="lockup-light" width="600" height="200"></canvas>
+        </div>
+
+        <!-- 3. ICON ONLY — Dark Background -->
+        <div class="logo-card">
+            <div class="card-label">Icon Only — Dark Background</div>
+            <canvas id="icon-dark" width="200" height="200"></canvas>
+        </div>
+
+        <!-- 4. ICON ONLY — Light Background -->
+        <div class="logo-card light-bg">
+            <div class="card-label">Icon Only — Light Background</div>
+            <canvas id="icon-light" width="200" height="200"></canvas>
+        </div>
+
+        <!-- 5. VERTICAL LOCKUP -->
+        <div class="logo-card full-width">
+            <div class="card-label">Vertical Lockup — Dark Background</div>
+            <canvas id="vertical-dark" width="300" height="350"></canvas>
+        </div>
+
+    </div>
+
+    <script>
+    // ─── Color Palette ─────────────────────────────────────────────
+    const COLORS = {
+        teal:       '#4ec9b0',
+        emerald:    '#2dd4a0',
+        violet:     '#7c5cfc',
+        magenta:    '#c084fc',
+        paleTeal:   '#b0e8d8',
+        darkBg:     '#0a0e1a',
+        lightBg:    '#f0f0f4',
+        horizon:    '#1a2038'
+    };
+
+    // ─── Helper: draw aurora on a canvas ───────────────────────────
+    function drawAurora(ctx, w, h, opts = {}) {
+        const {
+            darkMode = true,
+            iconOnly = false,
+            showWordmark = false,
+            vertical = false
+        } = opts;
+
+        // Background
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+        if (darkMode) {
+            bgGrad.addColorStop(0, '#0c1020');
+            bgGrad.addColorStop(1, '#080c16');
+        } else {
+            bgGrad.addColorStop(0, '#f4f4f8');
+            bgGrad.addColorStop(1, '#e8e8f0');
+        }
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Aurora region positioning
+        let auroraCx, auroraCy, auroraW, auroraH, auroraTop;
+        if (iconOnly) {
+            auroraCx = w / 2;
+            auroraCy = h * 0.38;
+            auroraW = w * 0.8;
+            auroraH = h * 0.35;
+            auroraTop = auroraCy - auroraH * 0.5;
+        } else if (vertical) {
+            auroraCx = w / 2;
+            auroraCy = h * 0.3;
+            auroraW = w * 0.75;
+            auroraH = h * 0.22;
+            auroraTop = auroraCy - auroraH * 0.5;
+        } else {
+            auroraCx = w * 0.28;
+            auroraCy = h * 0.42;
+            auroraW = w * 0.32;
+            auroraH = h * 0.5;
+            auroraTop = auroraCy - auroraH * 0.3;
+        }
+
+        // ─── Horizon line ──────────────────────────────────────────
+        const horizonY = iconOnly ? h * 0.78 : (vertical ? h * 0.58 : h * 0.72);
+        const horizGrad = ctx.createLinearGradient(0, horizonY - 1, 0, horizonY + 20);
+        if (darkMode) {
+            horizGrad.addColorStop(0, 'rgba(26,32,56,0.0)');
+            horizGrad.addColorStop(0.3, 'rgba(26,32,56,0.3)');
+            horizGrad.addColorStop(1, 'rgba(26,32,56,0.0)');
+        } else {
+            horizGrad.addColorStop(0, 'rgba(200,200,215,0.0)');
+            horizGrad.addColorStop(0.3, 'rgba(200,200,215,0.4)');
+            horizGrad.addColorStop(1, 'rgba(200,200,215,0.0)');
+        }
+        ctx.fillStyle = horizGrad;
+        ctx.fillRect(0, horizonY - 1, w, 22);
+
+        // Subtle hills
+        drawHills(ctx, w, h, horizonY, darkMode);
+
+        // ─── Aurora strokes ────────────────────────────────────────
+        const strokes = [
+            { width: 28, alpha: 0.06, blur: 20, cp1y: -0.55, cp2y: -0.45 },
+            { width: 18, alpha: 0.10, blur: 14, cp1y: -0.50, cp2y: -0.40 },
+            { width: 12, alpha: 0.18, blur: 8,  cp1y: -0.48, cp2y: -0.38 },
+            { width: 7,  alpha: 0.30, blur: 4,  cp1y: -0.46, cp2y: -0.36 },
+            { width: 3,  alpha: 0.55, blur: 0,  cp1y: -0.44, cp2y: -0.34 },
+        ];
+
+        const auroraLeft = auroraCx - auroraW * 0.5;
+        const auroraRight = auroraCx + auroraW * 0.5;
+
+        for (const s of strokes) {
+            ctx.save();
+            if (s.blur > 0) {
+                ctx.filter = `blur(${s.blur}px)`;
+            }
+            ctx.globalAlpha = s.alpha;
+            ctx.lineWidth = s.width;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const grad = ctx.createLinearGradient(auroraLeft, 0, auroraRight, 0);
+            grad.addColorStop(0.0, COLORS.teal);
+            grad.addColorStop(0.25, COLORS.emerald);
+            grad.addColorStop(0.55, COLORS.violet);
+            grad.addColorStop(0.85, COLORS.magenta);
+            grad.addColorStop(1.0, COLORS.magenta);
+            ctx.strokeStyle = grad;
+
+            const y1 = auroraCy + auroraH * s.cp1y;
+            const y2 = auroraCy + auroraH * s.cp2y;
+            const cpOffset = auroraH * 0.15;
+
+            ctx.beginPath();
+            ctx.moveTo(auroraLeft, auroraCy + auroraH * 0.1);
+            ctx.bezierCurveTo(
+                auroraLeft + auroraW * 0.2, y1 - cpOffset,
+                auroraLeft + auroraW * 0.5, y1 + cpOffset * 0.5,
+                auroraCx, y1
+            );
+            ctx.bezierCurveTo(
+                auroraLeft + auroraW * 0.65, y2 + cpOffset * 0.3,
+                auroraRight - auroraW * 0.15, y2 - cpOffset * 0.8,
+                auroraRight, auroraCy - auroraH * 0.05
+            );
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // ─── Soft glow overlay ─────────────────────────────────────
+        ctx.save();
+        ctx.globalAlpha = 0.04;
+        const glowGrad = ctx.createRadialGradient(
+            auroraCx, auroraCy - auroraH * 0.1, 0,
+            auroraCx, auroraCy - auroraH * 0.1, auroraW * 0.6
+        );
+        glowGrad.addColorStop(0, COLORS.violet);
+        glowGrad.addColorStop(0.5, COLORS.teal);
+        glowGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = glowGrad;
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore();
+
+        // ─── Pathway ───────────────────────────────────────────────
+        drawPathway(ctx, w, h, auroraCx, auroraCy, auroraW, auroraH, horizonY, darkMode, iconOnly, vertical);
+
+        // ─── Stars (dark mode only) ────────────────────────────────
+        if (darkMode) {
+            drawStars(ctx, w, h, horizonY);
+        }
+
+        // ─── Wordmark ─────────────────────────────────────────────
+        if (showWordmark) {
+            drawWordmark(ctx, w, h, vertical, iconOnly);
+        }
+    }
+
+    // ─── Draw subtle hills ─────────────────────────────────────────
+    function drawHills(ctx, w, h, horizonY, darkMode) {
+        ctx.save();
+        ctx.globalAlpha = darkMode ? 0.15 : 0.08;
+        const hillColor = darkMode ? '#151c30' : '#c8c8d8';
+
+        // Far hill
+        ctx.beginPath();
+        ctx.moveTo(0, horizonY + 5);
+        ctx.quadraticCurveTo(w * 0.2, horizonY - 12, w * 0.45, horizonY + 2);
+        ctx.quadraticCurveTo(w * 0.7, horizonY + 16, w, horizonY + 8);
+        ctx.lineTo(w, horizonY + 30);
+        ctx.lineTo(0, horizonY + 30);
+        ctx.closePath();
+        ctx.fillStyle = hillColor;
+        ctx.fill();
+
+        // Near hill
+        ctx.globalAlpha = darkMode ? 0.1 : 0.06;
+        ctx.beginPath();
+        ctx.moveTo(0, horizonY + 12);
+        ctx.quadraticCurveTo(w * 0.35, horizonY - 4, w * 0.6, horizonY + 10);
+        ctx.quadraticCurveTo(w * 0.85, horizonY + 22, w, horizonY + 15);
+        ctx.lineTo(w, horizonY + 40);
+        ctx.lineTo(0, horizonY + 40);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // ─── Draw pathway ──────────────────────────────────────────────
+    function drawPathway(ctx, w, h, auroraCx, auroraCy, auroraW, auroraH, horizonY, darkMode, iconOnly, vertical) {
+        ctx.save();
+        ctx.globalAlpha = darkMode ? 0.25 : 0.35;
+
+        const pathGrad = ctx.createLinearGradient(0, horizonY + 20, 0, auroraCy + auroraH * 0.2);
+        if (darkMode) {
+            pathGrad.addColorStop(0, COLORS.paleTeal);
+            pathGrad.addColorStop(1, 'rgba(176,232,216,0.0)');
+        } else {
+            pathGrad.addColorStop(0, '#6a9e90');
+            pathGrad.addColorStop(1, 'rgba(106,158,144,0.0)');
+        }
+        ctx.strokeStyle = pathGrad;
+
+        let startX, startY, endX, endY, cpX, cpY;
+        if (iconOnly) {
+            startX = w * 0.5;
+            startY = h * 0.92;
+            endX = auroraCx;
+            endY = auroraCy + auroraH * 0.15;
+            cpX = w * 0.48;
+            cpY = horizonY - 10;
+        } else if (vertical) {
+            startX = w * 0.5;
+            startY = h * 0.82;
+            endX = auroraCx;
+            endY = auroraCy + auroraH * 0.15;
+            cpX = w * 0.49;
+            cpY = horizonY + 5;
+        } else {
+            startX = w * 0.42;
+            startY = h * 0.95;
+            endX = auroraCx + auroraW * 0.05;
+            endY = auroraCy + auroraH * 0.15;
+            cpX = w * 0.38;
+            cpY = horizonY;
+        }
+
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.quadraticCurveTo(cpX, cpY, endX, endY);
+        ctx.stroke();
+
+        // Faint second line for width suggestion
+        ctx.globalAlpha *= 0.4;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(startX + 3, startY);
+        ctx.quadraticCurveTo(cpX + 4, cpY + 1, endX + 2, endY);
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    // ─── Draw stars ────────────────────────────────────────────────
+    function drawStars(ctx, w, h, horizonY) {
+        ctx.save();
+        const seed = 42;
+        const pseudoRand = (i) => {
+            const x = Math.sin(seed + i * 127.1) * 43758.5453;
+            return x - Math.floor(x);
+        };
+        const count = Math.floor(w * h / 2000);
+        for (let i = 0; i < count; i++) {
+            const x = pseudoRand(i * 3) * w;
+            const y = pseudoRand(i * 3 + 1) * horizonY * 0.9;
+            const r = pseudoRand(i * 3 + 2) * 1.2 + 0.3;
+            ctx.globalAlpha = pseudoRand(i * 7) * 0.4 + 0.1;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    // ─── Draw wordmark ─────────────────────────────────────────────
+    function drawWordmark(ctx, w, h, vertical, iconOnly) {
+        ctx.save();
+
+        if (vertical) {
+            const textY = h * 0.7;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffffff';
+
+            ctx.font = '600 32px Inter, sans-serif';
+            ctx.letterSpacing = '0.15em';
+            ctx.fillText('AURORA', w / 2, textY);
+
+            ctx.font = '300 32px Inter, sans-serif';
+            const auroraWidth = ctx.measureText('AURORA').width;
+            const pathwayWidth = ctx.measureText('PATHWAYS').width;
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.fillText('PATHWAYS', w / 2, textY + 38);
+
+        } else {
+            const textX = w * 0.6;
+            const textY = h * 0.48;
+            ctx.textBaseline = 'middle';
+
+            ctx.font = '600 36px Inter, sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('AURORA', textX, textY - 8);
+
+            ctx.font = '300 36px Inter, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            const auroraWidth = ctx.measureText('AURORA ').width;
+            ctx.fillText('PATHWAYS', textX + auroraWidth, textY - 8);
+
+            // Subtle tagline
+            ctx.font = '300 11px Inter, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.35)';
+            ctx.fillText('WEB3  ·  CONSULTING  ·  STRATEGY', textX, textY + 24);
+        }
+
+        ctx.restore();
+    }
+
+    // ─── Render all canvases ───────────────────────────────────────
+    document.fonts.ready.then(() => {
+        // 1. Full lockup — dark
+        const c1 = document.getElementById('lockup-dark').getContext('2d');
+        drawAurora(c1, 600, 200, { darkMode: true, showWordmark: true });
+
+        // 2. Full lockup — light
+        const c2 = document.getElementById('lockup-light').getContext('2d');
+        drawAurora(c2, 600, 200, { darkMode: false, showWordmark: true });
+
+        // 3. Icon only — dark
+        const c3 = document.getElementById('icon-dark').getContext('2d');
+        drawAurora(c3, 200, 200, { darkMode: true, iconOnly: true });
+
+        // 4. Icon only — light
+        const c4 = document.getElementById('icon-light').getContext('2d');
+        drawAurora(c4, 200, 200, { darkMode: false, iconOnly: true });
+
+        // 5. Vertical lockup — dark
+        const c5 = document.getElementById('vertical-dark').getContext('2d');
+        drawAurora(c5, 300, 350, { darkMode: true, showWordmark: true, vertical: true });
+    });
+    </script>
+
+</body>
+</html>
