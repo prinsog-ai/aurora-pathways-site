@@ -80,6 +80,107 @@ function submitWaitlist(){
     document.getElementById('wlPhone').value='';
 }
 
+
+// === BACK TO TOP ===
+window.addEventListener('scroll',()=>{
+    const btn=document.getElementById('backToTop');
+    if(window.pageYOffset>600)btn.classList.add('visible');
+    else btn.classList.remove('visible');
+});
+
+// === SCROLL INDICATOR HIDE ===
+const si=document.querySelector('.scroll-indicator');
+if(si){window.addEventListener('scroll',()=>{if(window.pageYOffset>200)si.style.opacity='0';else si.style.opacity='1'},{passive:true})}
+
+// === FORM VALIDATION ===
+function validateField(id,condition,msg){
+    const g=document.getElementById(id).closest('.form-group');
+    const em=g.querySelector('.error-msg');
+    if(!condition){
+        g.classList.add('error');g.classList.remove('valid');
+        if(!em){const e=document.createElement('div');e.className='error-msg';e.textContent=msg;g.appendChild(e)}
+        else{em.textContent=msg;em.style.display='block'}
+        return false;
+    }
+    g.classList.remove('error');g.classList.add('valid');
+    if(em)em.style.display='none';
+    return true;
+}
+
+function validateBooking(){
+    let ok=true;
+    ok&=validateField('bookName',document.getElementById('bookName').value.trim().length>0,'Name is required');
+    ok&=validateField('bookPhone',document.getElementById('bookPhone').value.trim().length>=7,'Valid phone number required');
+    ok&=validateField('bookEmail',!document.getElementById('bookEmail').value||document.getElementById('bookEmail').value.includes('@'),'Valid email required');
+    ok&=validateField('bookStart',document.getElementById('bookStart').value,'Pickup date required');
+    ok&=validateField('bookEnd',document.getElementById('bookEnd').value,'Return date required');
+    if(ok){
+        const s=new Date(document.getElementById('bookStart').value);
+        const e=new Date(document.getElementById('bookEnd').value);
+        if(e<=s){validateField('bookEnd',false,'Return must be after pickup');ok=false}
+    }
+    return ok;
+}
+
+// Override submit
+const origSubmit=submitBooking;
+submitBooking=function(){
+    if(!validateBooking())return;
+    const n=document.getElementById('bookName').value;
+    alert('Booking request submitted! We\'ll confirm availability within 24 hours. Thanks, '+n+'!');
+};
+
+// Live validation on blur
+['bookName','bookPhone','bookEmail','bookStart','bookEnd'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('blur',()=>validateBooking());
+});
+
+// === WEATHER WIDGET (free wttr.in API) ===
+fetch('https://wttr.in/Williston+ND?format=%t|%C')
+    .then(r=>r.text())
+    .then(t=>{
+        const parts=t.split('|');
+        document.getElementById('weatherTemp').textContent=parts[0]||'--°F';
+        document.getElementById('weatherDesc').textContent=(parts[1]||'Williston, ND')+', ND — Cold-weather rated trailers ready';
+    })
+    .catch(()=>{});
+
+// === BEFORE/AFTER SLIDER ===
+const baSlider=document.getElementById('baSlider');
+if(baSlider){
+    let dragging=false;
+    function moveSlider(x){
+        const r=baSlider.getBoundingClientRect();
+        let pct=((x-r.left)/r.width)*100;
+        pct=Math.max(5,Math.min(95,pct));
+        document.getElementById('baHandle').style.left=pct+'%';
+        baSlider.querySelector('.ba-after').style.clipPath='inset(0 0 0 '+pct+'%)';
+    }
+    baSlider.addEventListener('mousedown',e=>{dragging=true;moveSlider(e.clientX)});
+    document.addEventListener('mousemove',e=>{if(dragging)moveSlider(e.clientX)});
+    document.addEventListener('mouseup',()=>dragging=false);
+    baSlider.addEventListener('touchstart',e=>{dragging=true;moveSlider(e.touches[0].clientX)});
+    document.addEventListener('touchmove',e=>{if(dragging)moveSlider(e.touches[0].clientX)});
+    document.addEventListener('touchend',()=>dragging=false);
+}
+
+// === COPY LINK ===
+function copyLink(btn){
+    navigator.clipboard.writeText('https://regulatorlogistics.xyz').then(()=>{
+        btn.classList.add('copied');
+        const orig=btn.textContent;
+        btn.textContent='✓ Copied!';
+        setTimeout(()=>{btn.classList.remove('copied');btn.textContent=orig},2000);
+    });
+}
+
+// === SHARE BUTTON ===
+function shareSite(){
+    if(navigator.share){
+        navigator.share({title:'Regulator Logistics — Trailer Rentals',url:'https://regulatorlogistics.xyz'});
+    }
+}
 </script>
 
     <style>
@@ -92,6 +193,7 @@ function submitWaitlist(){
       --text:#e2e6ed;--text2:#8892a4;--text3:#5a6478;
     }
     html{scroll-behavior:smooth}
+    section[id]{scroll-margin-top:80px}
     body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
@@ -440,7 +542,84 @@ function submitWaitlist(){
       .compare-table{font-size:.82rem}
       .compare-table th,.compare-table td{padding:10px 12px}
     }
+
+    /* === STICKY MOBILE CTA === */
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:95;background:rgba(10,14,26,.95);backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:12px 20px;gap:10px}
+    .mobile-cta .btn{flex:1;justify-content:center;padding:14px}
+    @media(max-width:900px){.mobile-cta{display:flex}}
+
+    /* === BACK TO TOP === */
+    .back-to-top{position:fixed;bottom:90px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.2rem;cursor:pointer;z-index:80;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:.3s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+    .back-to-top.visible{opacity:1;transform:translateY(0)}
+    .back-to-top:hover{border-color:var(--accent);color:var(--accent2)}
+
+    /* === SCROLL INDICATOR === */
+    .scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text3);font-size:.75rem;font-weight:500;animation:scrollBounce 2s ease-in-out infinite}
+    .scroll-indicator .arrow{width:24px;height:24px;border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);transform:rotate(45deg);animation:scrollArrow 2s ease-in-out infinite}
+    @keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+    @keyframes scrollArrow{0%,100%{opacity:.3}50%{opacity:1}}
+
+    /* === FORM VALIDATION === */
+    .form-group.error input,.form-group.error select{border-color:var(--red);box-shadow:0 0 0 3px rgba(199,80,80,.15)}
+    .form-group .error-msg{color:var(--red);font-size:.78rem;margin-top:6px;display:none}
+    .form-group.error .error-msg{display:block}
+    .form-group.valid input{border-color:var(--sage)}
+
+    /* === SHARE BUTTONS === */
+    .share-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+    .share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text2);transition:.2s}
+    .share-btn:hover{border-color:var(--accent);color:var(--text)}
+    .share-btn.wa{color:#25D366;border-color:rgba(37,211,102,.2)}
+    .share-btn.wa:hover{background:rgba(37,211,102,.08)}
+    .share-btn.sms{color:var(--accent2);border-color:rgba(74,111,165,.2)}
+    .share-btn.copy{color:var(--sage);border-color:rgba(107,138,122,.2)}
+    .share-btn.copy.copied{background:rgba(107,138,122,.15);color:var(--sage)}
+
+    /* === WEATHER WIDGET === */
+    .weather-bar{background:rgba(74,111,165,.04);border:1px solid rgba(74,111,165,.1);border-radius:12px;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;margin-top:24px;font-size:.88rem}
+    .weather-bar .temp{font-weight:800;font-size:1.1rem;color:var(--text)}
+    .weather-bar .desc{color:var(--text2)}
+
+    /* === BEFORE/AFTER SLIDER === */
+    .ba-slider{position:relative;width:100%;max-width:600px;aspect-ratio:4/3;border-radius:14px;overflow:hidden;cursor:ew-resize;margin:0 auto}
+    .ba-slider img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+    .ba-slider .ba-after{clip-path:inset(0 0 0 50%)}
+    .ba-slider .ba-handle{position:absolute;top:0;bottom:0;left:50%;width:4px;background:#fff;transform:translateX(-50%);z-index:3;pointer-events:none}
+    .ba-slider .ba-handle::after{content:'↔';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+    .ba-slider .ba-label{position:absolute;bottom:12px;padding:4px 12px;border-radius:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;z-index:2}
+    .ba-slider .ba-label.before{left:12px;background:rgba(199,80,80,.8);color:#fff}
+    .ba-slider .ba-label.after{right:12px;background:rgba(107,138,122,.8);color:#fff}
+
+    /* === FOCUS STYLES === */
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
+
+    /* === PRINT STYLES === */
+    @media print{
+      nav,.mobile-cta,.back-to-top,.chat-btn,.chat-window,.hero-orbs,.scroll-indicator,.scroll-progress,.mobile-menu,.share-bar{display:none!important}
+      body{background:#fff;color:#000}
+      .container{max-width:100%;padding:0}
+      section{padding:20px 0;page-break-inside:avoid}
+      .section-title{color:#000}
+      .section-title em{-webkit-text-fill-color:#333}
+      .fleet-card,.price-card,.why-card{border:1px solid #ccc;box-shadow:none}
+      .fleet-card:hover,.price-card:hover{transform:none}
+      .fc-body,.fc-footer{background:#fff}
+      .price-row .pr-val{color:#000}
+      .compare-table{border:1px solid #ccc}
+      .compare-table th{background:#f5f5f5;color:#000}
+      .compare-table td{color:#000;border-color:#ccc}
+      .cta-box{background:#f9f9f9;border:1px solid #ccc}
+      a[href]::after{content:" (" attr(href) ")";font-size:.7rem;color:#666}
+    }
     </style>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-152.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-76.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Regulator Logistics">
 </head>
 <body>
 
@@ -504,7 +683,7 @@ function submitWaitlist(){
                 <div class="fp-body">
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name"><img src="photos/dump-rear.jpg" alt="Dump"> PJ Trailers D7 Dump</span>
+                            <span class="tc-name"><img src="photos/dump-rear.webp" alt="Dump"> PJ Trailers D7 Dump</span>
                             <span class="tc-badge rented">Rented</span>
                         </div>
                         <div class="tc-specs">
@@ -516,7 +695,7 @@ function submitWaitlist(){
                     </div>
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name"><img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed"> 24' Flatbed + Winch</span>
+                            <span class="tc-name"><img src="photos/flatbed-truck-loaded.webp" alt="Flatbed"> 24' Flatbed + Winch</span>
                             <span class="tc-badge available">Available</span>
                         </div>
                         <div class="tc-specs">
@@ -533,6 +712,10 @@ function submitWaitlist(){
                 </div>
             </div>
         </div>
+            <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="arrow"></div>
+        </div>
     </div>
 </section>
 
@@ -548,6 +731,18 @@ function submitWaitlist(){
     </div>
 </div>
 
+<!-- Weather -->
+<div style="padding:0 0 0 0">
+    <div class="container">
+        <div class="weather-bar reveal">
+            <span>🌡️</span>
+            <span class="temp" id="weatherTemp">--°F</span>
+            <span class="desc" id="weatherDesc">Williston, ND</span>
+            <span style="color:var(--text3);font-size:.78rem">• Cold-weather rated trailers ready</span>
+        </div>
+    </div>
+</div>
+
 <!-- Fleet -->
 <section id="fleet">
     <div class="container">
@@ -557,7 +752,7 @@ function submitWaitlist(){
         <div class="fleet-grid">
             <div class="fleet-card reveal">
                 <div class="fc-img">
-                    <img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer" loading="lazy">
+                    <img src="photos/dump-side.webp" alt="PJ Trailers D7 Dump Trailer" loading="lazy">
                     <div class="fc-overlay"></div>
                 </div>
                 <div class="fc-body">
@@ -581,7 +776,7 @@ function submitWaitlist(){
             </div>
             <div class="fleet-card reveal reveal-d1">
                 <div class="fc-img">
-                    <img src="photos/flatbed-truck-loaded.jpg" alt="24ft Flatbed Trailer" loading="lazy">
+                    <img src="photos/flatbed-truck-loaded.webp" alt="24ft Flatbed Trailer" loading="lazy">
                     <div class="fc-overlay"></div>
                 </div>
                 <div class="fc-body">
@@ -637,43 +832,43 @@ function submitWaitlist(){
         <div class="section-sub">Photos of our actual equipment — not stock images. Click any photo to enlarge.</div>
         <div class="gallery-grid">
             <div class="gallery-item large reveal" data-caption="24' Flatbed — hauling a 4×4 truck, 3×7K axles">
-                <img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed with truck" loading="lazy">
+                <img src="photos/flatbed-truck-loaded.webp" alt="Flatbed with truck" loading="lazy">
                 <div class="gallery-caption">24' Flatbed — hauling a 4×4 truck</div>
             </div>
             <div class="gallery-item reveal" data-caption="PJ D7 Dump — Rear hydraulic lift">
-                <img src="photos/dump-rear.jpg" alt="Dump rear" loading="lazy">
+                <img src="photos/dump-rear.webp" alt="Dump rear" loading="lazy">
                 <div class="gallery-caption">PJ D7 Dump — Rear hydraulic lift</div>
             </div>
             <div class="gallery-item reveal reveal-d1" data-caption="D7 Dump — Side profile, PJ Trailers">
-                <img src="photos/dump-side.jpg" alt="Dump side" loading="lazy">
+                <img src="photos/dump-side.webp" alt="Dump side" loading="lazy">
                 <div class="gallery-caption">D7 Dump — Side profile</div>
             </div>
             <div class="gallery-item reveal" data-caption="D7 Dump — loaded and ready">
-                <img src="photos/dump-loaded.jpg" alt="Dump loaded" loading="lazy">
+                <img src="photos/dump-loaded.webp" alt="Dump loaded" loading="lazy">
                 <div class="gallery-caption">D7 Dump — loaded and ready</div>
             </div>
             <div class="gallery-item reveal reveal-d1" data-caption="D7 Dump — Roll tarp, double axle">
-                <img src="photos/dump-tarp.jpg" alt="Dump tarp" loading="lazy">
+                <img src="photos/dump-tarp.webp" alt="Dump tarp" loading="lazy">
                 <div class="gallery-caption">D7 Dump — Roll tarp, double axle</div>
             </div>
             <div class="gallery-item reveal" data-caption="Flatbed — Treated wood deck, diamond plate">
-                <img src="photos/flatbed-deck.jpg" alt="Flatbed deck" loading="lazy">
+                <img src="photos/flatbed-deck.webp" alt="Flatbed deck" loading="lazy">
                 <div class="gallery-caption">Flatbed — Treated wood deck</div>
             </div>
             <div class="gallery-item reveal reveal-d1" data-caption="Flatbed — Self-cleaning dovetail ramps">
-                <img src="photos/flatbed-ramps.jpg" alt="Flatbed ramps" loading="lazy">
+                <img src="photos/flatbed-ramps.webp" alt="Flatbed ramps" loading="lazy">
                 <div class="gallery-caption">Flatbed — Dovetail ramps</div>
             </div>
             <div class="gallery-item reveal" data-caption="D7 Dump — Stored and maintained">
-                <img src="photos/dump-garage.jpg" alt="Dump garage" loading="lazy">
+                <img src="photos/dump-garage.webp" alt="Dump garage" loading="lazy">
                 <div class="gallery-caption">D7 Dump — Stored and maintained</div>
             </div>
             <div class="gallery-item reveal" data-caption="Clean flat bed surface">
-                <img src="photos/dump-bed.jpg" alt="Dump bed" loading="lazy">
+                <img src="photos/dump-bed.webp" alt="Dump bed" loading="lazy">
                 <div class="gallery-caption">Clean flat bed surface</div>
             </div>
             <div class="gallery-item reveal" data-caption="Flatbed — Integrated toolbox & battery">
-                <img src="photos/flatbed-toolbox.jpg" alt="Flatbed toolbox" loading="lazy">
+                <img src="photos/flatbed-toolbox.webp" alt="Flatbed toolbox" loading="lazy">
                 <div class="gallery-caption">Flatbed — Toolbox & battery</div>
             </div>
         </div>
@@ -822,7 +1017,7 @@ function submitWaitlist(){
         <div class="section-sub">No hidden fees. Deposit returned on safe return. Longer rentals = better rates.</div>
         <div class="pricing-grid">
             <div class="price-card reveal">
-                <h3><img src="photos/dump-bed.jpg" alt="Dump"> PJ D7 Dump Trailer</h3>
+                <h3><img src="photos/dump-bed.webp" alt="Dump"> PJ D7 Dump Trailer</h3>
                 <p class="price-desc">14' × 83" — 14,000 GVWR — Hydraulic lift</p>
                 <div class="price-row"><span class="pr-label">Daily Rate</span><span class="pr-val">$100</span></div>
                 <div class="price-row"><span class="pr-label">Weekend Rate (Sat+Sun)</span><span class="pr-val">$180</span></div>
@@ -831,7 +1026,7 @@ function submitWaitlist(){
                 <p class="price-note">Deposit returned on safe return. Damage assessed at pickup/return with photo documentation.</p>
             </div>
             <div class="price-card reveal reveal-d1">
-                <h3><img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed"> 24' Flatbed + Winch</h3>
+                <h3><img src="photos/flatbed-truck-loaded.webp" alt="Flatbed"> 24' Flatbed + Winch</h3>
                 <p class="price-desc">3× 7K axles — Electric brakes — Treated wood deck</p>
                 <div class="price-row"><span class="pr-label">Daily Rate</span><span class="pr-val">$225</span></div>
                 <div class="price-row"><span class="pr-label">Weekend Rate (Sat+Sun)</span><span class="pr-val">$450</span></div>
@@ -841,6 +1036,17 @@ function submitWaitlist(){
             </div>
         </div>
     </div>
+
+<!-- Share -->
+<div style="text-align:center;padding:40px 0 0">
+    <p style="color:var(--text3);font-size:.88rem;margin-bottom:12px">Found what you need? Share with your crew:</p>
+    <div class="share-bar">
+        <a class="share-btn wa" href="https://wa.me/?text=Check%20out%20Regulator%20Logistics%20for%20trailer%20rentals%20in%20Williston%20https://regulatorlogistics.xyz" target="_blank">📱 WhatsApp</a>
+        <a class="share-btn sms" href="sms:?body=Check%20out%20Regulator%20Logistics%20for%20trailer%20rentals%20https://regulatorlogistics.xyz">💬 Text</a>
+        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https://regulatorlogistics.xyz" target="_blank">📘 Facebook</a>
+        <button class="share-btn copy" onclick="copyLink(this)">🔗 Copy Link</button>
+    </div>
+</div>
 </section>
 
 <!-- Testimonials -->
@@ -1231,6 +1437,116 @@ function submitWaitlist(){
     document.getElementById('wlPhone').value='';
 }
 
+
+// === BACK TO TOP ===
+window.addEventListener('scroll',()=>{
+    const btn=document.getElementById('backToTop');
+    if(window.pageYOffset>600)btn.classList.add('visible');
+    else btn.classList.remove('visible');
+});
+
+// === SCROLL INDICATOR HIDE ===
+const si=document.querySelector('.scroll-indicator');
+if(si){window.addEventListener('scroll',()=>{if(window.pageYOffset>200)si.style.opacity='0';else si.style.opacity='1'},{passive:true})}
+
+// === FORM VALIDATION ===
+function validateField(id,condition,msg){
+    const g=document.getElementById(id).closest('.form-group');
+    const em=g.querySelector('.error-msg');
+    if(!condition){
+        g.classList.add('error');g.classList.remove('valid');
+        if(!em){const e=document.createElement('div');e.className='error-msg';e.textContent=msg;g.appendChild(e)}
+        else{em.textContent=msg;em.style.display='block'}
+        return false;
+    }
+    g.classList.remove('error');g.classList.add('valid');
+    if(em)em.style.display='none';
+    return true;
+}
+
+function validateBooking(){
+    let ok=true;
+    ok&=validateField('bookName',document.getElementById('bookName').value.trim().length>0,'Name is required');
+    ok&=validateField('bookPhone',document.getElementById('bookPhone').value.trim().length>=7,'Valid phone number required');
+    ok&=validateField('bookEmail',!document.getElementById('bookEmail').value||document.getElementById('bookEmail').value.includes('@'),'Valid email required');
+    ok&=validateField('bookStart',document.getElementById('bookStart').value,'Pickup date required');
+    ok&=validateField('bookEnd',document.getElementById('bookEnd').value,'Return date required');
+    if(ok){
+        const s=new Date(document.getElementById('bookStart').value);
+        const e=new Date(document.getElementById('bookEnd').value);
+        if(e<=s){validateField('bookEnd',false,'Return must be after pickup');ok=false}
+    }
+    return ok;
+}
+
+// Override submit
+const origSubmit=submitBooking;
+submitBooking=function(){
+    if(!validateBooking())return;
+    const n=document.getElementById('bookName').value;
+    alert('Booking request submitted! We\'ll confirm availability within 24 hours. Thanks, '+n+'!');
+};
+
+// Live validation on blur
+['bookName','bookPhone','bookEmail','bookStart','bookEnd'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('blur',()=>validateBooking());
+});
+
+// === WEATHER WIDGET (free wttr.in API) ===
+fetch('https://wttr.in/Williston+ND?format=%t|%C')
+    .then(r=>r.text())
+    .then(t=>{
+        const parts=t.split('|');
+        document.getElementById('weatherTemp').textContent=parts[0]||'--°F';
+        document.getElementById('weatherDesc').textContent=(parts[1]||'Williston, ND')+', ND — Cold-weather rated trailers ready';
+    })
+    .catch(()=>{});
+
+// === BEFORE/AFTER SLIDER ===
+const baSlider=document.getElementById('baSlider');
+if(baSlider){
+    let dragging=false;
+    function moveSlider(x){
+        const r=baSlider.getBoundingClientRect();
+        let pct=((x-r.left)/r.width)*100;
+        pct=Math.max(5,Math.min(95,pct));
+        document.getElementById('baHandle').style.left=pct+'%';
+        baSlider.querySelector('.ba-after').style.clipPath='inset(0 0 0 '+pct+'%)';
+    }
+    baSlider.addEventListener('mousedown',e=>{dragging=true;moveSlider(e.clientX)});
+    document.addEventListener('mousemove',e=>{if(dragging)moveSlider(e.clientX)});
+    document.addEventListener('mouseup',()=>dragging=false);
+    baSlider.addEventListener('touchstart',e=>{dragging=true;moveSlider(e.touches[0].clientX)});
+    document.addEventListener('touchmove',e=>{if(dragging)moveSlider(e.touches[0].clientX)});
+    document.addEventListener('touchend',()=>dragging=false);
+}
+
+// === COPY LINK ===
+function copyLink(btn){
+    navigator.clipboard.writeText('https://regulatorlogistics.xyz').then(()=>{
+        btn.classList.add('copied');
+        const orig=btn.textContent;
+        btn.textContent='✓ Copied!';
+        setTimeout(()=>{btn.classList.remove('copied');btn.textContent=orig},2000);
+    });
+}
+
+// === SHARE BUTTON ===
+function shareSite(){
+    if(navigator.share){
+        navigator.share({title:'Regulator Logistics — Trailer Rentals',url:'https://regulatorlogistics.xyz'});
+    }
+}
 </script>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<!-- Mobile CTA Bar -->
+<div class="mobile-cta">
+    <a href="tel:+170****1234" class="btn btn-outline" style="padding:14px">📞 Call</a>
+    <a href="#booking" class="btn btn-primary" style="padding:14px">📅 Book Now</a>
+</div>
 </body>
 </html>
