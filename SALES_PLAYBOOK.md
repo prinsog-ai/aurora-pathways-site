@@ -125,7 +125,7 @@ Don't sell the technology. Sell the outcome:
 ## Quick Stats to Drop in Conversation
 
 - "We've built 4 production systems already — all live, all running."
-- "547 automated tests — every system is bulletproof before it goes live."
+- "590 automated tests — every system is bulletproof before it goes live."
 - "Payments arrive in 3 seconds for 5 cents. Wire transfers take 3 days and cost $30."
 - "Our systems are verified on Polygonscan — that's like having a public notary stamp on every record."
 - "We deploy on Polygon — the same network used by Nike, Starbucks, and Stripe."
