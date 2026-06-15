@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚛</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Pathways × Regulator Logistics — Fleet Rental Platform</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Aurora Pathways × Regulator Logistics — Fleet Rental Platform">
+    <meta property="og:description" content="Automated trailer rental platform. Real-time availability, instant payments, damage protection. Built for fleet operators scaling beyond phone calls and spreadsheets.">
+    <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+    <meta property="og:url" content="https://aurorapathways.xyz/demos/regulator/">
+    <meta property="og:site_name" content="Aurora Pathways">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#f59e0b;--accent2:#10b981;--accent3:#3b82f6;--text:#e0e0e0;--text-dim:#888;--card:#12121f;--border:#2a2a3e}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+    /* Aurora bg */
+    .aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    .aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse at 30% 50%,rgba(245,158,11,.10) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(16,185,129,.07) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate}
+    @keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+
+    /* Nav */
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none}
+    .logo span{color:var(--accent)}
+    .partner-badge{font-size:.75rem;color:var(--accent2);border:1px solid var(--accent2);padding:2px 10px;border-radius:20px;margin-left:12px}
+    nav a.btn{background:var(--accent);color:#000;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:700;transition:.2s}
+    nav a.btn:hover{opacity:.85}
+
+    /* Hero */
+    .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+    .hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .hero-text h1{font-size:2.6rem;font-weight:800;line-height:1.15;color:#fff;margin-bottom:20px}
+    .hero-text h1 em{font-style:normal;color:var(--accent)}
+    .hero-text p{font-size:1.15rem;color:var(--text-dim);margin-bottom:32px;max-width:540px}
+    .btn-group{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-primary{background:var(--accent);color:#000;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;transition:.2s}
+    .btn-primary:hover{opacity:.85}
+    .btn-outline{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:500;transition:.2s}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+    /* Hero visual — Fleet Dashboard */
+    .hero-visual{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .hv-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .hv-dot{width:10px;height:10px;border-radius:50%}
+    .hv-dot.r{background:#ff5f57}.hv-dot.y{background:#febc2e}.hv-dot.g{background:#28c840}
+    .hv-body{padding:24px}
+
+    /* Fleet cards in visual */
+    .fleet-card{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:12px;padding:16px;margin-bottom:12px}
+    .fleet-card:last-child{margin-bottom:0}
+    .fleet-card .fc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .fleet-card .fc-name{font-weight:700;color:#fff;font-size:.95rem}
+    .fleet-card .fc-status{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
+    .fc-status.available{background:rgba(16,185,129,.15);color:var(--accent2)}
+    .fc-status.rented{background:rgba(245,158,11,.15);color:var(--accent)}
+    .fleet-card .fc-specs{display:flex;gap:16px;flex-wrap:wrap}
+    .fleet-card .fc-spec{font-size:.78rem;color:var(--text-dim)}
+    .fleet-card .fc-spec strong{color:var(--text)}
+    .fleet-card .fc-revenue{margin-top:8px;font-size:.85rem;color:var(--accent2);font-weight:600}
+
+    /* Metric row */
+    .metric-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .metric-card{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.12);border-radius:10px;padding:14px}
+    .metric-card .label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+    .metric-card .value{font-size:1.4rem;font-weight:700;color:#fff;margin-top:2px}
+    .metric-card .change{font-size:.72rem;color:var(--accent2);margin-top:2px}
+
+    /* Sections */
+    section{position:relative;z-index:1;padding:100px 0}
+    .section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:600}
+    .section-title{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px}
+    .section-sub{color:var(--text-dim);max-width:620px;margin-bottom:48px;font-size:1.05rem}
+
+    /* Before/After */
+    .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+    .ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+    .ba-card.before{border-color:rgba(255,95,87,.3)}
+    .ba-card.after{border-color:rgba(16,185,129,.3)}
+    .ba-tag{position:absolute;top:-12px;left:24px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:20px}
+    .ba-card.before .ba-tag{background:#ff5f57;color:#fff}
+    .ba-card.after .ba-tag{background:var(--accent2);color:#000}
+    .ba-card h3{font-size:1.3rem;color:#fff;margin-bottom:16px;margin-top:8px}
+    .ba-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .ba-card li{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--text-dim)}
+    .ba-card li .bi{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+    .before .bi{background:rgba(255,95,87,.15);color:#ff5f57}
+    .after .bi{background:rgba(16,185,129,.15);color:var(--accent2)}
+
+    /* Features */
+    .features-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:.3s}
+    .feature-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+    .f-icon{font-size:2rem;margin-bottom:14px}
+    .feature-card h4{color:#fff;font-size:1.05rem;margin-bottom:8px}
+    .feature-card p{color:var(--text-dim);font-size:.9rem;line-height:1.6}
+
+    /* Fleet inventory section */
+    .fleet-inventory{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .inv-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.3s}
+    .inv-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+    .inv-visual{height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(16,185,129,.05))}
+    .inv-body{padding:24px}
+    .inv-body h4{color:#fff;font-size:1.15rem;margin-bottom:4px}
+    .inv-body .inv-type{font-size:.8rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+    .inv-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .inv-spec{font-size:.82rem;color:var(--text-dim)}
+    .inv-spec strong{color:var(--text);display:block;font-size:.9rem}
+
+    /* Revenue calculator */
+    .calc-section{text-align:center;padding:80px 0}
+    .calc-box{display:inline-block;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(16,185,129,.08));border:1px solid var(--accent);border-radius:20px;padding:48px 64px;text-align:center}
+    .calc-box .big{font-size:3.5rem;font-weight:800;color:#fff}
+    .calc-box .sub{color:var(--text-dim);margin-top:8px;font-size:1rem}
+    .calc-box .breakdown{margin-top:24px;display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+    .calc-box .bd-item{text-align:center}
+    .calc-box .bd-item .bd-val{font-size:1.6rem;font-weight:700;color:var(--accent)}
+    .calc-box .bd-item .bd-label{font-size:.78rem;color:var(--text-dim);margin-top:2px}
+
+    /* How it works */
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+    .step-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;position:relative}
+    .step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#000;margin:0 auto 16px}
+    .step-card h4{color:#fff;font-size:1rem;margin-bottom:8px}
+    .step-card p{color:var(--text-dim);font-size:.85rem;line-height:1.5}
+
+    /* Testimonial / Social proof */
+    .proof-section{padding:80px 0;text-align:center}
+    .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto}
+    .proof-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px}
+    .proof-card .proof-num{font-size:2.2rem;font-weight:800;color:var(--accent)}
+    .proof-card .proof-label{font-size:.85rem;color:var(--text-dim);margin-top:4px}
+
+    /* CTA */
+    .cta-section{padding:100px 0;text-align:center}
+    .cta-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:64px 48px;max-width:700px;margin:0 auto}
+    .cta-box h2{font-size:2rem;color:#fff;margin-bottom:16px}
+    .cta-box p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+
+    /* Footer */
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px 0;text-align:center}
+    footer p{color:var(--text-dim);font-size:.85rem}
+    footer a{color:var(--accent);text-decoration:none}
+
+    /* Responsive */
+    @media(max-width:900px){
+        .hero .container{grid-template-columns:1fr;gap:40px}
+        .ba-grid,.features-grid,.fleet-inventory{grid-template-columns:1fr}
+        .steps-grid{grid-template-columns:1fr 1fr}
+        .proof-grid{grid-template-columns:1fr}
+        .calc-box{padding:32px 24px}
+        .calc-box .big{font-size:2.5rem}
+    }
+    @media(max-width:640px){
+        .hero-text h1{font-size:1.8rem}
+        .section-title{font-size:1.6rem}
+        .steps-grid{grid-template-columns:1fr}
+        .metric-row{grid-template-columns:1fr}
+    }
+    </style>
+</head>
+<body>
+    <div class="aurora"></div>
+
+    <!-- Nav -->
+    <nav>
+        <div class="container">
+            <div style="display:flex;align-items:center">
+                <a href="/" class="logo">Aurora <span>Pathways</span></a>
+                <span class="partner-badge">× Regulator Logistics</span>
+            </div>
+            <a href="https://calendly.com/aurorapathways" class="btn" target="_blank">Book a Call</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-text">
+                <div class="section-label">🚛 Trailer Fleet Management</div>
+                <h1>More trailers.<br>Less <em>paperwork.</em></h1>
+                <p>You're adding trailers to your fleet. Phone calls and texts don't scale. Regulator Logistics needs a system that handles bookings, payments, and availability — automatically.</p>
+                <div class="btn-group">
+                    <a href="https://calendly.com/aurorapathways" class="btn-primary" target="_blank">See It Live →</a>
+                    <a href="#before-after" class="btn-outline">Compare ↓</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hv-header">
+                    <div class="hv-dot r"></div>
+                    <div class="hv-dot y"></div>
+                    <div class="hv-dot g"></div>
+                    <span style="font-size:.8rem;color:var(--text-dim);margin-left:8px">Fleet Dashboard</span>
+                </div>
+                <div class="hv-body">
+                    <div class="fleet-card">
+                        <div class="fc-header">
+                            <span class="fc-name">📋 PJ Trailers D7 Dump (14')</span>
+                            <span class="fc-status rented">Rented</span>
+                        </div>
+                        <div class="fc-specs">
+                            <span class="fc-spec"><strong>14,000</strong> GVWR</span>
+                            <span class="fc-spec"><strong>9,770</strong> Payload</span>
+                            <span class="fc-spec"><strong>Black</strong></span>
+                        </div>
+                        <div class="fc-revenue">$350/week — Auto-collected ✓</div>
+                    </div>
+                    <div class="fleet-card">
+                        <div class="fc-header">
+                            <span class="fc-name">🏗️ 24' Flatbed + Winch</span>
+                            <span class="fc-status available">Available</span>
+                        </div>
+                        <div class="fc-specs">
+                            <span class="fc-spec"><strong>3x 7K</strong> Axles</span>
+                            <span class="fc-spec"><strong>Electric</strong> Brakes</span>
+                            <span class="fc-spec"><strong>21K</strong> Capacity</span>
+                        </div>
+                        <div class="fc-revenue">Ready for next booking</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-card">
+                            <div class="label">Monthly Revenue</div>
+                            <div class="value">$4,200</div>
+                            <div class="change">↑ 35% from last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="label">Utilization Rate</div>
+                            <div class="value">87%</div>
+                            <div class="change">↑ 22% with auto-booking</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before / After -->
+    <section id="before-after">
+        <div class="container">
+            <div class="section-label">The Problem</div>
+            <div class="section-title">Running a fleet on phone calls doesn't scale.</div>
+            <div class="section-sub">You've got 2 trailers now. What happens at 10? 20? Every new trailer multiplies the chaos.</div>
+
+            <div class="ba-grid">
+                <div class="ba-card before">
+                    <span class="ba-tag">Before — Manual</span>
+                    <h3>The Current Way</h3>
+                    <ul>
+                        <li><span class="bi">✕</span> Texting back and forth to confirm availability</li>
+                        <li><span class="bi">✕</span> Chasing payments — checks, Venmo, "I'll pay next week"</li>
+                        <li><span class="bi">✕</span> No idea who's reliable until they stiff you</li>
+                        <li><span class="bi">✕</span> Damage disputes with no photo trail</li>
+                        <li><span class="bi">✕</span> Double-bookings when two people want the same trailer</li>
+                        <li><span class="bi">✕</span> Can't scale — you ARE the system</li>
+                    </ul>
+                </div>
+                <div class="ba-card after">
+                    <span class="ba-tag">After — Automated</span>
+                    <h3>The Aurora Way</h3>
+                    <ul>
+                        <li><span class="bi">✓</span> Customers see live availability and book online</li>
+                        <li><span class="bi">✓</span> Payment collected upfront — held in escrow until return</li>
+                        <li><span class="bi">✓</span> Renters build a reputation score you can see</li>
+                        <li><span class="bi">✓</span> Photo check-in/check-out creates an automatic record</li>
+                        <li><span class="bi">✓</span> Calendar blocks prevent double-bookings</li>
+                        <li><span class="bi">✓</span> Add trailers to the system in 2 minutes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="background:rgba(245,158,11,.02)">
+        <div class="container">
+            <div class="section-label">How It Works</div>
+            <div class="section-title">Four steps. Zero phone tag.</div>
+            <div class="section-sub">From first inquiry to payment in your pocket — the entire rental flow runs itself.</div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>Customer Finds You</h4>
+                    <p>They see your available trailers, specs, and daily/weekly rates on your booking page.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Books & Pays Upfront</h4>
+                    <p>Selects dates, pays the rental + deposit. Funds are held securely — not spent until the job's done.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Pickup & Return</h4>
+                    <p>Photo check-in at pickup, photo check-out at return. Both parties sign off digitally.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h4>Auto-Settle</h4>
+                    <p>Rent goes to you. Deposit returned (minus any damage). Review posted. Done.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Inventory -->
+    <section>
+        <div class="container">
+            <div class="section-label">Your Fleet</div>
+            <div class="section-title">Every trailer. One dashboard.</div>
+            <div class="section-sub">As you add trailers, they appear here automatically. No spreadsheets, no "which one's available?" texts.</div>
+
+            <div class="fleet-inventory">
+                <div class="inv-card">
+                    <div class="inv-visual">🏗️</div>
+                    <div class="inv-body">
+                        <div class="inv-type">Dump Trailer</div>
+                        <h4>PJ Trailers 83" × 14' D7</h4>
+                        <div class="inv-specs">
+                            <div class="inv-spec"><strong>14,000 lbs</strong> GVWR</div>
+                            <div class="inv-spec"><strong>9,770 lbs</strong> Payload</div>
+                            <div class="inv-spec"><strong>4,230 lbs</strong> Curb Weight</div>
+                            <div class="inv-spec"><strong>7K axles</strong> Capacity</div>
+                            <div class="inv-spec"><strong>14' / 168"</strong> Floor Length</div>
+                            <div class="inv-spec"><strong>83"</strong> Width</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inv-card">
+                    <div class="inv-visual">🚛</div>
+                    <div class="inv-body">
+                        <div class="inv-type">Flatbed + Winch</div>
+                        <h4>24' Flatbed Trailer</h4>
+                        <div class="inv-specs">
+                            <div class="inv-spec"><strong>3× 7K</strong> Dexter EZ Lube</div>
+                            <div class="inv-spec"><strong>Electric</strong> Brakes</div>
+                            <div class="inv-spec"><strong>235/80 R16</strong> 10-Ply</div>
+                            <div class="inv-spec"><strong>Winch</strong> Equipped</div>
+                            <div class="inv-spec"><strong>Treated Wood</strong> Decking</div>
+                            <div class="inv-spec"><strong>Dovetail</strong> + Ramps</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Projection -->
+    <section class="calc-section">
+        <div class="container">
+            <div class="section-label">Revenue Impact</div>
+            <div class="section-title">What 2 trailers earn with a real system.</div>
+            <div class="section-sub">Conservative estimates based on regional flatbed and dump trailer rental rates.</div>
+
+            <div class="calc-box">
+                <div class="big" id="revenueTotal">$4,200</div>
+                <div class="sub">Projected monthly revenue with 2 trailers</div>
+                <div class="breakdown">
+                    <div class="bd-item">
+                        <div class="bd-val">$250</div>
+                        <div class="bd-label">Dump Trailer / Day</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-val">$200</div>
+                        <div class="bd-label">Flatbed / Day</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-val">87%</div>
+                        <div class="bd-label">Target Utilization</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-val">3%</div>
+                        <div class="bd-label">Platform Fee</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section style="background:rgba(16,185,129,.02)">
+        <div class="container">
+            <div class="section-label">Built for Fleet Operators</div>
+            <div class="section-title">Everything a growing fleet needs.</div>
+            <div class="section-sub">You don't need enterprise software. You need something that works from day one and grows with you.</div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="f-icon">📅</div>
+                    <h4>Live Availability Calendar</h4>
+                    <p>Customers see exactly when each trailer is free. No more "let me check and get back to you." Blocks update in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">💰</div>
+                    <h4>Upfront Payment Collection</h4>
+                    <p>Rent + deposit collected at booking. Funds held securely. You get paid on pickup — not 30 days later after chasing invoices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">📸</div>
+                    <h4>Photo Check-In / Check-Out</h4>
+                    <p>Timestamped photos at pickup and return. If there's damage, you have proof. No he-said-she-said.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">⭐</div>
+                    <h4>Renter Reputation Scores</h4>
+                    <p>See a renter's history before you approve. Late returns, damage, payment issues — it's all there. Good renters get priority.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">📊</div>
+                    <h4>Revenue & Utilization Tracking</h4>
+                    <p>See which trailers earn the most, when peak season hits, and where to invest next. Data beats gut feeling.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">🔧</div>
+                    <h4>Maintenance Scheduling</h4>
+                    <p>Track mileage, tire condition, brake inspections. Get alerts before something breaks — not after a customer calls.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="proof-section">
+        <div class="container">
+            <div class="section-label">By the Numbers</div>
+            <div class="section-title">What automation changes.</div>
+            <div class="proof-grid">
+                <div class="proof-card">
+                    <div class="proof-num">3 min</div>
+                    <div class="proof-label">Average time from inquiry to confirmed booking</div>
+                </div>
+                <div class="proof-card">
+                    <div class="proof-num">100%</div>
+                    <div class="proof-label">Payment collection rate (upfront escrow)</div>
+                </div>
+                <div class="proof-card">
+                    <div class="proof-num">0</div>
+                    <div class="proof-label">Double-bookings with live calendar</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Ready to scale past phone calls?</h2>
+                <p>Regulator Logistics is growing. Every new trailer should add revenue, not more headaches. Let's build the system that grows with you.</p>
+                <div class="btn-group" style="justify-content:center">
+                    <a href="https://calendly.com/aurorapathways" class="btn-primary" target="_blank">Book a 15-Min Call →</a>
+                    <a href="https://aurorapathways.xyz" class="btn-outline">See Our Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Built by <a href="https://aurorapathways.xyz">Aurora Pathways</a> — Web3 infrastructure for real businesses.</p>
+            <p style="margin-top:8px;font-size:.75rem;color:#555">This demo showcases the rental management platform. Actual deployment includes your branding, rates, and fleet details.</p>
+        </div>
+    </footer>
+</body>
+</html>
