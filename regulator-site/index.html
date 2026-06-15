@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚛</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulator Logistics — Trailer Rentals | Dump Trailers & Flatbeds</title>
+    <meta name="description" content="Rent dump trailers and flatbed trailers in the Bakken. Daily, weekly, and monthly rates. Book online, pay on pickup.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Regulator Logistics — Trailer Rentals">
+    <meta property="og:description" content="Dump trailers and flatbeds for rent. Book online, instant availability, fair rates.">
+    <meta property="og:url" content="https://regulatorlogistics.xyz">
+    <meta property="og:image" content="https://regulatorlogistics.xyz/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0c0c0e;
+      --bg2:#141418;
+      --surface:#1a1a20;
+      --border:#2a2a32;
+      --amber:#f59e0b;
+      --amber2:#d97706;
+      --green:#10b981;
+      --red:#ef4444;
+      --text:#e8e8ec;
+      --text2:#9a9aaa;
+      --text3:#666;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+    /* === NAV === */
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(12,12,14,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-weight:900;font-size:1.15rem;color:#fff;letter-spacing:-.02em}
+    .logo span{color:var(--amber)}
+    .nav-links{display:flex;gap:28px;align-items:center}
+    .nav-links a{font-size:.88rem;color:var(--text2);font-weight:500;transition:.2s}
+    .nav-links a:hover{color:var(--amber)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-weight:700;font-size:.88rem;transition:.2s;cursor:pointer;border:none}
+    .btn-primary{background:var(--amber);color:#000}
+    .btn-primary:hover{background:var(--amber2)}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--amber);color:var(--amber)}
+    .btn-white{background:#fff;color:#000}
+    .btn-white:hover{background:#e8e8ec}
+
+    /* === HERO === */
+    .hero{min-height:100vh;display:flex;align-items:center;padding-top:80px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-30%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.10) 0%,transparent 70%);pointer-events:none;animation:heroGlow 8s ease-in-out infinite alternate}
+    @keyframes heroGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-30px,20px) scale(1.1)}}
+    .hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .hero-text .tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--amber);padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:20px}
+    .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .hero-text h1{font-size:clamp(2.4rem,5vw,3.4rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:20px}
+    .hero-text h1 em{font-style:normal;color:var(--amber)}
+    .hero-text p{font-size:1.1rem;color:var(--text2);max-width:480px;margin-bottom:28px}
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-stats{display:flex;gap:32px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
+    .hero-stats .hs{text-align:center}
+    .hero-stats .hs strong{display:block;font-size:1.4rem;font-weight:800;color:#fff}
+    .hero-stats .hs span{font-size:.78rem;color:var(--text2)}
+
+    /* Hero visual */
+    .hero-visual{position:relative}
+    .fleet-preview{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .fp-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+    .fp-dot{width:10px;height:10px;border-radius:50%}
+    .fp-dot.r{background:#ff5f57}.fp-dot.y{background:#febc2e}.fp-dot.g{background:#28c840}
+    .fp-header span{font-size:.8rem;color:var(--text2);margin-left:8px}
+    .fp-body{padding:20px}
+    .trailer-card{background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.10);border-radius:12px;padding:16px;margin-bottom:12px;transition:.3s}
+    .trailer-card:hover{border-color:rgba(245,158,11,.25)}
+    .trailer-card:last-child{margin-bottom:0}
+    .tc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .tc-name{font-weight:700;font-size:.95rem}
+    .tc-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+    .tc-badge.available{background:rgba(16,185,129,.12);color:var(--green)}
+    .tc-badge.rented{background:rgba(245,158,11,.12);color:var(--amber)}
+    .tc-specs{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+    .tc-spec{font-size:.78rem;color:var(--text2)}
+    .tc-spec strong{color:var(--text)}
+    .tc-price{margin-top:8px;font-size:.85rem;font-weight:600;color:var(--amber)}
+
+    /* === FLEET SECTION === */
+    section{padding:clamp(60px,10vw,100px) 0}
+    .section-tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);font-weight:700;margin-bottom:10px}
+    .section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+    .section-sub{color:var(--text2);max-width:560px;margin-bottom:40px;font-size:1rem}
+    .fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .fleet-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.3s}
+    .fleet-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-4px)}
+    .fc-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(16,185,129,.04))}
+    .fc-body{padding:24px}
+    .fc-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);font-weight:700;margin-bottom:4px}
+    .fc-body h3{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+    .fc-body .fc-desc{color:var(--text2);font-size:.9rem;margin-bottom:16px}
+    .fc-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .fc-spec{background:rgba(255,255,255,.02);border-radius:8px;padding:10px 12px}
+    .fc-spec .label{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
+    .fc-spec .val{font-size:.95rem;font-weight:700;color:#fff;margin-top:2px}
+    .fc-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .fc-price{font-size:1.1rem;font-weight:800;color:var(--amber)}
+    .fc-price span{font-size:.78rem;font-weight:500;color:var(--text2)}
+
+    /* === HOW IT WORKS === */
+    .how-section{background:var(--bg2)}
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .step-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;position:relative}
+    .step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--green));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#000;margin:0 auto 16px}
+    .step-card h4{font-size:1rem;font-weight:700;margin-bottom:6px}
+    .step-card p{font-size:.85rem;color:var(--text2);line-height:1.5}
+
+    /* === PRICING === */
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:.3s}
+    .price-card:hover{border-color:rgba(245,158,11,.3)}
+    .price-card h3{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+    .price-card .price-desc{color:var(--text2);font-size:.88rem;margin-bottom:20px}
+    .price-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+    .price-row:last-child{border-bottom:none}
+    .price-row .pr-label{color:var(--text2);font-size:.9rem}
+    .price-row .pr-val{font-weight:700;font-size:.95rem}
+    .price-card .price-note{margin-top:16px;font-size:.78rem;color:var(--text3)}
+
+    /* === WHY US === */
+    .why-section{background:var(--bg2)}
+    .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .why-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:.3s}
+    .why-card:hover{border-color:rgba(245,158,11,.2);transform:translateY(-3px)}
+    .why-icon{font-size:2rem;margin-bottom:14px}
+    .why-card h4{font-size:1rem;font-weight:700;margin-bottom:6px}
+    .why-card p{font-size:.88rem;color:var(--text2);line-height:1.5}
+
+    /* === CTA === */
+    .cta-section{text-align:center;padding:100px 0}
+    .cta-box{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(16,185,129,.06));border:1px solid rgba(245,158,11,.2);border-radius:24px;padding:64px 48px;max-width:700px;margin:0 auto}
+    .cta-box h2{font-size:2rem;font-weight:800;margin-bottom:12px}
+    .cta-box p{color:var(--text2);margin-bottom:28px;font-size:1.05rem;max-width:500px;margin-inline:auto}
+    .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .cta-phone{margin-top:20px;font-size:1.4rem;font-weight:800;color:var(--amber)}
+    .cta-phone span{font-size:.85rem;color:var(--text2);font-weight:500}
+
+    /* === FOOTER === */
+    footer{border-top:1px solid var(--border);padding:40px 0}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+    footer p{color:var(--text3);font-size:.82rem}
+    footer a{color:var(--amber)}
+
+    /* === RESPONSIVE === */
+    @media(max-width:900px){
+      .hero .container{grid-template-columns:1fr;gap:40px}
+      .fleet-grid,.pricing-grid{grid-template-columns:1fr}
+      .steps-grid{grid-template-columns:1fr 1fr}
+      .why-grid{grid-template-columns:1fr}
+      .nav-links{display:none}
+    }
+    @media(max-width:640px){
+      .hero-text h1{font-size:2rem}
+      .section-title{font-size:1.6rem}
+      .steps-grid{grid-template-columns:1fr}
+      .hero-stats{gap:20px;flex-wrap:wrap}
+      .cta-box{padding:36px 20px}
+      .fc-specs{grid-template-columns:1fr}
+    }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="container">
+        <a href="/" class="logo">Regulator <span>Logistics</span></a>
+        <div class="nav-links">
+            <a href="#fleet">Fleet</a>
+            <a href="#how">How It Works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact" class="btn btn-primary">Book a Trailer</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-text">
+            <div class="tag"><span class="dot"></span> Now Renting — Bakken Region</div>
+            <h1>Heavy trailers.<br><em>Easy booking.</em></h1>
+            <p>Dump trailers and flatbeds for rent in the Williston Basin. Book online, pay on pickup, get to work. No phone tag, no chasing invoices.</p>
+            <div class="hero-btns">
+                <a href="#fleet" class="btn btn-primary">See Available Trailers →</a>
+                <a href="#contact" class="btn btn-outline">Get a Quote</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hs"><strong>2+</strong><span>Trailers Ready</span></div>
+                <div class="hs"><strong>24hr</strong><span>Booking Response</span></div>
+                <div class="hs"><strong>$200</strong><span>Starting / Day</span></div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="fleet-preview">
+                <div class="fp-header">
+                    <div class="fp-dot r"></div>
+                    <div class="fp-dot y"></div>
+                    <div class="fp-dot g"></div>
+                    <span>Fleet Status</span>
+                </div>
+                <div class="fp-body">
+                    <div class="trailer-card">
+                        <div class="tc-top">
+                            <span class="tc-name">🏗️ PJ Trailers D7 Dump</span>
+                            <span class="tc-badge rented">Rented</span>
+                        </div>
+                        <div class="tc-specs">
+                            <span class="tc-spec"><strong>14'</strong> Floor</span>
+                            <span class="tc-spec"><strong>14,000</strong> GVWR</span>
+                            <span class="tc-spec"><strong>9,770</strong> Payload</span>
+                        </div>
+                        <div class="tc-price">$250/day — Returns Thursday</div>
+                    </div>
+                    <div class="trailer-card">
+                        <div class="tc-top">
+                            <span class="tc-name">🚛 24' Flatbed + Winch</span>
+                            <span class="tc-badge available">Available</span>
+                        </div>
+                        <div class="tc-specs">
+                            <span class="tc-spec"><strong>3× 7K</strong> Axles</span>
+                            <span class="tc-spec"><strong>Electric</strong> Brakes</span>
+                            <span class="tc-spec"><strong>Dovetail</strong> + Ramps</span>
+                        </div>
+                        <div class="tc-price">$200/day — Ready Now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fleet -->
+<section id="fleet">
+    <div class="container">
+        <div class="section-tag">Our Fleet</div>
+        <div class="section-title">Built for the Bakken.</div>
+        <div class="section-sub">Heavy-duty trailers maintained for tough conditions. Cold-weather wiring, DOT-compliant, ready to haul.</div>
+
+        <div class="fleet-grid">
+            <div class="fleet-card">
+                <div class="fc-img">🏗️</div>
+                <div class="fc-body">
+                    <div class="fc-type">Dump Trailer</div>
+                    <h3>PJ Trailers 83" × 14' D7</h3>
+                    <p class="fc-desc">Heavy-duty dump trailer for gravel, dirt, demolition debris, and equipment transport. Hydraulic lift, 14,000 lb GVWR.</p>
+                    <div class="fc-specs">
+                        <div class="fc-spec">
+                            <div class="label">Floor Length</div>
+                            <div class="val">14' (168")</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Width</div>
+                            <div class="val">83"</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">GVWR</div>
+                            <div class="val">14,000 lbs</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Payload</div>
+                            <div class="val">9,770 lbs</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Axles</div>
+                            <div class="val">7,000 lb × 2</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Weight</div>
+                            <div class="val">4,230 lbs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fc-footer">
+                    <div class="fc-price">$250 <span>/ day</span></div>
+                    <a href="#contact" class="btn btn-primary" style="padding:8px 18px;font-size:.82rem">Book Now</a>
+                </div>
+            </div>
+
+            <div class="fleet-card">
+                <div class="fc-img">🚛</div>
+                <div class="fc-body">
+                    <div class="fc-type">Flatbed + Winch</div>
+                    <h3>24' Flatbed Trailer</h3>
+                    <p class="fc-desc">Heavy-duty flatbed with self-cleaning dovetail and winch. Treated wood deck, spring-loaded jacks, cold-weather rated.</p>
+                    <div class="fc-specs">
+                        <div class="fc-spec">
+                            <div class="label">Length</div>
+                            <div class="val">24 feet</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Axles</div>
+                            <div class="val">3× 7K Dexter</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Brakes</div>
+                            <div class="val">Electric</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Tires</div>
+                            <div class="val">235/80 R16 10-ply</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Decking</div>
+                            <div class="val">Treated Wood</div>
+                        </div>
+                        <div class="fc-spec">
+                            <div class="label">Features</div>
+                            <div class="val">Winch + Ramps</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fc-footer">
+                    <div class="fc-price">$200 <span>/ day</span></div>
+                    <a href="#contact" class="btn btn-primary" style="padding:8px 18px;font-size:.82rem">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section id="how" class="how-section">
+    <div class="container">
+        <div class="section-tag">How It Works</div>
+        <div class="section-title">Book in minutes. Not days.</div>
+        <div class="section-sub">No back-and-forth. Pick your trailer, pick your dates, and we'll have it ready.</div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h4>Pick Your Trailer</h4>
+                <p>Browse our fleet. See what's available right now — no calling to check.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h4>Choose Your Dates</h4>
+                <p>Select daily, weekly, or monthly. Longer rentals get better rates.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h4>Pick Up or We Deliver</h4>
+                <p>Grab it from our yard or we'll bring it to your site. Your call.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">4</div>
+                <h4>Return When Done</h4>
+                <p>Drop it off or we pick it up. Deposit returned same day.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+    <div class="container">
+        <div class="section-tag">Pricing</div>
+        <div class="section-title">Straightforward rates.</div>
+        <div class="section-sub">No hidden fees. Deposit returned on safe return. Longer rentals = better rates.</div>
+
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>🏗️ PJ D7 Dump Trailer</h3>
+                <p class="price-desc">14' × 83" — 14,000 GVWR — Hydraulic lift</p>
+                <div class="price-row">
+                    <span class="pr-label">Daily Rate</span>
+                    <span class="pr-val">$250</span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Weekly Rate</span>
+                    <span class="pr-val">$1,400 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-20%)</span></span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Monthly Rate</span>
+                    <span class="pr-val">$4,500 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-40%)</span></span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Security Deposit</span>
+                    <span class="pr-val">$500</span>
+                </div>
+                <p class="price-note">Deposit returned on safe return. Damage assessed at pickup/return with photo documentation.</p>
+            </div>
+
+            <div class="price-card">
+                <h3>🚛 24' Flatbed + Winch</h3>
+                <p class="price-desc">3× 7K axles — Electric brakes — Treated wood deck</p>
+                <div class="price-row">
+                    <span class="pr-label">Daily Rate</span>
+                    <span class="pr-val">$200</span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Weekly Rate</span>
+                    <span class="pr-val">$1,100 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-22%)</span></span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Monthly Rate</span>
+                    <span class="pr-val">$3,500 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-42%)</span></span>
+                </div>
+                <div class="price-row">
+                    <span class="pr-label">Security Deposit</span>
+                    <span class="pr-val">$500</span>
+                </div>
+                <p class="price-note">Winch available at no extra charge. Delivery available — call for rate.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Us -->
+<section class="why-section">
+    <div class="container">
+        <div class="section-tag">Why Regulator</div>
+        <div class="section-title">We keep our trailers ready. You keep working.</div>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">🔧</div>
+                <h4>Maintained Fleet</h4>
+                <p>Every trailer inspected between rentals. Brakes, tires, lights, hydraulics — checked before it goes out.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">❄️</div>
+                <h4>Cold-Weather Rated</h4>
+                <p>Cold-weather wiring harnesses and DOT-compliant LED lights. Built for North Dakota winters.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">📱</div>
+                <h4>Easy Booking</h4>
+                <p>Check availability and book online. No phone tag. We confirm within 24 hours and have it ready when you need it.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🚚</div>
+                <h4>Delivery Available</h4>
+                <p>Can't pick it up? We'll deliver to your job site. Williston Basin and surrounding areas.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">💰</div>
+                <h4>Fair Deposit Policy</h4>
+                <p>$500 deposit, returned same day on safe return. We document everything with photos — no surprises.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">📈</div>
+                <h4>Growing Fleet</h4>
+                <p>More trailers coming. As our fleet grows, so does availability. Long-term renters get priority access.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Ready to rent?</h2>
+            <p>Check availability for your dates. We'll confirm within 24 hours and have your trailer ready.</p>
+            <div class="cta-btns">
+                <a href="tel:+17015551234" class="btn btn-primary">Call Us</a>
+                <a href="mailto:rentals@regulatorlogistics.xyz" class="btn btn-outline">Email Us</a>
+                <a href="https://calendly.com" class="btn btn-white" target="_blank">Book Online</a>
+            </div>
+            <div class="cta-phone">
+                <span>Or call directly:</span><br>
+                (701) 555-1234
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <p>&copy; 2026 Regulator Logistics — Williston, ND</p>
+            <p>Dump trailers & flatbeds for the Bakken. <a href="mailto:rentals@regulatorlogistics.xyz">rentals@regulatorlogistics.xyz</a></p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
