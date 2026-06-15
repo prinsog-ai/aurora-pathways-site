@@ -8,202 +8,291 @@
     <meta name="description" content="Rent dump trailers and flatbed trailers in the Bakken. Daily, weekly, and monthly rates. Book online, pay on pickup.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Regulator Logistics — Trailer Rentals">
-    <meta property="og:description" content="Dump trailers and flatbeds for rent. Book online, instant availability, fair rates.">
+    <meta property="og:description" content="Dump trailers and flatbeds for rent in the Williston Basin. Book online, fair rates, maintained fleet.">
     <meta property="og:url" content="https://regulatorlogistics.xyz">
-    <meta property="og:image" content="https://regulatorlogistics.xyz/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --bg:#0c0c0e;
-      --bg2:#141418;
-      --surface:#1a1a20;
-      --border:#2a2a32;
-      --accent:#1e4a73;
-      --accent2:#2d5f8a;
-      --green:#4a8bc2;
-      --red:#ef4444;
-      --text:#e8e8ec;
-      --text2:#9a9aaa;
-      --text3:#666;
+      --bg:#06080c;--bg2:#0c1018;--surface:#111827;--surface2:#1a2332;
+      --border:#1e293b;--border2:#334155;
+      --accent:#3b82f6;--accent2:#60a5fa;--accent-glow:rgba(59,130,246,.25);
+      --amber:#f59e0b;--green:#10b981;--red:#ef4444;
+      --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
     }
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
-    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+    .container{max-width:1140px;margin:0 auto;padding:0 24px}
+
+    /* === SCROLL PROGRESS === */
+    .scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--green));z-index:999;width:0;transition:width .1s}
 
     /* === NAV === */
-    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(12,12,14,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(6,8,12,.85);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--border);transform:translateY(0);transition:transform .35s ease}
+    nav.hidden{transform:translateY(-100%)}
     nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .logo{font-weight:900;font-size:1.15rem;color:#fff;letter-spacing:-.02em}
-    .logo span{color:var(--accent)}
+    .logo-link{display:flex;align-items:center;gap:10px}
+    .logo-link img{height:36px;width:auto}
     .nav-links{display:flex;gap:28px;align-items:center}
-    .nav-links a{font-size:.88rem;color:var(--text2);font-weight:500;transition:.2s}
-    .nav-links a:hover{color:var(--accent)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-weight:700;font-size:.88rem;transition:.2s;cursor:pointer;border:none}
-    .btn-primary{background:var(--accent);color:#000}
-    .btn-primary:hover{background:var(--amber2)}
-    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
-    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    .nav-links a{font-size:.88rem;color:var(--text2);font-weight:500;transition:.2s;position:relative}
+    .nav-links a:not(.btn)::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .25s}
+    .nav-links a:not(.btn):hover{color:var(--text)}
+    .nav-links a:not(.btn):hover::after{width:100%}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:10px;font-weight:700;font-size:.88rem;cursor:pointer;border:none;transition:.25s}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),#2563eb);color:#fff;box-shadow:0 4px 20px var(--accent-glow)}
+    .btn-primary:hover{box-shadow:0 8px 32px var(--accent-glow);transform:translateY(-2px)}
+    .btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent2);box-shadow:0 0 20px rgba(59,130,246,.1)}
     .btn-white{background:#fff;color:#000}
-    .btn-white:hover{background:#e8e8ec}
+    .btn-white:hover{background:#e2e8f0}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
 
     /* === HERO === */
     .hero{min-height:100vh;display:flex;align-items:center;padding-top:80px;position:relative;overflow:hidden}
-    .hero::before{content:'';position:absolute;top:-30%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(30,74,115,.10) 0%,transparent 70%);pointer-events:none;animation:heroGlow 8s ease-in-out infinite alternate}
-    @keyframes heroGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-30px,20px) scale(1.1)}}
-    .hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-    .hero-text .tag{display:inline-flex;align-items:center;gap:6px;background:rgba(30,74,115,.1);border:1px solid rgba(30,74,115,.2);color:var(--accent);padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:20px}
-    .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .hero-text h1{font-size:clamp(2.4rem,5vw,3.4rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:20px}
-    .hero-text h1 em{font-style:normal;color:var(--accent)}
-    .hero-text p{font-size:1.1rem;color:var(--text2);max-width:480px;margin-bottom:28px}
-    .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-    .hero-stats{display:flex;gap:32px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
-    .hero-stats .hs{text-align:center}
-    .hero-stats .hs strong{display:block;font-size:1.4rem;font-weight:800;color:#fff}
-    .hero-stats .hs span{font-size:.78rem;color:var(--text2)}
+    .hero-orbs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;animation:orbFloat 12s ease-in-out infinite alternate}
+    .orb-1{width:500px;height:500px;top:-15%;right:-5%;background:radial-gradient(circle,var(--accent),transparent 70%);animation-duration:14s}
+    .orb-2{width:350px;height:350px;bottom:-10%;left:-5%;background:radial-gradient(circle,var(--green),transparent 70%);animation-duration:10s;animation-delay:-3s}
+    .orb-3{width:250px;height:250px;top:30%;left:40%;background:radial-gradient(circle,var(--amber),transparent 70%);opacity:.15;animation-duration:16s;animation-delay:-6s}
+    @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-25px) scale(1.08)}}
+    .hero .container{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;position:relative;z-index:2}
+    .hero-text .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--green);padding:6px 16px;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:24px;backdrop-filter:blur(8px)}
+    .tag .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--green)}50%{opacity:.5;box-shadow:0 0 16px var(--green)}}
+    .hero-text h1{font-size:clamp(2.6rem,5.5vw,4rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:24px}
+    .hero-text h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-text p{font-size:1.15rem;color:var(--text2);max-width:480px;margin-bottom:32px;line-height:1.7}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-stats{display:flex;gap:40px;margin-top:44px;padding-top:32px;border-top:1px solid var(--border)}
+    .hero-stats .hs{position:relative;padding-left:14px}
+    .hero-stats .hs::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--accent),var(--accent-glow))}
+    .hero-stats .hs strong{display:block;font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+    .hero-stats .hs span{font-size:.8rem;color:var(--text3);font-weight:500}
 
-    /* Hero visual */
+    /* Hero visual — dashboard */
     .hero-visual{position:relative}
-    .fleet-preview{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-    .fp-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+    .hero-visual::before{content:'';position:absolute;inset:-30px;background:radial-gradient(circle,var(--accent-glow),transparent 60%);opacity:.4;z-index:0;border-radius:50%}
+    .fleet-preview{position:relative;z-index:1;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.03) inset}
+    .fp-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.02)}
     .fp-dot{width:10px;height:10px;border-radius:50%}
     .fp-dot.r{background:#ff5f57}.fp-dot.y{background:#febc2e}.fp-dot.g{background:#28c840}
-    .fp-header span{font-size:.8rem;color:var(--text2);margin-left:8px}
+    .fp-header span{font-size:.8rem;color:var(--text3);margin-left:8px;font-weight:500}
     .fp-body{padding:20px}
-    .trailer-card{background:rgba(30,74,115,.04);border:1px solid rgba(30,74,115,.10);border-radius:12px;padding:16px;margin-bottom:12px;transition:.3s}
-    .trailer-card:hover{border-color:rgba(30,74,115,.25)}
+    .trailer-card{background:rgba(59,130,246,.03);border:1px solid rgba(59,130,246,.08);border-radius:14px;padding:18px;margin-bottom:14px;transition:.3s;cursor:default}
+    .trailer-card:hover{border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.06)}
     .trailer-card:last-child{margin-bottom:0}
-    .tc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-    .tc-name{font-weight:700;font-size:.95rem}
-    .tc-badge{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
-    .tc-badge.available{background:rgba(16,185,129,.12);color:var(--green)}
-    .tc-badge.rented{background:rgba(30,74,115,.12);color:var(--accent)}
-    .tc-specs{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
-    .tc-spec{font-size:.78rem;color:var(--text2)}
-    .tc-spec strong{color:var(--text)}
-    .tc-price{margin-top:8px;font-size:.85rem;font-weight:600;color:var(--accent)}
+    .tc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .tc-name{font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:10px}
+    .tc-name img{width:28px;height:28px;border-radius:6px;object-fit:cover;border:1px solid var(--border)}
+    .tc-badge{font-size:.65rem;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em}
+    .tc-badge.available{background:rgba(16,185,129,.12);color:var(--green);box-shadow:0 0 12px rgba(16,185,129,.15)}
+    .tc-badge.rented{background:rgba(59,130,246,.12);color:var(--accent2)}
+    .tc-specs{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+    .tc-spec{font-size:.78rem;color:var(--text3)}
+    .tc-spec strong{color:var(--text2);font-weight:600}
+    .tc-price{margin-top:10px;font-size:.85rem;font-weight:600;color:var(--accent2)}
+    .fp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .fp-metric{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.08);border-radius:12px;padding:14px;text-align:center}
+    .fp-metric .m-val{font-size:1.3rem;font-weight:800;color:#fff}
+    .fp-metric .m-label{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
 
-    /* === FLEET SECTION === */
-    section{padding:clamp(60px,10vw,100px) 0}
-    .section-tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-bottom:10px}
-    .section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
-    .section-sub{color:var(--text2);max-width:560px;margin-bottom:40px;font-size:1rem}
-    .fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .fleet-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.3s}
-    .fleet-card:hover{border-color:rgba(30,74,115,.3);transform:translateY(-4px)}
-    .fc-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(135deg,rgba(30,74,115,.06),rgba(16,185,129,.04))}
-    .fc-body{padding:24px}
-    .fc-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin-bottom:4px}
-    .fc-body h3{font-size:1.2rem;font-weight:800;margin-bottom:4px}
-    .fc-body .fc-desc{color:var(--text2);font-size:.9rem;margin-bottom:16px}
-    .fc-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .fc-spec{background:rgba(255,255,255,.02);border-radius:8px;padding:10px 12px}
-    .fc-spec .label{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
-    .fc-spec .val{font-size:.95rem;font-weight:700;color:#fff;margin-top:2px}
-    .fc-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-    .fc-price{font-size:1.1rem;font-weight:800;color:var(--accent)}
-    .fc-price span{font-size:.78rem;font-weight:500;color:var(--text2)}
+    /* === SECTION DEFAULTS === */
+    section{padding:clamp(70px,12vw,120px) 0}
+    .section-tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent2);font-weight:700;margin-bottom:12px;display:inline-flex;align-items:center;gap:8px}
+    .section-tag::before{content:'';width:20px;height:2px;background:var(--accent);border-radius:1px}
+    .section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px;line-height:1.15}
+    .section-title em{font-style:normal;background:linear-gradient(135deg,var(--accent2),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .section-sub{color:var(--text2);max-width:560px;margin-bottom:48px;font-size:1.02rem;line-height:1.7}
+
+    /* === REVEAL ANIMATIONS === */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+    .reveal-delay-4{transition-delay:.4s}
+
+    /* === FLEET === */
+    #fleet{background:var(--bg2)}
+    .fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .fleet-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:.4s;position:relative}
+    .fleet-card::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,transparent,rgba(59,130,246,.15),transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:.4s}
+    .fleet-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+    .fleet-card:hover::before{opacity:1}
+    .fc-img{height:240px;overflow:hidden;position:relative}
+    .fc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+    .fleet-card:hover .fc-img img{transform:scale(1.06)}
+    .fc-img .fc-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,8,12,.7) 0%,transparent 50%)}
+    .fc-body{padding:28px}
+    .fc-type{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2);font-weight:700;margin-bottom:6px}
+    .fc-body h3{font-size:1.25rem;font-weight:800;margin-bottom:6px}
+    .fc-body .fc-desc{color:var(--text2);font-size:.9rem;margin-bottom:20px;line-height:1.6}
+    .fc-specs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .fc-spec{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;transition:.2s}
+    .fc-spec:hover{border-color:var(--border2);background:rgba(255,255,255,.04)}
+    .fc-spec .label{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+    .fc-spec .val{font-size:.95rem;font-weight:700;color:#fff;margin-top:4px}
+    .fc-footer{padding:18px 28px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.01)}
+    .fc-price{font-size:1.2rem;font-weight:800;color:var(--text)}
+    .fc-price span{font-size:.8rem;font-weight:500;color:var(--text3)}
+
+    /* === GALLERY === */
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .gallery-item{border-radius:14px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:4/3;background:var(--surface)}
+    .gallery-item.large{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+    .gallery-item:hover img{transform:scale(1.08)}
+    .gallery-caption{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);font-size:.82rem;color:#fff;font-weight:500;opacity:0;transform:translateY(8px);transition:.3s}
+    .gallery-item:hover .gallery-caption{opacity:1;transform:translateY(0)}
+    .gallery-item::after{content:'⤢';position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#fff;opacity:0;transition:.3s}
+    .gallery-item:hover::after{opacity:1}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.95);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+    .lightbox.active{display:flex;opacity:1}
+    .lightbox img{max-width:90vw;max-height:85vh;border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,.5)}
+    .lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+    .lightbox-close:hover{background:rgba(255,255,255,.2)}
+    .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+    .lightbox-nav:hover{background:rgba(255,255,255,.2)}
+    .lightbox-prev{left:24px}
+    .lightbox-next{right:24px}
+    .lightbox-caption{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:.9rem;background:rgba(0,0,0,.6);padding:8px 20px;border-radius:999px;backdrop-filter:blur(8px)}
 
     /* === HOW IT WORKS === */
-    .how-section{background:var(--bg2)}
-    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-    .step-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;position:relative}
-    .step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--green));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#000;margin:0 auto 16px}
-    .step-card h4{font-size:1rem;font-weight:700;margin-bottom:6px}
-    .step-card p{font-size:.85rem;color:var(--text2);line-height:1.5}
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+    .steps-grid::before{content:'';position:absolute;top:40px;left:12.5%;right:12.5%;height:2px;background:linear-gradient(90deg,var(--accent),var(--green),var(--accent));opacity:.2;z-index:0}
+    .step-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 20px;text-align:center;position:relative;z-index:1;transition:.3s}
+    .step-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+    .step-num{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--green));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff;margin:0 auto 18px;box-shadow:0 8px 24px var(--accent-glow);position:relative}
+    .step-num::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:stepPulse 2.5s ease-out infinite}
+    @keyframes stepPulse{0%{transform:scale(.9);opacity:.5}100%{transform:scale(1.3);opacity:0}}
+    .step-card h4{font-size:1rem;font-weight:700;margin-bottom:8px}
+    .step-card p{font-size:.85rem;color:var(--text2);line-height:1.6}
 
     /* === PRICING === */
-    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:.3s}
-    .price-card:hover{border-color:rgba(30,74,115,.3)}
-    .price-card h3{font-size:1.2rem;font-weight:800;margin-bottom:4px}
-    .price-card .price-desc{color:var(--text2);font-size:.88rem;margin-bottom:20px}
-    .price-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+    #pricing{background:var(--bg2)}
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .price-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;position:relative;transition:.4s;overflow:hidden}
+    .price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--green));opacity:.5}
+    .price-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.25)}
+    .price-card h3{font-size:1.25rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+    .price-card h3 img{width:28px;height:28px;border-radius:6px;object-fit:cover}
+    .price-card .price-desc{color:var(--text2);font-size:.88rem;margin-bottom:24px}
+    .price-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.03)}
     .price-row:last-child{border-bottom:none}
     .price-row .pr-label{color:var(--text2);font-size:.9rem}
     .price-row .pr-val{font-weight:700;font-size:.95rem}
-    .price-card .price-note{margin-top:16px;font-size:.78rem;color:var(--text3)}
+    .price-row .discount{font-size:.78rem;color:var(--green);font-weight:600;margin-left:6px}
+    .price-card .price-note{margin-top:20px;font-size:.78rem;color:var(--text3);line-height:1.5;padding-top:16px;border-top:1px solid var(--border)}
 
     /* === WHY US === */
-    .why-section{background:var(--bg2)}
     .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .why-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:.3s}
-    .why-card:hover{border-color:rgba(30,74,115,.2);transform:translateY(-3px)}
-    .why-icon{font-size:2rem;margin-bottom:14px}
-    .why-card h4{font-size:1rem;font-weight:700;margin-bottom:6px}
-    .why-card p{font-size:.88rem;color:var(--text2);line-height:1.5}
+    .why-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:30px;transition:.35s;position:relative;overflow:hidden}
+    .why-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 20%,var(--accent-glow),transparent 60%);opacity:0;transition:.4s}
+    .why-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+    .why-card:hover::before{opacity:.3}
+    .why-icon{font-size:2.2rem;margin-bottom:16px;position:relative;z-index:1}
+    .why-card h4{font-size:1.05rem;font-weight:700;margin-bottom:8px;position:relative;z-index:1}
+    .why-card p{font-size:.88rem;color:var(--text2);line-height:1.6;position:relative;z-index:1}
+
+    /* === TRUST BAR === */
+    .trust-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px 0}
+    .trust-grid{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+    .trust-item{display:flex;align-items:center;gap:12px;color:var(--text2);font-size:.9rem;font-weight:500}
+    .trust-icon{width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
 
     /* === CTA === */
-    .cta-section{text-align:center;padding:100px 0}
-    .cta-box{background:linear-gradient(135deg,rgba(30,74,115,.10),rgba(16,185,129,.06));border:1px solid rgba(30,74,115,.2);border-radius:24px;padding:64px 48px;max-width:700px;margin:0 auto}
-    .cta-box h2{font-size:2rem;font-weight:800;margin-bottom:12px}
-    .cta-box p{color:var(--text2);margin-bottom:28px;font-size:1.05rem;max-width:500px;margin-inline:auto}
-    .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-    .cta-phone{margin-top:20px;font-size:1.4rem;font-weight:800;color:var(--accent)}
-    .cta-phone span{font-size:.85rem;color:var(--text2);font-weight:500}
+    .cta-section{text-align:center;position:relative;overflow:hidden}
+    .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,var(--accent-glow),transparent 60%);opacity:.5}
+    .cta-box{position:relative;z-index:1;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:72px 48px;max-width:720px;margin:0 auto;box-shadow:0 24px 64px rgba(0,0,0,.3)}
+    .cta-box h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:14px;letter-spacing:-.02em}
+    .cta-box p{color:var(--text2);margin-bottom:32px;font-size:1.05rem;max-width:480px;margin-inline:auto;line-height:1.7}
+    .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .cta-phone{margin-top:24px;font-size:1.5rem;font-weight:800;color:var(--text);letter-spacing:-.02em}
+    .cta-phone span{display:block;font-size:.85rem;color:var(--text3);font-weight:500;margin-top:4px}
 
     /* === FOOTER === */
-    footer{border-top:1px solid var(--border);padding:40px 0}
+    footer{border-top:1px solid var(--border);padding:48px 0}
     .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
     footer p{color:var(--text3);font-size:.82rem}
-    footer a{color:var(--accent)}
-
-    /* === GALLERY === */
-    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .gallery-item{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:4/3;background:var(--surface)}
-    .gallery-item.large{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
-    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-    .gallery-item:hover img{transform:scale(1.05)}
-    .gallery-caption{position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:.82rem;color:#fff;font-weight:500;opacity:0;transition:.3s}
-    .gallery-item:hover .gallery-caption{opacity:1}
+    footer a{color:var(--accent2)}
 
     /* === RESPONSIVE === */
     @media(max-width:900px){
       .hero .container{grid-template-columns:1fr;gap:40px}
       .fleet-grid,.pricing-grid{grid-template-columns:1fr}
       .steps-grid{grid-template-columns:1fr 1fr}
+      .steps-grid::before{display:none}
       .why-grid{grid-template-columns:1fr}
       .nav-links{display:none}
+      .hamburger{display:flex}
+      .mobile-menu{position:fixed;top:64px;left:0;right:0;background:rgba(6,8,12,.98);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:24px;display:none;flex-direction:column;gap:16px;z-index:99}
+      .mobile-menu.open{display:flex}
+      .mobile-menu a{color:var(--text2);font-size:1rem;padding:8px 0;border-bottom:1px solid var(--border)}
+      .mobile-menu .btn{margin-top:8px;text-align:center;justify-content:center}
+      .gallery-grid{grid-template-columns:repeat(3,1fr)}
+      .gallery-item.large{grid-column:span 2;grid-row:span 1;aspect-ratio:4/3}
     }
     @media(max-width:640px){
-      .hero-text h1{font-size:2rem}
+      .hero-text h1{font-size:2.2rem}
       .section-title{font-size:1.6rem}
       .steps-grid{grid-template-columns:1fr}
       .hero-stats{gap:20px;flex-wrap:wrap}
-      .cta-box{padding:36px 20px}
-      .fc-specs{grid-template-columns:1fr}
+      .cta-box{padding:40px 20px}
+      .fc-specs{grid-template-columns:1fr 1fr}
       .gallery-grid{grid-template-columns:1fr 1fr}
       .gallery-item.large{grid-column:span 2}
+      .fp-metrics{grid-template-columns:1fr}
+      .trust-grid{gap:24px}
     }
     </style>
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <!-- Nav -->
-<nav>
+<nav id="navbar">
     <div class="container">
-        <a href="/" class="logo" style="display:flex;align-items:center;gap:10px"><img src="logo.svg" alt="Regulator Logistics" height="36" style="height:36px;width:auto"></a>
+        <a href="/" class="logo-link"><img src="logo.svg" alt="Regulator Logistics"></a>
         <div class="nav-links">
             <a href="#fleet">Fleet</a>
+            <a href="#gallery">Gallery</a>
             <a href="#how">How It Works</a>
             <a href="#pricing">Pricing</a>
             <a href="#contact" class="btn btn-primary">Book a Trailer</a>
         </div>
+        <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </nav>
+<div class="mobile-menu">
+    <a href="#fleet" onclick="this.parentElement.classList.remove('open')">Fleet</a>
+    <a href="#gallery" onclick="this.parentElement.classList.remove('open')">Gallery</a>
+    <a href="#how" onclick="this.parentElement.classList.remove('open')">How It Works</a>
+    <a href="#pricing" onclick="this.parentElement.classList.remove('open')">Pricing</a>
+    <a href="#contact" class="btn btn-primary" onclick="this.parentElement.classList.remove('open')">Book a Trailer</a>
+</div>
 
 <!-- Hero -->
 <section class="hero">
+    <div class="hero-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
     <div class="container">
         <div class="hero-text">
             <div class="tag"><span class="dot"></span> Now Renting — Bakken Region</div>
             <h1>Heavy trailers.<br><em>Easy booking.</em></h1>
-            <p>Dump trailers and flatbeds for rent in the Williston Basin. Book online, pay on pickup, get to work. No phone tag, no chasing invoices.</p>
+            <p>Dump trailers and flatbeds for rent in the Williston Basin. Book online, pay on pickup, get to work. No phone tag. No chasing invoices.</p>
             <div class="hero-btns">
                 <a href="#fleet" class="btn btn-primary">See Available Trailers →</a>
                 <a href="#contact" class="btn btn-outline">Get a Quote</a>
@@ -217,15 +306,13 @@
         <div class="hero-visual">
             <div class="fleet-preview">
                 <div class="fp-header">
-                    <div class="fp-dot r"></div>
-                    <div class="fp-dot y"></div>
-                    <div class="fp-dot g"></div>
-                    <span>Fleet Status</span>
+                    <div class="fp-dot r"></div><div class="fp-dot y"></div><div class="fp-dot g"></div>
+                    <span>Fleet Dashboard</span>
                 </div>
                 <div class="fp-body">
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name"><img src="photos/dump-rear.jpg" alt="Dump" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> PJ Trailers D7 Dump</span>
+                            <span class="tc-name"><img src="photos/dump-rear.jpg" alt="Dump"> PJ Trailers D7 Dump</span>
                             <span class="tc-badge rented">Rented</span>
                         </div>
                         <div class="tc-specs">
@@ -237,7 +324,7 @@
                     </div>
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name"><img src="photos/flatbed-toolbox.jpg" alt="Flatbed" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> 24' Flatbed + Winch</span>
+                            <span class="tc-name"><img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed"> 24' Flatbed + Winch</span>
                             <span class="tc-badge available">Available</span>
                         </div>
                         <div class="tc-specs">
@@ -247,177 +334,172 @@
                         </div>
                         <div class="tc-price">$200/day — Ready Now</div>
                     </div>
+                    <div class="fp-metrics">
+                        <div class="fp-metric"><div class="m-val" data-counter="87">0</div><div class="m-label">Utilization %</div></div>
+                        <div class="fp-metric"><div class="m-val" data-counter="100">0</div><div class="m-label">On-Time Returns %</div></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Trust Bar -->
+<div class="trust-bar">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item reveal"><div class="trust-icon">🛡️</div> DOT Compliant</div>
+            <div class="trust-item reveal reveal-delay-1"><div class="trust-icon">❄️</div> Cold-Weather Rated</div>
+            <div class="trust-item reveal reveal-delay-2"><div class="trust-icon">📋</div> Fully Insured</div>
+            <div class="trust-item reveal reveal-delay-3"><div class="trust-icon">⚡</div> Same-Day Response</div>
+        </div>
+    </div>
+</div>
 
 <!-- Fleet -->
 <section id="fleet">
     <div class="container">
         <div class="section-tag">Our Fleet</div>
-        <div class="section-title">Built for the Bakken.</div>
+        <div class="section-title">Built for the <em>Bakken.</em></div>
         <div class="section-sub">Heavy-duty trailers maintained for tough conditions. Cold-weather wiring, DOT-compliant, ready to haul.</div>
 
         <div class="fleet-grid">
-            <div class="fleet-card">
-                <div class="fc-img"><img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer" style="width:100%;height:100%;object-fit:cover"></div>
+            <div class="fleet-card reveal">
+                <div class="fc-img">
+                    <img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer" loading="lazy">
+                    <div class="fc-overlay"></div>
+                </div>
                 <div class="fc-body">
                     <div class="fc-type">Dump Trailer</div>
                     <h3>PJ Trailers 83" × 14' D7</h3>
                     <p class="fc-desc">Heavy-duty dump trailer for gravel, dirt, demolition debris, and equipment transport. Hydraulic lift, 14,000 lb GVWR.</p>
                     <div class="fc-specs">
-                        <div class="fc-spec">
-                            <div class="label">Floor Length</div>
-                            <div class="val">14' (168")</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Width</div>
-                            <div class="val">83"</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">GVWR</div>
-                            <div class="val">14,000 lbs</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Payload</div>
-                            <div class="val">9,770 lbs</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Axles</div>
-                            <div class="val">7,000 lb × 2</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Weight</div>
-                            <div class="val">4,230 lbs</div>
-                        </div>
+                        <div class="fc-spec"><div class="label">Floor</div><div class="val">14' (168")</div></div>
+                        <div class="fc-spec"><div class="label">Width</div><div class="val">83"</div></div>
+                        <div class="fc-spec"><div class="label">GVWR</div><div class="val">14,000 lbs</div></div>
+                        <div class="fc-spec"><div class="label">Payload</div><div class="val">9,770 lbs</div></div>
+                        <div class="fc-spec"><div class="label">Axles</div><div class="val">7K × 2</div></div>
+                        <div class="fc-spec"><div class="label">Weight</div><div class="val">4,230 lbs</div></div>
                     </div>
                 </div>
                 <div class="fc-footer">
                     <div class="fc-price">$250 <span>/ day</span></div>
-                    <a href="#contact" class="btn btn-primary" style="padding:8px 18px;font-size:.82rem">Book Now</a>
+                    <a href="#contact" class="btn btn-primary" style="padding:8px 20px;font-size:.82rem">Book Now</a>
                 </div>
             </div>
 
-            <div class="fleet-card">
-                <div class="fc-img"><img src="photos/flatbed-truck-loaded.jpg" alt="24ft Flatbed Trailer — Truck Loaded" style="width:100%;height:100%;object-fit:cover"></div>
+            <div class="fleet-card reveal reveal-delay-1">
+                <div class="fc-img">
+                    <img src="photos/flatbed-truck-loaded.jpg" alt="24ft Flatbed Trailer" loading="lazy">
+                    <div class="fc-overlay"></div>
+                </div>
                 <div class="fc-body">
                     <div class="fc-type">Flatbed + Winch</div>
                     <h3>24' Flatbed Trailer</h3>
                     <p class="fc-desc">Heavy-duty flatbed with self-cleaning dovetail and winch. Treated wood deck, spring-loaded jacks, cold-weather rated.</p>
                     <div class="fc-specs">
-                        <div class="fc-spec">
-                            <div class="label">Length</div>
-                            <div class="val">24 feet</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Axles</div>
-                            <div class="val">3× 7K Dexter</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Brakes</div>
-                            <div class="val">Electric</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Tires</div>
-                            <div class="val">235/80 R16 10-ply</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Decking</div>
-                            <div class="val">Treated Wood</div>
-                        </div>
-                        <div class="fc-spec">
-                            <div class="label">Features</div>
-                            <div class="val">Winch + Ramps</div>
-                        </div>
+                        <div class="fc-spec"><div class="label">Length</div><div class="val">24 feet</div></div>
+                        <div class="fc-spec"><div class="label">Axles</div><div class="val">3× 7K Dexter</div></div>
+                        <div class="fc-spec"><div class="label">Brakes</div><div class="val">Electric</div></div>
+                        <div class="fc-spec"><div class="label">Tires</div><div class="val">235/80 R16</div></div>
+                        <div class="fc-spec"><div class="label">Deck</div><div class="val">Treated Wood</div></div>
+                        <div class="fc-spec"><div class="label">Features</div><div class="val">Winch + Ramps</div></div>
                     </div>
                 </div>
                 <div class="fc-footer">
                     <div class="fc-price">$200 <span>/ day</span></div>
-                    <a href="#contact" class="btn btn-primary" style="padding:8px 18px;font-size:.82rem">Book Now</a>
+                    <a href="#contact" class="btn btn-primary" style="padding:8px 20px;font-size:.82rem">Book Now</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Photo Gallery -->
-<section style="background:var(--bg2)">
+<!-- Gallery -->
+<section id="gallery" style="background:var(--bg2)">
     <div class="container">
         <div class="section-tag">Our Fleet in Action</div>
-        <div class="section-title">Real trailers. Real jobs.</div>
-        <div class="section-sub">Photos of our actual equipment — not stock images.</div>
+        <div class="section-title">Real trailers. <em>Real jobs.</em></div>
+        <div class="section-sub">Photos of our actual equipment — not stock images. Click any photo to enlarge.</div>
 
         <div class="gallery-grid">
-            <div class="gallery-item large">
-                <img src="photos/flatbed-truck-loaded.jpg" alt="24ft Flatbed Trailer with Truck Loaded" loading="lazy">
-                <div class="gallery-caption">24' Flatbed — hauling a 4×4 truck, 3×7K axles</div>
+            <div class="gallery-item large reveal" data-caption="24' Flatbed — hauling a 4×4 truck, 3×7K axles">
+                <img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed with truck" loading="lazy">
+                <div class="gallery-caption">24' Flatbed — hauling a 4×4 truck</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-rear.jpg" alt="PJ Trailers D7 Dump Trailer — Rear View" loading="lazy">
+            <div class="gallery-item reveal" data-caption="PJ D7 Dump — Rear hydraulic lift">
+                <img src="photos/dump-rear.jpg" alt="Dump rear" loading="lazy">
                 <div class="gallery-caption">PJ D7 Dump — Rear hydraulic lift</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer — Side View" loading="lazy">
-                <div class="gallery-caption">D7 Dump — Side profile, PJ Trailers</div>
+            <div class="gallery-item reveal reveal-delay-1" data-caption="D7 Dump — Side profile, PJ Trailers">
+                <img src="photos/dump-side.jpg" alt="Dump side" loading="lazy">
+                <div class="gallery-caption">D7 Dump — Side profile</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-loaded.jpg" alt="Dump Trailer Loaded with Material" loading="lazy">
+            <div class="gallery-item reveal" data-caption="D7 Dump — loaded and ready">
+                <img src="photos/dump-loaded.jpg" alt="Dump loaded" loading="lazy">
                 <div class="gallery-caption">D7 Dump — loaded and ready</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-tarp.jpg" alt="Dump Trailer with Roll Tarp" loading="lazy">
+            <div class="gallery-item reveal reveal-delay-1" data-caption="D7 Dump — Roll tarp, double axle">
+                <img src="photos/dump-tarp.jpg" alt="Dump tarp" loading="lazy">
                 <div class="gallery-caption">D7 Dump — Roll tarp, double axle</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/flatbed-deck.jpg" alt="Flatbed Trailer Wood Deck" loading="lazy">
-                <div class="gallery-caption">Flatbed — Treated wood deck, diamond plate</div>
+            <div class="gallery-item reveal" data-caption="Flatbed — Treated wood deck, diamond plate">
+                <img src="photos/flatbed-deck.jpg" alt="Flatbed deck" loading="lazy">
+                <div class="gallery-caption">Flatbed — Treated wood deck</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/flatbed-ramps.jpg" alt="Flatbed Trailer with Ramps" loading="lazy">
-                <div class="gallery-caption">Flatbed — Self-cleaning dovetail ramps</div>
+            <div class="gallery-item reveal reveal-delay-1" data-caption="Flatbed — Self-cleaning dovetail ramps">
+                <img src="photos/flatbed-ramps.jpg" alt="Flatbed ramps" loading="lazy">
+                <div class="gallery-caption">Flatbed — Dovetail ramps</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-garage.jpg" alt="Dump Trailer in Storage" loading="lazy">
+            <div class="gallery-item reveal" data-caption="D7 Dump — Stored and maintained">
+                <img src="photos/dump-garage.jpg" alt="Dump garage" loading="lazy">
                 <div class="gallery-caption">D7 Dump — Stored and maintained</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/dump-bed.jpg" alt="Dump Trailer Bed" loading="lazy">
+            <div class="gallery-item reveal" data-caption="Clean flat bed surface">
+                <img src="photos/dump-bed.jpg" alt="Dump bed" loading="lazy">
                 <div class="gallery-caption">Clean flat bed surface</div>
             </div>
-            <div class="gallery-item">
-                <img src="photos/flatbed-toolbox.jpg" alt="Flatbed Trailer Toolbox and Battery" loading="lazy">
-                <div class="gallery-caption">Flatbed — Integrated toolbox & battery</div>
+            <div class="gallery-item reveal" data-caption="Flatbed — Integrated toolbox & battery">
+                <img src="photos/flatbed-toolbox.jpg" alt="Flatbed toolbox" loading="lazy">
+                <div class="gallery-caption">Flatbed — Toolbox & battery</div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">›</button>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
 <!-- How It Works -->
-<section id="how" class="how-section">
+<section id="how">
     <div class="container">
         <div class="section-tag">How It Works</div>
-        <div class="section-title">Book in minutes. Not days.</div>
+        <div class="section-title">Book in <em>minutes.</em> Not days.</div>
         <div class="section-sub">No back-and-forth. Pick your trailer, pick your dates, and we'll have it ready.</div>
 
         <div class="steps-grid">
-            <div class="step-card">
+            <div class="step-card reveal">
                 <div class="step-num">1</div>
                 <h4>Pick Your Trailer</h4>
                 <p>Browse our fleet. See what's available right now — no calling to check.</p>
             </div>
-            <div class="step-card">
+            <div class="step-card reveal reveal-delay-1">
                 <div class="step-num">2</div>
                 <h4>Choose Your Dates</h4>
                 <p>Select daily, weekly, or monthly. Longer rentals get better rates.</p>
             </div>
-            <div class="step-card">
+            <div class="step-card reveal reveal-delay-2">
                 <div class="step-num">3</div>
                 <h4>Pick Up or We Deliver</h4>
                 <p>Grab it from our yard or we'll bring it to your site. Your call.</p>
             </div>
-            <div class="step-card">
+            <div class="step-card reveal reveal-delay-3">
                 <div class="step-num">4</div>
                 <h4>Return When Done</h4>
                 <p>Drop it off or we pick it up. Deposit returned same day.</p>
@@ -430,51 +512,27 @@
 <section id="pricing">
     <div class="container">
         <div class="section-tag">Pricing</div>
-        <div class="section-title">Straightforward rates.</div>
+        <div class="section-title"><em>Straightforward</em> rates.</div>
         <div class="section-sub">No hidden fees. Deposit returned on safe return. Longer rentals = better rates.</div>
 
         <div class="pricing-grid">
-            <div class="price-card">
-                <h3><img src="photos/dump-bed.jpg" alt="Dump" style="width:20px;height:20px;border-radius:3px;object-fit:cover;vertical-align:middle"> PJ D7 Dump Trailer</h3>
+            <div class="price-card reveal">
+                <h3><img src="photos/dump-bed.jpg" alt="Dump"> PJ D7 Dump Trailer</h3>
                 <p class="price-desc">14' × 83" — 14,000 GVWR — Hydraulic lift</p>
-                <div class="price-row">
-                    <span class="pr-label">Daily Rate</span>
-                    <span class="pr-val">$250</span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Weekly Rate</span>
-                    <span class="pr-val">$1,400 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-20%)</span></span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Monthly Rate</span>
-                    <span class="pr-val">$4,500 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-40%)</span></span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Security Deposit</span>
-                    <span class="pr-val">$500</span>
-                </div>
+                <div class="price-row"><span class="pr-label">Daily Rate</span><span class="pr-val">$250</span></div>
+                <div class="price-row"><span class="pr-label">Weekly Rate</span><span class="pr-val">$1,400 <span class="discount">-20%</span></span></div>
+                <div class="price-row"><span class="pr-label">Monthly Rate</span><span class="pr-val">$4,500 <span class="discount">-40%</span></span></div>
+                <div class="price-row"><span class="pr-label">Security Deposit</span><span class="pr-val">$500</span></div>
                 <p class="price-note">Deposit returned on safe return. Damage assessed at pickup/return with photo documentation.</p>
             </div>
 
-            <div class="price-card">
-                <h3><img src="photos/flatbed-toolbox.jpg" alt="Flatbed" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> 24' Flatbed + Winch</h3>
+            <div class="price-card reveal reveal-delay-1">
+                <h3><img src="photos/flatbed-truck-loaded.jpg" alt="Flatbed"> 24' Flatbed + Winch</h3>
                 <p class="price-desc">3× 7K axles — Electric brakes — Treated wood deck</p>
-                <div class="price-row">
-                    <span class="pr-label">Daily Rate</span>
-                    <span class="pr-val">$200</span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Weekly Rate</span>
-                    <span class="pr-val">$1,100 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-22%)</span></span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Monthly Rate</span>
-                    <span class="pr-val">$3,500 <span style="font-size:.78rem;color:var(--green);font-weight:500">(-42%)</span></span>
-                </div>
-                <div class="price-row">
-                    <span class="pr-label">Security Deposit</span>
-                    <span class="pr-val">$500</span>
-                </div>
+                <div class="price-row"><span class="pr-label">Daily Rate</span><span class="pr-val">$200</span></div>
+                <div class="price-row"><span class="pr-label">Weekly Rate</span><span class="pr-val">$1,100 <span class="discount">-22%</span></span></div>
+                <div class="price-row"><span class="pr-label">Monthly Rate</span><span class="pr-val">$3,500 <span class="discount">-42%</span></span></div>
+                <div class="price-row"><span class="pr-label">Security Deposit</span><span class="pr-val">$500</span></div>
                 <p class="price-note">Winch available at no extra charge. Delivery available — call for rate.</p>
             </div>
         </div>
@@ -482,38 +540,38 @@
 </section>
 
 <!-- Why Us -->
-<section class="why-section">
+<section class="why-section" style="background:var(--bg2)">
     <div class="container">
         <div class="section-tag">Why Regulator</div>
-        <div class="section-title">We keep our trailers ready. You keep working.</div>
+        <div class="section-title">We keep our trailers <em>ready.</em><br>You keep working.</div>
 
         <div class="why-grid">
-            <div class="why-card">
+            <div class="why-card reveal">
                 <div class="why-icon">🔧</div>
                 <h4>Maintained Fleet</h4>
                 <p>Every trailer inspected between rentals. Brakes, tires, lights, hydraulics — checked before it goes out.</p>
             </div>
-            <div class="why-card">
+            <div class="why-card reveal reveal-delay-1">
                 <div class="why-icon">❄️</div>
                 <h4>Cold-Weather Rated</h4>
                 <p>Cold-weather wiring harnesses and DOT-compliant LED lights. Built for North Dakota winters.</p>
             </div>
-            <div class="why-card">
+            <div class="why-card reveal reveal-delay-2">
                 <div class="why-icon">📱</div>
                 <h4>Easy Booking</h4>
-                <p>Check availability and book online. No phone tag. We confirm within 24 hours and have it ready when you need it.</p>
+                <p>Check availability and book online. No phone tag. We confirm within 24 hours.</p>
             </div>
-            <div class="why-card">
+            <div class="why-card reveal">
                 <div class="why-icon">🚚</div>
                 <h4>Delivery Available</h4>
                 <p>Can't pick it up? We'll deliver to your job site. Williston Basin and surrounding areas.</p>
             </div>
-            <div class="why-card">
+            <div class="why-card reveal reveal-delay-1">
                 <div class="why-icon">💰</div>
                 <h4>Fair Deposit Policy</h4>
                 <p>$500 deposit, returned same day on safe return. We document everything with photos — no surprises.</p>
             </div>
-            <div class="why-card">
+            <div class="why-card reveal reveal-delay-2">
                 <div class="why-icon">📈</div>
                 <h4>Growing Fleet</h4>
                 <p>More trailers coming. As our fleet grows, so does availability. Long-term renters get priority access.</p>
@@ -525,17 +583,17 @@
 <!-- CTA -->
 <section class="cta-section" id="contact">
     <div class="container">
-        <div class="cta-box">
+        <div class="cta-box reveal">
             <h2>Ready to rent?</h2>
             <p>Check availability for your dates. We'll confirm within 24 hours and have your trailer ready.</p>
             <div class="cta-btns">
-                <a href="tel:+17015551234" class="btn btn-primary">Call Us</a>
-                <a href="mailto:rentals@regulatorlogistics.xyz" class="btn btn-outline">Email Us</a>
-                <a href="https://calendly.com" class="btn btn-white" target="_blank">Book Online</a>
+                <a href="tel:+17015551234" class="btn btn-primary">📞 Call Us</a>
+                <a href="mailto:rentals@regulatorlogistics.xyz" class="btn btn-outline">✉️ Email Us</a>
+                <a href="#" class="btn btn-white">📅 Book Online</a>
             </div>
             <div class="cta-phone">
-                <span>Or call directly:</span><br>
                 (701) 555-1234
+                <span>Or email: rentals@regulatorlogistics.xyz</span>
             </div>
         </div>
     </div>
@@ -551,5 +609,98 @@
     </div>
 </footer>
 
+<script>
+// === SCROLL PROGRESS BAR ===
+window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+// === HIDE/SHOW NAV ON SCROLL ===
+let lastScroll = 0;
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    const curr = window.pageYOffset;
+    if (curr > lastScroll && curr > 80) {
+        nav.classList.add('hidden');
+    } else {
+        nav.classList.remove('hidden');
+    }
+    lastScroll = curr;
+});
+
+// === REVEAL ON SCROLL (IntersectionObserver) ===
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// === ANIMATED COUNTERS ===
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const el = e.target;
+            const target = parseInt(el.dataset.counter);
+            let current = 0;
+            const step = Math.ceil(target / 40);
+            const interval = setInterval(() => {
+                current += step;
+                if (current >= target) { current = target; clearInterval(interval); }
+                el.textContent = current;
+            }, 30);
+            counterObserver.unobserve(el);
+        }
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
+
+// === LIGHTBOX ===
+const galleryItems = document.querySelectorAll('.gallery-item');
+let currentIndex = 0;
+
+galleryItems.forEach((item, i) => {
+    item.addEventListener('click', () => {
+        currentIndex = i;
+        openLightbox();
+    });
+});
+
+function openLightbox() {
+    const item = galleryItems[currentIndex];
+    const img = item.querySelector('img');
+    const caption = item.dataset.caption || '';
+    document.getElementById('lightboxImg').src = img.src;
+    document.getElementById('lightboxCaption').textContent = caption;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function navigateLightbox(dir) {
+    currentIndex = (currentIndex + dir + galleryItems.length) % galleryItems.length;
+    openLightbox();
+}
+
+document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+});
+
+document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeLightbox();
+});
+</script>
 </body>
 </html>
