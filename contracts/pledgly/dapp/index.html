@@ -1,1625 +1,1630 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
-<title>Pledgly — Decentralized Creator Subscriptions</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" integrity="sha384-Htz1SE4Sl5aitpvFgr2j0sfsGUIuSXI6t8hEyrlQ93zflEF3a29bH2AvkUROUw7J" crossorigin="anonymous"></script>
-<style>
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --bg: #0a0a0f;
-  --card: #12121a;
-  --card-hover: #1a1a28;
-  --border: #1e1e2e;
-  --accent: #7c5cfc;
-  --accent-glow: rgba(124,92,252,.25);
-  --accent2: #4ec9b0;
-  --accent3: #ff6b9d;
-  --text: #e4e4ef;
-  --text-dim: #8888a0;
-  --text-bright: #ffffff;
-  --success: #4ec9b0;
-  --error: #ff6b9d;
-  --warn: #f0c040;
-  --radius: 12px;
-  --radius-sm: 8px;
-}
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-/* Aurora Background */
-#auroraBg {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-}
-#auroraBg::before, #auroraBg::after {
-  content:''; position:absolute; border-radius:50%; filter:blur(120px); opacity:.12; animation:auroraFloat 20s ease-in-out infinite alternate;
-}
-#auroraBg::before {
-  width:800px; height:800px; top:-200px; left:-200px;
-  background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
-}
-#auroraBg::after {
-  width:600px; height:600px; bottom:-200px; right:-200px;
-  background:radial-gradient(circle, var(--accent3) 0%, transparent 70%);
-  animation-delay:-10s; animation-direction:alternate-reverse;
-}
-.aurora-orb {
-  position:absolute; border-radius:50%; filter:blur(100px); opacity:.08;
-  animation:auroraFloat 25s ease-in-out infinite alternate;
-}
-.aurora-orb:nth-child(1) { width:500px; height:500px; top:40%; left:50%; background:var(--accent2); animation-delay:-5s; }
-.aurora-orb:nth-child(2) { width:400px; height:400px; top:10%; right:10%; background:var(--accent); opacity:.06; animation-delay:-15s; }
-@keyframes auroraFloat {
-  0% { transform: translate(0,0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.05); }
-  66% { transform: translate(-20px, 30px) scale(.95); }
-  100% { transform: translate(10px, -10px) scale(1.02); }
-}
-/* Layout */
-.app { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; }
-/* Navbar */
-.navbar {
-  position:sticky; top:0; z-index:100;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:12px 20px; max-width:1200px; margin:0 auto; width:100%;
-  background:rgba(10,10,15,.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
-  transition: padding .3s ease;
-}
-.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
-.nav-logo svg { width:32px; height:32px; transition: transform .3s ease; }
-.nav-logo:hover svg { transform: rotate(-5deg) scale(1.05); }
-.nav-logo span { font-weight:700; font-size:1.2rem; color:var(--text-bright); }
-.nav-tabs { display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
-.nav-tabs::-webkit-scrollbar { display:none; }
-.nav-tab {
-  background:none; border:none; color:var(--text-dim); padding:8px 14px;
-  border-radius:var(--radius-sm); cursor:pointer; font:inherit; font-size:.85rem; font-weight:500;
-  white-space:nowrap; transition:all .25s ease;
-}
-.nav-tab:hover { color:var(--text); background:rgba(124,92,252,.08); }
-.nav-tab.active { color:var(--accent); background:rgba(124,92,252,.12); }
-.wallet-area {
-  display:flex; align-items:center; gap:8px; flex-shrink:0;
-}
-.wallet-btn {
-  background:linear-gradient(135deg, var(--accent), #6044e0); color:#fff;
-  border:none; padding:8px 18px; border-radius:var(--radius-sm); cursor:pointer;
-  font:inherit; font-size:.85rem; font-weight:600; white-space:nowrap;
-  transition:all .25s ease; flex-shrink:0;
-}
-.wallet-btn:hover { transform:translateY(-1px); box-shadow:0 4px 20px var(--accent-glow); }
-.wallet-btn:active { transform:translateY(0); }
-.wallet-btn.connected {
-  background:rgba(78,201,176,.1); color:var(--accent2);
-  border:1px solid rgba(78,201,176,.3); padding:7px 14px;
-}
-.wallet-btn .spinner {
-  width:14px; height:14px; border-width:2px;
-  border-color:rgba(255,255,255,.3); border-top-color:#fff;
-  display:inline-block; vertical-align:middle; margin-right:6px;
-}
-.copy-addr-btn {
-  background:rgba(255,255,255,.06); border:1px solid var(--border);
-  color:var(--text-dim); width:32px; height:32px; border-radius:var(--radius-sm);
-  cursor:pointer; display:none; align-items:center; justify-content:center;
-  transition:all .25s ease; font-size:.85rem; flex-shrink:0;
-}
-.copy-addr-btn:hover { background:rgba(255,255,255,.12); color:var(--text); border-color:var(--text-dim); }
-.copy-addr-btn.visible { display:inline-flex; }
-.copy-addr-btn.copied { color:var(--accent2); border-color:var(--accent2); }
-/* Main Content */
-.main { flex:1; max-width:1200px; margin:0 auto; width:100%; padding:24px 20px 60px; }
-.page { display:none; }
-.page.active { display:block; animation:fadeIn .35s ease; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
-/* Page Header */
-.page-header { margin-bottom:28px; }
-.page-header h1 { font-size:1.8rem; font-weight:800; color:var(--text-bright); margin-bottom:6px; }
-.page-header p { color:var(--text-dim); font-size:.95rem; }
-/* Cards Grid */
-.card-grid {
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;
-}
-.card {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:20px; cursor:pointer; transition:all .3s ease; position:relative; overflow:hidden;
-}
-.card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,.35), 0 0 0 1px var(--accent-glow); }
-.card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-  opacity:0; transition:opacity .3s ease;
-}
-.card:hover::before { opacity:1; }
-/* Creator Card */
-.creator-avatar {
-  width:56px; height:56px; border-radius:50%; overflow:hidden;
-  background:linear-gradient(135deg, var(--accent), var(--accent3));
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:1.2rem; color:#fff; flex-shrink:0;
-  border:2px solid var(--border); transition: border-color .3s ease;
-}
-.card:hover .creator-avatar { border-color:var(--accent); }
-.creator-avatar img { width:100%; height:100%; object-fit:cover; }
-.creator-card-header { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
-.creator-card-header h3 { font-size:1.05rem; font-weight:600; color:var(--text-bright); }
-.creator-card-header .sub-count { font-size:.8rem; color:var(--text-dim); }
-.creator-bio { color:var(--text-dim); font-size:.85rem; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.tier-pills { display:flex; gap:6px; flex-wrap:wrap; }
-.tier-pill {
-  background:rgba(124,92,252,.1); border:1px solid rgba(124,92,252,.2);
-  padding:4px 10px; border-radius:20px; font-size:.75rem; color:var(--accent); font-weight:500;
-  transition: all .25s ease;
-}
-/* Buttons */
-.btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:10px 20px; border-radius:var(--radius-sm); border:none;
-  font:inherit; font-size:.9rem; font-weight:600; cursor:pointer;
-  transition:all .25s ease; text-decoration:none; position:relative; overflow:hidden;
-}
-.btn:active:not(:disabled) { transform:scale(.97); }
-.btn:disabled { opacity:.5; cursor:not-allowed; }
-.btn .spinner {
-  width:14px; height:14px; border-width:2px;
-  border-color:rgba(255,255,255,.3); border-top-color:#fff;
-  display:inline-block; vertical-align:middle;
-}
-.btn-primary { background:linear-gradient(135deg, var(--accent), #6044e0); color:#fff; }
-.btn-primary:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 4px 20px var(--accent-glow); }
-.btn-secondary { background:rgba(255,255,255,.06); color:var(--text); border:1px solid var(--border); }
-.btn-secondary:hover:not(:disabled) { background:rgba(255,255,255,.1); border-color:var(--text-dim); }
-.btn-success { background:rgba(78,201,176,.15); color:var(--accent2); border:1px solid rgba(78,201,176,.3); }
-.btn-success:hover:not(:disabled) { background:rgba(78,201,176,.25); }
-.btn-danger { background:rgba(255,107,157,.1); color:var(--accent3); border:1px solid rgba(255,107,157,.2); }
-.btn-danger:hover:not(:disabled) { background:rgba(255,107,157,.2); }
-.btn-sm { padding:6px 14px; font-size:.8rem; }
-.btn-block { width:100%; }
-/* Form */
-.form-group { margin-bottom:16px; }
-.form-group label { display:block; margin-bottom:6px; font-size:.85rem; font-weight:500; color:var(--text); }
-.form-input, .form-textarea, .form-select {
-  width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:10px 14px; color:var(--text);
-  font:inherit; font-size:.9rem; transition:all .25s ease; outline:none;
-}
-.form-input:focus, .form-textarea:focus, .form-select:focus {
-  border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow);
-}
-.form-textarea { resize:vertical; min-height:80px; }
-.form-select option { background:var(--card); }
-/* Modal */
-.modal-overlay {
-  position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.7); backdrop-filter:blur(8px);
-  display:none; align-items:flex-start; justify-content:center; padding:20px; overflow-y:auto;
-}
-.modal-overlay.open { display:flex; animation: overlayIn .3s ease; }
-@keyframes overlayIn { from{opacity:0} to{opacity:1} }
-.modal {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  width:100%; max-width:640px; margin:40px auto; animation:modalIn .35s ease;
-  position:relative;
-}
-@keyframes modalIn { from{opacity:0;transform:translateY(24px) scale(.96)} to{opacity:1;transform:none} }
-.modal-header {
-  display:flex; align-items:center; justify-content:space-between; padding:20px 24px;
-  border-bottom:1px solid var(--border);
-}
-.modal-header h2 { font-size:1.2rem; font-weight:700; color:var(--text-bright); }
-.modal-close {
-  background:none; border:none; color:var(--text-dim); font-size:1.5rem;
-  cursor:pointer; padding:4px; line-height:1; transition:all .25s ease;
-  border-radius:4px;
-}
-.modal-close:hover { color:var(--text-bright); background:rgba(255,255,255,.06); }
-.modal-body { padding:24px; }
-/* Profile Modal */
-.profile-banner {
-  height:120px; background:linear-gradient(135deg, var(--accent), var(--accent3), var(--accent2));
-  border-radius:var(--radius) var(--radius) 0 0; position:relative;
-}
-.profile-avatar {
-  width:80px; height:80px; border-radius:50%; border:4px solid var(--card);
-  background:var(--card); position:absolute; bottom:-40px; left:24px;
-  display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg, var(--accent), var(--accent3));
-  font-weight:700; font-size:1.5rem; color:#fff; overflow:hidden;
-}
-.profile-avatar img { width:100%; height:100%; object-fit:cover; }
-.profile-info { padding:52px 24px 16px; }
-.profile-info h2 { font-size:1.4rem; font-weight:700; color:var(--text-bright); margin-bottom:4px; }
-.profile-stats { display:flex; gap:20px; margin-top:8px; }
-.profile-stat { font-size:.85rem; color:var(--text-dim); }
-.profile-stat strong { color:var(--text-bright); }
-.tier-card {
-  background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:var(--radius-sm);
-  padding:16px; margin-bottom:10px; transition:all .25s ease;
-}
-.tier-card:hover { border-color:rgba(124,92,252,.3); transform:translateX(2px); }
-.tier-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-.tier-card-header h4 { font-weight:600; color:var(--text-bright); }
-.tier-price { font-weight:700; color:var(--accent); font-size:1.1rem; }
-.tier-desc { font-size:.85rem; color:var(--text-dim); margin-bottom:10px; }
-/* Content Cards */
-.content-card {
-  background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:var(--radius-sm);
-  padding:16px; margin-bottom:10px; transition:all .25s ease;
-}
-.content-card:hover { border-color:rgba(124,92,252,.2); }
-.content-card.locked { opacity:.7; }
-.content-card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-.content-card-header h4 { font-weight:600; color:var(--text-bright); flex:1; }
-.lock-icon { color:var(--warn); font-size:1.1rem; }
-.unlock-icon { color:var(--success); font-size:1.1rem; }
-.content-meta { font-size:.8rem; color:var(--text-dim); }
-.content-body { font-size:.9rem; color:var(--text); margin-top:8px; padding:12px; background:rgba(255,255,255,.02); border-radius:var(--radius-sm); }
-.content-body a { color:var(--accent); text-decoration:none; transition: color .2s; }
-.content-body a:hover { text-decoration:underline; color:var(--accent2); }
-/* Subscription Cards */
-.sub-card {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:20px; margin-bottom:12px; transition:all .25s ease;
-}
-.sub-card:hover { border-color:rgba(124,92,252,.25); }
-.sub-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.sub-badge {
-  display:inline-flex; align-items:center; gap:6px;
-  padding:4px 12px; border-radius:20px; font-size:.8rem; font-weight:600;
-  transition: all .25s ease;
-}
-.sub-badge.active { background:rgba(78,201,176,.12); color:var(--accent2); }
-.sub-badge.expired { background:rgba(255,107,157,.1); color:var(--accent3); }
-.sub-detail { display:flex; justify-content:space-between; align-items:center; padding:6px 0; font-size:.85rem; }
-.sub-detail .label { color:var(--text-dim); }
-.sub-detail .value { color:var(--text-bright); font-weight:500; }
-.sub-actions { display:flex; gap:8px; margin-top:14px; }
-/* Dashboard Stats */
-.stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:24px; }
-.stat-card {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:18px; text-align:center; transition:all .25s ease;
-}
-.stat-card:hover { border-color:var(--accent); transform:translateY(-2px); }
-.stat-value { font-size:1.6rem; font-weight:800; color:var(--text-bright); }
-.stat-label { font-size:.8rem; color:var(--text-dim); margin-top:4px; }
-/* Faucet */
-.faucet-card {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:32px; text-align:center; max-width:500px; margin:0 auto;
-  transition: border-color .3s ease;
-}
-.faucet-card:hover { border-color:rgba(124,92,252,.25); }
-.faucet-card h3 { font-size:1.2rem; color:var(--text-bright); margin-bottom:8px; }
-.faucet-card p { color:var(--text-dim); font-size:.9rem; margin-bottom:20px; }
-.usdc-amount { font-size:2rem; font-weight:800; color:var(--accent2); margin:16px 0; }
-/* Toast */
-.toast-container {
-  position:fixed; top:80px; right:20px; z-index:300;
-  display:flex; flex-direction:column; gap:10px; max-width:400px;
-  pointer-events:none;
-}
-.toast {
-  padding:14px 18px; border-radius:var(--radius-sm);
-  font-size:.85rem; font-weight:500; animation:toastIn .35s ease;
-  display:flex; align-items:flex-start; gap:12px; line-height:1.5;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
-  pointer-events:all; position:relative; overflow:hidden;
-}
-.toast::before {
-  content:''; position:absolute; bottom:0; left:0; height:3px;
-  background:currentColor; opacity:.4;
-  animation:toastProgress 8s linear forwards;
-}
-@keyframes toastProgress { from{width:100%} to{width:0%} }
-@keyframes toastIn { from{opacity:0;transform:translateX(30px) scale(.95)} to{opacity:1;transform:none} }
-@keyframes toastOut { from{opacity:1;transform:none} to{opacity:0;transform:translateX(30px) scale(.95)} }
-.toast.success { background:rgba(14,40,35,.97); border:1px solid rgba(78,201,176,.35); color:var(--accent2); }
-.toast.error { background:rgba(40,14,24,.97); border:1px solid rgba(255,107,157,.35); color:var(--accent3); }
-.toast.info { background:rgba(20,20,45,.97); border:1px solid rgba(124,92,252,.35); color:var(--accent); }
-.toast-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
-.toast-body { flex:1; }
-.toast-close {
-  background:none; border:none; color:inherit; cursor:pointer;
-  font-size:1.1rem; opacity:.6; padding:0 0 0 8px; flex-shrink:0;
-  transition: opacity .2s;
-}
-.toast-close:hover { opacity:1; }
-/* Spinner */
-.spinner { display:inline-block; width:18px; height:18px; border:2.5px solid rgba(255,255,255,.15); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
-.spinner-lg { width:36px; height:36px; border-width:3px; }
-@keyframes spin { to{transform:rotate(360deg)} }
-.loading-overlay {
-  position:fixed; inset:0; z-index:250; background:rgba(10,10,15,.85); backdrop-filter:blur(6px);
-  display:none; align-items:center; justify-content:center; flex-direction:column; gap:20px;
-  transition: opacity .3s ease;
-}
-.loading-overlay.active { display:flex; animation: overlayIn .3s ease; }
-.loading-overlay p { color:var(--text); font-size:.95rem; font-weight:500; }
-.loading-ring {
-  width:52px; height:52px; position:relative;
-}
-.loading-ring::before, .loading-ring::after {
-  content:''; position:absolute; inset:0; border-radius:50%;
-  border:3px solid transparent;
-}
-.loading-ring::before {
-  border-top-color:var(--accent); animation:spin .8s linear infinite;
-}
-.loading-ring::after {
-  border-bottom-color:var(--accent2); animation:spin 1.2s linear infinite reverse;
-  inset:6px;
-}
-/* Empty State */
-.empty-state { text-align:center; padding:60px 20px; color:var(--text-dim); }
-.empty-state .icon { font-size:3rem; margin-bottom:16px; }
-.empty-state h3 { color:var(--text); font-size:1.1rem; margin-bottom:8px; }
-.empty-state p { font-size:.9rem; max-width:360px; margin:0 auto 20px; }
-/* Section Title */
-.section-title { font-size:1.1rem; font-weight:700; color:var(--text-bright); margin:24px 0 14px; }
-/* MetaMask Error Modal */
-.metamask-error {
-  position:fixed; inset:0; z-index:260; background:rgba(10,10,15,.92); backdrop-filter:blur(10px);
-  display:none; align-items:center; justify-content:center; padding:20px;
-}
-.metamask-error.active { display:flex; animation: overlayIn .3s ease; }
-.metamask-error-card {
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:36px 32px; max-width:440px; width:100%; text-align:center;
-  animation: modalIn .35s ease;
-}
-.metamask-error-card .icon { font-size:3rem; margin-bottom:16px; }
-.metamask-error-card h2 { color:var(--text-bright); font-size:1.3rem; font-weight:700; margin-bottom:10px; }
-.metamask-error-card p { color:var(--text-dim); font-size:.9rem; margin-bottom:24px; line-height:1.6; }
-.metamask-error-card .install-links { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
-.metamask-error-card .install-link {
-  display:flex; align-items:center; gap:12px; padding:12px 16px;
-  background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius-sm);
-  color:var(--text); text-decoration:none; font-size:.9rem; font-weight:500;
-  transition: all .25s ease;
-}
-.metamask-error-card .install-link:hover {
-  background:rgba(124,92,252,.08); border-color:var(--accent); transform:translateY(-1px);
-}
-.metamask-error-card .install-link .link-icon { font-size:1.3rem; }
-.metamask-error-card .dismiss-btn {
-  background:none; border:1px solid var(--border); color:var(--text-dim);
-  padding:8px 20px; border-radius:var(--radius-sm); cursor:pointer;
-  font:inherit; font-size:.85rem; transition: all .25s ease;
-}
-.metamask-error-card .dismiss-btn:hover { border-color:var(--text-dim); color:var(--text); }
-/* Footer */
-.site-footer {
-  position:relative; z-index:1; text-align:center; padding:24px 20px 32px;
-  border-top:1px solid var(--border);
-  background:rgba(10,10,15,.6); backdrop-filter:blur(10px);
-}
-.footer-link {
-  display:inline-flex; align-items:center; gap:8px;
-  color:var(--text-dim); text-decoration:none; font-size:.8rem; font-weight:500;
-  transition: all .25s ease; padding:6px 14px; border-radius:20px;
-  background:rgba(255,255,255,.03); border:1px solid var(--border);
-}
-.footer-link:hover { color:var(--accent); border-color:rgba(124,92,252,.3); background:rgba(124,92,252,.06); transform:translateY(-1px); }
-.footer-link svg { width:14px; height:14px; }
-/* Responsive — 640px */
-@media (max-width:640px) {
-  .navbar { padding:10px 14px; flex-wrap:wrap; }
-  .nav-tabs { order:3; width:100%; padding-top:8px; border-top:1px solid var(--border); margin-top:4px; }
-  .wallet-area { order:2; }
-  .main { padding:16px 14px 40px; }
-  .page-header h1 { font-size:1.4rem; }
-  .card-grid { grid-template-columns:1fr; }
-  .stats-grid { grid-template-columns:1fr 1fr; }
-  .modal { margin:10px auto; }
-  .profile-banner { height:80px; }
-  .sub-card-header { flex-direction:column; align-items:flex-start; gap:8px; }
-  .toast-container { right:10px; left:10px; max-width:none; }
-  .toast { font-size:.8rem; padding:12px 14px; }
-}
-/* Responsive — 375px (iPhone SE) */
-@media (max-width:375px) {
-  .navbar { padding:8px 10px; gap:8px; }
-  .nav-logo span { font-size:1rem; }
-  .nav-logo svg { width:26px; height:26px; }
-  .nav-tab { padding:6px 10px; font-size:.78rem; }
-  .wallet-btn { padding:7px 12px; font-size:.78rem; }
-  .copy-addr-btn { width:28px; height:28px; font-size:.75rem; }
-  .main { padding:12px 10px 32px; }
-  .page-header { margin-bottom:20px; }
-  .page-header h1 { font-size:1.2rem; }
-  .page-header p { font-size:.85rem; }
-  .card { padding:14px; }
-  .creator-avatar { width:44px; height:44px; font-size:1rem; }
-  .creator-card-header { gap:10px; }
-  .creator-card-header h3 { font-size:.95rem; }
-  .creator-bio { font-size:.8rem; }
-  .tier-pill { font-size:.7rem; padding:3px 8px; }
-  .btn { padding:8px 14px; font-size:.82rem; }
-  .btn-sm { padding:5px 10px; font-size:.75rem; }
-  .stats-grid { grid-template-columns:1fr 1fr; gap:8px; }
-  .stat-card { padding:12px; }
-  .stat-value { font-size:1.3rem; }
-  .stat-label { font-size:.72rem; }
-  .section-title { font-size:1rem; margin:18px 0 10px; }
-  .form-group label { font-size:.8rem; }
-  .form-input, .form-textarea, .form-select { padding:8px 12px; font-size:.85rem; }
-  .modal { margin:6px auto; border-radius:10px; }
-  .modal-body { padding:16px; }
-  .profile-banner { height:60px; }
-  .profile-avatar { width:60px; height:60px; bottom:-30px; }
-  .profile-info { padding:40px 16px 12px; }
-  .profile-info h2 { font-size:1.15rem; }
-  .profile-stats { gap:14px; }
-  .profile-stat { font-size:.78rem; }
-  .tier-card { padding:12px; }
-  .tier-card-header { flex-wrap:wrap; gap:6px; }
-  .sub-card { padding:14px; }
-  .sub-card-header { flex-direction:column; align-items:flex-start; gap:6px; }
-  .sub-actions { flex-wrap:wrap; }
-  .content-card { padding:12px; }
-  .faucet-card { padding:20px 16px; }
-  .faucet-card h3 { font-size:1.05rem; }
-  .site-footer { padding:16px 10px 24px; }
-  .footer-link { font-size:.72rem; padding:5px 12px; }
-  .metamask-error-card { padding:24px 20px; }
-  .metamask-error-card h2 { font-size:1.1rem; }
-  .metamask-error-card p { font-size:.82rem; }
-  .metamask-error-card .install-link { padding:10px 12px; font-size:.82rem; }
-}
-/* Scrollbar */
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
-::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
-/* Tabs within pages */
-.inner-tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:4px; flex-wrap:wrap; }
-.inner-tab {
-  background:none; border:none; color:var(--text-dim); padding:8px 14px;
-  cursor:pointer; font:inherit; font-size:.85rem; font-weight:500;
-  border-bottom:2px solid transparent; transition:all .25s ease; margin-bottom:-5px;
-}
-.inner-tab:hover { color:var(--text); }
-.inner-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-.inner-page { display:none; }
-.inner-page.active { display:block; animation: fadeIn .3s ease; }
-/* Tier inline */
-.tiers-inline { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-.tag {
-  display:inline-flex; align-items:center; gap:4px;
-  padding:3px 10px; border-radius:16px; font-size:.75rem; font-weight:500;
-  transition: all .25s ease;
-}
-.tag-accent { background:rgba(124,92,252,.1); color:var(--accent); }
-.tag-accent2 { background:rgba(78,201,176,.1); color:var(--accent2); }
-.tag-accent3 { background:rgba(255,107,157,.1); color:var(--accent3); }
-</style>
-<meta property="og:title" content="Pledgly — Decentralized Creator Subscriptions">
-<meta property="og:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
-<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-<meta property="og:url" content="https://pledgly.vercel.app">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pledgly — Decentralized Creator Subscriptions">
-<meta name="twitter:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
-<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>">
-  <!-- Vercel Web Analytics -->
-  <script defer src="https://va.vercel-scripts.com/v1/script.debug.js"></script>
-  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+1|<!DOCTYPE html>
+2|<html lang="en">
+3|<head>
+4|<meta charset="UTF-8">
+5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
+6|<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://polygon-bor-rpc.publicnode.com https://rpc-mainnet.maticvigil.com https://va.vercel-scripts.com wss://polygon-bor-rpc.publicnode.com; img-src 'self' data: https:;">
+7|<title>Pledgly — Decentralized Creator Subscriptions</title>
+8|<link rel="preconnect" href="https://fonts.googleapis.com">
+9|<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+10|<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" integrity="sha384-Htz1SE4Sl5aitpvFgr2j0sfsGUIuSXI6t8hEyrlQ93zflEF3a29bH2AvkUROUw7J" crossorigin="anonymous"></script>
+11|<style>
+12|*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+13|:root {
+14|  --bg: #0a0a0f;
+15|  --card: #12121a;
+16|  --card-hover: #1a1a28;
+17|  --border: #1e1e2e;
+18|  --accent: #7c5cfc;
+19|  --accent-glow: rgba(124,92,252,.25);
+20|  --accent2: #4ec9b0;
+21|  --accent3: #ff6b9d;
+22|  --text: #e4e4ef;
+23|  --text-dim: #8888a0;
+24|  --text-bright: #ffffff;
+25|  --success: #4ec9b0;
+26|  --error: #ff6b9d;
+27|  --warn: #f0c040;
+28|  --radius: 12px;
+29|  --radius-sm: 8px;
+30|}
+31|html { scroll-behavior: smooth; }
+32|body {
+33|  font-family: 'Inter', -apple-system, sans-serif;
+34|  background: var(--bg);
+35|  color: var(--text);
+36|  min-height: 100vh;
+37|  overflow-x: hidden;
+38|  line-height: 1.6;
+39|}
+40|/* Aurora Background */
+41|#auroraBg {
+42|  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+43|}
+44|#auroraBg::before, #auroraBg::after {
+45|  content:''; position:absolute; border-radius:50%; filter:blur(120px); opacity:.12; animation:auroraFloat 20s ease-in-out infinite alternate;
+46|}
+47|#auroraBg::before {
+48|  width:800px; height:800px; top:-200px; left:-200px;
+49|  background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+50|}
+51|#auroraBg::after {
+52|  width:600px; height:600px; bottom:-200px; right:-200px;
+53|  background:radial-gradient(circle, var(--accent3) 0%, transparent 70%);
+54|  animation-delay:-10s; animation-direction:alternate-reverse;
+55|}
+56|.aurora-orb {
+57|  position:absolute; border-radius:50%; filter:blur(100px); opacity:.08;
+58|  animation:auroraFloat 25s ease-in-out infinite alternate;
+59|}
+60|.aurora-orb:nth-child(1) { width:500px; height:500px; top:40%; left:50%; background:var(--accent2); animation-delay:-5s; }
+61|.aurora-orb:nth-child(2) { width:400px; height:400px; top:10%; right:10%; background:var(--accent); opacity:.06; animation-delay:-15s; }
+62|@keyframes auroraFloat {
+63|  0% { transform: translate(0,0) scale(1); }
+64|  33% { transform: translate(30px, -20px) scale(1.05); }
+65|  66% { transform: translate(-20px, 30px) scale(.95); }
+66|  100% { transform: translate(10px, -10px) scale(1.02); }
+67|}
+68|/* Layout */
+69|.app { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; }
+70|/* Navbar */
+71|.navbar {
+72|  position:sticky; top:0; z-index:100;
+73|  display:flex; align-items:center; justify-content:space-between; gap:12px;
+74|  padding:12px 20px; max-width:1200px; margin:0 auto; width:100%;
+75|  background:rgba(10,10,15,.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+76|  transition: padding .3s ease;
+77|}
+78|.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+79|.nav-logo svg { width:32px; height:32px; transition: transform .3s ease; }
+80|.nav-logo:hover svg { transform: rotate(-5deg) scale(1.05); }
+81|.nav-logo span { font-weight:700; font-size:1.2rem; color:var(--text-bright); }
+82|.nav-tabs { display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+83|.nav-tabs::-webkit-scrollbar { display:none; }
+84|.nav-tab {
+85|  background:none; border:none; color:var(--text-dim); padding:8px 14px;
+86|  border-radius:var(--radius-sm); cursor:pointer; font:inherit; font-size:.85rem; font-weight:500;
+87|  white-space:nowrap; transition:all .25s ease;
+88|}
+89|.nav-tab:hover { color:var(--text); background:rgba(124,92,252,.08); }
+90|.nav-tab.active { color:var(--accent); background:rgba(124,92,252,.12); }
+91|.wallet-area {
+92|  display:flex; align-items:center; gap:8px; flex-shrink:0;
+93|}
+94|.wallet-btn {
+95|  background:linear-gradient(135deg, var(--accent), #6044e0); color:#fff;
+96|  border:none; padding:8px 18px; border-radius:var(--radius-sm); cursor:pointer;
+97|  font:inherit; font-size:.85rem; font-weight:600; white-space:nowrap;
+98|  transition:all .25s ease; flex-shrink:0;
+99|}
+100|.wallet-btn:hover { transform:translateY(-1px); box-shadow:0 4px 20px var(--accent-glow); }
+101|.wallet-btn:active { transform:translateY(0); }
+102|.wallet-btn.connected {
+103|  background:rgba(78,201,176,.1); color:var(--accent2);
+104|  border:1px solid rgba(78,201,176,.3); padding:7px 14px;
+105|}
+106|.wallet-btn .spinner {
+107|  width:14px; height:14px; border-width:2px;
+108|  border-color:rgba(255,255,255,.3); border-top-color:#fff;
+109|  display:inline-block; vertical-align:middle; margin-right:6px;
+110|}
+111|.copy-addr-btn {
+112|  background:rgba(255,255,255,.06); border:1px solid var(--border);
+113|  color:var(--text-dim); width:32px; height:32px; border-radius:var(--radius-sm);
+114|  cursor:pointer; display:none; align-items:center; justify-content:center;
+115|  transition:all .25s ease; font-size:.85rem; flex-shrink:0;
+116|}
+117|.copy-addr-btn:hover { background:rgba(255,255,255,.12); color:var(--text); border-color:var(--text-dim); }
+118|.copy-addr-btn.visible { display:inline-flex; }
+119|.copy-addr-btn.copied { color:var(--accent2); border-color:var(--accent2); }
+120|/* Main Content */
+121|.main { flex:1; max-width:1200px; margin:0 auto; width:100%; padding:24px 20px 60px; }
+122|.page { display:none; }
+123|.page.active { display:block; animation:fadeIn .35s ease; }
+124|@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+125|/* Page Header */
+126|.page-header { margin-bottom:28px; }
+127|.page-header h1 { font-size:1.8rem; font-weight:800; color:var(--text-bright); margin-bottom:6px; }
+128|.page-header p { color:var(--text-dim); font-size:.95rem; }
+129|/* Cards Grid */
+130|.card-grid {
+131|  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;
+132|}
+133|.card {
+134|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+135|  padding:20px; cursor:pointer; transition:all .3s ease; position:relative; overflow:hidden;
+136|}
+137|.card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,.35), 0 0 0 1px var(--accent-glow); }
+138|.card::before {
+139|  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+140|  background:linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+141|  opacity:0; transition:opacity .3s ease;
+142|}
+143|.card:hover::before { opacity:1; }
+144|/* Creator Card */
+145|.creator-avatar {
+146|  width:56px; height:56px; border-radius:50%; overflow:hidden;
+147|  background:linear-gradient(135deg, var(--accent), var(--accent3));
+148|  display:flex; align-items:center; justify-content:center;
+149|  font-weight:700; font-size:1.2rem; color:#fff; flex-shrink:0;
+150|  border:2px solid var(--border); transition: border-color .3s ease;
+151|}
+152|.card:hover .creator-avatar { border-color:var(--accent); }
+153|.creator-avatar img { width:100%; height:100%; object-fit:cover; }
+154|.creator-card-header { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+155|.creator-card-header h3 { font-size:1.05rem; font-weight:600; color:var(--text-bright); }
+156|.creator-card-header .sub-count { font-size:.8rem; color:var(--text-dim); }
+157|.creator-bio { color:var(--text-dim); font-size:.85rem; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+158|.tier-pills { display:flex; gap:6px; flex-wrap:wrap; }
+159|.tier-pill {
+160|  background:rgba(124,92,252,.1); border:1px solid rgba(124,92,252,.2);
+161|  padding:4px 10px; border-radius:20px; font-size:.75rem; color:var(--accent); font-weight:500;
+162|  transition: all .25s ease;
+163|}
+164|/* Buttons */
+165|.btn {
+166|  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+167|  padding:10px 20px; border-radius:var(--radius-sm); border:none;
+168|  font:inherit; font-size:.9rem; font-weight:600; cursor:pointer;
+169|  transition:all .25s ease; text-decoration:none; position:relative; overflow:hidden;
+170|}
+171|.btn:active:not(:disabled) { transform:scale(.97); }
+172|.btn:disabled { opacity:.5; cursor:not-allowed; }
+173|.btn .spinner {
+174|  width:14px; height:14px; border-width:2px;
+175|  border-color:rgba(255,255,255,.3); border-top-color:#fff;
+176|  display:inline-block; vertical-align:middle;
+177|}
+178|.btn-primary { background:linear-gradient(135deg, var(--accent), #6044e0); color:#fff; }
+179|.btn-primary:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 4px 20px var(--accent-glow); }
+180|.btn-secondary { background:rgba(255,255,255,.06); color:var(--text); border:1px solid var(--border); }
+181|.btn-secondary:hover:not(:disabled) { background:rgba(255,255,255,.1); border-color:var(--text-dim); }
+182|.btn-success { background:rgba(78,201,176,.15); color:var(--accent2); border:1px solid rgba(78,201,176,.3); }
+183|.btn-success:hover:not(:disabled) { background:rgba(78,201,176,.25); }
+184|.btn-danger { background:rgba(255,107,157,.1); color:var(--accent3); border:1px solid rgba(255,107,157,.2); }
+185|.btn-danger:hover:not(:disabled) { background:rgba(255,107,157,.2); }
+186|.btn-sm { padding:6px 14px; font-size:.8rem; }
+187|.btn-block { width:100%; }
+188|/* Form */
+189|.form-group { margin-bottom:16px; }
+190|.form-group label { display:block; margin-bottom:6px; font-size:.85rem; font-weight:500; color:var(--text); }
+191|.form-input, .form-textarea, .form-select {
+192|  width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border);
+193|  border-radius:var(--radius-sm); padding:10px 14px; color:var(--text);
+194|  font:inherit; font-size:.9rem; transition:all .25s ease; outline:none;
+195|}
+196|.form-input:focus, .form-textarea:focus, .form-select:focus {
+197|  border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow);
+198|}
+199|.form-textarea { resize:vertical; min-height:80px; }
+200|.form-select option { background:var(--card); }
+201|/* Modal */
+202|.modal-overlay {
+203|  position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.7); backdrop-filter:blur(8px);
+204|  display:none; align-items:flex-start; justify-content:center; padding:20px; overflow-y:auto;
+205|}
+206|.modal-overlay.open { display:flex; animation: overlayIn .3s ease; }
+207|@keyframes overlayIn { from{opacity:0} to{opacity:1} }
+208|.modal {
+209|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+210|  width:100%; max-width:640px; margin:40px auto; animation:modalIn .35s ease;
+211|  position:relative;
+212|}
+213|@keyframes modalIn { from{opacity:0;transform:translateY(24px) scale(.96)} to{opacity:1;transform:none} }
+214|.modal-header {
+215|  display:flex; align-items:center; justify-content:space-between; padding:20px 24px;
+216|  border-bottom:1px solid var(--border);
+217|}
+218|.modal-header h2 { font-size:1.2rem; font-weight:700; color:var(--text-bright); }
+219|.modal-close {
+220|  background:none; border:none; color:var(--text-dim); font-size:1.5rem;
+221|  cursor:pointer; padding:4px; line-height:1; transition:all .25s ease;
+222|  border-radius:4px;
+223|}
+224|.modal-close:hover { color:var(--text-bright); background:rgba(255,255,255,.06); }
+225|.modal-body { padding:24px; }
+226|/* Profile Modal */
+227|.profile-banner {
+228|  height:120px; background:linear-gradient(135deg, var(--accent), var(--accent3), var(--accent2));
+229|  border-radius:var(--radius) var(--radius) 0 0; position:relative;
+230|}
+231|.profile-avatar {
+232|  width:80px; height:80px; border-radius:50%; border:4px solid var(--card);
+233|  background:var(--card); position:absolute; bottom:-40px; left:24px;
+234|  display:flex; align-items:center; justify-content:center;
+235|  background:linear-gradient(135deg, var(--accent), var(--accent3));
+236|  font-weight:700; font-size:1.5rem; color:#fff; overflow:hidden;
+237|}
+238|.profile-avatar img { width:100%; height:100%; object-fit:cover; }
+239|.profile-info { padding:52px 24px 16px; }
+240|.profile-info h2 { font-size:1.4rem; font-weight:700; color:var(--text-bright); margin-bottom:4px; }
+241|.profile-stats { display:flex; gap:20px; margin-top:8px; }
+242|.profile-stat { font-size:.85rem; color:var(--text-dim); }
+243|.profile-stat strong { color:var(--text-bright); }
+244|.tier-card {
+245|  background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:var(--radius-sm);
+246|  padding:16px; margin-bottom:10px; transition:all .25s ease;
+247|}
+248|.tier-card:hover { border-color:rgba(124,92,252,.3); transform:translateX(2px); }
+249|.tier-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+250|.tier-card-header h4 { font-weight:600; color:var(--text-bright); }
+251|.tier-price { font-weight:700; color:var(--accent); font-size:1.1rem; }
+252|.tier-desc { font-size:.85rem; color:var(--text-dim); margin-bottom:10px; }
+253|/* Content Cards */
+254|.content-card {
+255|  background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:var(--radius-sm);
+256|  padding:16px; margin-bottom:10px; transition:all .25s ease;
+257|}
+258|.content-card:hover { border-color:rgba(124,92,252,.2); }
+259|.content-card.locked { opacity:.7; }
+260|.content-card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+261|.content-card-header h4 { font-weight:600; color:var(--text-bright); flex:1; }
+262|.lock-icon { color:var(--warn); font-size:1.1rem; }
+263|.unlock-icon { color:var(--success); font-size:1.1rem; }
+264|.content-meta { font-size:.8rem; color:var(--text-dim); }
+265|.content-body { font-size:.9rem; color:var(--text); margin-top:8px; padding:12px; background:rgba(255,255,255,.02); border-radius:var(--radius-sm); }
+266|.content-body a { color:var(--accent); text-decoration:none; transition: color .2s; }
+267|.content-body a:hover { text-decoration:underline; color:var(--accent2); }
+268|/* Subscription Cards */
+269|.sub-card {
+270|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+271|  padding:20px; margin-bottom:12px; transition:all .25s ease;
+272|}
+273|.sub-card:hover { border-color:rgba(124,92,252,.25); }
+274|.sub-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+275|.sub-badge {
+276|  display:inline-flex; align-items:center; gap:6px;
+277|  padding:4px 12px; border-radius:20px; font-size:.8rem; font-weight:600;
+278|  transition: all .25s ease;
+279|}
+280|.sub-badge.active { background:rgba(78,201,176,.12); color:var(--accent2); }
+281|.sub-badge.expired { background:rgba(255,107,157,.1); color:var(--accent3); }
+282|.sub-detail { display:flex; justify-content:space-between; align-items:center; padding:6px 0; font-size:.85rem; }
+283|.sub-detail .label { color:var(--text-dim); }
+284|.sub-detail .value { color:var(--text-bright); font-weight:500; }
+285|.sub-actions { display:flex; gap:8px; margin-top:14px; }
+286|/* Dashboard Stats */
+287|.stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:24px; }
+288|.stat-card {
+289|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+290|  padding:18px; text-align:center; transition:all .25s ease;
+291|}
+292|.stat-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+293|.stat-value { font-size:1.6rem; font-weight:800; color:var(--text-bright); }
+294|.stat-label { font-size:.8rem; color:var(--text-dim); margin-top:4px; }
+295|/* Faucet */
+296|.faucet-card {
+297|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+298|  padding:32px; text-align:center; max-width:500px; margin:0 auto;
+299|  transition: border-color .3s ease;
+300|}
+301|.faucet-card:hover { border-color:rgba(124,92,252,.25); }
+302|.faucet-card h3 { font-size:1.2rem; color:var(--text-bright); margin-bottom:8px; }
+303|.faucet-card p { color:var(--text-dim); font-size:.9rem; margin-bottom:20px; }
+304|.usdc-amount { font-size:2rem; font-weight:800; color:var(--accent2); margin:16px 0; }
+305|/* Toast */
+306|.toast-container {
+307|  position:fixed; top:80px; right:20px; z-index:300;
+308|  display:flex; flex-direction:column; gap:10px; max-width:400px;
+309|  pointer-events:none;
+310|}
+311|.toast {
+312|  padding:14px 18px; border-radius:var(--radius-sm);
+313|  font-size:.85rem; font-weight:500; animation:toastIn .35s ease;
+314|  display:flex; align-items:flex-start; gap:12px; line-height:1.5;
+315|  box-shadow:0 8px 32px rgba(0,0,0,.5);
+316|  pointer-events:all; position:relative; overflow:hidden;
+317|}
+318|.toast::before {
+319|  content:''; position:absolute; bottom:0; left:0; height:3px;
+320|  background:currentColor; opacity:.4;
+321|  animation:toastProgress 8s linear forwards;
+322|}
+323|@keyframes toastProgress { from{width:100%} to{width:0%} }
+324|@keyframes toastIn { from{opacity:0;transform:translateX(30px) scale(.95)} to{opacity:1;transform:none} }
+325|@keyframes toastOut { from{opacity:1;transform:none} to{opacity:0;transform:translateX(30px) scale(.95)} }
+326|.toast.success { background:rgba(14,40,35,.97); border:1px solid rgba(78,201,176,.35); color:var(--accent2); }
+327|.toast.error { background:rgba(40,14,24,.97); border:1px solid rgba(255,107,157,.35); color:var(--accent3); }
+328|.toast.info { background:rgba(20,20,45,.97); border:1px solid rgba(124,92,252,.35); color:var(--accent); }
+329|.toast-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+330|.toast-body { flex:1; }
+331|.toast-close {
+332|  background:none; border:none; color:inherit; cursor:pointer;
+333|  font-size:1.1rem; opacity:.6; padding:0 0 0 8px; flex-shrink:0;
+334|  transition: opacity .2s;
+335|}
+336|.toast-close:hover { opacity:1; }
+337|/* Spinner */
+338|.spinner { display:inline-block; width:18px; height:18px; border:2.5px solid rgba(255,255,255,.15); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
+339|.spinner-lg { width:36px; height:36px; border-width:3px; }
+340|@keyframes spin { to{transform:rotate(360deg)} }
+341|.loading-overlay {
+342|  position:fixed; inset:0; z-index:250; background:rgba(10,10,15,.85); backdrop-filter:blur(6px);
+343|  display:none; align-items:center; justify-content:center; flex-direction:column; gap:20px;
+344|  transition: opacity .3s ease;
+345|}
+346|.loading-overlay.active { display:flex; animation: overlayIn .3s ease; }
+347|.loading-overlay p { color:var(--text); font-size:.95rem; font-weight:500; }
+348|.loading-ring {
+349|  width:52px; height:52px; position:relative;
+350|}
+351|.loading-ring::before, .loading-ring::after {
+352|  content:''; position:absolute; inset:0; border-radius:50%;
+353|  border:3px solid transparent;
+354|}
+355|.loading-ring::before {
+356|  border-top-color:var(--accent); animation:spin .8s linear infinite;
+357|}
+358|.loading-ring::after {
+359|  border-bottom-color:var(--accent2); animation:spin 1.2s linear infinite reverse;
+360|  inset:6px;
+361|}
+362|/* Empty State */
+363|.empty-state { text-align:center; padding:60px 20px; color:var(--text-dim); }
+364|.empty-state .icon { font-size:3rem; margin-bottom:16px; }
+365|.empty-state h3 { color:var(--text); font-size:1.1rem; margin-bottom:8px; }
+366|.empty-state p { font-size:.9rem; max-width:360px; margin:0 auto 20px; }
+367|/* Section Title */
+368|.section-title { font-size:1.1rem; font-weight:700; color:var(--text-bright); margin:24px 0 14px; }
+369|/* MetaMask Error Modal */
+370|.metamask-error {
+371|  position:fixed; inset:0; z-index:260; background:rgba(10,10,15,.92); backdrop-filter:blur(10px);
+372|  display:none; align-items:center; justify-content:center; padding:20px;
+373|}
+374|.metamask-error.active { display:flex; animation: overlayIn .3s ease; }
+375|.metamask-error-card {
+376|  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+377|  padding:36px 32px; max-width:440px; width:100%; text-align:center;
+378|  animation: modalIn .35s ease;
+379|}
+380|.metamask-error-card .icon { font-size:3rem; margin-bottom:16px; }
+381|.metamask-error-card h2 { color:var(--text-bright); font-size:1.3rem; font-weight:700; margin-bottom:10px; }
+382|.metamask-error-card p { color:var(--text-dim); font-size:.9rem; margin-bottom:24px; line-height:1.6; }
+383|.metamask-error-card .install-links { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+384|.metamask-error-card .install-link {
+385|  display:flex; align-items:center; gap:12px; padding:12px 16px;
+386|  background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius-sm);
+387|  color:var(--text); text-decoration:none; font-size:.9rem; font-weight:500;
+388|  transition: all .25s ease;
+389|}
+390|.metamask-error-card .install-link:hover {
+391|  background:rgba(124,92,252,.08); border-color:var(--accent); transform:translateY(-1px);
+392|}
+393|.metamask-error-card .install-link .link-icon { font-size:1.3rem; }
+394|.metamask-error-card .dismiss-btn {
+395|  background:none; border:1px solid var(--border); color:var(--text-dim);
+396|  padding:8px 20px; border-radius:var(--radius-sm); cursor:pointer;
+397|  font:inherit; font-size:.85rem; transition: all .25s ease;
+398|}
+399|.metamask-error-card .dismiss-btn:hover { border-color:var(--text-dim); color:var(--text); }
+400|/* Footer */
+401|.site-footer {
+402|  position:relative; z-index:1; text-align:center; padding:24px 20px 32px;
+403|  border-top:1px solid var(--border);
+404|  background:rgba(10,10,15,.6); backdrop-filter:blur(10px);
+405|}
+406|.footer-link {
+407|  display:inline-flex; align-items:center; gap:8px;
+408|  color:var(--text-dim); text-decoration:none; font-size:.8rem; font-weight:500;
+409|  transition: all .25s ease; padding:6px 14px; border-radius:20px;
+410|  background:rgba(255,255,255,.03); border:1px solid var(--border);
+411|}
+412|.footer-link:hover { color:var(--accent); border-color:rgba(124,92,252,.3); background:rgba(124,92,252,.06); transform:translateY(-1px); }
+413|.footer-link svg { width:14px; height:14px; }
+414|/* Responsive — 640px */
+415|@media (max-width:640px) {
+416|  .navbar { padding:10px 14px; flex-wrap:wrap; }
+417|  .nav-tabs { order:3; width:100%; padding-top:8px; border-top:1px solid var(--border); margin-top:4px; }
+418|  .wallet-area { order:2; }
+419|  .main { padding:16px 14px 40px; }
+420|  .page-header h1 { font-size:1.4rem; }
+421|  .card-grid { grid-template-columns:1fr; }
+422|  .stats-grid { grid-template-columns:1fr 1fr; }
+423|  .modal { margin:10px auto; }
+424|  .profile-banner { height:80px; }
+425|  .sub-card-header { flex-direction:column; align-items:flex-start; gap:8px; }
+426|  .toast-container { right:10px; left:10px; max-width:none; }
+427|  .toast { font-size:.8rem; padding:12px 14px; }
+428|}
+429|/* Responsive — 375px (iPhone SE) */
+430|@media (max-width:375px) {
+431|  .navbar { padding:8px 10px; gap:8px; }
+432|  .nav-logo span { font-size:1rem; }
+433|  .nav-logo svg { width:26px; height:26px; }
+434|  .nav-tab { padding:6px 10px; font-size:.78rem; }
+435|  .wallet-btn { padding:7px 12px; font-size:.78rem; }
+436|  .copy-addr-btn { width:28px; height:28px; font-size:.75rem; }
+437|  .main { padding:12px 10px 32px; }
+438|  .page-header { margin-bottom:20px; }
+439|  .page-header h1 { font-size:1.2rem; }
+440|  .page-header p { font-size:.85rem; }
+441|  .card { padding:14px; }
+442|  .creator-avatar { width:44px; height:44px; font-size:1rem; }
+443|  .creator-card-header { gap:10px; }
+444|  .creator-card-header h3 { font-size:.95rem; }
+445|  .creator-bio { font-size:.8rem; }
+446|  .tier-pill { font-size:.7rem; padding:3px 8px; }
+447|  .btn { padding:8px 14px; font-size:.82rem; }
+448|  .btn-sm { padding:5px 10px; font-size:.75rem; }
+449|  .stats-grid { grid-template-columns:1fr 1fr; gap:8px; }
+450|  .stat-card { padding:12px; }
+451|  .stat-value { font-size:1.3rem; }
+452|  .stat-label { font-size:.72rem; }
+453|  .section-title { font-size:1rem; margin:18px 0 10px; }
+454|  .form-group label { font-size:.8rem; }
+455|  .form-input, .form-textarea, .form-select { padding:8px 12px; font-size:.85rem; }
+456|  .modal { margin:6px auto; border-radius:10px; }
+457|  .modal-body { padding:16px; }
+458|  .profile-banner { height:60px; }
+459|  .profile-avatar { width:60px; height:60px; bottom:-30px; }
+460|  .profile-info { padding:40px 16px 12px; }
+461|  .profile-info h2 { font-size:1.15rem; }
+462|  .profile-stats { gap:14px; }
+463|  .profile-stat { font-size:.78rem; }
+464|  .tier-card { padding:12px; }
+465|  .tier-card-header { flex-wrap:wrap; gap:6px; }
+466|  .sub-card { padding:14px; }
+467|  .sub-card-header { flex-direction:column; align-items:flex-start; gap:6px; }
+468|  .sub-actions { flex-wrap:wrap; }
+469|  .content-card { padding:12px; }
+470|  .faucet-card { padding:20px 16px; }
+471|  .faucet-card h3 { font-size:1.05rem; }
+472|  .site-footer { padding:16px 10px 24px; }
+473|  .footer-link { font-size:.72rem; padding:5px 12px; }
+474|  .metamask-error-card { padding:24px 20px; }
+475|  .metamask-error-card h2 { font-size:1.1rem; }
+476|  .metamask-error-card p { font-size:.82rem; }
+477|  .metamask-error-card .install-link { padding:10px 12px; font-size:.82rem; }
+478|}
+479|/* Scrollbar */
+480|::-webkit-scrollbar { width:6px; }
+481|::-webkit-scrollbar-track { background:transparent; }
+482|::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+483|::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
+484|/* Tabs within pages */
+485|.inner-tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:4px; flex-wrap:wrap; }
+486|.inner-tab {
+487|  background:none; border:none; color:var(--text-dim); padding:8px 14px;
+488|  cursor:pointer; font:inherit; font-size:.85rem; font-weight:500;
+489|  border-bottom:2px solid transparent; transition:all .25s ease; margin-bottom:-5px;
+490|}
+491|.inner-tab:hover { color:var(--text); }
+492|.inner-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+493|.inner-page { display:none; }
+494|.inner-page.active { display:block; animation: fadeIn .3s ease; }
+495|/* Tier inline */
+496|.tiers-inline { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+497|.tag {
+498|  display:inline-flex; align-items:center; gap:4px;
+499|  padding:3px 10px; border-radius:16px; font-size:.75rem; font-weight:500;
+500|  transition: all .25s ease;
+501|}
+502|.tag-accent { background:rgba(124,92,252,.1); color:var(--accent); }
+503|.tag-accent2 { background:rgba(78,201,176,.1); color:var(--accent2); }
+504|.tag-accent3 { background:rgba(255,107,157,.1); color:var(--accent3); }
+505|</style>
+506|<meta property="og:title" content="Pledgly — Decentralized Creator Subscriptions">
+507|<meta property="og:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
+508|<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+509|<meta property="og:url" content="https://pledgly.vercel.app">
+510|<meta property="og:type" content="website">
+511|<meta name="twitter:card" content="summary_large_image">
+512|<meta name="twitter:title" content="Pledgly — Decentralized Creator Subscriptions">
+513|<meta name="twitter:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
+514|<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+515|<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>">
+516|  <!-- Vercel Web Analytics -->
+517|  <script defer src="https://va.vercel-scripts.com/v1/script.debug.js"></script>
+518|  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+519|
+<link rel="stylesheet" href="/assets/dapp-ui-enhancements.css">
 </head>
-<body>
-<div id="auroraBg">
-  <div class="aurora-orb"></div>
-  <div class="aurora-orb"></div>
-</div>
-
-<div class="app">
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a class="nav-logo" href="#">
-      <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="url(#lg)" stroke-width="2.5"/><path d="M10 20 L16 10 L22 20" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#ff6b9d"/></linearGradient></defs></svg>
-      <span>Pledgly</span>
-    </a>
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-page="browse">Browse</button>
-      <button class="nav-tab" data-page="subscriptions">Subscriptions</button>
-      <button class="nav-tab" data-page="dashboard">Dashboard</button>
-      <button class="nav-tab" data-page="faucet">Get USDC</button>
-    </div>
-    <div class="wallet-area">
-      <button class="wallet-btn" id="walletBtn">Connect Wallet</button>
-      <button class="copy-addr-btn" id="copyAddrBtn" title="Copy wallet address" onclick="copyAddress()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="main">
-    <!-- Browse Creators -->
-    <div class="page active" id="page-browse">
-      <div class="page-header">
-        <h1>✨ Discover Creators</h1>
-        <p>Support your favorite creators with on-chain subscriptions on Polygon</p>
-      </div>
-      <div id="creatorsGrid" class="card-grid"></div>
-      <div id="creatorsEmpty" class="empty-state" style="display:none">
-        <div class="icon">🎨</div>
-        <h3>No creators yet</h3>
-        <p>Be the first to register as a creator and start earning USDC from subscribers!</p>
-        <button class="btn btn-primary" onclick="switchTab('dashboard')">Go to Dashboard</button>
-      </div>
-    </div>
-
-    <!-- My Subscriptions -->
-    <div class="page" id="page-subscriptions">
-      <div class="page-header">
-        <h1>🎟️ My Subscriptions</h1>
-        <p>Your NFT subscription badges and active memberships</p>
-      </div>
-      <div id="subsList"></div>
-      <div id="subsEmpty" class="empty-state" style="display:none">
-        <div class="icon">🎟️</div>
-        <h3>No subscriptions yet</h3>
-        <p>Browse creators and subscribe to unlock exclusive content</p>
-        <button class="btn btn-primary" onclick="switchTab('browse')">Browse Creators</button>
-      </div>
-    </div>
-
-    <!-- Creator Dashboard -->
-    <div class="page" id="page-dashboard">
-      <div class="page-header">
-        <h1>📊 Creator Dashboard</h1>
-        <p>Manage your creator profile, tiers, and content</p>
-      </div>
-      <div id="dashNotCreator" class="empty-state">
-        <div class="icon">🚀</div>
-        <h3>Become a Creator</h3>
-        <p>Register to start earning USDC from your subscribers on Polygon</p>
-      </div>
-      <div id="dashCreator" style="display:none">
-        <div class="inner-tabs">
-          <button class="inner-tab active" data-inner="dash-overview">Overview</button>
-          <button class="inner-tab" data-inner="dash-tiers">Tiers</button>
-          <button class="inner-tab" data-inner="dash-content">Content</button>
-          <button class="inner-tab" data-inner="dash-settings">Settings</button>
-        </div>
-        <!-- Overview -->
-        <div class="inner-page active" id="dash-overview">
-          <div class="stats-grid">
-            <div class="stat-card"><div class="stat-value" id="statEarned">0</div><div class="stat-label">USDC Earned</div></div>
-            <div class="stat-card"><div class="stat-value" id="statSubs">0</div><div class="stat-label">Subscribers</div></div>
-            <div class="stat-card"><div class="stat-value" id="statTiers">0</div><div class="stat-label">Active Tiers</div></div>
-            <div class="stat-card"><div class="stat-value" id="statContent">0</div><div class="stat-label">Posts</div></div>
-          </div>
-        </div>
-        <!-- Tiers -->
-        <div class="inner-page" id="dash-tiers">
-          <h3 class="section-title">Your Tiers</h3>
-          <div id="dashTiersList"></div>
-          <h3 class="section-title">Create New Tier</h3>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;">
-            <div class="form-group"><label>Tier Name</label><input class="form-input" id="newTierName" placeholder="e.g. Gold Supporter"></div>
-            <div class="form-group"><label>Description</label><textarea class="form-textarea" id="newTierDesc" placeholder="What subscribers get at this tier"></textarea></div>
-            <div class="form-group"><label>Price (USDC / month)</label><input class="form-input" id="newTierPrice" type="number" min="0.01" step="0.01" placeholder="5.00"></div>
-            <button class="btn btn-primary" onclick="createTier()">Create Tier</button>
-          </div>
-        </div>
-        <!-- Content -->
-        <div class="inner-page" id="dash-content">
-          <h3 class="section-title">Post New Content</h3>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;margin-bottom:24px;">
-            <div class="form-group"><label>Title</label><input class="form-input" id="newContentTitle" placeholder="Post title"></div>
-            <div class="form-group"><label>Content URI</label><input class="form-input" id="newContentURI" placeholder="https:// or ipfs://..."></div>
-            <div class="form-group"><label>Minimum Tier Required</label><select class="form-select" id="newContentTier"><option value="0">Free (No tier required)</option></select></div>
-            <button class="btn btn-primary" onclick="postContent()">Publish Content</button>
-          </div>
-          <h3 class="section-title">Your Content</h3>
-          <div id="dashContentList"></div>
-        </div>
-        <!-- Settings -->
-        <div class="inner-page" id="dash-settings">
-          <h3 class="section-title">Update Profile</h3>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;">
-            <div class="form-group"><label>Bio</label><textarea class="form-textarea" id="updateBio" placeholder="Tell subscribers about yourself"></textarea></div>
-            <div class="form-group"><label>Avatar URI</label><input class="form-input" id="updateAvatar" placeholder="https:// or ipfs://..."></div>
-            <button class="btn btn-primary" onclick="updateProfile()">Update Profile</button>
-          </div>
-        </div>
-      </div>
-      <!-- Registration Form -->
-      <div id="dashRegister" style="display:none">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:480px;">
-          <h3 style="color:var(--text-bright);font-weight:700;margin-bottom:16px;">Register as Creator</h3>
-          <div class="form-group"><label>Display Name</label><input class="form-input" id="regName" placeholder="Your creator name"></div>
-          <div class="form-group"><label>Bio</label><textarea class="form-textarea" id="regBio" placeholder="Tell the world about your work"></textarea></div>
-          <div class="form-group"><label>Avatar URI (optional)</label><input class="form-input" id="regAvatar" placeholder="https:// or ipfs://..."></div>
-          <button class="btn btn-primary btn-block" onclick="registerCreator()">Register Now</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Get USDC Info -->
-    <div class="page" id="page-faucet">
-      <div class="page-header">
-        <h1>💰 Get USDC</h1>
-        <p>Pledgly uses real USDC on Polygon mainnet for subscriptions</p>
-      </div>
-      <div class="faucet-card">
-        <div style="font-size:3rem;margin-bottom:12px;">💎</div>
-        <h3>How to Get USDC on Polygon</h3>
-        <p>Send USDC to your wallet on Polygon from any of these:</p>
-        <div style="text-align:left;margin:20px 0;">
-          <p style="margin:10px 0;color:var(--text-bright);">🏦 <strong>Centralized Exchange:</strong> Withdraw USDC from Coinbase, Binance, or Kraken directly to Polygon network</p>
-          <p style="margin:10px 0;color:var(--text-bright);">🌉 <strong>Bridge:</strong> Use <a href="https://portal.polygon.technology/bridge" target="_blank" style="color:var(--accent);">Polygon Portal</a> to bridge USDC from Ethereum</p>
-          <p style="margin:10px 0;color:var(--text-bright);">💱 <strong>Swap:</strong> Swap POL for USDC on <a href="https://app.uniswap.org" target="_blank" style="color:var(--accent);">Uniswap</a> or <a href="https://quickswap.exchange" target="_blank" style="color:var(--accent);">QuickSwap</a></p>
-        </div>
-        <p style="margin-top:16px;font-size:.8rem;color:var(--text-dim);">
-          USDC Contract: <a id="faucetLink" href="#" target="_blank" style="color:var(--accent);text-decoration:none;font-family:monospace;font-size:.75rem;">—</a>
-        </p>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <a class="footer-link" href="https://aurorapathways.xyz" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      Pledgly — Keep what you earn
-    </a>
-  </footer>
-</div>
-
-<!-- Creator Profile Modal -->
-<div class="modal-overlay" id="profileModal">
-  <div class="modal" style="max-width:700px">
-    <div class="profile-banner"></div>
-    <button class="modal-close" onclick="closeModal('profileModal')" style="position:absolute;top:12px;right:16px;z-index:2;color:#fff;font-size:1.8rem;">&times;</button>
-    <div class="profile-avatar" id="profileAvatar"></div>
-    <div class="profile-info">
-      <h2 id="profileName"></h2>
-      <p id="profileBio" style="color:var(--text-dim);font-size:.9rem;margin-top:4px;"></p>
-      <div class="profile-stats">
-        <div class="profile-stat"><strong id="profileSubs">0</strong> subscribers</div>
-        <div class="profile-stat"><strong id="profileEarned">0</strong> USDC earned</div>
-      </div>
-    </div>
-    <div class="modal-body">
-      <h3 class="section-title" style="margin-top:0;">Subscription Tiers</h3>
-      <div id="profileTiers"></div>
-      <h3 class="section-title">Content</h3>
-      <div id="profileContent"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- Loading Overlay -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-ring"></div>
-  <p id="loadingMsg">Processing transaction...</p>
-</div>
-
-<!-- MetaMask Not Installed Error -->
-<div class="metamask-error" id="metamaskError">
-  <div class="metamask-error-card" style="max-width:520px;text-align:left;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div class="icon">🚀</div>
-      <h2 style="margin-bottom:6px;">New to Web3? Get started in 3 steps</h2>
-      <p style="color:var(--text-dim);font-size:0.9rem;">Pledgly runs on blockchain — but don't worry, it's simpler than it sounds.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0;">1</div>
-        <div>
-          <h4 style="margin-bottom:4px;">Install a wallet</h4>
-          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
-          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent2);flex-shrink:0;">2</div>
-        <div>
-          <h4 style="margin-bottom:4px;">Add funds to your wallet</h4>
-          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to subscribe to creators. You can buy it directly in MetaMask or transfer from an exchange like Coinbase.</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);flex-shrink:0;">3</div>
-        <div>
-          <h4 style="margin-bottom:4px;">Connect and start</h4>
-          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">Come back here, click "Connect Wallet," and you're in. Browse creators, subscribe, and support the people you love — directly.</p>
-        </div>
-      </div>
-    </div>
-    <div class="install-links" style="display:flex;gap:10px;">
-      <a class="install-link" href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
-        <span class="link-icon">🦊</span>
-        <span>Install MetaMask</span>
-      </a>
-      <a class="install-link" href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
-        <span class="link-icon">🔵</span>
-        <span>Coinbase Wallet</span>
-      </a>
-    </div>
-    <button class="dismiss-btn" onclick="dismissMetaMaskError()" style="margin-top:16px;">I'll do this later</button>
-  </div>
-</div>
-
-<script>
-/* =====================================================
-   PLEDGLY — Decentralized Creator Subscriptions
-   ===================================================== */
-
-// ─── CONFIG (update these after deployment) ──────────
-const CONFIG = {
-  // UPDATE THIS AFTER CONTRACT DEPLOYMENT
-  PLEDGLY_ADDRESS: '0x6fC43293a013da29180E229d1728fEA7eBE93149',
-  USDC_ADDRESS: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
-  CHAIN_ID: 137,
-  CHAIN_ID_HEX: '0x89',
-  RPC_URL: 'https://polygon-bor-rpc.publicnode.com',
-  EXPLORER: 'https://polygonscan.com',
-  USDC_DECIMALS: 6,
-  SUBSCRIPTION_DURATION: 30 * 24 * 60 * 60, // 30 days in seconds
-};
-
-// ─── ABI ──────────────────────────────────────────────
-const PLEDGLY_ABI = [
-  // Write
-  'function registerCreator(string name, string bio, string avatarURI) external',
-  'function createTier(string name, string description, uint256 priceUSDC) external returns (uint256)',
-  'function updateTier(uint256 tierId, bool active) external',
-  'function updateCreatorProfile(string bio, string avatarURI) external',
-  'function postContent(string title, string contentURI, uint256 minTierId) external returns (uint256)',
-  'function subscribe(uint256 creatorId, uint256 tierId) external returns (uint256)',
-  'function renew(uint256 tokenId) external',
-  'function cancelSubscription(uint256 tokenId) external',
-  // Read
-  'function creators(uint256) view returns (string name, string bio, string avatarURI, bool registered, address wallet, uint256 totalEarned, uint256 subscriberCount)',
-  'function tiers(uint256, uint256) view returns (string name, string description, uint256 priceUSDC, bool active)',
-  'function getCreatorTiers(uint256 creatorId) view returns (tuple(string name, string description, uint256 priceUSDC, bool active)[])',
-  'function getCreatorContent(uint256 creatorId) view returns (uint256[])',
-  'function contents(uint256) view returns (uint256 creatorId, string title, string contentURI, uint256 minTierId, uint256 timestamp, bool exists)',
-  'function canAccessContent(address user, uint256 contentId) view returns (bool)',
-  'function getContentURI(address user, uint256 contentId) view returns (string)',
-  'function isSubscriptionActive(uint256 tokenId) view returns (bool)',
-  'function getSubscriptionExpiry(uint256 tokenId) view returns (uint256)',
-  'function getUserSubscriptions(address user) view returns (uint256[])',
-  'function subscriptions(uint256) view returns (uint256 creatorId, uint256 tierId, uint256 startTime, uint256 expiry, bool active)',
-  'function addressToCreator(address) view returns (uint256)',
-  'function isSubscribedTo(address, uint256 creatorId) view returns (bool)',
-  'function nextCreatorId() view returns (uint256)',
-  // Events
-  'event CreatorRegistered(uint256 indexed creatorId, address indexed wallet, string name)',
-  'event Subscribed(uint256 indexed tokenId, address indexed subscriber, uint256 indexed creatorId, uint256 tierId, uint256 expiry)',
-  'event ContentPosted(uint256 contentId, uint256 creatorId, uint256 minTierId)',
-];
-
-const USDC_ABI = [
-  'function approve(address spender, uint256 amount) returns (bool)',
-  'function allowance(address owner, address spender) view returns (uint256)',
-  'function balanceOf(address account) view returns (uint256)',
-  'function transfer(address to, uint256 amount) returns (bool)',
-  'function mint(address to, uint256 amount) external',
-  'function faucet() external',
-  'function faucet(uint256 amount) external',
-];
-
-// ─── STATE ────────────────────────────────────────────
-let provider = null;
-let signer = null;
-let pledgly = null;
-let usdc = null;
-let userAddress = null;
-let isCreator = false;
-let creatorId = 0;
-let allCreators = []; // cached
-
-// ─── INIT ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  setupNav();
-  setupInnerTabs();
-  updateFaucetLink();
-  // Auto-connect if previously connected
-  if (window.ethereum && window.ethereum.selectedAddress) {
-    connectWallet();
-  }
-});
-
-// ─── NAVIGATION ───────────────────────────────────────
-function setupNav() {
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => switchTab(tab.dataset.page));
-  });
-}
-
-function switchTab(page) {
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const tab = document.querySelector(`.nav-tab[data-page="${page}"]`);
-  const pg = document.getElementById(`page-${page}`);
-  if (tab) tab.classList.add('active');
-  if (pg) pg.classList.add('active');
-  // Refresh data
-  if (page === 'browse') loadCreators();
-  if (page === 'subscriptions' && userAddress) loadSubscriptions();
-  if (page === 'dashboard' && userAddress) loadDashboard();
-}
-
-function setupInnerTabs() {
-  document.querySelectorAll('.inner-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const parent = tab.closest('.page');
-      parent.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
-      parent.querySelectorAll('.inner-page').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.inner).classList.add('active');
-    });
-  });
-}
-
-// ─── WALLET ───────────────────────────────────────────
-async function connectWallet() {
-  if (!window.ethereum) {
-    showMetaMaskError();
-    return;
-  }
-  const btn = document.getElementById('walletBtn');
-  try {
-    btn.innerHTML = '<span class="spinner"></span> Connecting...';
-    btn.disabled = true;
-    showLoading('Connecting wallet...');
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-    userAddress = await signer.getAddress();
-
-    // Switch to Polygon
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: CONFIG.CHAIN_ID_HEX }],
-      });
-    } catch (switchError) {
-      if (switchError.code === 4902) {
-        await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [{
-            chainId: CONFIG.CHAIN_ID_HEX,
-            chainName: 'Polygon Mainnet',
-            nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
-            rpcUrls: [CONFIG.RPC_URL],
-            blockExplorerUrls: [CONFIG.EXPLORER],
-          }],
-        });
-      }
-    }
-
-    // Re-init after chain switch
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-    userAddress = await signer.getAddress();
-
-    pledgly = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, signer);
-    usdc = new ethers.Contract(CONFIG.USDC_ADDRESS, USDC_ABI, signer);
-
-    // Update UI
-    btn.textContent = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
-    btn.classList.add('connected');
-    btn.disabled = false;
-    btn.onclick = () => {};
-
-    // Show copy button
-    document.getElementById('copyAddrBtn').classList.add('visible');
-
-    // Listen for account/chain changes
-    window.ethereum.on('accountsChanged', () => location.reload());
-    window.ethereum.on('chainChanged', () => location.reload());
-
-    // Check if creator
-    try {
-      const cid = await pledgly.addressToCreator(userAddress);
-      creatorId = cid.toNumber();
-      isCreator = creatorId > 0;
-    } catch { isCreator = false; }
-
-    hideLoading();
-    toast('Wallet connected!', 'success');
-    loadCreators();
-  } catch (err) {
-    hideLoading();
-    btn.textContent = 'Connect Wallet';
-    btn.disabled = false;
-    btn.classList.remove('connected');
-    toast('Failed to connect wallet: ' + parseError(err), 'error');
-  }
-}
-
-document.getElementById('walletBtn').addEventListener('click', connectWallet);
-
-// ─── COPY ADDRESS ─────────────────────────────────────
-function copyAddress() {
-  if (!userAddress) return;
-  const btn = document.getElementById('copyAddrBtn');
-  navigator.clipboard.writeText(userAddress).then(() => {
-    btn.classList.add('copied');
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-    toast('Address copied to clipboard', 'info');
-    setTimeout(() => {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
-    }, 2000);
-  }).catch(() => {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = userAddress;
-    ta.style.cssText = 'position:fixed;opacity:0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.classList.add('copied');
-    toast('Address copied to clipboard', 'info');
-    setTimeout(() => btn.classList.remove('copied'), 2000);
-  });
-}
-
-// ─── METAMASK ERROR ───────────────────────────────────
-function showMetaMaskError() {
-  document.getElementById('metamaskError').classList.add('active');
-}
-function dismissMetaMaskError() {
-  document.getElementById('metamaskError').classList.remove('active');
-}
-
-// ─── LOAD CREATORS ────────────────────────────────────
-async function loadCreators() {
-  const grid = document.getElementById('creatorsGrid');
-  const empty = document.getElementById('creatorsEmpty');
-  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;"><div class="spinner spinner-lg"></div></div>';
-  empty.style.display = 'none';
-
-  try {
-    let readProvider = provider || new ethers.providers.JsonRpcProvider(CONFIG.RPC_URL);
-    let contract = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, readProvider);
-
-    let nextId;
-    try {
-      nextId = (await contract.nextCreatorId()).toNumber();
-    } catch {
-      grid.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    allCreators = [];
-    for (let i = 1; i < nextId; i++) {
-      try {
-        const c = await contract.creators(i);
-        if (c.registered) {
-          let tiersList = [];
-          try { tiersList = await contract.getCreatorTiers(i); } catch {}
-          allCreators.push({ id: i, ...c, tiers: tiersList });
-        }
-      } catch {}
-    }
-
-    if (allCreators.length === 0) {
-      grid.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    grid.innerHTML = allCreators.map(c => `
-      <div class="card" onclick="openCreatorProfile(${c.id})">
-        <div class="creator-card-header">
-          <div class="creator-avatar">${c.avatarURI ? `<img src="${sanitize(c.avatarURI)}" alt="" onerror="this.textContent='${sanitize(c.name).charAt(0).toUpperCase()}'">` : sanitize(c.name).charAt(0).toUpperCase()}</div>
-          <div>
-            <h3>${sanitize(c.name)}</h3>
-            <span class="sub-count">${c.subscriberCount.toString()} subscriber${c.subscriberCount.toString() === '1' ? '' : 's'}</span>
-          </div>
-        </div>
-        <div class="creator-bio">${sanitize(c.bio || 'No bio yet')}</div>
-        <div class="tier-pills">
-          ${c.tiers.filter(t => t.active).map(t => `<span class="tier-pill">${sanitize(t.name)} · ${formatUSDC(t.priceUSDC)} USDC</span>`).join('')}
-          ${c.tiers.filter(t => t.active).length === 0 ? '<span class="tier-pill" style="opacity:.5">No tiers yet</span>' : ''}
-        </div>
-      </div>
-    `).join('');
-  } catch (err) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim);">
-      <p>Could not load creators. The contract may not be deployed yet.</p>
-      <p style="font-size:.8rem;margin-top:8px;color:var(--error)">${sanitize(parseError(err))}</p>
-    </div>`;
-  }
-}
-
-// ─── CREATOR PROFILE MODAL ────────────────────────────
-async function openCreatorProfile(cid) {
-  const c = allCreators.find(x => x.id === cid);
-  if (!c) return;
-
-  document.getElementById('profileAvatar').innerHTML = c.avatarURI
-    ? `<img src="${sanitize(c.avatarURI)}" alt="" onerror="this.parentElement.textContent='${sanitize(c.name).charAt(0).toUpperCase()}'">`
-    : sanitize(c.name).charAt(0).toUpperCase();
-  document.getElementById('profileName').textContent = c.name;
-  document.getElementById('profileBio').textContent = c.bio || 'No bio yet';
-  document.getElementById('profileSubs').textContent = c.subscriberCount.toString();
-  document.getElementById('profileEarned').textContent = formatUSDC(c.totalEarned);
-
-  // Tiers
-  const tiersDiv = document.getElementById('profileTiers');
-  const activeTiers = c.tiers.filter(t => t.active);
-  if (activeTiers.length === 0) {
-    tiersDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No tiers available</p>';
-  } else {
-    tiersDiv.innerHTML = activeTiers.map((t, idx) => {
-      const tierId = c.tiers.indexOf(t) + 1; // tier IDs are 1-based from the array
-      return `
-        <div class="tier-card">
-          <div class="tier-card-header">
-            <h4>${sanitize(t.name)}</h4>
-            <span class="tier-price">${formatUSDC(t.priceUSDC)} USDC/mo</span>
-          </div>
-          <p class="tier-desc">${sanitize(t.description || 'No description')}</p>
-          ${userAddress ? `<button class="btn btn-primary btn-sm" onclick="subscribeToCreator(${cid}, ${tierId}, '${formatUSDC(t.priceUSDC)}')">Subscribe</button>` : '<button class="btn btn-secondary btn-sm" disabled>Connect wallet to subscribe</button>'}
-        </div>
-      `;
-    }).join('');
-  }
-
-  // Content
-  const contentDiv = document.getElementById('profileContent');
-  try {
-    let readProvider = provider || new ethers.providers.JsonRpcProvider(CONFIG.RPC_URL);
-    let contract = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, readProvider);
-    const contentIds = await contract.getCreatorContent(cid);
-
-    if (contentIds.length === 0) {
-      contentDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No content posted yet</p>';
-    } else {
-      let html = '';
-      for (const cidBig of contentIds) {
-        const contentId = cidBig.toNumber();
-        try {
-          const content = await contract.contents(contentId);
-          if (!content.exists) continue;
-          const tierId = content.minTierId.toNumber();
-          let hasAccess = false;
-          let contentURI = '';
-
-          if (userAddress) {
-            try {
-              hasAccess = await contract.canAccessContent(userAddress, contentId);
-              if (hasAccess) contentURI = await contract.getContentURI(userAddress, contentId);
-            } catch {}
-          }
-          if (tierId === 0) hasAccess = true;
-
-          const date = new Date(content.timestamp.toNumber() * 1000).toLocaleDateString();
-          html += `
-            <div class="content-card ${hasAccess ? '' : 'locked'}">
-              <div class="content-card-header">
-                <h4>${sanitize(content.title)}</h4>
-                ${hasAccess ? '<span class="unlock-icon" title="Unlocked">🔓</span>' : '<span class="lock-icon" title="Locked — subscribe to a required tier">🔒</span>'}
-              </div>
-              <div class="content-meta">${date}${tierId > 0 ? ` · Requires tier #${tierId}` : ' · Free'}</div>
-              ${hasAccess && contentURI ? `<div class="content-body"><a href="${safeHref(contentURI)}" target="_blank" rel="noopener">${sanitize(contentURI)}</a></div>` : ''}
-              ${!hasAccess && tierId > 0 ? '<div style="font-size:.85rem;color:var(--warn);margin-top:6px;">Subscribe to the required tier to unlock this content</div>' : ''}
-            </div>
-          `;
-        } catch {}
-      }
-      contentDiv.innerHTML = html || '<p style="color:var(--text-dim);font-size:.9rem;">No content available</p>';
-    }
-  } catch {
-    contentDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">Could not load content</p>';
-  }
-
-  openModal('profileModal');
-}
-
-// ─── SUBSCRIBE ────────────────────────────────────────
-async function subscribeToCreator(creatorId, tierId, priceStr) {
-  if (!userAddress) { toast('Connect your wallet first', 'error'); return; }
-  try {
-    showLoading('Checking USDC allowance...');
-
-    // Get tier price
-    const tier = await pledgly.tiers(creatorId, tierId);
-    const price = tier.priceUSDC;
-
-    // Check allowance
-    const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
-    if (allowance.lt(price)) {
-      showLoading('Approving USDC spend...');
-      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, price.mul(2));
-      await approveTx.wait();
-    }
-
-    showLoading('Subscribing... (confirm in MetaMask)');
-    const tx = await pledgly.subscribe(creatorId, tierId);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-
-    hideLoading();
-    toast(`Successfully subscribed! TX: ${tx.hash.slice(0, 10)}...`, 'success');
-    closeModal('profileModal');
-    loadCreators();
-    if (document.getElementById('page-subscriptions').classList.contains('active')) loadSubscriptions();
-  } catch (err) {
-    hideLoading();
-    toast('Subscription failed: ' + parseError(err), 'error');
-  }
-}
-
-// ─── MY SUBSCRIPTIONS ─────────────────────────────────
-async function loadSubscriptions() {
-  if (!userAddress) return;
-  const list = document.getElementById('subsList');
-  const empty = document.getElementById('subsEmpty');
-  list.innerHTML = '<div style="text-align:center;padding:40px;"><div class="spinner spinner-lg"></div></div>';
-  empty.style.display = 'none';
-
-  try {
-    const subIds = await pledgly.getUserSubscriptions(userAddress);
-    if (subIds.length === 0) {
-      list.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    let html = '';
-    for (const sid of subIds) {
-      const tokenId = sid.toNumber();
-      try {
-        const sub = await pledgly.subscriptions(tokenId);
-        const isActive = await pledgly.isSubscriptionActive(tokenId);
-        const expiry = await pledgly.getSubscriptionExpiry(tokenId);
-        const creator = await pledgly.creators(sub.creatorId);
-        const tier = await pledgly.tiers(sub.creatorId, sub.tierId);
-        const expiryDate = new Date(expiry.toNumber() * 1000);
-        const now = Date.now();
-        const daysLeft = Math.max(0, Math.ceil((expiry.toNumber() * 1000 - now) / 86400000));
-
-        html += `
-          <div class="sub-card">
-            <div class="sub-card-header">
-              <div>
-                <h3 style="font-size:1.05rem;font-weight:600;color:var(--text-bright);">${sanitize(creator.name)}</h3>
-                <span class="tag tag-accent">${sanitize(tier.name)}</span>
-              </div>
-              <span class="sub-badge ${isActive ? 'active' : 'expired'}">${isActive ? '✅ Active' : '❌ Expired'}</span>
-            </div>
-            <div class="sub-detail"><span class="label">NFT Token ID</span><span class="value">#${tokenId}</span></div>
-            <div class="sub-detail"><span class="label">Tier Price</span><span class="value">${formatUSDC(tier.priceUSDC)} USDC/mo</span></div>
-            <div class="sub-detail"><span class="label">Expires</span><span class="value">${expiryDate.toLocaleDateString()} ${isActive ? `(${daysLeft} day${daysLeft !== 1 ? 's' : ''} left)` : ''}</span></div>
-            <div class="sub-detail"><span class="label">Explorer</span><span class="value"><a href="${CONFIG.EXPLORER}/token/${CONFIG.PLEDGLY_ADDRESS}?a=${tokenId}" target="_blank" style="color:var(--accent);text-decoration:none;">View NFT ↗</a></span></div>
-            <div class="sub-actions">
-              ${isActive ? `<button class="btn btn-success btn-sm" onclick="renewSub(${tokenId})">Renew</button>
-              <button class="btn btn-danger btn-sm" onclick="cancelSub(${tokenId})">Cancel</button>` :
-              `<button class="btn btn-primary btn-sm" onclick="renewSub(${tokenId})">Renew Subscription</button>`}
-            </div>
-          </div>
-        `;
-      } catch {}
-    }
-
-    list.innerHTML = html;
-    if (!html) {
-      empty.style.display = 'block';
-    }
-  } catch (err) {
-    list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-dim);">
-      <p>Could not load subscriptions</p><p style="font-size:.8rem;color:var(--error)">${sanitize(parseError(err))}</p></div>`;
-  }
-}
-
-async function renewSub(tokenId) {
-  if (!userAddress) return;
-  try {
-    showLoading('Renewing subscription...');
-    const sub = await pledgly.subscriptions(tokenId);
-    const tier = await pledgly.tiers(sub.creatorId, sub.tierId);
-    const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
-    if (allowance.lt(tier.priceUSDC)) {
-      showLoading('Approving USDC...');
-      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, tier.priceUSDC.mul(2));
-      await approveTx.wait();
-    }
-    showLoading('Confirm renewal in MetaMask...');
-    const tx = await pledgly.renew(tokenId);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('Subscription renewed!', 'success');
-    loadSubscriptions();
-  } catch (err) {
-    hideLoading();
-    toast('Renewal failed: ' + parseError(err), 'error');
-  }
-}
-
-async function cancelSub(tokenId) {
-  if (!userAddress) return;
-  if (!confirm('Are you sure you want to cancel this subscription?')) return;
-  try {
-    showLoading('Cancelling subscription...');
-    const tx = await pledgly.cancelSubscription(tokenId);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('Subscription cancelled', 'success');
-    loadSubscriptions();
-  } catch (err) {
-    hideLoading();
-    toast('Cancellation failed: ' + parseError(err), 'error');
-  }
-}
-
-// ─── CREATOR DASHBOARD ────────────────────────────────
-async function loadDashboard() {
-  if (!userAddress) return;
-
-  try {
-    const cid = await pledgly.addressToCreator(userAddress);
-    creatorId = cid.toNumber();
-    isCreator = creatorId > 0;
-  } catch { isCreator = false; }
-
-  document.getElementById('dashNotCreator').style.display = isCreator ? 'none' : 'block';
-  document.getElementById('dashRegister').style.display = 'none';
-  document.getElementById('dashCreator').style.display = isCreator ? 'block' : 'none';
-
-  if (!isCreator) {
-    // Show register button
-    document.getElementById('dashNotCreator').innerHTML = `
-      <div class="icon">🚀</div>
-      <h3>Become a Creator</h3>
-      <p>Register to start earning USDC from your subscribers on Polygon</p>
-      <button class="btn btn-primary" onclick="showRegisterForm()">Register as Creator</button>
-    `;
-    return;
-  }
-
-  // Load creator data
-  try {
-    const creator = await pledgly.creators(creatorId);
-    const tiersList = await pledgly.getCreatorTiers(creatorId);
-    const contentIds = await pledgly.getCreatorContent(creatorId);
-
-    // Stats
-    document.getElementById('statEarned').textContent = formatUSDC(creator.totalEarned);
-    document.getElementById('statSubs').textContent = creator.subscriberCount.toString();
-    document.getElementById('statTiers').textContent = tiersList.filter(t => t.active).length;
-    document.getElementById('statContent').textContent = contentIds.length;
-
-    // Tiers list
-    const tiersDiv = document.getElementById('dashTiersList');
-    if (tiersList.length === 0) {
-      tiersDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;padding:12px 0;">No tiers created yet. Create your first tier below.</p>';
-    } else {
-      tiersDiv.innerHTML = tiersList.map((t, idx) => `
-        <div class="tier-card">
-          <div class="tier-card-header">
-            <h4>${sanitize(t.name)} ${t.active ? '' : '<span style="color:var(--error);font-size:.75rem;font-weight:400;">(Inactive)</span>'}</h4>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span class="tier-price">${formatUSDC(t.priceUSDC)} USDC/mo</span>
-              <button class="btn btn-sm ${t.active ? 'btn-danger' : 'btn-success'}" onclick="toggleTier(${idx + 1}, ${!t.active})">${t.active ? 'Deactivate' : 'Activate'}</button>
-            </div>
-          </div>
-          <p class="tier-desc">${sanitize(t.description || 'No description')}</p>
-        </div>
-      `).join('');
-    }
-
-    // Content tier selector
-    const tierSelect = document.getElementById('newContentTier');
-    tierSelect.innerHTML = '<option value="0">Free (No tier required)</option>';
-    tiersList.forEach((t, idx) => {
-      if (t.active) {
-        tierSelect.innerHTML += `<option value="${idx + 1}">${sanitize(t.name)} (${formatUSDC(t.priceUSDC)} USDC)</option>`;
-      }
-    });
-
-    // Content list
-    const contentListDiv = document.getElementById('dashContentList');
-    if (contentIds.length === 0) {
-      contentListDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No content posted yet</p>';
-    } else {
-      let html = '';
-      for (const cId of contentIds) {
-        try {
-          const content = await pledgly.contents(cId.toNumber());
-          if (!content.exists) continue;
-          const date = new Date(content.timestamp.toNumber() * 1000).toLocaleDateString();
-          html += `
-            <div class="content-card">
-              <div class="content-card-header">
-                <h4>${sanitize(content.title)}</h4>
-              </div>
-              <div class="content-meta">${date} · ${content.minTierId.toNumber() === 0 ? 'Free' : `Tier #${content.minTierId.toNumber()}`} · ID: ${cId.toNumber()}</div>
-              <div class="content-body" style="word-break:break-all;"><a href="${safeHref(content.contentURI)}" target="_blank">${sanitize(content.contentURI)}</a></div>
-            </div>
-          `;
-        } catch {}
-      }
-      contentListDiv.innerHTML = html || '<p style="color:var(--text-dim);font-size:.9rem;">No content available</p>';
-    }
-  } catch (err) {
-    toast('Failed to load dashboard: ' + parseError(err), 'error');
-  }
-}
-
-function showRegisterForm() {
-  document.getElementById('dashNotCreator').style.display = 'none';
-  document.getElementById('dashRegister').style.display = 'block';
-}
-
-async function registerCreator() {
-  const name = document.getElementById('regName').value.trim();
-  const bio = document.getElementById('regBio').value.trim();
-  const avatar = document.getElementById('regAvatar').value.trim();
-
-  if (!name) { toast('Please enter a display name', 'error'); return; }
-
-  try {
-    showLoading('Registering as creator...');
-    const tx = await pledgly.registerCreator(name, bio, avatar);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('You are now a creator! 🎉', 'success');
-    loadDashboard();
-  } catch (err) {
-    hideLoading();
-    toast('Registration failed: ' + parseError(err), 'error');
-  }
-}
-
-async function createTier() {
-  const name = document.getElementById('newTierName').value.trim();
-  const desc = document.getElementById('newTierDesc').value.trim();
-  const price = document.getElementById('newTierPrice').value;
-
-  if (!name) { toast('Please enter a tier name', 'error'); return; }
-  if (!price || parseFloat(price) <= 0) { toast('Please enter a valid price', 'error'); return; }
-
-  try {
-    showLoading('Creating tier...');
-    const priceWei = ethers.utils.parseUnits(price, CONFIG.USDC_DECIMALS);
-    const tx = await pledgly.createTier(name, desc, priceWei);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('Tier created! 🎉', 'success');
-    document.getElementById('newTierName').value = '';
-    document.getElementById('newTierDesc').value = '';
-    document.getElementById('newTierPrice').value = '';
-    loadDashboard();
-  } catch (err) {
-    hideLoading();
-    toast('Failed to create tier: ' + parseError(err), 'error');
-  }
-}
-
-async function toggleTier(tierId, active) {
-  try {
-    showLoading(`${active ? 'Activating' : 'Deactivating'} tier...`);
-    const tx = await pledgly.updateTier(tierId, active);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast(`Tier ${active ? 'activated' : 'deactivated'}`, 'success');
-    loadDashboard();
-  } catch (err) {
-    hideLoading();
-    toast('Failed: ' + parseError(err), 'error');
-  }
-}
-
-async function postContent() {
-  const title = document.getElementById('newContentTitle').value.trim();
-  const uri = document.getElementById('newContentURI').value.trim();
-  const tierId = parseInt(document.getElementById('newContentTier').value);
-
-  if (!title) { toast('Please enter a title', 'error'); return; }
-  if (!uri) { toast('Please enter a content URI', 'error'); return; }
-
-  try {
-    showLoading('Publishing content...');
-    const tx = await pledgly.postContent(title, uri, tierId);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('Content published! 🎉', 'success');
-    document.getElementById('newContentTitle').value = '';
-    document.getElementById('newContentURI').value = '';
-    document.getElementById('newContentTier').value = '0';
-    loadDashboard();
-  } catch (err) {
-    hideLoading();
-    toast('Failed to publish: ' + parseError(err), 'error');
-  }
-}
-
-async function updateProfile() {
-  const bio = document.getElementById('updateBio').value.trim();
-  const avatar = document.getElementById('updateAvatar').value.trim();
-
-  try {
-    showLoading('Updating profile...');
-    const tx = await pledgly.updateCreatorProfile(bio, avatar);
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('Profile updated!', 'success');
-  } catch (err) {
-    hideLoading();
-    toast('Failed to update: ' + parseError(err), 'error');
-  }
-}
-
-// ─── USDC FAUCET ──────────────────────────────────────
-async function mintUSDC() {
-  if (!userAddress) { toast('Connect your wallet first', 'error'); return; }
-  try {
-    showLoading('Minting test USDC...');
-    // Try multiple faucet patterns
-    let tx;
-    try {
-      tx = await usdc.faucet();
-    } catch {
-      try {
-        tx = await usdc.faucet(ethers.utils.parseUnits('100', 6));
-      } catch {
-        try {
-          // Some mock USDC contracts use mint directly
-          tx = await usdc.mint(userAddress, ethers.utils.parseUnits('100', 6));
-        } catch {
-          throw new Error('This USDC contract does not have a faucet function. Get test USDC from a Polygon Amoy faucet instead.');
-        }
-      }
-    }
-    showLoading('Waiting for confirmation...');
-    await tx.wait();
-    hideLoading();
-    toast('100 test USDC minted! 💧', 'success');
-    // Show balance
-    try {
-      const bal = await usdc.balanceOf(userAddress);
-      toast(`Balance: ${formatUSDC(bal)} USDC`, 'info');
-    } catch {}
-  } catch (err) {
-    hideLoading();
-    toast('Faucet failed: ' + parseError(err), 'error');
-  }
-}
-
-function updateFaucetLink() {
-  const link = document.getElementById('faucetLink');
-  if (link) {
-    link.href = `${CONFIG.EXPLORER}/token/${CONFIG.USDC_ADDRESS}`;
-    link.textContent = CONFIG.USDC_ADDRESS.slice(0, 10) + '...' + CONFIG.USDC_ADDRESS.slice(-8);
-  }
-}
-
-// ─── HELPERS ──────────────────────────────────────────
-function formatUSDC(bigNum) {
-  if (!bigNum) return '0';
-  return parseFloat(ethers.utils.formatUnits(bigNum, CONFIG.USDC_DECIMALS)).toLocaleString(undefined, {
-    minimumFractionDigits: 2, maximumFractionDigits: 2
-  });
-}
-
-function sanitize(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function safeHref(uri) {
-  if (/^(https?:\/\/|ipfs:\/\/)/i.test(uri)) return uri;
-  return '#';
-}
-
-function parseError(err) {
-  if (!err) return 'Unknown error';
-  if (err.reason) return err.reason;
-  if (err.data?.message) return err.data.message;
-  if (err.message) {
-    const m = err.message;
-    if (m.includes('user rejected')) return 'Transaction rejected by user';
-    if (m.includes('insufficient funds')) return 'Insufficient funds for gas';
-    if (m.includes('execution reverted')) {
-      const match = m.match(/execution reverted: (.+?)(?:")/);
-      return match ? match[1] : 'Contract execution reverted';
-    }
-    if (m.length > 200) return m.slice(0, 200) + '...';
-    return m;
-  }
-  return String(err);
-}
-
-// ─── MODAL ────────────────────────────────────────────
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
-});
-// Close on Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(m => {
-      m.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-    dismissMetaMaskError();
-  }
-});
-
-// ─── TOAST ────────────────────────────────────────────
-function toast(msg, type = 'info') {
-  const container = document.getElementById('toastContainer');
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  const icons = { success: '✓', error: '✕', info: 'ℹ' };
-  el.innerHTML = `
-    <span class="toast-icon">${icons[type] || icons.info}</span>
-    <span class="toast-body">${sanitize(msg)}</span>
-    <button class="toast-close" onclick="dismissToast(this)">&times;</button>
-  `;
-  container.appendChild(el);
-  // Auto-remove with fade-out
-  const timer = setTimeout(() => removeToast(el), 8000);
-  el._timer = timer;
-}
-
-function dismissToast(btn) {
-  const el = btn.closest('.toast');
-  if (el) removeToast(el);
-}
-
-function removeToast(el) {
-  if (el._timer) clearTimeout(el._timer);
-  el.style.animation = 'toastOut .3s ease forwards';
-  setTimeout(() => { if (el.parentElement) el.remove(); }, 300);
-}
-
-// ─── LOADING ──────────────────────────────────────────
-function showLoading(msg = 'Processing transaction...') {
-  document.getElementById('loadingMsg').textContent = msg;
-  document.getElementById('loadingOverlay').classList.add('active');
-}
-function hideLoading() {
-  document.getElementById('loadingOverlay').classList.remove('active');
-}
-</script>
+520|<body>
+521|<div id="auroraBg">
+522|  <div class="aurora-orb"></div>
+523|  <div class="aurora-orb"></div>
+524|</div>
+525|
+526|<div class="app">
+527|  <!-- Navbar -->
+528|  <nav class="navbar">
+529|    <a class="nav-logo" href="#">
+530|      <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="url(#lg)" stroke-width="2.5"/><path d="M10 20 L16 10 L22 20" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#7c5cfc"/><stop offset="1" stop-color="#ff6b9d"/></linearGradient></defs></svg>
+531|      <span>Pledgly</span>
+532|    </a>
+533|    <div class="nav-tabs">
+534|      <button class="nav-tab active" data-page="browse">Browse</button>
+535|      <button class="nav-tab" data-page="subscriptions">Subscriptions</button>
+536|      <button class="nav-tab" data-page="dashboard">Dashboard</button>
+537|      <button class="nav-tab" data-page="faucet">Get USDC</button>
+538|    </div>
+539|    <div class="wallet-area">
+540|      <button class="wallet-btn" id="walletBtn">Connect Wallet</button>
+541|      <button class="copy-addr-btn" id="copyAddrBtn" title="Copy wallet address" onclick="copyAddress()">
+542|        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+543|      </button>
+544|    </div>
+545|  </nav>
+546|
+547|  <!-- Main Content -->
+548|  <main class="main">
+549|    <!-- Browse Creators -->
+550|    <div class="page active" id="page-browse">
+551|      <div class="page-header">
+552|        <h1>✨ Discover Creators</h1>
+553|        <p>Support your favorite creators with on-chain subscriptions on Polygon</p>
+554|      </div>
+555|      <div id="creatorsGrid" class="card-grid"></div>
+556|      <div id="creatorsEmpty" class="empty-state" style="display:none">
+557|        <div class="icon">🎨</div>
+558|        <h3>No creators yet</h3>
+559|        <p>Be the first to register as a creator and start earning USDC from subscribers!</p>
+560|        <button class="btn btn-primary" onclick="switchTab('dashboard')">Go to Dashboard</button>
+561|      </div>
+562|    </div>
+563|
+564|    <!-- My Subscriptions -->
+565|    <div class="page" id="page-subscriptions">
+566|      <div class="page-header">
+567|        <h1>🎟️ My Subscriptions</h1>
+568|        <p>Your NFT subscription badges and active memberships</p>
+569|      </div>
+570|      <div id="subsList"></div>
+571|      <div id="subsEmpty" class="empty-state" style="display:none">
+572|        <div class="icon">🎟️</div>
+573|        <h3>No subscriptions yet</h3>
+574|        <p>Browse creators and subscribe to unlock exclusive content</p>
+575|        <button class="btn btn-primary" onclick="switchTab('browse')">Browse Creators</button>
+576|      </div>
+577|    </div>
+578|
+579|    <!-- Creator Dashboard -->
+580|    <div class="page" id="page-dashboard">
+581|      <div class="page-header">
+582|        <h1>📊 Creator Dashboard</h1>
+583|        <p>Manage your creator profile, tiers, and content</p>
+584|      </div>
+585|      <div id="dashNotCreator" class="empty-state">
+586|        <div class="icon">🚀</div>
+587|        <h3>Become a Creator</h3>
+588|        <p>Register to start earning USDC from your subscribers on Polygon</p>
+589|      </div>
+590|      <div id="dashCreator" style="display:none">
+591|        <div class="inner-tabs">
+592|          <button class="inner-tab active" data-inner="dash-overview">Overview</button>
+593|          <button class="inner-tab" data-inner="dash-tiers">Tiers</button>
+594|          <button class="inner-tab" data-inner="dash-content">Content</button>
+595|          <button class="inner-tab" data-inner="dash-settings">Settings</button>
+596|        </div>
+597|        <!-- Overview -->
+598|        <div class="inner-page active" id="dash-overview">
+599|          <div class="stats-grid">
+600|            <div class="stat-card"><div class="stat-value" id="statEarned">0</div><div class="stat-label">USDC Earned</div></div>
+601|            <div class="stat-card"><div class="stat-value" id="statSubs">0</div><div class="stat-label">Subscribers</div></div>
+602|            <div class="stat-card"><div class="stat-value" id="statTiers">0</div><div class="stat-label">Active Tiers</div></div>
+603|            <div class="stat-card"><div class="stat-value" id="statContent">0</div><div class="stat-label">Posts</div></div>
+604|          </div>
+605|        </div>
+606|        <!-- Tiers -->
+607|        <div class="inner-page" id="dash-tiers">
+608|          <h3 class="section-title">Your Tiers</h3>
+609|          <div id="dashTiersList"></div>
+610|          <h3 class="section-title">Create New Tier</h3>
+611|          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;">
+612|            <div class="form-group"><label>Tier Name</label><input class="form-input" id="newTierName" placeholder="e.g. Gold Supporter"></div>
+613|            <div class="form-group"><label>Description</label><textarea class="form-textarea" id="newTierDesc" placeholder="What subscribers get at this tier"></textarea></div>
+614|            <div class="form-group"><label>Price (USDC / month)</label><input class="form-input" id="newTierPrice" type="number" min="0.01" step="0.01" placeholder="5.00"></div>
+615|            <button class="btn btn-primary" onclick="createTier()">Create Tier</button>
+616|          </div>
+617|        </div>
+618|        <!-- Content -->
+619|        <div class="inner-page" id="dash-content">
+620|          <h3 class="section-title">Post New Content</h3>
+621|          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;margin-bottom:24px;">
+622|            <div class="form-group"><label>Title</label><input class="form-input" id="newContentTitle" placeholder="Post title"></div>
+623|            <div class="form-group"><label>Content URI</label><input class="form-input" id="newContentURI" placeholder="https:// or ipfs://..."></div>
+624|            <div class="form-group"><label>Minimum Tier Required</label><select class="form-select" id="newContentTier"><option value="0">Free (No tier required)</option></select></div>
+625|            <button class="btn btn-primary" onclick="postContent()">Publish Content</button>
+626|          </div>
+627|          <h3 class="section-title">Your Content</h3>
+628|          <div id="dashContentList"></div>
+629|        </div>
+630|        <!-- Settings -->
+631|        <div class="inner-page" id="dash-settings">
+632|          <h3 class="section-title">Update Profile</h3>
+633|          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:480px;">
+634|            <div class="form-group"><label>Bio</label><textarea class="form-textarea" id="updateBio" placeholder="Tell subscribers about yourself"></textarea></div>
+635|            <div class="form-group"><label>Avatar URI</label><input class="form-input" id="updateAvatar" placeholder="https:// or ipfs://..."></div>
+636|            <button class="btn btn-primary" onclick="updateProfile()">Update Profile</button>
+637|          </div>
+638|        </div>
+639|      </div>
+640|      <!-- Registration Form -->
+641|      <div id="dashRegister" style="display:none">
+642|        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:480px;">
+643|          <h3 style="color:var(--text-bright);font-weight:700;margin-bottom:16px;">Register as Creator</h3>
+644|          <div class="form-group"><label>Display Name</label><input class="form-input" id="regName" placeholder="Your creator name"></div>
+645|          <div class="form-group"><label>Bio</label><textarea class="form-textarea" id="regBio" placeholder="Tell the world about your work"></textarea></div>
+646|          <div class="form-group"><label>Avatar URI (optional)</label><input class="form-input" id="regAvatar" placeholder="https:// or ipfs://..."></div>
+647|          <button class="btn btn-primary btn-block" onclick="registerCreator()">Register Now</button>
+648|        </div>
+649|      </div>
+650|    </div>
+651|
+652|    <!-- Get USDC Info -->
+653|    <div class="page" id="page-faucet">
+654|      <div class="page-header">
+655|        <h1>💰 Get USDC</h1>
+656|        <p>Pledgly uses real USDC on Polygon mainnet for subscriptions</p>
+657|      </div>
+658|      <div class="faucet-card">
+659|        <div style="font-size:3rem;margin-bottom:12px;">💎</div>
+660|        <h3>How to Get USDC on Polygon</h3>
+661|        <p>Send USDC to your wallet on Polygon from any of these:</p>
+662|        <div style="text-align:left;margin:20px 0;">
+663|          <p style="margin:10px 0;color:var(--text-bright);">🏦 <strong>Centralized Exchange:</strong> Withdraw USDC from Coinbase, Binance, or Kraken directly to Polygon network</p>
+664|          <p style="margin:10px 0;color:var(--text-bright);">🌉 <strong>Bridge:</strong> Use <a href="https://portal.polygon.technology/bridge" target="_blank" style="color:var(--accent);">Polygon Portal</a> to bridge USDC from Ethereum</p>
+665|          <p style="margin:10px 0;color:var(--text-bright);">💱 <strong>Swap:</strong> Swap POL for USDC on <a href="https://app.uniswap.org" target="_blank" style="color:var(--accent);">Uniswap</a> or <a href="https://quickswap.exchange" target="_blank" style="color:var(--accent);">QuickSwap</a></p>
+666|        </div>
+667|        <p style="margin-top:16px;font-size:.8rem;color:var(--text-dim);">
+668|          USDC Contract: <a id="faucetLink" href="#" target="_blank" style="color:var(--accent);text-decoration:none;font-family:monospace;font-size:.75rem;">—</a>
+669|        </p>
+670|      </div>
+671|    </div>
+672|  </main>
+673|
+674|  <!-- Footer -->
+675|  <footer class="site-footer">
+676|    <a class="footer-link" href="https://aurorapathways.xyz" target="_blank" rel="noopener">
+677|      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+678|      Pledgly — Keep what you earn
+679|    </a>
+680|  </footer>
+681|</div>
+682|
+683|<!-- Creator Profile Modal -->
+684|<div class="modal-overlay" id="profileModal">
+685|  <div class="modal" style="max-width:700px">
+686|    <div class="profile-banner"></div>
+687|    <button class="modal-close" onclick="closeModal('profileModal')" style="position:absolute;top:12px;right:16px;z-index:2;color:#fff;font-size:1.8rem;">&times;</button>
+688|    <div class="profile-avatar" id="profileAvatar"></div>
+689|    <div class="profile-info">
+690|      <h2 id="profileName"></h2>
+691|      <p id="profileBio" style="color:var(--text-dim);font-size:.9rem;margin-top:4px;"></p>
+692|      <div class="profile-stats">
+693|        <div class="profile-stat"><strong id="profileSubs">0</strong> subscribers</div>
+694|        <div class="profile-stat"><strong id="profileEarned">0</strong> USDC earned</div>
+695|      </div>
+696|    </div>
+697|    <div class="modal-body">
+698|      <h3 class="section-title" style="margin-top:0;">Subscription Tiers</h3>
+699|      <div id="profileTiers"></div>
+700|      <h3 class="section-title">Content</h3>
+701|      <div id="profileContent"></div>
+702|    </div>
+703|  </div>
+704|</div>
+705|
+706|<!-- Toast Container -->
+707|<div class="toast-container" id="toastContainer"></div>
+708|
+709|<!-- Loading Overlay -->
+710|<div class="loading-overlay" id="loadingOverlay">
+711|  <div class="loading-ring"></div>
+712|  <p id="loadingMsg">Processing transaction...</p>
+713|</div>
+714|
+715|<!-- MetaMask Not Installed Error -->
+716|<div class="metamask-error" id="metamaskError">
+717|  <div class="metamask-error-card" style="max-width:520px;text-align:left;">
+718|    <div style="text-align:center;margin-bottom:20px;">
+719|      <div class="icon">🚀</div>
+720|      <h2 style="margin-bottom:6px;">New to Web3? Get started in 3 steps</h2>
+721|      <p style="color:var(--text-dim);font-size:0.9rem;">Pledgly runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+722|    </div>
+723|    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+724|      <div style="display:flex;gap:14px;align-items:flex-start;">
+725|        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0;">1</div>
+726|        <div>
+727|          <h4 style="margin-bottom:4px;">Install a wallet</h4>
+728|          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+729|          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+730|        </div>
+731|      </div>
+732|      <div style="display:flex;gap:14px;align-items:flex-start;">
+733|        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent2);flex-shrink:0;">2</div>
+734|        <div>
+735|          <h4 style="margin-bottom:4px;">Add funds to your wallet</h4>
+736|          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to subscribe to creators. You can buy it directly in MetaMask or transfer from an exchange like Coinbase.</p>
+737|        </div>
+738|      </div>
+739|      <div style="display:flex;gap:14px;align-items:flex-start;">
+740|        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);flex-shrink:0;">3</div>
+741|        <div>
+742|          <h4 style="margin-bottom:4px;">Connect and start</h4>
+743|          <p style="color:var(--text-dim);font-size:0.85rem;line-height:1.5;">Come back here, click "Connect Wallet," and you're in. Browse creators, subscribe, and support the people you love — directly.</p>
+744|        </div>
+745|      </div>
+746|    </div>
+747|    <div class="install-links" style="display:flex;gap:10px;">
+748|      <a class="install-link" href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
+749|        <span class="link-icon">🦊</span>
+750|        <span>Install MetaMask</span>
+751|      </a>
+752|      <a class="install-link" href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
+753|        <span class="link-icon">🔵</span>
+754|        <span>Coinbase Wallet</span>
+755|      </a>
+756|    </div>
+757|    <button class="dismiss-btn" onclick="dismissMetaMaskError()" style="margin-top:16px;">I'll do this later</button>
+758|  </div>
+759|</div>
+760|
+761|<script>
+762|/* =====================================================
+763|   PLEDGLY — Decentralized Creator Subscriptions
+764|   ===================================================== */
+765|
+766|// ─── CONFIG (update these after deployment) ──────────
+767|const CONFIG = {
+768|  // UPDATE THIS AFTER CONTRACT DEPLOYMENT
+769|  PLEDGLY_ADDRESS: '0x6fC43293a013da29180E229d1728fEA7eBE93149',
+770|  USDC_ADDRESS: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
+771|  CHAIN_ID: 137,
+772|  CHAIN_ID_HEX: '0x89',
+773|  RPC_URL: 'https://polygon-bor-rpc.publicnode.com',
+774|  EXPLORER: 'https://polygonscan.com',
+775|  USDC_DECIMALS: 6,
+776|  SUBSCRIPTION_DURATION: 30 * 24 * 60 * 60, // 30 days in seconds
+777|};
+778|
+779|// ─── ABI ──────────────────────────────────────────────
+780|const PLEDGLY_ABI = [
+781|  // Write
+782|  'function registerCreator(string name, string bio, string avatarURI) external',
+783|  'function createTier(string name, string description, uint256 priceUSDC) external returns (uint256)',
+784|  'function updateTier(uint256 tierId, bool active) external',
+785|  'function updateCreatorProfile(string bio, string avatarURI) external',
+786|  'function postContent(string title, string contentURI, uint256 minTierId) external returns (uint256)',
+787|  'function subscribe(uint256 creatorId, uint256 tierId) external returns (uint256)',
+788|  'function renew(uint256 tokenId) external',
+789|  'function cancelSubscription(uint256 tokenId) external',
+790|  // Read
+791|  'function creators(uint256) view returns (string name, string bio, string avatarURI, bool registered, address wallet, uint256 totalEarned, uint256 subscriberCount)',
+792|  'function tiers(uint256, uint256) view returns (string name, string description, uint256 priceUSDC, bool active)',
+793|  'function getCreatorTiers(uint256 creatorId) view returns (tuple(string name, string description, uint256 priceUSDC, bool active)[])',
+794|  'function getCreatorContent(uint256 creatorId) view returns (uint256[])',
+795|  'function contents(uint256) view returns (uint256 creatorId, string title, string contentURI, uint256 minTierId, uint256 timestamp, bool exists)',
+796|  'function canAccessContent(address user, uint256 contentId) view returns (bool)',
+797|  'function getContentURI(address user, uint256 contentId) view returns (string)',
+798|  'function isSubscriptionActive(uint256 tokenId) view returns (bool)',
+799|  'function getSubscriptionExpiry(uint256 tokenId) view returns (uint256)',
+800|  'function getUserSubscriptions(address user) view returns (uint256[])',
+801|  'function subscriptions(uint256) view returns (uint256 creatorId, uint256 tierId, uint256 startTime, uint256 expiry, bool active)',
+802|  'function addressToCreator(address) view returns (uint256)',
+803|  'function isSubscribedTo(address, uint256 creatorId) view returns (bool)',
+804|  'function nextCreatorId() view returns (uint256)',
+805|  // Events
+806|  'event CreatorRegistered(uint256 indexed creatorId, address indexed wallet, string name)',
+807|  'event Subscribed(uint256 indexed tokenId, address indexed subscriber, uint256 indexed creatorId, uint256 tierId, uint256 expiry)',
+808|  'event ContentPosted(uint256 contentId, uint256 creatorId, uint256 minTierId)',
+809|];
+810|
+811|const USDC_ABI = [
+812|  'function approve(address spender, uint256 amount) returns (bool)',
+813|  'function allowance(address owner, address spender) view returns (uint256)',
+814|  'function balanceOf(address account) view returns (uint256)',
+815|  'function transfer(address to, uint256 amount) returns (bool)',
+816|  'function mint(address to, uint256 amount) external',
+817|  'function faucet() external',
+818|  'function faucet(uint256 amount) external',
+819|];
+820|
+821|// ─── STATE ────────────────────────────────────────────
+822|let provider = null;
+823|let signer = null;
+824|let pledgly = null;
+825|let usdc = null;
+826|let userAddress = null;
+827|let isCreator = false;
+828|let creatorId = 0;
+829|let allCreators = []; // cached
+830|
+831|// ─── INIT ─────────────────────────────────────────────
+832|document.addEventListener('DOMContentLoaded', () => {
+833|  setupNav();
+834|  setupInnerTabs();
+835|  updateFaucetLink();
+836|  // Auto-connect if previously connected
+837|  if (window.ethereum && window.ethereum.selectedAddress) {
+838|    connectWallet();
+839|  }
+840|});
+841|
+842|// ─── NAVIGATION ───────────────────────────────────────
+843|function setupNav() {
+844|  document.querySelectorAll('.nav-tab').forEach(tab => {
+845|    tab.addEventListener('click', () => switchTab(tab.dataset.page));
+846|  });
+847|}
+848|
+849|function switchTab(page) {
+850|  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+851|  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+852|  const tab = document.querySelector(`.nav-tab[data-page="${page}"]`);
+853|  const pg = document.getElementById(`page-${page}`);
+854|  if (tab) tab.classList.add('active');
+855|  if (pg) pg.classList.add('active');
+856|  // Refresh data
+857|  if (page === 'browse') loadCreators();
+858|  if (page === 'subscriptions' && userAddress) loadSubscriptions();
+859|  if (page === 'dashboard' && userAddress) loadDashboard();
+860|}
+861|
+862|function setupInnerTabs() {
+863|  document.querySelectorAll('.inner-tab').forEach(tab => {
+864|    tab.addEventListener('click', () => {
+865|      const parent = tab.closest('.page');
+866|      parent.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+867|      parent.querySelectorAll('.inner-page').forEach(p => p.classList.remove('active'));
+868|      tab.classList.add('active');
+869|      document.getElementById(tab.dataset.inner).classList.add('active');
+870|    });
+871|  });
+872|}
+873|
+874|// ─── WALLET ───────────────────────────────────────────
+875|async function connectWallet() {
+876|  if (!window.ethereum) {
+877|    showMetaMaskError();
+878|    return;
+879|  }
+880|  const btn = document.getElementById('walletBtn');
+881|  try {
+882|    btn.innerHTML = '<span class="spinner"></span> Connecting...';
+883|    btn.disabled = true;
+884|    showLoading('Connecting wallet...');
+885|    await window.ethereum.request({ method: 'eth_requestAccounts' });
+886|    provider = new ethers.providers.Web3Provider(window.ethereum);
+887|    signer = provider.getSigner();
+888|    userAddress = await signer.getAddress();
+889|
+890|    // Switch to Polygon
+891|    try {
+892|      await window.ethereum.request({
+893|        method: 'wallet_switchEthereumChain',
+894|        params: [{ chainId: CONFIG.CHAIN_ID_HEX }],
+895|      });
+896|    } catch (switchError) {
+897|      if (switchError.code === 4902) {
+898|        await window.ethereum.request({
+899|          method: 'wallet_addEthereumChain',
+900|          params: [{
+901|            chainId: CONFIG.CHAIN_ID_HEX,
+902|            chainName: 'Polygon Mainnet',
+903|            nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
+904|            rpcUrls: [CONFIG.RPC_URL],
+905|            blockExplorerUrls: [CONFIG.EXPLORER],
+906|          }],
+907|        });
+908|      }
+909|    }
+910|
+911|    // Re-init after chain switch
+912|    provider = new ethers.providers.Web3Provider(window.ethereum);
+913|    signer = provider.getSigner();
+914|    userAddress = await signer.getAddress();
+915|
+916|    pledgly = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, signer);
+917|    usdc = new ethers.Contract(CONFIG.USDC_ADDRESS, USDC_ABI, signer);
+918|
+919|    // Update UI
+920|    btn.textContent = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+921|    btn.classList.add('connected');
+922|    btn.disabled = false;
+923|    btn.onclick = () => {};
+924|
+925|    // Show copy button
+926|    document.getElementById('copyAddrBtn').classList.add('visible');
+927|
+928|    // Listen for account/chain changes
+929|    window.ethereum.on('accountsChanged', () => location.reload());
+930|    window.ethereum.on('chainChanged', () => location.reload());
+931|
+932|    // Check if creator
+933|    try {
+934|      const cid = await pledgly.addressToCreator(userAddress);
+935|      creatorId = cid.toNumber();
+936|      isCreator = creatorId > 0;
+937|    } catch { isCreator = false; }
+938|
+939|    hideLoading();
+940|    toast('Wallet connected!', 'success');
+941|    loadCreators();
+942|  } catch (err) {
+943|    hideLoading();
+944|    btn.textContent = 'Connect Wallet';
+945|    btn.disabled = false;
+946|    btn.classList.remove('connected');
+947|    toast('Failed to connect wallet: ' + parseError(err), 'error');
+948|  }
+949|}
+950|
+951|document.getElementById('walletBtn').addEventListener('click', connectWallet);
+952|
+953|// ─── COPY ADDRESS ─────────────────────────────────────
+954|function copyAddress() {
+955|  if (!userAddress) return;
+956|  const btn = document.getElementById('copyAddrBtn');
+957|  navigator.clipboard.writeText(userAddress).then(() => {
+958|    btn.classList.add('copied');
+959|    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+960|    toast('Address copied to clipboard', 'info');
+961|    setTimeout(() => {
+962|      btn.classList.remove('copied');
+963|      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+964|    }, 2000);
+965|  }).catch(() => {
+966|    // Fallback for older browsers
+967|    const ta = document.createElement('textarea');
+968|    ta.value = userAddress;
+969|    ta.style.cssText = 'position:fixed;opacity:0';
+970|    document.body.appendChild(ta);
+971|    ta.select();
+972|    document.execCommand('copy');
+973|    document.body.removeChild(ta);
+974|    btn.classList.add('copied');
+975|    toast('Address copied to clipboard', 'info');
+976|    setTimeout(() => btn.classList.remove('copied'), 2000);
+977|  });
+978|}
+979|
+980|// ─── METAMASK ERROR ───────────────────────────────────
+981|function showMetaMaskError() {
+982|  document.getElementById('metamaskError').classList.add('active');
+983|}
+984|function dismissMetaMaskError() {
+985|  document.getElementById('metamaskError').classList.remove('active');
+986|}
+987|
+988|// ─── LOAD CREATORS ────────────────────────────────────
+989|async function loadCreators() {
+990|  const grid = document.getElementById('creatorsGrid');
+991|  const empty = document.getElementById('creatorsEmpty');
+992|  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;"><div class="spinner spinner-lg"></div></div>';
+993|  empty.style.display = 'none';
+994|
+995|  try {
+996|    let readProvider = provider || new ethers.providers.JsonRpcProvider(CONFIG.RPC_URL);
+997|    let contract = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, readProvider);
+998|
+999|    let nextId;
+1000|    try {
+1001|      nextId = (await contract.nextCreatorId()).toNumber();
+1002|    } catch {
+1003|      grid.innerHTML = '';
+1004|      empty.style.display = 'block';
+1005|      return;
+1006|    }
+1007|
+1008|    allCreators = [];
+1009|    for (let i = 1; i < nextId; i++) {
+1010|      try {
+1011|        const c = await contract.creators(i);
+1012|        if (c.registered) {
+1013|          let tiersList = [];
+1014|          try { tiersList = await contract.getCreatorTiers(i); } catch {}
+1015|          allCreators.push({ id: i, ...c, tiers: tiersList });
+1016|        }
+1017|      } catch {}
+1018|    }
+1019|
+1020|    if (allCreators.length === 0) {
+1021|      grid.innerHTML = '';
+1022|      empty.style.display = 'block';
+1023|      return;
+1024|    }
+1025|
+1026|    grid.innerHTML = allCreators.map(c => `
+1027|      <div class="card" onclick="openCreatorProfile(${c.id})">
+1028|        <div class="creator-card-header">
+1029|          <div class="creator-avatar">${c.avatarURI ? `<img src="${sanitize(c.avatarURI)}" alt="" onerror="this.textContent='${sanitize(c.name).charAt(0).toUpperCase()}'">` : sanitize(c.name).charAt(0).toUpperCase()}</div>
+1030|          <div>
+1031|            <h3>${sanitize(c.name)}</h3>
+1032|            <span class="sub-count">${c.subscriberCount.toString()} subscriber${c.subscriberCount.toString() === '1' ? '' : 's'}</span>
+1033|          </div>
+1034|        </div>
+1035|        <div class="creator-bio">${sanitize(c.bio || 'No bio yet')}</div>
+1036|        <div class="tier-pills">
+1037|          ${c.tiers.filter(t => t.active).map(t => `<span class="tier-pill">${sanitize(t.name)} · ${formatUSDC(t.priceUSDC)} USDC</span>`).join('')}
+1038|          ${c.tiers.filter(t => t.active).length === 0 ? '<span class="tier-pill" style="opacity:.5">No tiers yet</span>' : ''}
+1039|        </div>
+1040|      </div>
+1041|    `).join('');
+1042|  } catch (err) {
+1043|    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim);">
+1044|      <p>Could not load creators. The contract may not be deployed yet.</p>
+1045|      <p style="font-size:.8rem;margin-top:8px;color:var(--error)">${sanitize(parseError(err))}</p>
+1046|    </div>`;
+1047|  }
+1048|}
+1049|
+1050|// ─── CREATOR PROFILE MODAL ────────────────────────────
+1051|async function openCreatorProfile(cid) {
+1052|  const c = allCreators.find(x => x.id === cid);
+1053|  if (!c) return;
+1054|
+1055|  document.getElementById('profileAvatar').innerHTML = c.avatarURI
+1056|    ? `<img src="${sanitize(c.avatarURI)}" alt="" onerror="this.parentElement.textContent='${sanitize(c.name).charAt(0).toUpperCase()}'">`
+1057|    : sanitize(c.name).charAt(0).toUpperCase();
+1058|  document.getElementById('profileName').textContent = c.name;
+1059|  document.getElementById('profileBio').textContent = c.bio || 'No bio yet';
+1060|  document.getElementById('profileSubs').textContent = c.subscriberCount.toString();
+1061|  document.getElementById('profileEarned').textContent = formatUSDC(c.totalEarned);
+1062|
+1063|  // Tiers
+1064|  const tiersDiv = document.getElementById('profileTiers');
+1065|  const activeTiers = c.tiers.filter(t => t.active);
+1066|  if (activeTiers.length === 0) {
+1067|    tiersDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No tiers available</p>';
+1068|  } else {
+1069|    tiersDiv.innerHTML = activeTiers.map((t, idx) => {
+1070|      const tierId = c.tiers.indexOf(t) + 1; // tier IDs are 1-based from the array
+1071|      return `
+1072|        <div class="tier-card">
+1073|          <div class="tier-card-header">
+1074|            <h4>${sanitize(t.name)}</h4>
+1075|            <span class="tier-price">${formatUSDC(t.priceUSDC)} USDC/mo</span>
+1076|          </div>
+1077|          <p class="tier-desc">${sanitize(t.description || 'No description')}</p>
+1078|          ${userAddress ? `<button class="btn btn-primary btn-sm" onclick="subscribeToCreator(${cid}, ${tierId}, '${formatUSDC(t.priceUSDC)}')">Subscribe</button>` : '<button class="btn btn-secondary btn-sm" disabled>Connect wallet to subscribe</button>'}
+1079|        </div>
+1080|      `;
+1081|    }).join('');
+1082|  }
+1083|
+1084|  // Content
+1085|  const contentDiv = document.getElementById('profileContent');
+1086|  try {
+1087|    let readProvider = provider || new ethers.providers.JsonRpcProvider(CONFIG.RPC_URL);
+1088|    let contract = new ethers.Contract(CONFIG.PLEDGLY_ADDRESS, PLEDGLY_ABI, readProvider);
+1089|    const contentIds = await contract.getCreatorContent(cid);
+1090|
+1091|    if (contentIds.length === 0) {
+1092|      contentDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No content posted yet</p>';
+1093|    } else {
+1094|      let html = '';
+1095|      for (const cidBig of contentIds) {
+1096|        const contentId = cidBig.toNumber();
+1097|        try {
+1098|          const content = await contract.contents(contentId);
+1099|          if (!content.exists) continue;
+1100|          const tierId = content.minTierId.toNumber();
+1101|          let hasAccess = false;
+1102|          let contentURI = '';
+1103|
+1104|          if (userAddress) {
+1105|            try {
+1106|              hasAccess = await contract.canAccessContent(userAddress, contentId);
+1107|              if (hasAccess) contentURI = await contract.getContentURI(userAddress, contentId);
+1108|            } catch {}
+1109|          }
+1110|          if (tierId === 0) hasAccess = true;
+1111|
+1112|          const date = new Date(content.timestamp.toNumber() * 1000).toLocaleDateString();
+1113|          html += `
+1114|            <div class="content-card ${hasAccess ? '' : 'locked'}">
+1115|              <div class="content-card-header">
+1116|                <h4>${sanitize(content.title)}</h4>
+1117|                ${hasAccess ? '<span class="unlock-icon" title="Unlocked">🔓</span>' : '<span class="lock-icon" title="Locked — subscribe to a required tier">🔒</span>'}
+1118|              </div>
+1119|              <div class="content-meta">${date}${tierId > 0 ? ` · Requires tier #${tierId}` : ' · Free'}</div>
+1120|              ${hasAccess && contentURI ? `<div class="content-body"><a href="${safeHref(contentURI)}" target="_blank" rel="noopener">${sanitize(contentURI)}</a></div>` : ''}
+1121|              ${!hasAccess && tierId > 0 ? '<div style="font-size:.85rem;color:var(--warn);margin-top:6px;">Subscribe to the required tier to unlock this content</div>' : ''}
+1122|            </div>
+1123|          `;
+1124|        } catch {}
+1125|      }
+1126|      contentDiv.innerHTML = html || '<p style="color:var(--text-dim);font-size:.9rem;">No content available</p>';
+1127|    }
+1128|  } catch {
+1129|    contentDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">Could not load content</p>';
+1130|  }
+1131|
+1132|  openModal('profileModal');
+1133|}
+1134|
+1135|// ─── SUBSCRIBE ────────────────────────────────────────
+1136|async function subscribeToCreator(creatorId, tierId, priceStr) {
+1137|  if (!userAddress) { toast('Connect your wallet first', 'error'); return; }
+1138|  try {
+1139|    showLoading('Checking USDC allowance...');
+1140|
+1141|    // Get tier price
+1142|    const tier = await pledgly.tiers(creatorId, tierId);
+1143|    const price = tier.priceUSDC;
+1144|
+1145|    // Check allowance
+1146|    const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
+1147|    if (allowance.lt(price)) {
+1148|      showLoading('Approving USDC spend...');
+1149|      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, price.mul(2));
+1150|      await approveTx.wait();
+1151|    }
+1152|
+1153|    showLoading('Subscribing... (confirm in MetaMask)');
+1154|    const tx = await pledgly.subscribe(creatorId, tierId);
+1155|    showLoading('Waiting for confirmation...');
+1156|    await tx.wait();
+1157|
+1158|    hideLoading();
+1159|    toast(`Successfully subscribed! TX: ${tx.hash.slice(0, 10)}...`, 'success');
+1160|    closeModal('profileModal');
+1161|    loadCreators();
+1162|    if (document.getElementById('page-subscriptions').classList.contains('active')) loadSubscriptions();
+1163|  } catch (err) {
+1164|    hideLoading();
+1165|    toast('Subscription failed: ' + parseError(err), 'error');
+1166|  }
+1167|}
+1168|
+1169|// ─── MY SUBSCRIPTIONS ─────────────────────────────────
+1170|async function loadSubscriptions() {
+1171|  if (!userAddress) return;
+1172|  const list = document.getElementById('subsList');
+1173|  const empty = document.getElementById('subsEmpty');
+1174|  list.innerHTML = '<div style="text-align:center;padding:40px;"><div class="spinner spinner-lg"></div></div>';
+1175|  empty.style.display = 'none';
+1176|
+1177|  try {
+1178|    const subIds = await pledgly.getUserSubscriptions(userAddress);
+1179|    if (subIds.length === 0) {
+1180|      list.innerHTML = '';
+1181|      empty.style.display = 'block';
+1182|      return;
+1183|    }
+1184|
+1185|    let html = '';
+1186|    for (const sid of subIds) {
+1187|      const tokenId = sid.toNumber();
+1188|      try {
+1189|        const sub = await pledgly.subscriptions(tokenId);
+1190|        const isActive = await pledgly.isSubscriptionActive(tokenId);
+1191|        const expiry = await pledgly.getSubscriptionExpiry(tokenId);
+1192|        const creator = await pledgly.creators(sub.creatorId);
+1193|        const tier = await pledgly.tiers(sub.creatorId, sub.tierId);
+1194|        const expiryDate = new Date(expiry.toNumber() * 1000);
+1195|        const now = Date.now();
+1196|        const daysLeft = Math.max(0, Math.ceil((expiry.toNumber() * 1000 - now) / 86400000));
+1197|
+1198|        html += `
+1199|          <div class="sub-card">
+1200|            <div class="sub-card-header">
+1201|              <div>
+1202|                <h3 style="font-size:1.05rem;font-weight:600;color:var(--text-bright);">${sanitize(creator.name)}</h3>
+1203|                <span class="tag tag-accent">${sanitize(tier.name)}</span>
+1204|              </div>
+1205|              <span class="sub-badge ${isActive ? 'active' : 'expired'}">${isActive ? '✅ Active' : '❌ Expired'}</span>
+1206|            </div>
+1207|            <div class="sub-detail"><span class="label">NFT Token ID</span><span class="value">#${tokenId}</span></div>
+1208|            <div class="sub-detail"><span class="label">Tier Price</span><span class="value">${formatUSDC(tier.priceUSDC)} USDC/mo</span></div>
+1209|            <div class="sub-detail"><span class="label">Expires</span><span class="value">${expiryDate.toLocaleDateString()} ${isActive ? `(${daysLeft} day${daysLeft !== 1 ? 's' : ''} left)` : ''}</span></div>
+1210|            <div class="sub-detail"><span class="label">Explorer</span><span class="value"><a href="${CONFIG.EXPLORER}/token/${CONFIG.PLEDGLY_ADDRESS}?a=${tokenId}" target="_blank" style="color:var(--accent);text-decoration:none;">View NFT ↗</a></span></div>
+1211|            <div class="sub-actions">
+1212|              ${isActive ? `<button class="btn btn-success btn-sm" onclick="renewSub(${tokenId})">Renew</button>
+1213|              <button class="btn btn-danger btn-sm" onclick="cancelSub(${tokenId})">Cancel</button>` :
+1214|              `<button class="btn btn-primary btn-sm" onclick="renewSub(${tokenId})">Renew Subscription</button>`}
+1215|            </div>
+1216|          </div>
+1217|        `;
+1218|      } catch {}
+1219|    }
+1220|
+1221|    list.innerHTML = html;
+1222|    if (!html) {
+1223|      empty.style.display = 'block';
+1224|    }
+1225|  } catch (err) {
+1226|    list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-dim);">
+1227|      <p>Could not load subscriptions</p><p style="font-size:.8rem;color:var(--error)">${sanitize(parseError(err))}</p></div>`;
+1228|  }
+1229|}
+1230|
+1231|async function renewSub(tokenId) {
+1232|  if (!userAddress) return;
+1233|  try {
+1234|    showLoading('Renewing subscription...');
+1235|    const sub = await pledgly.subscriptions(tokenId);
+1236|    const tier = await pledgly.tiers(sub.creatorId, sub.tierId);
+1237|    const allowance = await usdc.allowance(userAddress, CONFIG.PLEDGLY_ADDRESS);
+1238|    if (allowance.lt(tier.priceUSDC)) {
+1239|      showLoading('Approving USDC...');
+1240|      const approveTx = await usdc.approve(CONFIG.PLEDGLY_ADDRESS, tier.priceUSDC.mul(2));
+1241|      await approveTx.wait();
+1242|    }
+1243|    showLoading('Confirm renewal in MetaMask...');
+1244|    const tx = await pledgly.renew(tokenId);
+1245|    showLoading('Waiting for confirmation...');
+1246|    await tx.wait();
+1247|    hideLoading();
+1248|    toast('Subscription renewed!', 'success');
+1249|    loadSubscriptions();
+1250|  } catch (err) {
+1251|    hideLoading();
+1252|    toast('Renewal failed: ' + parseError(err), 'error');
+1253|  }
+1254|}
+1255|
+1256|async function cancelSub(tokenId) {
+1257|  if (!userAddress) return;
+1258|  if (!confirm('Are you sure you want to cancel this subscription?')) return;
+1259|  try {
+1260|    showLoading('Cancelling subscription...');
+1261|    const tx = await pledgly.cancelSubscription(tokenId);
+1262|    showLoading('Waiting for confirmation...');
+1263|    await tx.wait();
+1264|    hideLoading();
+1265|    toast('Subscription cancelled', 'success');
+1266|    loadSubscriptions();
+1267|  } catch (err) {
+1268|    hideLoading();
+1269|    toast('Cancellation failed: ' + parseError(err), 'error');
+1270|  }
+1271|}
+1272|
+1273|// ─── CREATOR DASHBOARD ────────────────────────────────
+1274|async function loadDashboard() {
+1275|  if (!userAddress) return;
+1276|
+1277|  try {
+1278|    const cid = await pledgly.addressToCreator(userAddress);
+1279|    creatorId = cid.toNumber();
+1280|    isCreator = creatorId > 0;
+1281|  } catch { isCreator = false; }
+1282|
+1283|  document.getElementById('dashNotCreator').style.display = isCreator ? 'none' : 'block';
+1284|  document.getElementById('dashRegister').style.display = 'none';
+1285|  document.getElementById('dashCreator').style.display = isCreator ? 'block' : 'none';
+1286|
+1287|  if (!isCreator) {
+1288|    // Show register button
+1289|    document.getElementById('dashNotCreator').innerHTML = `
+1290|      <div class="icon">🚀</div>
+1291|      <h3>Become a Creator</h3>
+1292|      <p>Register to start earning USDC from your subscribers on Polygon</p>
+1293|      <button class="btn btn-primary" onclick="showRegisterForm()">Register as Creator</button>
+1294|    `;
+1295|    return;
+1296|  }
+1297|
+1298|  // Load creator data
+1299|  try {
+1300|    const creator = await pledgly.creators(creatorId);
+1301|    const tiersList = await pledgly.getCreatorTiers(creatorId);
+1302|    const contentIds = await pledgly.getCreatorContent(creatorId);
+1303|
+1304|    // Stats
+1305|    document.getElementById('statEarned').textContent = formatUSDC(creator.totalEarned);
+1306|    document.getElementById('statSubs').textContent = creator.subscriberCount.toString();
+1307|    document.getElementById('statTiers').textContent = tiersList.filter(t => t.active).length;
+1308|    document.getElementById('statContent').textContent = contentIds.length;
+1309|
+1310|    // Tiers list
+1311|    const tiersDiv = document.getElementById('dashTiersList');
+1312|    if (tiersList.length === 0) {
+1313|      tiersDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;padding:12px 0;">No tiers created yet. Create your first tier below.</p>';
+1314|    } else {
+1315|      tiersDiv.innerHTML = tiersList.map((t, idx) => `
+1316|        <div class="tier-card">
+1317|          <div class="tier-card-header">
+1318|            <h4>${sanitize(t.name)} ${t.active ? '' : '<span style="color:var(--error);font-size:.75rem;font-weight:400;">(Inactive)</span>'}</h4>
+1319|            <div style="display:flex;align-items:center;gap:10px;">
+1320|              <span class="tier-price">${formatUSDC(t.priceUSDC)} USDC/mo</span>
+1321|              <button class="btn btn-sm ${t.active ? 'btn-danger' : 'btn-success'}" onclick="toggleTier(${idx + 1}, ${!t.active})">${t.active ? 'Deactivate' : 'Activate'}</button>
+1322|            </div>
+1323|          </div>
+1324|          <p class="tier-desc">${sanitize(t.description || 'No description')}</p>
+1325|        </div>
+1326|      `).join('');
+1327|    }
+1328|
+1329|    // Content tier selector
+1330|    const tierSelect = document.getElementById('newContentTier');
+1331|    tierSelect.innerHTML = '<option value="0">Free (No tier required)</option>';
+1332|    tiersList.forEach((t, idx) => {
+1333|      if (t.active) {
+1334|        tierSelect.innerHTML += `<option value="${idx + 1}">${sanitize(t.name)} (${formatUSDC(t.priceUSDC)} USDC)</option>`;
+1335|      }
+1336|    });
+1337|
+1338|    // Content list
+1339|    const contentListDiv = document.getElementById('dashContentList');
+1340|    if (contentIds.length === 0) {
+1341|      contentListDiv.innerHTML = '<p style="color:var(--text-dim);font-size:.9rem;">No content posted yet</p>';
+1342|    } else {
+1343|      let html = '';
+1344|      for (const cId of contentIds) {
+1345|        try {
+1346|          const content = await pledgly.contents(cId.toNumber());
+1347|          if (!content.exists) continue;
+1348|          const date = new Date(content.timestamp.toNumber() * 1000).toLocaleDateString();
+1349|          html += `
+1350|            <div class="content-card">
+1351|              <div class="content-card-header">
+1352|                <h4>${sanitize(content.title)}</h4>
+1353|              </div>
+1354|              <div class="content-meta">${date} · ${content.minTierId.toNumber() === 0 ? 'Free' : `Tier #${content.minTierId.toNumber()}`} · ID: ${cId.toNumber()}</div>
+1355|              <div class="content-body" style="word-break:break-all;"><a href="${safeHref(content.contentURI)}" target="_blank">${sanitize(content.contentURI)}</a></div>
+1356|            </div>
+1357|          `;
+1358|        } catch {}
+1359|      }
+1360|      contentListDiv.innerHTML = html || '<p style="color:var(--text-dim);font-size:.9rem;">No content available</p>';
+1361|    }
+1362|  } catch (err) {
+1363|    toast('Failed to load dashboard: ' + parseError(err), 'error');
+1364|  }
+1365|}
+1366|
+1367|function showRegisterForm() {
+1368|  document.getElementById('dashNotCreator').style.display = 'none';
+1369|  document.getElementById('dashRegister').style.display = 'block';
+1370|}
+1371|
+1372|async function registerCreator() {
+1373|  const name = document.getElementById('regName').value.trim();
+1374|  const bio = document.getElementById('regBio').value.trim();
+1375|  const avatar = document.getElementById('regAvatar').value.trim();
+1376|
+1377|  if (!name) { toast('Please enter a display name', 'error'); return; }
+1378|
+1379|  try {
+1380|    showLoading('Registering as creator...');
+1381|    const tx = await pledgly.registerCreator(name, bio, avatar);
+1382|    showLoading('Waiting for confirmation...');
+1383|    await tx.wait();
+1384|    hideLoading();
+1385|    toast('You are now a creator! 🎉', 'success');
+1386|    loadDashboard();
+1387|  } catch (err) {
+1388|    hideLoading();
+1389|    toast('Registration failed: ' + parseError(err), 'error');
+1390|  }
+1391|}
+1392|
+1393|async function createTier() {
+1394|  const name = document.getElementById('newTierName').value.trim();
+1395|  const desc = document.getElementById('newTierDesc').value.trim();
+1396|  const price = document.getElementById('newTierPrice').value;
+1397|
+1398|  if (!name) { toast('Please enter a tier name', 'error'); return; }
+1399|  if (!price || parseFloat(price) <= 0) { toast('Please enter a valid price', 'error'); return; }
+1400|
+1401|  try {
+1402|    showLoading('Creating tier...');
+1403|    const priceWei = ethers.utils.parseUnits(price, CONFIG.USDC_DECIMALS);
+1404|    const tx = await pledgly.createTier(name, desc, priceWei);
+1405|    showLoading('Waiting for confirmation...');
+1406|    await tx.wait();
+1407|    hideLoading();
+1408|    toast('Tier created! 🎉', 'success');
+1409|    document.getElementById('newTierName').value = '';
+1410|    document.getElementById('newTierDesc').value = '';
+1411|    document.getElementById('newTierPrice').value = '';
+1412|    loadDashboard();
+1413|  } catch (err) {
+1414|    hideLoading();
+1415|    toast('Failed to create tier: ' + parseError(err), 'error');
+1416|  }
+1417|}
+1418|
+1419|async function toggleTier(tierId, active) {
+1420|  try {
+1421|    showLoading(`${active ? 'Activating' : 'Deactivating'} tier...`);
+1422|    const tx = await pledgly.updateTier(tierId, active);
+1423|    showLoading('Waiting for confirmation...');
+1424|    await tx.wait();
+1425|    hideLoading();
+1426|    toast(`Tier ${active ? 'activated' : 'deactivated'}`, 'success');
+1427|    loadDashboard();
+1428|  } catch (err) {
+1429|    hideLoading();
+1430|    toast('Failed: ' + parseError(err), 'error');
+1431|  }
+1432|}
+1433|
+1434|async function postContent() {
+1435|  const title = document.getElementById('newContentTitle').value.trim();
+1436|  const uri = document.getElementById('newContentURI').value.trim();
+1437|  const tierId = parseInt(document.getElementById('newContentTier').value);
+1438|
+1439|  if (!title) { toast('Please enter a title', 'error'); return; }
+1440|  if (!uri) { toast('Please enter a content URI', 'error'); return; }
+1441|
+1442|  try {
+1443|    showLoading('Publishing content...');
+1444|    const tx = await pledgly.postContent(title, uri, tierId);
+1445|    showLoading('Waiting for confirmation...');
+1446|    await tx.wait();
+1447|    hideLoading();
+1448|    toast('Content published! 🎉', 'success');
+1449|    document.getElementById('newContentTitle').value = '';
+1450|    document.getElementById('newContentURI').value = '';
+1451|    document.getElementById('newContentTier').value = '0';
+1452|    loadDashboard();
+1453|  } catch (err) {
+1454|    hideLoading();
+1455|    toast('Failed to publish: ' + parseError(err), 'error');
+1456|  }
+1457|}
+1458|
+1459|async function updateProfile() {
+1460|  const bio = document.getElementById('updateBio').value.trim();
+1461|  const avatar = document.getElementById('updateAvatar').value.trim();
+1462|
+1463|  try {
+1464|    showLoading('Updating profile...');
+1465|    const tx = await pledgly.updateCreatorProfile(bio, avatar);
+1466|    showLoading('Waiting for confirmation...');
+1467|    await tx.wait();
+1468|    hideLoading();
+1469|    toast('Profile updated!', 'success');
+1470|  } catch (err) {
+1471|    hideLoading();
+1472|    toast('Failed to update: ' + parseError(err), 'error');
+1473|  }
+1474|}
+1475|
+1476|// ─── USDC FAUCET ──────────────────────────────────────
+1477|async function mintUSDC() {
+1478|  if (!userAddress) { toast('Connect your wallet first', 'error'); return; }
+1479|  try {
+1480|    showLoading('Minting test USDC...');
+1481|    // Try multiple faucet patterns
+1482|    let tx;
+1483|    try {
+1484|      tx = await usdc.faucet();
+1485|    } catch {
+1486|      try {
+1487|        tx = await usdc.faucet(ethers.utils.parseUnits('100', 6));
+1488|      } catch {
+1489|        try {
+1490|          // Some mock USDC contracts use mint directly
+1491|          tx = await usdc.mint(userAddress, ethers.utils.parseUnits('100', 6));
+1492|        } catch {
+1493|          throw new Error('This USDC contract does not have a faucet function. Get test USDC from a Polygon Amoy faucet instead.');
+1494|        }
+1495|      }
+1496|    }
+1497|    showLoading('Waiting for confirmation...');
+1498|    await tx.wait();
+1499|    hideLoading();
+1500|    toast('100 test USDC minted! 💧', 'success');
+1501|    // Show balance
+1502|    try {
+1503|      const bal = await usdc.balanceOf(userAddress);
+1504|      toast(`Balance: ${formatUSDC(bal)} USDC`, 'info');
+1505|    } catch {}
+1506|  } catch (err) {
+1507|    hideLoading();
+1508|    toast('Faucet failed: ' + parseError(err), 'error');
+1509|  }
+1510|}
+1511|
+1512|function updateFaucetLink() {
+1513|  const link = document.getElementById('faucetLink');
+1514|  if (link) {
+1515|    link.href = `${CONFIG.EXPLORER}/token/${CONFIG.USDC_ADDRESS}`;
+1516|    link.textContent = CONFIG.USDC_ADDRESS.slice(0, 10) + '...' + CONFIG.USDC_ADDRESS.slice(-8);
+1517|  }
+1518|}
+1519|
+1520|// ─── HELPERS ──────────────────────────────────────────
+1521|function formatUSDC(bigNum) {
+1522|  if (!bigNum) return '0';
+1523|  return parseFloat(ethers.utils.formatUnits(bigNum, CONFIG.USDC_DECIMALS)).toLocaleString(undefined, {
+1524|    minimumFractionDigits: 2, maximumFractionDigits: 2
+1525|  });
+1526|}
+1527|
+1528|function sanitize(str) {
+1529|  if (!str) return '';
+1530|  const div = document.createElement('div');
+1531|  div.textContent = str;
+1532|  return div.innerHTML;
+1533|}
+1534|
+1535|function safeHref(uri) {
+1536|  if (/^(https?:\/\/|ipfs:\/\/)/i.test(uri)) return uri;
+1537|  return '#';
+1538|}
+1539|
+1540|function parseError(err) {
+1541|  if (!err) return 'Unknown error';
+1542|  if (err.reason) return err.reason;
+1543|  if (err.data?.message) return err.data.message;
+1544|  if (err.message) {
+1545|    const m = err.message;
+1546|    if (m.includes('user rejected')) return 'Transaction rejected by user';
+1547|    if (m.includes('insufficient funds')) return 'Insufficient funds for gas';
+1548|    if (m.includes('execution reverted')) {
+1549|      const match = m.match(/execution reverted: (.+?)(?:")/);
+1550|      return match ? match[1] : 'Contract execution reverted';
+1551|    }
+1552|    if (m.length > 200) return m.slice(0, 200) + '...';
+1553|    return m;
+1554|  }
+1555|  return String(err);
+1556|}
+1557|
+1558|// ─── MODAL ────────────────────────────────────────────
+1559|function openModal(id) {
+1560|  document.getElementById(id).classList.add('open');
+1561|  document.body.style.overflow = 'hidden';
+1562|}
+1563|function closeModal(id) {
+1564|  document.getElementById(id).classList.remove('open');
+1565|  document.body.style.overflow = '';
+1566|}
+1567|// Close modal on overlay click
+1568|document.querySelectorAll('.modal-overlay').forEach(overlay => {
+1569|  overlay.addEventListener('click', (e) => {
+1570|    if (e.target === overlay) {
+1571|      overlay.classList.remove('open');
+1572|      document.body.style.overflow = '';
+1573|    }
+1574|  });
+1575|});
+1576|// Close on Escape
+1577|document.addEventListener('keydown', (e) => {
+1578|  if (e.key === 'Escape') {
+1579|    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+1580|      m.classList.remove('open');
+1581|      document.body.style.overflow = '';
+1582|    });
+1583|    dismissMetaMaskError();
+1584|  }
+1585|});
+1586|
+1587|// ─── TOAST ────────────────────────────────────────────
+1588|function toast(msg, type = 'info') {
+1589|  const container = document.getElementById('toastContainer');
+1590|  const el = document.createElement('div');
+1591|  el.className = `toast ${type}`;
+1592|  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+1593|  el.innerHTML = `
+1594|    <span class="toast-icon">${icons[type] || icons.info}</span>
+1595|    <span class="toast-body">${sanitize(msg)}</span>
+1596|    <button class="toast-close" onclick="dismissToast(this)">&times;</button>
+1597|  `;
+1598|  container.appendChild(el);
+1599|  // Auto-remove with fade-out
+1600|  const timer = setTimeout(() => removeToast(el), 8000);
+1601|  el._timer = timer;
+1602|}
+1603|
+1604|function dismissToast(btn) {
+1605|  const el = btn.closest('.toast');
+1606|  if (el) removeToast(el);
+1607|}
+1608|
+1609|function removeToast(el) {
+1610|  if (el._timer) clearTimeout(el._timer);
+1611|  el.style.animation = 'toastOut .3s ease forwards';
+1612|  setTimeout(() => { if (el.parentElement) el.remove(); }, 300);
+1613|}
+1614|
+1615|// ─── LOADING ──────────────────────────────────────────
+1616|function showLoading(msg = 'Processing transaction...') {
+1617|  document.getElementById('loadingMsg').textContent = msg;
+1618|  document.getElementById('loadingOverlay').classList.add('active');
+1619|}
+1620|function hideLoading() {
+1621|  document.getElementById('loadingOverlay').classList.remove('active');
+1622|}
+1623|</script>
+1624|
+<script src="/assets/dapp-ui-enhancements.js"></script>
 </body>
-</html>
+1625|</html>
+1626|

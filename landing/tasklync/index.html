@@ -1,610 +1,635 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tasklync — Keep 97% of What You Earn | Freelance Marketplace</title>
-  <meta name="description" content="The freelance marketplace with 3% fees and instant USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payouts. Escrow protection. No middleman taking 20% of your money.">
-  <link rel="canonical" href="https://tasklync.xyz/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Tasklync — Decentralized Freelance Escrow">
-  <meta property="og:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
-  <meta property="og:url" content="https://tasklync.xyz">
-  <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Tasklync — Decentralized Freelance Escrow">
-  <meta name="twitter:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
-  <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg: #0a0a0f;
-      --surface: #0f0f16;
-      --surface2: #15151f;
-      --text: #e8e8ed;
-      --text2: #8a8a9a;
-      --accent: #7c5cfc;
-      --accent2: #4ec9b0;
-      --accent3: #ff6b9d;
+1|<!DOCTYPE html>
+2|<html lang="en">
+3|<head>
+4|  <meta charset="UTF-8">
+5|  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+6|  <title>Tasklync — Keep 97% of What You Earn | Freelance Marketplace</title>
+7|  <meta name="description" content="The freelance marketplace with 3% fees and instant USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payouts. Escrow protection. No middleman taking 20% of your money.">
+8|  <link rel="canonical" href="https://tasklync.xyz/">
+9|  <meta property="og:type" content="website">
+10|  <meta property="og:title" content="Tasklync — Decentralized Freelance Escrow">
+11|  <meta property="og:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
+12|  <meta property="og:url" content="https://tasklync.xyz">
+13|  <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+14|  <meta name="twitter:card" content="summary_large_image">
+15|  <meta name="twitter:title" content="Tasklync — Decentralized Freelance Escrow">
+16|  <meta name="twitter:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
+17|  <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+18|  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+19|  <link rel="preconnect" href="https://fonts.googleapis.com">
+20|  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+21|  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+22|  <style>
+23|    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+24|    :root {
+25|      --bg: #0a0a0f;
+26|      --surface: #0f0f16;
+27|      --surface2: #15151f;
+28|      --text: #e8e8ed;
+29|      --text2: #8a8a9a;
+30|      --accent: #7c5cfc;
+31|      --accent2: #4ec9b0;
+32|      --accent3: #ff6b9d;
+33|    }
+34|    html { scroll-behavior: smooth; }
+35|    body {
+36|      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+37|      background: var(--bg);
+38|      color: var(--text);
+39|      line-height: 1.6;
+40|      overflow-x: hidden;
+41|    }
+42|    a { color: inherit; text-decoration: none; }
+43|    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+44|    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+45|    .reveal.visible { opacity: 1; transform: translateY(0); }
+46|    .gradient-text {
+47|      background: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+48|      -webkit-background-clip: text;
+49|      -webkit-text-fill-color: transparent;
+50|      background-clip: text;
+51|    }
+52|
+53|    
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
     }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text2);
+      opacity: 0.7;
     }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .gradient-text {
-      background: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .trust-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .trust-badge strong { color: var(--text); font-weight: 600; }
+    @media (max-width: 640px) {
+      .trust-badges { gap: 1rem; }
+      .trust-badge { font-size: 0.75rem; }
     }
 
     /* Nav */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1rem 0;
-      background: rgba(10, 10, 15, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    nav .container {
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.4rem;
-      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
-      color: #fff; font-weight: 600; font-size: 0.9rem;
-      border-radius: 999px; border: none; cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,92,252,0.3); }
-    .btn-outline {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.4rem;
-      background: transparent; color: var(--text);
-      font-weight: 600; font-size: 0.9rem;
-      border-radius: 999px; border: 1px solid rgba(255,255,255,0.15);
-      cursor: pointer; transition: border-color 0.2s, background 0.2s;
-    }
-    .btn-outline:hover { border-color: var(--accent); background: rgba(124,92,252,0.08); }
-
-    /* Hero */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding-top: 6rem; padding-bottom: 4rem; text-align: center;
-    }
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem; border-radius: 999px;
-      background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2);
-      font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem;
-    }
-    .badge .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--accent2);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .hero h1 {
-      font-size: clamp(2.2rem, 5.5vw, 4rem);
-      font-weight: 800; line-height: 1.15;
-      letter-spacing: -0.03em;
-      max-width: 800px; margin: 0 auto 1.5rem;
-    }
-    .hero p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text2); max-width: 560px; margin: 0 auto 2rem;
-    }
-    .stat-row {
-      display: flex; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem);
-      flex-wrap: wrap; margin-bottom: 2.5rem;
-    }
-    .stat-row .stat { text-align: center; }
-    .stat-row .stat strong { display: block; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; }
-    .stat-row .stat span { font-size: 0.85rem; color: var(--text2); }
-    .hero-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-
-    /* Section headings */
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800; letter-spacing: -0.02em;
-      text-align: center; margin-bottom: 0.8rem;
-    }
-    .section-sub {
-      text-align: center; color: var(--text2);
-      max-width: 560px; margin: 0 auto 3rem;
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-    }
-
-    /* Problem */
-    .problem { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .problem-block {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 20px; padding: clamp(2rem, 4vw, 3.5rem);
-      text-align: center; max-width: 700px; margin: 0 auto;
-    }
-    .problem-block h2 {
-      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
-      font-weight: 800; margin-bottom: 1.5rem;
-    }
-    .fee-compare {
-      display: flex; justify-content: center; gap: 2rem;
-      flex-wrap: wrap; margin-top: 1.5rem;
-    }
-    .fee-compare .fee-item {
-      padding: 1.2rem 1.8rem;
-      background: var(--surface2);
-      border-radius: 14px; text-align: center;
-      min-width: 140px;
-    }
-    .fee-compare .fee-item .name { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.3rem; }
-    .fee-compare .fee-item .rate { font-size: 1.6rem; font-weight: 800; }
-    .fee-compare .fee-item.high .rate { color: var(--accent3); }
-    .fee-compare .fee-item.low .rate { color: var(--accent2); }
-
-    /* Features */
-    .features { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 2rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .feature-card:hover { border-color: rgba(124,92,252,0.2); transform: translateY(-2px); }
-    .feature-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: rgba(124,92,252,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1rem;
-    }
-    .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .feature-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
-
-    /* How It Works */
-    .how-it-works { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      counter-reset: step;
-    }
-    .step { text-align: center; }
-    .step-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
-      font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;
-    }
-    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .step p { color: var(--text2); font-size: 0.9rem; }
-
-    /* Comparison */
-    .comparison { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .compare-table-wrap {
-      overflow-x: auto;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    .compare-table {
-      width: 100%; min-width: 600px;
-      border-collapse: collapse;
-    }
-    .compare-table th, .compare-table td {
-      padding: 1rem 1.2rem; text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      font-size: 0.95rem;
-    }
-    .compare-table thead th {
-      background: var(--surface2);
-      font-weight: 700; font-size: 0.85rem;
-      text-transform: uppercase; letter-spacing: 0.05em;
-      color: var(--text2);
-    }
-    .compare-table thead th:first-child { border-radius: 16px 0 0 0; }
-    .compare-table thead th:last-child { border-radius: 0 16px 0 0; }
-    .compare-table tbody tr { background: var(--surface); }
-    .compare-table tbody tr:hover { background: var(--surface2); }
-    .compare-table td:first-child { font-weight: 600; color: var(--text2); }
-    .compare-table .highlight { color: var(--accent2); font-weight: 600; }
-
-    /* Security */
-    .security { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .security-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .security-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 2rem;
-    }
-    .security-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .security-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
-
-    /* FAQ */
-    .faq { padding: clamp(4rem, 8vw, 7rem) 0; }
-    .faq-list { max-width: 700px; margin: 0 auto; }
-    .faq-item {
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 1.5rem 0;
-    }
-    .faq-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .faq-item p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
-
-    /* CTA */
-    .cta-section {
-      padding: clamp(4rem, 8vw, 7rem) 0;
-      text-align: center;
-    }
-    .cta-box {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 24px;
-      padding: clamp(3rem, 6vw, 5rem) 2rem;
-    }
-    .cta-box h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800; margin-bottom: 1rem;
-    }
-    .cta-box p {
-      color: var(--text2); font-size: 1.1rem;
-      margin-bottom: 2rem; max-width: 480px; margin-inline: auto;
-    }
-
-    /* Footer */
-    footer {
-      padding: 3rem 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      text-align: center;
-    }
-    footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.5rem; }
-    footer a { color: var(--accent); }
-    footer a:hover { text-decoration: underline; }
-
-    /* Mobile */
-    @media (max-width: 640px) {
-      .stat-row { gap: 1.5rem; }
-      .fee-compare { gap: 1rem; }
-      .features-grid, .security-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Nav -->
-  <nav>
-    <div class="container">
-      <a href="#" class="logo gradient-text">Tasklync</a>
-      <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing</a>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <div class="badge"><span class="dot"></span> The Freelance Marketplace</div>
-      <h1><span class="gradient-text">Keep 97%</span> of what you earn.</h1>
-      <p>No middleman taking a fifth of your paycheck. Tasklync connects freelancers and clients directly with escrow protection and instant payouts.</p>
-      <div class="stat-row">
-        <div class="stat"><strong class="gradient-text">3%</strong><span>Platform Fee</span></div>
-        <div class="stat"><strong class="gradient-text">Instant</strong><span>USDC Payouts</span></div>
-        <div class="stat"><strong class="gradient-text">$0</strong><span>To Join</span></div>
-      </div>
-      <div class="hero-btns">
-        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing →</a>
-        <a href="#how-it-works" class="btn-outline">Learn More ↓</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Problem -->
-  <section class="problem" id="problem">
-    <div class="container">
-      <div class="problem-block reveal">
-        <h2>Platforms take 20%.<br>You do the work.</h2>
-        <p style="color:var(--text2);max-width:480px;margin:0 auto;">Traditional freelance platforms charge up to 20% of every dollar you earn. That's a fifth of your income — gone.</p>
-        <div class="fee-compare">
-          <div class="fee-item high"><div class="name">Upwork</div><div class="rate">20%</div></div>
-          <div class="fee-item high"><div class="name">Fiverr</div><div class="rate">20%</div></div>
-          <div class="fee-item low"><div class="name">Tasklync</div><div class="rate">3%</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="container">
-      <h2 class="section-title reveal">Everything you need.</h2>
-      <p class="section-sub reveal">A complete freelance marketplace, built on open infrastructure.</p>
-      <div class="features-grid">
-        <div class="feature-card reveal">
-          <div class="feature-icon">📋</div>
-          <h3>Post &amp; Apply</h3>
-          <p>Clients post jobs with clear scope and budget. Freelancers apply directly — no algorithm deciding who gets seen.</p>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon">🔒</div>
-          <h3>Secure Escrow</h3>
-          <p>Funds are locked in a automated agreement before work begins. Neither party can access them until the job is done.</p>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon">⚖️</div>
-          <h3>Fair Disputes</h3>
-          <p>If something goes wrong, the community votes. No single support agent decides your fate.</p>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon">🏅</div>
-          <h3>Portable Reputation</h3>
-          <p>Your reviews live transparent and permanent. You own them, you take them with you. No platform can hold your reputation hostage.</p>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon">⚡</div>
-          <h3>Instant Payouts</h3>
-          <p>When a client approves your work, USDC hits your wallet immediately. No waiting days for a bank transfer.</p>
-        </div>
-        <div class="feature-card reveal">
-          <div class="feature-icon">🌍</div>
-          <h3>Global by Default</h3>
-          <p>No country restrictions. No payment processor gatekeeping. If you have a wallet, you can work.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <h2 class="section-title reveal">How it works</h2>
-      <p class="section-sub reveal">Four simple steps from posting to payment.</p>
-      <div class="steps">
-        <div class="step reveal">
-          <div class="step-num">1</div>
-          <h3>Client Posts &amp; Funds</h3>
-          <p>A client describes the job and deposits payment into escrow.</p>
-        </div>
-        <div class="step reveal">
-          <div class="step-num">2</div>
-          <h3>Freelancers Apply</h3>
-          <p>Freelancers apply with a small stake to show commitment.</p>
-        </div>
-        <div class="step reveal">
-          <div class="step-num">3</div>
-          <h3>Work Gets Done</h3>
-          <p>The freelancer delivers. The client reviews and approves.</p>
-        </div>
-        <div class="step reveal">
-          <div class="step-num">4</div>
-          <h3>Both Rate Each Other</h3>
-          <p>Payment releases instantly. Both parties leave a review.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Comparison -->
-  <section class="comparison" id="comparison">
-    <div class="container">
-      <h2 class="section-title reveal">See the difference</h2>
-      <p class="section-sub reveal">How Tasklync stacks up against traditional platforms.</p>
-      <div class="compare-table-wrap reveal">
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Tasklync</th>
-              <th>Upwork</th>
-              <th>Fiverr</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Platform Fee</td>
-              <td class="highlight">3%</td>
-              <td>Up to 20%</td>
-              <td>20%</td>
-            </tr>
-            <tr>
-              <td>Payout Speed</td>
-              <td class="highlight">Instant (USDC)</td>
-              <td>3–5 business days</td>
-              <td>Up to 14 days</td>
-            </tr>
-            <tr>
-              <td>Censorship Risk</td>
-              <td class="highlight">Decentralized</td>
-              <td>Platform can ban you</td>
-              <td>Platform can ban you</td>
-            </tr>
-            <tr>
-              <td>Reputation Ownership</td>
-              <td class="highlight">You own your reviews</td>
-              <td>Locked to platform</td>
-              <td>Locked to platform</td>
-            </tr>
-            <tr>
-              <td>Dispute Resolution</td>
-              <td class="highlight">Community voted</td>
-              <td>Internal support</td>
-              <td>Internal support</td>
-            </tr>
-            <tr>
-              <td>Global Access</td>
-              <td class="highlight">Anyone with a wallet</td>
-              <td>Restricted countries</td>
-              <td>Restricted countries</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Security -->
-  <section class="security" id="security">
-    <div class="container">
-      <h2 class="section-title reveal">Built for trust</h2>
-      <p class="section-sub reveal">Automated agreements handle the money. People handle the work.</p>
-      <div class="security-grid">
-        <div class="security-card reveal">
-          <h3>🔒 Locked Payments</h3>
-          <p>Client funds are deposited into escrow before work starts. The freelancer knows the money is there. The client knows they'll only pay for approved work.</p>
-        </div>
-        <div class="security-card reveal">
-          <h3>🛡️ Anti-Flake Protection</h3>
-          <p>Freelancers stake a small deposit to apply. If they abandon the job, the stake covers the disruption. It keeps everyone honest.</p>
-        </div>
-        <div class="security-card reveal">
-          <h3>📝 Permanent Reviews</h3>
-          <p>Reviews are stored transparent and permanent and can't be deleted or manipulated. Your reputation is yours — portable and permanent.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <h2 class="section-title reveal">Frequently asked questions</h2>
-      <p class="section-sub reveal">Everything you need to know before you start.</p>
-      <div class="faq-list">
-        <div class="faq-item reveal">
-          <h3>How do I get paid?</h3>
-          <p>When a client approves your work, USDC is released from escrow directly to your wallet — instantly. No waiting for bank transfers or payment processors.</p>
-        </div>
-        <div class="faq-item reveal">
-          <h3>What if there's a dispute?</h3>
-          <p>If a client and freelancer can't agree, either party can open a dispute. The case goes to community vote, and the funds are released based on the outcome.</p>
-        </div>
-        <div class="faq-item reveal">
-          <h3>Do I need crypto experience?</h3>
-          <p>You'll need a wallet (like MetaMask) and some MATIC for gas on Polygon. If you've never used crypto before, it takes about 10 minutes to set up.</p>
-        </div>
-        <div class="faq-item reveal">
-          <h3>What chains do you support?</h3>
-          <p>Tasklync is currently deployed on Polygon mainnet — chosen for its low fees and fast transactions. More chains may be added in the future.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-box reveal">
-        <h2><span class="gradient-text">Keep what you earn.</span></h2>
-        <p>Join a marketplace that works for freelancers, not against them.</p>
-        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:0.8rem 2.2rem;">Start Freelancing →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>Tasklync — The freelance marketplace where you keep what you earn. &copy; 2026</p>
-      <p><a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Backed by Aurora Pathways</a></p>
-    </div>
-  </footer>
-
-  <script>
-    // IntersectionObserver reveal animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  
-// Onboarding modal - show when no wallet detected
-function showOnboarding() {
-  if (typeof window.ethereum === 'undefined') {
-    document.getElementById('onboardingModal').style.display = 'flex';
-    return true;
-  }
-  return false;
-}
-// Override connect wallet buttons
-document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    if (showOnboarding()) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  });
-});
-
-</script>
-<!-- Onboarding Modal -->
-<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
-  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
-      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
-      <p style="color:#888;font-size:0.9rem;">Tasklync runs on blockchain — but don't worry, it's simpler than it sounds.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
-          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to post jobs or get paid for freelance work. You can buy it directly in MetaMask or transfer from Coinbase.</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Freelancing," and you're in. Browse jobs, post work, or apply — all payments are protected by escrow.</p>
-        </div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;">
-      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
-      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
-    </div>
-    <div style="text-align:center;margin-top:16px;">
-      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
-    </div>
-  </div>
-</div>
-</body>
-</html>
+54|    nav {
+55|      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+56|      padding: 1rem 0;
+57|      background: rgba(10, 10, 15, 0.8);
+58|      backdrop-filter: blur(20px);
+59|      border-bottom: 1px solid rgba(255,255,255,0.05);
+60|    }
+61|    nav .container {
+62|      display: flex; justify-content: space-between; align-items: center;
+63|    }
+64|    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+65|    .btn-primary {
+66|      display: inline-flex; align-items: center; gap: 0.5rem;
+67|      padding: 0.6rem 1.4rem;
+68|      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
+69|      color: #fff; font-weight: 600; font-size: 0.9rem;
+70|      border-radius: 999px; border: none; cursor: pointer;
+71|      transition: transform 0.2s, box-shadow 0.2s;
+72|    }
+73|    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,92,252,0.3); }
+74|    .btn-outline {
+75|      display: inline-flex; align-items: center; gap: 0.5rem;
+76|      padding: 0.6rem 1.4rem;
+77|      background: transparent; color: var(--text);
+78|      font-weight: 600; font-size: 0.9rem;
+79|      border-radius: 999px; border: 1px solid rgba(255,255,255,0.15);
+80|      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+81|    }
+82|    .btn-outline:hover { border-color: var(--accent); background: rgba(124,92,252,0.08); }
+83|
+84|    /* Hero */
+85|    .hero {
+86|      min-height: 100vh; display: flex; align-items: center;
+87|      padding-top: 6rem; padding-bottom: 4rem; text-align: center;
+88|    }
+89|    .badge {
+90|      display: inline-flex; align-items: center; gap: 0.5rem;
+91|      padding: 0.4rem 1rem; border-radius: 999px;
+92|      background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2);
+93|      font-size: 0.85rem; color: var(--accent); margin-bottom: 1.5rem;
+94|    }
+95|    .badge .dot {
+96|      width: 8px; height: 8px; border-radius: 50%;
+97|      background: var(--accent2);
+98|      animation: pulse 2s infinite;
+99|    }
+100|    @keyframes pulse {
+101|      0%, 100% { opacity: 1; }
+102|      50% { opacity: 0.4; }
+103|    }
+104|    .hero h1 {
+105|      font-size: clamp(2.2rem, 5.5vw, 4rem);
+106|      font-weight: 800; line-height: 1.15;
+107|      letter-spacing: -0.03em;
+108|      max-width: 800px; margin: 0 auto 1.5rem;
+109|    }
+110|    .hero p {
+111|      font-size: clamp(1rem, 2vw, 1.2rem);
+112|      color: var(--text2); max-width: 560px; margin: 0 auto 2rem;
+113|    }
+114|    .stat-row {
+115|      display: flex; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem);
+116|      flex-wrap: wrap; margin-bottom: 2.5rem;
+117|    }
+118|    .stat-row .stat { text-align: center; }
+119|    .stat-row .stat strong { display: block; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; }
+120|    .stat-row .stat span { font-size: 0.85rem; color: var(--text2); }
+121|    .hero-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+122|
+123|    /* Section headings */
+124|    .section-title {
+125|      font-size: clamp(1.8rem, 4vw, 2.8rem);
+126|      font-weight: 800; letter-spacing: -0.02em;
+127|      text-align: center; margin-bottom: 0.8rem;
+128|    }
+129|    .section-sub {
+130|      text-align: center; color: var(--text2);
+131|      max-width: 560px; margin: 0 auto 3rem;
+132|      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+133|    }
+134|
+135|    /* Problem */
+136|    .problem { padding: clamp(4rem, 8vw, 7rem) 0; }
+137|    .problem-block {
+138|      background: var(--surface);
+139|      border: 1px solid rgba(255,255,255,0.05);
+140|      border-radius: 20px; padding: clamp(2rem, 4vw, 3.5rem);
+141|      text-align: center; max-width: 700px; margin: 0 auto;
+142|    }
+143|    .problem-block h2 {
+144|      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+145|      font-weight: 800; margin-bottom: 1.5rem;
+146|    }
+147|    .fee-compare {
+148|      display: flex; justify-content: center; gap: 2rem;
+149|      flex-wrap: wrap; margin-top: 1.5rem;
+150|    }
+151|    .fee-compare .fee-item {
+152|      padding: 1.2rem 1.8rem;
+153|      background: var(--surface2);
+154|      border-radius: 14px; text-align: center;
+155|      min-width: 140px;
+156|    }
+157|    .fee-compare .fee-item .name { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.3rem; }
+158|    .fee-compare .fee-item .rate { font-size: 1.6rem; font-weight: 800; }
+159|    .fee-compare .fee-item.high .rate { color: var(--accent3); }
+160|    .fee-compare .fee-item.low .rate { color: var(--accent2); }
+161|
+162|    /* Features */
+163|    .features { padding: clamp(4rem, 8vw, 7rem) 0; }
+164|    .features-grid {
+165|      display: grid;
+166|      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+167|      gap: 1.5rem;
+168|    }
+169|    .feature-card {
+170|      background: var(--surface);
+171|      border: 1px solid rgba(255,255,255,0.05);
+172|      border-radius: 16px;
+173|      padding: 2rem;
+174|      transition: border-color 0.3s, transform 0.3s;
+175|    }
+176|    .feature-card:hover { border-color: rgba(124,92,252,0.2); transform: translateY(-2px); }
+177|    .feature-icon {
+178|      width: 48px; height: 48px; border-radius: 12px;
+179|      background: rgba(124,92,252,0.1);
+180|      display: flex; align-items: center; justify-content: center;
+181|      font-size: 1.4rem; margin-bottom: 1rem;
+182|    }
+183|    .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+184|    .feature-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+185|
+186|    /* How It Works */
+187|    .how-it-works { padding: clamp(4rem, 8vw, 7rem) 0; }
+188|    .steps {
+189|      display: grid;
+190|      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+191|      gap: 2rem;
+192|      counter-reset: step;
+193|    }
+194|    .step { text-align: center; }
+195|    .step-num {
+196|      display: inline-flex; align-items: center; justify-content: center;
+197|      width: 48px; height: 48px; border-radius: 50%;
+198|      background: linear-gradient(135deg, #7c5cfc, #4ec9b0);
+199|      font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;
+200|    }
+201|    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+202|    .step p { color: var(--text2); font-size: 0.9rem; }
+203|
+204|    /* Comparison */
+205|    .comparison { padding: clamp(4rem, 8vw, 7rem) 0; }
+206|    .compare-table-wrap {
+207|      overflow-x: auto;
+208|      border-radius: 16px;
+209|      border: 1px solid rgba(255,255,255,0.05);
+210|    }
+211|    .compare-table {
+212|      width: 100%; min-width: 600px;
+213|      border-collapse: collapse;
+214|    }
+215|    .compare-table th, .compare-table td {
+216|      padding: 1rem 1.2rem; text-align: left;
+217|      border-bottom: 1px solid rgba(255,255,255,0.04);
+218|      font-size: 0.95rem;
+219|    }
+220|    .compare-table thead th {
+221|      background: var(--surface2);
+222|      font-weight: 700; font-size: 0.85rem;
+223|      text-transform: uppercase; letter-spacing: 0.05em;
+224|      color: var(--text2);
+225|    }
+226|    .compare-table thead th:first-child { border-radius: 16px 0 0 0; }
+227|    .compare-table thead th:last-child { border-radius: 0 16px 0 0; }
+228|    .compare-table tbody tr { background: var(--surface); }
+229|    .compare-table tbody tr:hover { background: var(--surface2); }
+230|    .compare-table td:first-child { font-weight: 600; color: var(--text2); }
+231|    .compare-table .highlight { color: var(--accent2); font-weight: 600; }
+232|
+233|    /* Security */
+234|    .security { padding: clamp(4rem, 8vw, 7rem) 0; }
+235|    .security-grid {
+236|      display: grid;
+237|      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+238|      gap: 1.5rem;
+239|    }
+240|    .security-card {
+241|      background: var(--surface);
+242|      border: 1px solid rgba(255,255,255,0.05);
+243|      border-radius: 16px;
+244|      padding: 2rem;
+245|    }
+246|    .security-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+247|    .security-card p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+248|
+249|    /* FAQ */
+250|    .faq { padding: clamp(4rem, 8vw, 7rem) 0; }
+251|    .faq-list { max-width: 700px; margin: 0 auto; }
+252|    .faq-item {
+253|      border-bottom: 1px solid rgba(255,255,255,0.06);
+254|      padding: 1.5rem 0;
+255|    }
+256|    .faq-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+257|    .faq-item p { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+258|
+259|    /* CTA */
+260|    .cta-section {
+261|      padding: clamp(4rem, 8vw, 7rem) 0;
+262|      text-align: center;
+263|    }
+264|    .cta-box {
+265|      background: var(--surface);
+266|      border: 1px solid rgba(255,255,255,0.05);
+267|      border-radius: 24px;
+268|      padding: clamp(3rem, 6vw, 5rem) 2rem;
+269|    }
+270|    .cta-box h2 {
+271|      font-size: clamp(1.8rem, 4vw, 2.8rem);
+272|      font-weight: 800; margin-bottom: 1rem;
+273|    }
+274|    .cta-box p {
+275|      color: var(--text2); font-size: 1.1rem;
+276|      margin-bottom: 2rem; max-width: 480px; margin-inline: auto;
+277|    }
+278|
+279|    /* Footer */
+280|    footer {
+281|      padding: 3rem 0;
+282|      border-top: 1px solid rgba(255,255,255,0.05);
+283|      text-align: center;
+284|    }
+285|    footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.5rem; }
+286|    footer a { color: var(--accent); }
+287|    footer a:hover { text-decoration: underline; }
+288|
+289|    /* Mobile */
+290|    @media (max-width: 640px) {
+291|      .stat-row { gap: 1.5rem; }
+292|      .fee-compare { gap: 1rem; }
+293|      .features-grid, .security-grid { grid-template-columns: 1fr; }
+294|      .steps { grid-template-columns: 1fr 1fr; }
+295|    }
+296|  </style>
+297|</head>
+298|<body>
+299|
+300|  <!-- Nav -->
+301|  <nav>
+302|    <div class="container">
+303|      <a href="#" class="logo gradient-text">Tasklync</a>
+304|      <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing</a>
+305|    </div>
+306|  </nav>
+307|
+308|  <!-- Hero -->
+309|  <section class="hero">
+310|    <div class="container">
+311|      <div class="badge"><span class="dot"></span> The Freelance Marketplace</div>
+312|      <h1><span class="gradient-text">Keep 97%</span> of what you earn.</h1>
+313|      <p>No middleman taking a fifth of your paycheck. Tasklync connects freelancers and clients directly with escrow protection and instant payouts.</p>
+314|      <div class="stat-row">
+315|        <div class="stat"><strong class="gradient-text">3%</strong><span>Platform Fee</span></div>
+316|        <div class="stat"><strong class="gradient-text">Instant</strong><span>USDC Payouts</span></div>
+317|        <div class="stat"><strong class="gradient-text">$0</strong><span>To Join</span></div>
+318|      </div>
+319|      <div class="hero-btns">
+320|        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing →</a>
+321|        <a href="#how-it-works" class="btn-outline">Learn More ↓</a>
+322|      </div>
+323|    </div>
+324|  </section>
+325|
+326|  <!-- Problem -->
+327|  <section class="problem" id="problem">
+328|    <div class="container">
+329|      <div class="problem-block reveal">
+330|        <h2>Platforms take 20%.<br>You do the work.</h2>
+331|        <p style="color:var(--text2);max-width:480px;margin:0 auto;">Traditional freelance platforms charge up to 20% of every dollar you earn. That's a fifth of your income — gone.</p>
+332|        <div class="fee-compare">
+333|          <div class="fee-item high"><div class="name">Upwork</div><div class="rate">20%</div></div>
+334|          <div class="fee-item high"><div class="name">Fiverr</div><div class="rate">20%</div></div>
+335|          <div class="fee-item low"><div class="name">Tasklync</div><div class="rate">3%</div></div>
+336|        </div>
+337|      </div>
+338|    </div>
+339|  </section>
+340|
+341|  <!-- Features -->
+342|  <section class="features" id="features">
+343|    <div class="container">
+344|      <h2 class="section-title reveal">Everything you need.</h2>
+345|      <p class="section-sub reveal">A complete freelance marketplace, built on open infrastructure.</p>
+346|      <div class="features-grid">
+347|        <div class="feature-card reveal">
+348|          <div class="feature-icon">📋</div>
+349|          <h3>Post &amp; Apply</h3>
+350|          <p>Clients post jobs with clear scope and budget. Freelancers apply directly — no algorithm deciding who gets seen.</p>
+351|        </div>
+352|        <div class="feature-card reveal">
+353|          <div class="feature-icon">🔒</div>
+354|          <h3>Secure Escrow</h3>
+355|          <p>Funds are locked in a automated agreement before work begins. Neither party can access them until the job is done.</p>
+356|        </div>
+357|        <div class="feature-card reveal">
+358|          <div class="feature-icon">⚖️</div>
+359|          <h3>Fair Disputes</h3>
+360|          <p>If something goes wrong, the community votes. No single support agent decides your fate.</p>
+361|        </div>
+362|        <div class="feature-card reveal">
+363|          <div class="feature-icon">🏅</div>
+364|          <h3>Portable Reputation</h3>
+365|          <p>Your reviews live transparent and permanent. You own them, you take them with you. No platform can hold your reputation hostage.</p>
+366|        </div>
+367|        <div class="feature-card reveal">
+368|          <div class="feature-icon">⚡</div>
+369|          <h3>Instant Payouts</h3>
+370|          <p>When a client approves your work, USDC hits your wallet immediately. No waiting days for a bank transfer.</p>
+371|        </div>
+372|        <div class="feature-card reveal">
+373|          <div class="feature-icon">🌍</div>
+374|          <h3>Global by Default</h3>
+375|          <p>No country restrictions. No payment processor gatekeeping. If you have a wallet, you can work.</p>
+376|        </div>
+377|      </div>
+378|    </div>
+379|  </section>
+380|
+381|  <!-- How It Works -->
+382|  <section class="how-it-works" id="how-it-works">
+383|    <div class="container">
+384|      <h2 class="section-title reveal">How it works</h2>
+385|      <p class="section-sub reveal">Four simple steps from posting to payment.</p>
+386|      <div class="steps">
+387|        <div class="step reveal">
+388|          <div class="step-num">1</div>
+389|          <h3>Client Posts &amp; Funds</h3>
+390|          <p>A client describes the job and deposits payment into escrow.</p>
+391|        </div>
+392|        <div class="step reveal">
+393|          <div class="step-num">2</div>
+394|          <h3>Freelancers Apply</h3>
+395|          <p>Freelancers apply with a small stake to show commitment.</p>
+396|        </div>
+397|        <div class="step reveal">
+398|          <div class="step-num">3</div>
+399|          <h3>Work Gets Done</h3>
+400|          <p>The freelancer delivers. The client reviews and approves.</p>
+401|        </div>
+402|        <div class="step reveal">
+403|          <div class="step-num">4</div>
+404|          <h3>Both Rate Each Other</h3>
+405|          <p>Payment releases instantly. Both parties leave a review.</p>
+406|        </div>
+407|      </div>
+408|    </div>
+409|  </section>
+410|
+411|  <!-- Comparison -->
+412|  <section class="comparison" id="comparison">
+413|    <div class="container">
+414|      <h2 class="section-title reveal">See the difference</h2>
+415|      <p class="section-sub reveal">How Tasklync stacks up against traditional platforms.</p>
+416|      <div class="compare-table-wrap reveal">
+417|        <table class="compare-table">
+418|          <thead>
+419|            <tr>
+420|              <th></th>
+421|              <th>Tasklync</th>
+422|              <th>Upwork</th>
+423|              <th>Fiverr</th>
+424|            </tr>
+425|          </thead>
+426|          <tbody>
+427|            <tr>
+428|              <td>Platform Fee</td>
+429|              <td class="highlight">3%</td>
+430|              <td>Up to 20%</td>
+431|              <td>20%</td>
+432|            </tr>
+433|            <tr>
+434|              <td>Payout Speed</td>
+435|              <td class="highlight">Instant (USDC)</td>
+436|              <td>3–5 business days</td>
+437|              <td>Up to 14 days</td>
+438|            </tr>
+439|            <tr>
+440|              <td>Censorship Risk</td>
+441|              <td class="highlight">Decentralized</td>
+442|              <td>Platform can ban you</td>
+443|              <td>Platform can ban you</td>
+444|            </tr>
+445|            <tr>
+446|              <td>Reputation Ownership</td>
+447|              <td class="highlight">You own your reviews</td>
+448|              <td>Locked to platform</td>
+449|              <td>Locked to platform</td>
+450|            </tr>
+451|            <tr>
+452|              <td>Dispute Resolution</td>
+453|              <td class="highlight">Community voted</td>
+454|              <td>Internal support</td>
+455|              <td>Internal support</td>
+456|            </tr>
+457|            <tr>
+458|              <td>Global Access</td>
+459|              <td class="highlight">Anyone with a wallet</td>
+460|              <td>Restricted countries</td>
+461|              <td>Restricted countries</td>
+462|            </tr>
+463|          </tbody>
+464|        </table>
+465|      </div>
+466|    </div>
+467|  </section>
+468|
+469|  <!-- Security -->
+470|  <section class="security" id="security">
+471|    <div class="container">
+472|      <h2 class="section-title reveal">Built for trust</h2>
+473|      <p class="section-sub reveal">Automated agreements handle the money. People handle the work.</p>
+474|      <div class="security-grid">
+475|        <div class="security-card reveal">
+476|          <h3>🔒 Locked Payments</h3>
+477|          <p>Client funds are deposited into escrow before work starts. The freelancer knows the money is there. The client knows they'll only pay for approved work.</p>
+478|        </div>
+479|        <div class="security-card reveal">
+480|          <h3>🛡️ Anti-Flake Protection</h3>
+481|          <p>Freelancers stake a small deposit to apply. If they abandon the job, the stake covers the disruption. It keeps everyone honest.</p>
+482|        </div>
+483|        <div class="security-card reveal">
+484|          <h3>📝 Permanent Reviews</h3>
+485|          <p>Reviews are stored transparent and permanent and can't be deleted or manipulated. Your reputation is yours — portable and permanent.</p>
+486|        </div>
+487|      </div>
+488|    </div>
+489|  </section>
+490|
+491|  <!-- FAQ -->
+492|  <section class="faq" id="faq">
+493|    <div class="container">
+494|      <h2 class="section-title reveal">Frequently asked questions</h2>
+495|      <p class="section-sub reveal">Everything you need to know before you start.</p>
+496|      <div class="faq-list">
+497|        <div class="faq-item reveal">
+498|          <h3>How do I get paid?</h3>
+499|          <p>When a client approves your work, USDC is released from escrow directly to your wallet — instantly. No waiting for bank transfers or payment processors.</p>
+500|        </div>
+501|        <div class="faq-item reveal">
+502|          <h3>What if there's a dispute?</h3>
+503|          <p>If a client and freelancer can't agree, either party can open a dispute. The case goes to community vote, and the funds are released based on the outcome.</p>
+504|        </div>
+505|        <div class="faq-item reveal">
+506|          <h3>Do I need crypto experience?</h3>
+507|          <p>You'll need a wallet (like MetaMask) and some MATIC for gas on Polygon. If you've never used crypto before, it takes about 10 minutes to set up.</p>
+508|        </div>
+509|        <div class="faq-item reveal">
+510|          <h3>What chains do you support?</h3>
+511|          <p>Tasklync is currently deployed on Polygon mainnet — chosen for its low fees and fast transactions. More chains may be added in the future.</p>
+512|        </div>
+513|      </div>
+514|    </div>
+515|  </section>
+516|
+517|  <!-- CTA -->
+518|  <section class="cta-section">
+519|    <div class="container">
+520|      <div class="cta-box reveal">
+521|        <h2><span class="gradient-text">Keep what you earn.</span></h2>
+522|        <p>Join a marketplace that works for freelancers, not against them.</p>
+523|        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:0.8rem 2.2rem;">Start Freelancing →</a>
+524|      </div>
+525|    </div>
+526|  </section>
+527|
+528|  <!-- Footer -->
+529|  <footer>
+530|    <div class="container">
+531|      <p>Tasklync — The freelance marketplace where you keep what you earn. &copy; 2026</p>
+532|      <p><a href="https://aurorapathways.xyz" target="_blank" rel="noopener">Backed by Aurora Pathways</a></p>
+533|    </div>
+534|  </footer>
+535|
+536|  <script>
+537|    // IntersectionObserver reveal animations
+538|    const observer = new IntersectionObserver((entries) => {
+539|      entries.forEach(entry => {
+540|        if (entry.isIntersecting) {
+541|          entry.target.classList.add('visible');
+542|          observer.unobserve(entry.target);
+543|        }
+544|      });
+545|    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+546|
+547|    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+548|  
+549|// Onboarding modal - show when no wallet detected
+550|function showOnboarding() {
+551|  if (typeof window.ethereum === 'undefined') {
+552|    document.getElementById('onboardingModal').style.display = 'flex';
+553|    return true;
+554|  }
+555|  return false;
+556|}
+557|// Override connect wallet buttons
+558|document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+559|  btn.addEventListener('click', function(e) {
+560|    if (showOnboarding()) {
+561|      e.preventDefault();
+562|      e.stopPropagation();
+563|    }
+564|  });
+565|});
+566|
+567|</script>
+568|<!-- Onboarding Modal -->
+569|<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+570|  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+571|    <div style="text-align:center;margin-bottom:20px;">
+572|      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+573|      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+574|      <p style="color:#888;font-size:0.9rem;">Tasklync runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+575|    </div>
+576|    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+577|      <div style="display:flex;gap:14px;align-items:flex-start;">
+578|        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+579|        <div>
+580|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+581|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+582|          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+583|        </div>
+584|      </div>
+585|      <div style="display:flex;gap:14px;align-items:flex-start;">
+586|        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+587|        <div>
+588|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+589|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to post jobs or get paid for freelance work. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+590|        </div>
+591|      </div>
+592|      <div style="display:flex;gap:14px;align-items:flex-start;">
+593|        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+594|        <div>
+595|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+596|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Freelancing," and you're in. Browse jobs, post work, or apply — all payments are protected by escrow.</p>
+597|        </div>
+598|      </div>
+599|    </div>
+600|    <div style="display:flex;gap:10px;">
+601|      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+602|      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+603|    </div>
+604|    <div style="text-align:center;margin-top:16px;">
+605|      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+606|    </div>
+607|  </div>
+608|</div>
+609|</body>
+610|</html>

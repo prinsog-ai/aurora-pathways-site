@@ -1,0 +1,410 @@
+/* Aurora Pathways — Shared dApp UI Enhancements
+   Include AFTER each dApp's existing CSS.
+   Provides: skeleton loading, empty states, micro-interactions,
+   accessibility helpers, status badges, progress indicators. */
+
+/* ───────────── Skeleton Loading ───────────── */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,.04) !important;
+  color: transparent !important;
+  border-color: transparent !important;
+  pointer-events: none;
+  user-select: none;
+}
+.skeleton * { visibility: hidden; }
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,.06) 40%,
+    rgba(255,255,255,.06) 60%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Skeleton card variant */
+.skeleton-card {
+  background: var(--card, #12121a);
+  border: 1px solid var(--border, #1e1e2e);
+  border-radius: var(--radius, 12px);
+  padding: 20px;
+}
+.skeleton-line {
+  height: 14px;
+  background: rgba(255,255,255,.06);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  animation: shimmer 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+.skeleton-line.short { width: 40%; }
+.skeleton-line.medium { width: 70%; }
+.skeleton-line.long { width: 90%; }
+.skeleton-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  animation: shimmer 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ───────────── Empty States ───────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 16px;
+}
+.empty-state-icon {
+  font-size: 48px;
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text, #e0e0e8);
+}
+.empty-state-desc {
+  font-size: 14px;
+  color: var(--text2, #8888a0);
+  max-width: 320px;
+  line-height: 1.5;
+}
+.empty-state-action {
+  margin-top: 8px;
+}
+
+/* ───────────── Micro-Interactions ───────────── */
+/* Button press feedback */
+.btn-micro {
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn-micro:active {
+  transform: scale(0.96);
+}
+.btn-micro:focus-visible {
+  outline: 2px solid var(--accent, #7c5cfc);
+  outline-offset: 2px;
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  border-color: rgba(124,92,252,.2);
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,.15) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform .4s ease, opacity .4s ease;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+}
+.ripple:active::before {
+  transform: scale(2.5);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* ───────────── Status Badges ───────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-open { background: rgba(124,92,252,.12); color: #a78bfa; }
+.status-open::before { background: #a78bfa; }
+.status-progress { background: rgba(59,130,246,.12); color: #60a5fa; }
+.status-progress::before { background: #60a5fa; animation: pulse-dot 2s ease-in-out infinite; }
+.status-completed { background: rgba(78,201,176,.12); color: #4ec9b0; }
+.status-completed::before { background: #4ec9b0; }
+.status-cancelled { background: rgba(255,107,107,.12); color: #ff6b6b; }
+.status-cancelled::before { background: #ff6b6b; }
+.status-disputed { background: rgba(255,217,61,.12); color: #ffd93d; }
+.status-disputed::before { background: #ffd93d; animation: pulse-dot 1s ease-in-out infinite; }
+.status-pending { background: rgba(136,136,160,.12); color: #8888a0; }
+.status-pending::before { background: #8888a0; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ───────────── Progress Bar ───────────── */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent, #7c5cfc), var(--accent2, #4ec9b0));
+  transition: width .6s ease;
+}
+.progress-bar-fill.animated {
+  background-size: 200% 100%;
+  animation: progress-shimmer 2s linear infinite;
+}
+@keyframes progress-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ───────────── Milestone Tracker ───────────── */
+.milestone-tracker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 12px 0;
+}
+.milestone-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+.milestone-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border, #1e1e2e);
+  background: var(--card, #12121a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  z-index: 1;
+  transition: all .3s ease;
+}
+.milestone-step.done .milestone-dot {
+  background: var(--accent2, #4ec9b0);
+  border-color: var(--accent2, #4ec9b0);
+  color: #0a0a0f;
+}
+.milestone-step.active .milestone-dot {
+  border-color: var(--accent, #7c5cfc);
+  box-shadow: 0 0 0 4px rgba(124,92,252,.2);
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+.milestone-label {
+  font-size: 10px;
+  color: var(--text2, #8888a0);
+  text-align: center;
+  max-width: 80px;
+}
+.milestone-step.done .milestone-label { color: var(--accent2, #4ec9b0); }
+.milestone-step.active .milestone-label { color: var(--accent, #7c5cfc); font-weight: 600; }
+.milestone-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border, #1e1e2e);
+  margin: 0 -4px;
+  margin-bottom: 22px;
+}
+.milestone-line.done { background: var(--accent2, #4ec9b0); }
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(124,92,252,.2); }
+  50% { box-shadow: 0 0 0 8px rgba(124,92,252,.05); }
+}
+
+/* ───────────── Toast Enhancement ───────────── */
+.toast-enhanced {
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  animation: toast-in .3s cubic-bezier(.21,1.02,.73,1) forwards;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.toast-enhanced.hiding {
+  animation: toast-out .25s ease forwards;
+}
+@keyframes toast-in {
+  from { transform: translateY(-12px) scale(.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes toast-out {
+  to { transform: translateY(-12px) scale(.95); opacity: 0; }
+}
+
+/* ───────────── Wallet Prompt ───────────── */
+.wallet-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 60px 20px;
+  text-align: center;
+}
+.wallet-prompt-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(124,92,252,.1);
+  border: 2px solid rgba(124,92,252,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.wallet-prompt-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+.wallet-prompt-desc {
+  font-size: 14px;
+  color: var(--text2, #8888a0);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* ───────────── Stat Card Enhancement ───────────── */
+.stat-card-enhanced {
+  background: var(--card, #12121a);
+  border: 1px solid var(--border, #1e1e2e);
+  border-radius: var(--radius, 12px);
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent, #7c5cfc), var(--accent2, #4ec9b0));
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.stat-card-enhanced:hover::before { opacity: 1; }
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text2, #8888a0);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.stat-change.up { color: var(--accent2, #4ec9b0); }
+.stat-change.down { color: var(--error, #ff6b6b); }
+
+/* ───────────── Accessibility Helpers ───────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--accent, #7c5cfc);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ───────────── Responsive Helpers ───────────── */
+@media (max-width: 640px) {
+  .stat-value { font-size: 22px; }
+  .empty-state { padding: 40px 16px; }
+  .empty-state-icon { font-size: 36px; }
+  .wallet-prompt { padding: 40px 16px; }
+  .wallet-prompt-icon { width: 64px; height: 64px; font-size: 28px; }
+}

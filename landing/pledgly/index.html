@@ -1,426 +1,451 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pledgly — Keep 97% of Your Creator Income | Patreon Alternative</title>
-<meta name="description" content="The subscription platform where creators keep 97% of what they earn. NFT-gated content. Instant USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payouts. No middleman.">
-<link rel="canonical" href="https://pledgly.xyz/">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://pledgly.xyz">
-<meta property="og:title" content="Pledgly — Decentralized Creator Subscriptions">
-<meta property="og:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
-<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pledgly — Decentralized Creator Subscriptions">
-<meta name="twitter:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
-<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:#ff6b9d;--accent2:#7c5cfc;--accent3:#4ec9b0;--bg:#08080c;--bg2:#0f0f18;--bg3:#161622;--border:#1e1e2e;--text:#e8e8f0;--text2:#8888a0;--gradient:linear-gradient(135deg,#ff6b9d 0%,#7c5cfc 40%,#4ec9b0 100%)}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-.container{max-width:1120px;margin:0 auto;padding:0 24px}
-a{color:inherit;text-decoration:none}
-
-/* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,12,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-logo{font-size:1.4rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.btn-primary{display:inline-flex;align-items:center;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.9rem;background:var(--gradient);color:#fff;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,107,157,.3)}
-.btn-outline{display:inline-flex;align-items:center;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.9rem;background:transparent;color:var(--text);border:1px solid var(--border);cursor:pointer;transition:border-color .2s}
-.btn-outline:hover{border-color:var(--accent)}
-
-/* Hero */
-.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(255,107,157,.12) 0%,transparent 70%);pointer-events:none}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;background:rgba(255,107,157,.1);border:1px solid rgba(255,107,157,.2);font-size:.8rem;font-weight:500;color:var(--accent);margin-bottom:24px}
-.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,107,157,.4)}50%{opacity:.8;box-shadow:0 0 0 8px rgba(255,107,157,0)}}
-.hero h1{font-size:clamp(2.4rem,5.5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-.03em}
-.hero h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:1.15rem;color:var(--text2);max-width:540px;margin:0 auto 32px}
-.stats{display:flex;gap:32px;justify-content:center;margin-bottom:40px;flex-wrap:wrap}
-.stat{text-align:center}
-.stat .num{font-size:1.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat .label{font-size:.78rem;color:var(--text2);margin-top:2px}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-/* Section base */
-section{padding:100px 0}
-.section-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px;text-align:center}
-.section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;text-align:center;letter-spacing:-.02em;margin-bottom:16px}
-.section-desc{color:var(--text2);text-align:center;max-width:560px;margin:0 auto 48px;font-size:1.05rem}
-
-/* Problem */
-.problem{background:var(--bg2);text-align:center}
-.problem .section-title{color:#fff}
-.problem blockquote{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--text2);max-width:640px;margin:0 auto 32px;font-style:italic;line-height:1.7}
-.problem blockquote strong{color:var(--accent);font-style:normal}
-.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto}
-.problem-card{padding:24px;border-radius:14px;background:var(--bg);border:1px solid var(--border)}
-.problem-card .pct{font-size:2rem;font-weight:800;color:var(--accent)}
-.problem-card .name{font-weight:600;margin:4px 0}
-.problem-card .detail{font-size:.82rem;color:var(--text2)}
-
-/* Features */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.feature-card{padding:28px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);transition:transform .25s,border-color .25s}
-.feature-card:hover{transform:translateY(-4px);border-color:rgba(255,107,157,.3)}
-.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,107,157,.1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px}
-.feature-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
-.feature-card p{font-size:.9rem;color:var(--text2);line-height:1.6}
-
-/* How It Works */
-.how{background:var(--bg2)}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;counter-reset:step}
-.step{padding:28px;border-radius:16px;background:var(--bg);border:1px solid var(--border);text-align:center;position:relative}
-.step-num{width:36px;height:36px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin:0 auto 16px}
-.step h3{font-size:1rem;font-weight:700;margin-bottom:8px}
-.step p{font-size:.85rem;color:var(--text2)}
-
-/* Comparison */
-.comparison .table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--border);background:var(--bg2)}
-.comp-table{width:100%;border-collapse:collapse;min-width:600px}
-.comp-table th,.comp-table td{padding:14px 20px;text-align:left;font-size:.88rem;border-bottom:1px solid var(--border)}
-.comp-table th{background:var(--bg3);font-weight:600;color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
-.comp-table td:first-child{font-weight:600;color:var(--text)}
-.comp-table tr:last-child td{border-bottom:none}
-.highlight-col{background:rgba(255,107,157,.04)}
-.check{color:var(--accent3)}
-.cross{color:#f44}
-
-/* Why Secure Digital Infrastructure */
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.why-card{padding:32px;border-radius:16px;background:var(--bg2);border:1px solid var(--border)}
-.why-card .icon{font-size:1.6rem;margin-bottom:16px}
-.why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
-.why-card p{font-size:.9rem;color:var(--text2);line-height:1.6}
-
-/* FAQ */
-.faq-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-.faq-item{border:1px solid var(--border);border-radius:14px;background:var(--bg2);overflow:hidden}
-.faq-q{padding:18px 24px;font-weight:600;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .2s}
-.faq-q:hover{color:var(--accent)}
-.faq-q .arrow{transition:transform .3s;font-size:.8rem;color:var(--text2)}
-.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
-.faq-item.open .faq-a{max-height:200px;padding:0 24px 18px}
-.faq-a p{font-size:.9rem;color:var(--text2);line-height:1.7}
-
-/* CTA */
-.final-cta{text-align:center;padding:100px 0;background:var(--bg2);position:relative;overflow:hidden}
-.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,157,.08) 0%,transparent 70%);pointer-events:none}
-.final-cta h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:900;margin-bottom:16px;letter-spacing:-.03em}
-.final-cta h2 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.final-cta p{color:var(--text2);margin-bottom:32px;font-size:1.05rem}
-
-/* Footer */
-footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
-footer p{font-size:.82rem;color:var(--text2);line-height:1.8}
-footer a{color:var(--accent)}
-
-/* Reveal */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-@media(max-width:640px){
-  .stats{gap:20px}
-  .features-grid,.why-grid{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr 1fr}
-  nav .container{padding:0 16px}
-}
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="container">
-    <a href="/" class="nav-logo">Pledgly</a>
-    <a href="https://pledgly.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Creating</a>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="container">
-    <div class="badge"><span class="dot"></span> The Creator Platform</div>
-    <h1>Your content.<br><span>Your subscribers.</span><br>Your money.</h1>
-    <p>The subscription platform built on secure digital infrastructure. Keep 97% of every dollar your fans pay. No gatekeepers, no middlemen.</p>
-    <div class="stats">
-      <div class="stat"><div class="num">3%</div><div class="label">Platform Fee</div></div>
-      <div class="stat"><div class="num">Instant</div><div class="label">USDC Payouts</div></div>
-      <div class="stat"><div class="num">$0</div><div class="label">To Start</div></div>
-    </div>
-    <div class="hero-btns">
-      <a href="https://pledgly.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Creating →</a>
-      <a href="#how-it-works" class="btn-outline">Learn More</a>
-    </div>
-  </div>
-</section>
-
-<section class="problem">
-  <div class="container">
-    <div class="section-label reveal">The Problem</div>
-    <h2 class="section-title reveal">You create. They collect.</h2>
-    <blockquote class="reveal">Traditional platforms take <strong>5% to 50%</strong> of your earnings, control your audience, and can shut you down without warning.</blockquote>
-    <div class="problem-grid reveal">
-      <div class="problem-card">
-        <div class="pct">5–12%</div>
-        <div class="name">Patreon</div>
-        <div class="detail">Platform fee + payment processing</div>
-      </div>
-      <div class="problem-card">
-        <div class="pct">30%</div>
-        <div class="name">YouTube</div>
-        <div class="detail">Super Chats & memberships</div>
-      </div>
-      <div class="problem-card">
-        <div class="pct">50%</div>
-        <div class="name">Twitch</div>
-        <div class="detail">Sub revenue split (standard tier)</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="features" id="features">
-  <div class="container">
-    <div class="section-label reveal">Features</div>
-    <h2 class="section-title reveal">Everything a creator needs</h2>
-    <p class="section-desc reveal">Built from scratch to put creators first. No compromises, no hidden fees.</p>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon">🔐</div>
-        <h3>Token-Gated Content</h3>
-        <p>Subscribers hold an NFT that unlocks exclusive content. No password sharing, no account fraud — just secure digital infrastructure verification.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🔀</div>
-        <h3>Revenue Splits</h3>
-        <p>Collaborating on a project? Automated agreements automatically split revenue between creators. No spreadsheets, no chasing payments.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🏅</div>
-        <h3>Tiered Memberships</h3>
-        <p>Bronze, Silver, Gold — each tier is a different NFT with different perks. Fans can trade or gift memberships on any marketplace.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">⚡</div>
-        <h3>Instant Payouts</h3>
-        <p>Funds land in your wallet as USDC the moment a fan subscribes. No 14-day holds, no minimum thresholds, no bank delays.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🌍</div>
-        <h3>No Geography Lock</h3>
-        <p>Polygon runs 24/7 worldwide. No country restrictions, no banking blocks, no currency conversion fees eating into your income.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon">🧳</div>
-        <h3>Portable Audience</h3>
-        <p>Your subscribers hold their access NFTs — they work on any platform that reads them. Your audience follows you, not the platform.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="how" id="how-it-works">
-  <div class="container">
-    <div class="section-label reveal">How It Works</div>
-    <h2 class="section-title reveal">Four steps. Zero middlemen.</h2>
-    <p class="section-desc reveal">From setup to first payout in minutes, not weeks.</p>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">1</div>
-        <h3>Set Your Tiers</h3>
-        <p>Create Bronze, Silver, and Gold membership tiers with custom pricing and perks.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">2</div>
-        <h3>Fan Subscribes</h3>
-        <p>A fan connects their wallet and pays for their chosen tier in crypto or on-ramp.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">3</div>
-        <h3>NFT Unlocks Content</h3>
-        <p>An NFT is minted to their wallet — it serves as their access pass to exclusive content.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">4</div>
-        <h3>Revenue Auto-Splits</h3>
-        <p>Automated agreements instantly distribute funds — your 97% lands in your wallet as USDC.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="comparison" id="compare">
-  <div class="container">
-    <div class="section-label reveal">Comparison</div>
-    <h2 class="section-title reveal">Pledgly vs. the rest</h2>
-    <p class="section-desc reveal">See how we stack up against legacy creator platforms.</p>
-    <div class="table-wrap reveal">
-      <table class="comp-table">
-        <thead>
-          <tr><th></th><th class="highlight-col">Pledgly</th><th>Patreon</th><th>YouTube Members</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Platform Cut</td><td class="highlight-col"><strong style="color:var(--accent)">3%</strong></td><td>5–12% + processing</td><td>30%</td></tr>
-          <tr><td>Payout Speed</td><td class="highlight-col"><strong style="color:var(--accent)">Instant</strong></td><td>5–15 business days</td><td>Monthly cycle</td></tr>
-          <tr><td>Subscriber Ownership</td><td class="highlight-col"><span class="check">✓ Fan holds NFT</span></td><td><span class="cross">✗ Platform holds data</span></td><td><span class="cross">✗ Platform holds data</span></td></tr>
-          <tr><td>Revenue Splits</td><td class="highlight-col"><span class="check">✓ Automatic via automated agreement</span></td><td><span class="cross">✗ Manual only</span></td><td><span class="cross">✗ Not available</span></td></tr>
-          <tr><td>Deplatforming Risk</td><td class="highlight-col"><span class="check">✓ None — decentralized</span></td><td><span class="cross">✗ High</span></td><td><span class="cross">✗ High</span></td></tr>
-          <tr><td>Global Access</td><td class="highlight-col"><span class="check">✓ No restrictions</span></td><td>Limited by country</td><td>Limited by country</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section class="why" id="why-secure digital infrastructure">
-  <div class="container">
-    <div class="section-label reveal">Why Secure Digital Infrastructure</div>
-    <h2 class="section-title reveal">Not hype — real utility</h2>
-    <p class="section-desc reveal">We use secure digital infrastructure where it solves real problems for creators.</p>
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="icon">🎫</div>
-        <h3>NFT Access Passes</h3>
-        <p>Every subscription mints an NFT. It's a verifiable, tradeable, portable proof of membership — not just a row in a database.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="icon">📄</div>
-        <h3>Automated Agreement Splits</h3>
-        <p>Revenue splits are enforced by code, not trust. Collaborators get paid automatically, transparent and permanent, with full transparency.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="icon">🔓</div>
-        <h3>No Platform Lock-in</h3>
-        <p>Your content, your audience, your revenue — all exist transparent and permanent. No single platform can hold them hostage.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="section-label reveal">FAQ</div>
-    <h2 class="section-title reveal">Common questions</h2>
-    <div class="faq-list">
-      <div class="faq-item reveal">
-        <div class="faq-q">How do fans subscribe? <span class="arrow">▼</span></div>
-        <div class="faq-a"><p>Fans connect a crypto wallet (like MetaMask or Phantom) to the Pledgly dApp, choose a membership tier, and pay. An NFT is minted to their wallet that grants access to the creator's exclusive content.</p></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q">Can I use regular money? <span class="arrow">▼</span></div>
-        <div class="faq-a"><p>Yes. Pledgly integrates on-ramp providers so fans can pay with a credit card or bank transfer. The payment is converted to USDC behind the scenes so the creator still receives instant crypto payouts.</p></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q">What if I'm not crypto-savvy? <span class="arrow">▼</span></div>
-        <div class="faq-a"><p>Pledgly is designed to feel like a normal web app. You don't need to understand secure digital infrastructure to use it — the dApp handles wallets, NFTs, and payouts in the background. If you can use Patreon, you can use Pledgly.</p></div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q">Can I migrate from Patreon? <span class="arrow">▼</span></div>
-        <div class="faq-a"><p>Yes. You can import your tier structure and invite your existing subscribers to claim their membership NFT on Pledgly. We're building migration tools to make this as smooth as possible.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="final-cta">
-  <div class="container">
-    <h2 class="reveal">Your audience.<br><span>Your revenue.</span><br>Your rules.</h2>
-    <p class="reveal">Join the creator economy that doesn't take from creators.</p>
-    <a href="https://pledgly.vercel.app" class="btn-primary reveal" target="_blank" rel="noopener" style="font-size:1rem;padding:14px 36px">Launch Pledgly →</a>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p><strong>Pledgly</strong> — The platform where creators keep what they earn. © 2026</p>
-    <p>Contract: <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" rel="noopener" style="font-size:.78rem">0x8204…4011</a> · Deployed on Polygon</p>
-    <p style="margin-top:8px">Backed by <a href="/">Aurora Pathways</a></p>
-  </div>
-</footer>
-
-<script>
-// IntersectionObserver reveal
-const obs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
-},{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// FAQ toggle
-document.querySelectorAll('.faq-q').forEach(q=>{
-  q.addEventListener('click',()=>{
-    const item=q.parentElement;
-    const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-    if(!wasOpen) item.classList.add('open');
-  });
-});
-
-// Onboarding modal - show when no wallet detected
-function showOnboarding() {
-  if (typeof window.ethereum === 'undefined') {
-    document.getElementById('onboardingModal').style.display = 'flex';
-    return true;
-  }
-  return false;
-}
-// Override connect wallet buttons
-document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    if (showOnboarding()) {
-      e.preventDefault();
-      e.stopPropagation();
+1|<!DOCTYPE html>
+2|<html lang="en">
+3|<head>
+4|<meta charset="UTF-8">
+5|<meta name="viewport" content="width=device-width,initial-scale=1">
+6|<title>Pledgly — Keep 97% of Your Creator Income | Patreon Alternative</title>
+7|<meta name="description" content="The subscription platform where creators keep 97% of what they earn. NFT-gated content. Instant USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payouts. No middleman.">
+8|<link rel="canonical" href="https://pledgly.xyz/">
+9|<meta property="og:type" content="website">
+10|<meta property="og:url" content="https://pledgly.xyz">
+11|<meta property="og:title" content="Pledgly — Decentralized Creator Subscriptions">
+12|<meta property="og:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
+13|<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+14|<meta name="twitter:card" content="summary_large_image">
+15|<meta name="twitter:title" content="Pledgly — Decentralized Creator Subscriptions">
+16|<meta name="twitter:description" content="USDC-powered creator subscriptions with NFT proof. Subscribe directly, no platform fees.">
+17|<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+18|<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>">
+19|<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+20|<style>
+21|*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+22|:root{--accent:#ff6b9d;--accent2:#7c5cfc;--accent3:#4ec9b0;--bg:#08080c;--bg2:#0f0f18;--bg3:#161622;--border:#1e1e2e;--text:#e8e8f0;--text2:#8888a0;--gradient:linear-gradient(135deg,#ff6b9d 0%,#7c5cfc 40%,#4ec9b0 100%)}
+23|html{scroll-behavior:smooth}
+24|body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+25|.container{max-width:1120px;margin:0 auto;padding:0 24px}
+26|a{color:inherit;text-decoration:none}
+27|
+28|
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
     }
-  });
-});
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text2);
+      opacity: 0.7;
+    }
+    .trust-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .trust-badge strong { color: var(--text); font-weight: 600; }
+    @media (max-width: 640px) {
+      .trust-badges { gap: 1rem; }
+      .trust-badge { font-size: 0.75rem; }
+    }
 
-</script>
-<!-- Onboarding Modal -->
-<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
-  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
-      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
-      <p style="color:#888;font-size:0.9rem;">Pledgly runs on blockchain — but don't worry, it's simpler than it sounds.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
-          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to subscribe to your favorite creators. You can buy it directly in MetaMask or transfer from Coinbase.</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
-        <div>
-          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
-          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Creating," and you're in. Browse creators, subscribe, and support the people you love — directly.</p>
-        </div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;">
-      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
-      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
-    </div>
-    <div style="text-align:center;margin-top:16px;">
-      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
-    </div>
-  </div>
-</div>
-</body>
-</html>
+    /* Nav */
+29|nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,12,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+30|nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+31|.nav-logo{font-size:1.4rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+32|.btn-primary{display:inline-flex;align-items:center;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.9rem;background:var(--gradient);color:#fff;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+33|.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,107,157,.3)}
+34|.btn-outline{display:inline-flex;align-items:center;padding:10px 24px;border-radius:10px;font-weight:600;font-size:.9rem;background:transparent;color:var(--text);border:1px solid var(--border);cursor:pointer;transition:border-color .2s}
+35|.btn-outline:hover{border-color:var(--accent)}
+36|
+37|/* Hero */
+38|.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
+39|.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(255,107,157,.12) 0%,transparent 70%);pointer-events:none}
+40|.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;background:rgba(255,107,157,.1);border:1px solid rgba(255,107,157,.2);font-size:.8rem;font-weight:500;color:var(--accent);margin-bottom:24px}
+41|.badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+42|@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,107,157,.4)}50%{opacity:.8;box-shadow:0 0 0 8px rgba(255,107,157,0)}}
+43|.hero h1{font-size:clamp(2.4rem,5.5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-.03em}
+44|.hero h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+45|.hero p{font-size:1.15rem;color:var(--text2);max-width:540px;margin:0 auto 32px}
+46|.stats{display:flex;gap:32px;justify-content:center;margin-bottom:40px;flex-wrap:wrap}
+47|.stat{text-align:center}
+48|.stat .num{font-size:1.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+49|.stat .label{font-size:.78rem;color:var(--text2);margin-top:2px}
+50|.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+51|
+52|/* Section base */
+53|section{padding:100px 0}
+54|.section-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px;text-align:center}
+55|.section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;text-align:center;letter-spacing:-.02em;margin-bottom:16px}
+56|.section-desc{color:var(--text2);text-align:center;max-width:560px;margin:0 auto 48px;font-size:1.05rem}
+57|
+58|/* Problem */
+59|.problem{background:var(--bg2);text-align:center}
+60|.problem .section-title{color:#fff}
+61|.problem blockquote{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--text2);max-width:640px;margin:0 auto 32px;font-style:italic;line-height:1.7}
+62|.problem blockquote strong{color:var(--accent);font-style:normal}
+63|.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto}
+64|.problem-card{padding:24px;border-radius:14px;background:var(--bg);border:1px solid var(--border)}
+65|.problem-card .pct{font-size:2rem;font-weight:800;color:var(--accent)}
+66|.problem-card .name{font-weight:600;margin:4px 0}
+67|.problem-card .detail{font-size:.82rem;color:var(--text2)}
+68|
+69|/* Features */
+70|.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+71|.feature-card{padding:28px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);transition:transform .25s,border-color .25s}
+72|.feature-card:hover{transform:translateY(-4px);border-color:rgba(255,107,157,.3)}
+73|.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,107,157,.1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px}
+74|.feature-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+75|.feature-card p{font-size:.9rem;color:var(--text2);line-height:1.6}
+76|
+77|/* How It Works */
+78|.how{background:var(--bg2)}
+79|.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;counter-reset:step}
+80|.step{padding:28px;border-radius:16px;background:var(--bg);border:1px solid var(--border);text-align:center;position:relative}
+81|.step-num{width:36px;height:36px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin:0 auto 16px}
+82|.step h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+83|.step p{font-size:.85rem;color:var(--text2)}
+84|
+85|/* Comparison */
+86|.comparison .table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--border);background:var(--bg2)}
+87|.comp-table{width:100%;border-collapse:collapse;min-width:600px}
+88|.comp-table th,.comp-table td{padding:14px 20px;text-align:left;font-size:.88rem;border-bottom:1px solid var(--border)}
+89|.comp-table th{background:var(--bg3);font-weight:600;color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+90|.comp-table td:first-child{font-weight:600;color:var(--text)}
+91|.comp-table tr:last-child td{border-bottom:none}
+92|.highlight-col{background:rgba(255,107,157,.04)}
+93|.check{color:var(--accent3)}
+94|.cross{color:#f44}
+95|
+96|/* Why Secure Digital Infrastructure */
+97|.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+98|.why-card{padding:32px;border-radius:16px;background:var(--bg2);border:1px solid var(--border)}
+99|.why-card .icon{font-size:1.6rem;margin-bottom:16px}
+100|.why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+101|.why-card p{font-size:.9rem;color:var(--text2);line-height:1.6}
+102|
+103|/* FAQ */
+104|.faq-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+105|.faq-item{border:1px solid var(--border);border-radius:14px;background:var(--bg2);overflow:hidden}
+106|.faq-q{padding:18px 24px;font-weight:600;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .2s}
+107|.faq-q:hover{color:var(--accent)}
+108|.faq-q .arrow{transition:transform .3s;font-size:.8rem;color:var(--text2)}
+109|.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+110|.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+111|.faq-item.open .faq-a{max-height:200px;padding:0 24px 18px}
+112|.faq-a p{font-size:.9rem;color:var(--text2);line-height:1.7}
+113|
+114|/* CTA */
+115|.final-cta{text-align:center;padding:100px 0;background:var(--bg2);position:relative;overflow:hidden}
+116|.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,157,.08) 0%,transparent 70%);pointer-events:none}
+117|.final-cta h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:900;margin-bottom:16px;letter-spacing:-.03em}
+118|.final-cta h2 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+119|.final-cta p{color:var(--text2);margin-bottom:32px;font-size:1.05rem}
+120|
+121|/* Footer */
+122|footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
+123|footer p{font-size:.82rem;color:var(--text2);line-height:1.8}
+124|footer a{color:var(--accent)}
+125|
+126|/* Reveal */
+127|.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+128|.reveal.visible{opacity:1;transform:translateY(0)}
+129|
+130|@media(max-width:640px){
+131|  .stats{gap:20px}
+132|  .features-grid,.why-grid{grid-template-columns:1fr}
+133|  .steps{grid-template-columns:1fr 1fr}
+134|  nav .container{padding:0 16px}
+135|}
+136|</style>
+137|</head>
+138|<body>
+139|
+140|<nav>
+141|  <div class="container">
+142|    <a href="/" class="nav-logo">Pledgly</a>
+143|    <a href="https://pledgly.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Creating</a>
+144|  </div>
+145|</nav>
+146|
+147|<section class="hero">
+148|  <div class="container">
+149|    <div class="badge"><span class="dot"></span> The Creator Platform</div>
+150|    <h1>Your content.<br><span>Your subscribers.</span><br>Your money.</h1>
+151|    <p>The subscription platform built on secure digital infrastructure. Keep 97% of every dollar your fans pay. No gatekeepers, no middlemen.</p>
+152|    <div class="stats">
+153|      <div class="stat"><div class="num">3%</div><div class="label">Platform Fee</div></div>
+154|      <div class="stat"><div class="num">Instant</div><div class="label">USDC Payouts</div></div>
+155|      <div class="stat"><div class="num">$0</div><div class="label">To Start</div></div>
+156|    </div>
+157|    <div class="hero-btns">
+158|      <a href="https://pledgly.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Creating →</a>
+159|      <a href="#how-it-works" class="btn-outline">Learn More</a>
+160|    </div>
+161|  </div>
+162|</section>
+163|
+164|<section class="problem">
+165|  <div class="container">
+166|    <div class="section-label reveal">The Problem</div>
+167|    <h2 class="section-title reveal">You create. They collect.</h2>
+168|    <blockquote class="reveal">Traditional platforms take <strong>5% to 50%</strong> of your earnings, control your audience, and can shut you down without warning.</blockquote>
+169|    <div class="problem-grid reveal">
+170|      <div class="problem-card">
+171|        <div class="pct">5–12%</div>
+172|        <div class="name">Patreon</div>
+173|        <div class="detail">Platform fee + payment processing</div>
+174|      </div>
+175|      <div class="problem-card">
+176|        <div class="pct">30%</div>
+177|        <div class="name">YouTube</div>
+178|        <div class="detail">Super Chats & memberships</div>
+179|      </div>
+180|      <div class="problem-card">
+181|        <div class="pct">50%</div>
+182|        <div class="name">Twitch</div>
+183|        <div class="detail">Sub revenue split (standard tier)</div>
+184|      </div>
+185|    </div>
+186|  </div>
+187|</section>
+188|
+189|<section class="features" id="features">
+190|  <div class="container">
+191|    <div class="section-label reveal">Features</div>
+192|    <h2 class="section-title reveal">Everything a creator needs</h2>
+193|    <p class="section-desc reveal">Built from scratch to put creators first. No compromises, no hidden fees.</p>
+194|    <div class="features-grid">
+195|      <div class="feature-card reveal">
+196|        <div class="feature-icon">🔐</div>
+197|        <h3>Token-Gated Content</h3>
+198|        <p>Subscribers hold an NFT that unlocks exclusive content. No password sharing, no account fraud — just secure digital infrastructure verification.</p>
+199|      </div>
+200|      <div class="feature-card reveal">
+201|        <div class="feature-icon">🔀</div>
+202|        <h3>Revenue Splits</h3>
+203|        <p>Collaborating on a project? Automated agreements automatically split revenue between creators. No spreadsheets, no chasing payments.</p>
+204|      </div>
+205|      <div class="feature-card reveal">
+206|        <div class="feature-icon">🏅</div>
+207|        <h3>Tiered Memberships</h3>
+208|        <p>Bronze, Silver, Gold — each tier is a different NFT with different perks. Fans can trade or gift memberships on any marketplace.</p>
+209|      </div>
+210|      <div class="feature-card reveal">
+211|        <div class="feature-icon">⚡</div>
+212|        <h3>Instant Payouts</h3>
+213|        <p>Funds land in your wallet as USDC the moment a fan subscribes. No 14-day holds, no minimum thresholds, no bank delays.</p>
+214|      </div>
+215|      <div class="feature-card reveal">
+216|        <div class="feature-icon">🌍</div>
+217|        <h3>No Geography Lock</h3>
+218|        <p>Polygon runs 24/7 worldwide. No country restrictions, no banking blocks, no currency conversion fees eating into your income.</p>
+219|      </div>
+220|      <div class="feature-card reveal">
+221|        <div class="feature-icon">🧳</div>
+222|        <h3>Portable Audience</h3>
+223|        <p>Your subscribers hold their access NFTs — they work on any platform that reads them. Your audience follows you, not the platform.</p>
+224|      </div>
+225|    </div>
+226|  </div>
+227|</section>
+228|
+229|<section class="how" id="how-it-works">
+230|  <div class="container">
+231|    <div class="section-label reveal">How It Works</div>
+232|    <h2 class="section-title reveal">Four steps. Zero middlemen.</h2>
+233|    <p class="section-desc reveal">From setup to first payout in minutes, not weeks.</p>
+234|    <div class="steps">
+235|      <div class="step reveal">
+236|        <div class="step-num">1</div>
+237|        <h3>Set Your Tiers</h3>
+238|        <p>Create Bronze, Silver, and Gold membership tiers with custom pricing and perks.</p>
+239|      </div>
+240|      <div class="step reveal">
+241|        <div class="step-num">2</div>
+242|        <h3>Fan Subscribes</h3>
+243|        <p>A fan connects their wallet and pays for their chosen tier in crypto or on-ramp.</p>
+244|      </div>
+245|      <div class="step reveal">
+246|        <div class="step-num">3</div>
+247|        <h3>NFT Unlocks Content</h3>
+248|        <p>An NFT is minted to their wallet — it serves as their access pass to exclusive content.</p>
+249|      </div>
+250|      <div class="step reveal">
+251|        <div class="step-num">4</div>
+252|        <h3>Revenue Auto-Splits</h3>
+253|        <p>Automated agreements instantly distribute funds — your 97% lands in your wallet as USDC.</p>
+254|      </div>
+255|    </div>
+256|  </div>
+257|</section>
+258|
+259|<section class="comparison" id="compare">
+260|  <div class="container">
+261|    <div class="section-label reveal">Comparison</div>
+262|    <h2 class="section-title reveal">Pledgly vs. the rest</h2>
+263|    <p class="section-desc reveal">See how we stack up against legacy creator platforms.</p>
+264|    <div class="table-wrap reveal">
+265|      <table class="comp-table">
+266|        <thead>
+267|          <tr><th></th><th class="highlight-col">Pledgly</th><th>Patreon</th><th>YouTube Members</th></tr>
+268|        </thead>
+269|        <tbody>
+270|          <tr><td>Platform Cut</td><td class="highlight-col"><strong style="color:var(--accent)">3%</strong></td><td>5–12% + processing</td><td>30%</td></tr>
+271|          <tr><td>Payout Speed</td><td class="highlight-col"><strong style="color:var(--accent)">Instant</strong></td><td>5–15 business days</td><td>Monthly cycle</td></tr>
+272|          <tr><td>Subscriber Ownership</td><td class="highlight-col"><span class="check">✓ Fan holds NFT</span></td><td><span class="cross">✗ Platform holds data</span></td><td><span class="cross">✗ Platform holds data</span></td></tr>
+273|          <tr><td>Revenue Splits</td><td class="highlight-col"><span class="check">✓ Automatic via automated agreement</span></td><td><span class="cross">✗ Manual only</span></td><td><span class="cross">✗ Not available</span></td></tr>
+274|          <tr><td>Deplatforming Risk</td><td class="highlight-col"><span class="check">✓ None — decentralized</span></td><td><span class="cross">✗ High</span></td><td><span class="cross">✗ High</span></td></tr>
+275|          <tr><td>Global Access</td><td class="highlight-col"><span class="check">✓ No restrictions</span></td><td>Limited by country</td><td>Limited by country</td></tr>
+276|        </tbody>
+277|      </table>
+278|    </div>
+279|  </div>
+280|</section>
+281|
+282|<section class="why" id="why-secure digital infrastructure">
+283|  <div class="container">
+284|    <div class="section-label reveal">Why Secure Digital Infrastructure</div>
+285|    <h2 class="section-title reveal">Not hype — real utility</h2>
+286|    <p class="section-desc reveal">We use secure digital infrastructure where it solves real problems for creators.</p>
+287|    <div class="why-grid">
+288|      <div class="why-card reveal">
+289|        <div class="icon">🎫</div>
+290|        <h3>NFT Access Passes</h3>
+291|        <p>Every subscription mints an NFT. It's a verifiable, tradeable, portable proof of membership — not just a row in a database.</p>
+292|      </div>
+293|      <div class="why-card reveal">
+294|        <div class="icon">📄</div>
+295|        <h3>Automated Agreement Splits</h3>
+296|        <p>Revenue splits are enforced by code, not trust. Collaborators get paid automatically, transparent and permanent, with full transparency.</p>
+297|      </div>
+298|      <div class="why-card reveal">
+299|        <div class="icon">🔓</div>
+300|        <h3>No Platform Lock-in</h3>
+301|        <p>Your content, your audience, your revenue — all exist transparent and permanent. No single platform can hold them hostage.</p>
+302|      </div>
+303|    </div>
+304|  </div>
+305|</section>
+306|
+307|<section class="faq" id="faq">
+308|  <div class="container">
+309|    <div class="section-label reveal">FAQ</div>
+310|    <h2 class="section-title reveal">Common questions</h2>
+311|    <div class="faq-list">
+312|      <div class="faq-item reveal">
+313|        <div class="faq-q">How do fans subscribe? <span class="arrow">▼</span></div>
+314|        <div class="faq-a"><p>Fans connect a crypto wallet (like MetaMask or Phantom) to the Pledgly dApp, choose a membership tier, and pay. An NFT is minted to their wallet that grants access to the creator's exclusive content.</p></div>
+315|      </div>
+316|      <div class="faq-item reveal">
+317|        <div class="faq-q">Can I use regular money? <span class="arrow">▼</span></div>
+318|        <div class="faq-a"><p>Yes. Pledgly integrates on-ramp providers so fans can pay with a credit card or bank transfer. The payment is converted to USDC behind the scenes so the creator still receives instant crypto payouts.</p></div>
+319|      </div>
+320|      <div class="faq-item reveal">
+321|        <div class="faq-q">What if I'm not crypto-savvy? <span class="arrow">▼</span></div>
+322|        <div class="faq-a"><p>Pledgly is designed to feel like a normal web app. You don't need to understand secure digital infrastructure to use it — the dApp handles wallets, NFTs, and payouts in the background. If you can use Patreon, you can use Pledgly.</p></div>
+323|      </div>
+324|      <div class="faq-item reveal">
+325|        <div class="faq-q">Can I migrate from Patreon? <span class="arrow">▼</span></div>
+326|        <div class="faq-a"><p>Yes. You can import your tier structure and invite your existing subscribers to claim their membership NFT on Pledgly. We're building migration tools to make this as smooth as possible.</p></div>
+327|      </div>
+328|    </div>
+329|  </div>
+330|</section>
+331|
+332|<section class="final-cta">
+333|  <div class="container">
+334|    <h2 class="reveal">Your audience.<br><span>Your revenue.</span><br>Your rules.</h2>
+335|    <p class="reveal">Join the creator economy that doesn't take from creators.</p>
+336|    <a href="https://pledgly.vercel.app" class="btn-primary reveal" target="_blank" rel="noopener" style="font-size:1rem;padding:14px 36px">Launch Pledgly →</a>
+337|  </div>
+338|</section>
+339|
+340|<footer>
+341|  <div class="container">
+342|    <p><strong>Pledgly</strong> — The platform where creators keep what they earn. © 2026</p>
+343|    <p>Contract: <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" rel="noopener" style="font-size:.78rem">0x8204…4011</a> · Deployed on Polygon</p>
+344|    <p style="margin-top:8px">Backed by <a href="/">Aurora Pathways</a></p>
+345|  </div>
+346|</footer>
+347|
+348|<script>
+349|// IntersectionObserver reveal
+350|const obs=new IntersectionObserver((entries)=>{
+351|  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+352|},{threshold:.15});
+353|document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+354|
+355|// FAQ toggle
+356|document.querySelectorAll('.faq-q').forEach(q=>{
+357|  q.addEventListener('click',()=>{
+358|    const item=q.parentElement;
+359|    const wasOpen=item.classList.contains('open');
+360|    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+361|    if(!wasOpen) item.classList.add('open');
+362|  });
+363|});
+364|
+365|// Onboarding modal - show when no wallet detected
+366|function showOnboarding() {
+367|  if (typeof window.ethereum === 'undefined') {
+368|    document.getElementById('onboardingModal').style.display = 'flex';
+369|    return true;
+370|  }
+371|  return false;
+372|}
+373|// Override connect wallet buttons
+374|document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+375|  btn.addEventListener('click', function(e) {
+376|    if (showOnboarding()) {
+377|      e.preventDefault();
+378|      e.stopPropagation();
+379|    }
+380|  });
+381|});
+382|
+383|</script>
+384|<!-- Onboarding Modal -->
+385|<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+386|  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+387|    <div style="text-align:center;margin-bottom:20px;">
+388|      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+389|      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+390|      <p style="color:#888;font-size:0.9rem;">Pledgly runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+391|    </div>
+392|    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+393|      <div style="display:flex;gap:14px;align-items:flex-start;">
+394|        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+395|        <div>
+396|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+397|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+398|          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+399|        </div>
+400|      </div>
+401|      <div style="display:flex;gap:14px;align-items:flex-start;">
+402|        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+403|        <div>
+404|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+405|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to subscribe to your favorite creators. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+406|        </div>
+407|      </div>
+408|      <div style="display:flex;gap:14px;align-items:flex-start;">
+409|        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+410|        <div>
+411|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+412|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Creating," and you're in. Browse creators, subscribe, and support the people you love — directly.</p>
+413|        </div>
+414|      </div>
+415|    </div>
+416|    <div style="display:flex;gap:10px;">
+417|      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+418|      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+419|    </div>
+420|    <div style="text-align:center;margin-top:16px;">
+421|      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+422|    </div>
+423|  </div>
+424|</div>
+425|</body>
+426|</html>
