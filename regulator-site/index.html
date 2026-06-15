@@ -153,6 +153,15 @@
     footer p{color:var(--text3);font-size:.82rem}
     footer a{color:var(--accent)}
 
+    /* === GALLERY === */
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .gallery-item{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:4/3;background:var(--surface)}
+    .gallery-item.large{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+    .gallery-item:hover img{transform:scale(1.05)}
+    .gallery-caption{position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:.82rem;color:#fff;font-weight:500;opacity:0;transition:.3s}
+    .gallery-item:hover .gallery-caption{opacity:1}
+
     /* === RESPONSIVE === */
     @media(max-width:900px){
       .hero .container{grid-template-columns:1fr;gap:40px}
@@ -168,6 +177,8 @@
       .hero-stats{gap:20px;flex-wrap:wrap}
       .cta-box{padding:36px 20px}
       .fc-specs{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:1fr 1fr}
+      .gallery-item.large{grid-column:span 2}
     }
     </style>
 </head>
@@ -214,7 +225,7 @@
                 <div class="fp-body">
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name">🏗️ PJ Trailers D7 Dump</span>
+                            <span class="tc-name"><img src="photos/dump-rear.jpg" alt="Dump" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> PJ Trailers D7 Dump</span>
                             <span class="tc-badge rented">Rented</span>
                         </div>
                         <div class="tc-specs">
@@ -226,7 +237,7 @@
                     </div>
                     <div class="trailer-card">
                         <div class="tc-top">
-                            <span class="tc-name">🚛 24' Flatbed + Winch</span>
+                            <span class="tc-name"><img src="photos/flatbed-toolbox.jpg" alt="Flatbed" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> 24' Flatbed + Winch</span>
                             <span class="tc-badge available">Available</span>
                         </div>
                         <div class="tc-specs">
@@ -251,7 +262,7 @@
 
         <div class="fleet-grid">
             <div class="fleet-card">
-                <div class="fc-img">🏗️</div>
+                <div class="fc-img"><img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer" style="width:100%;height:100%;object-fit:cover"></div>
                 <div class="fc-body">
                     <div class="fc-type">Dump Trailer</div>
                     <h3>PJ Trailers 83" × 14' D7</h3>
@@ -290,7 +301,7 @@
             </div>
 
             <div class="fleet-card">
-                <div class="fc-img">🚛</div>
+                <div class="fc-img"><img src="photos/flatbed-toolbox.jpg" alt="24ft Flatbed Trailer Toolbox" style="width:100%;height:100%;object-fit:cover"></div>
                 <div class="fc-body">
                     <div class="fc-type">Flatbed + Winch</div>
                     <h3>24' Flatbed Trailer</h3>
@@ -326,6 +337,38 @@
                     <div class="fc-price">$200 <span>/ day</span></div>
                     <a href="#contact" class="btn btn-primary" style="padding:8px 18px;font-size:.82rem">Book Now</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Photo Gallery -->
+<section style="background:var(--bg2)">
+    <div class="container">
+        <div class="section-tag">Our Fleet in Action</div>
+        <div class="section-title">Real trailers. Real jobs.</div>
+        <div class="section-sub">Photos of our actual equipment — not stock images.</div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item large">
+                <img src="photos/dump-rear.jpg" alt="PJ Trailers D7 Dump Trailer — Rear View" loading="lazy">
+                <div class="gallery-caption">PJ D7 Dump — Rear hydraulic lift</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photos/dump-side.jpg" alt="PJ Trailers D7 Dump Trailer — Side View" loading="lazy">
+                <div class="gallery-caption">D7 Dump — Side profile, PJ Trailers</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photos/dump-bed.jpg" alt="Dump Trailer Bed" loading="lazy">
+                <div class="gallery-caption">Clean flat bed surface</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photos/dump-tarp.jpg" alt="Dump Trailer with Roll Tarp" loading="lazy">
+                <div class="gallery-caption">D7 Dump — Roll tarp, double axle</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photos/flatbed-toolbox.jpg" alt="Flatbed Trailer Toolbox and Battery" loading="lazy">
+                <div class="gallery-caption">Flatbed — Integrated toolbox & battery</div>
             </div>
         </div>
     </div>
@@ -372,7 +415,7 @@
 
         <div class="pricing-grid">
             <div class="price-card">
-                <h3>🏗️ PJ D7 Dump Trailer</h3>
+                <h3><img src="photos/dump-bed.jpg" alt="Dump" style="width:20px;height:20px;border-radius:3px;object-fit:cover;vertical-align:middle"> PJ D7 Dump Trailer</h3>
                 <p class="price-desc">14' × 83" — 14,000 GVWR — Hydraulic lift</p>
                 <div class="price-row">
                     <span class="pr-label">Daily Rate</span>
@@ -394,7 +437,7 @@
             </div>
 
             <div class="price-card">
-                <h3>🚛 24' Flatbed + Winch</h3>
+                <h3><img src="photos/flatbed-toolbox.jpg" alt="Flatbed" style="width:24px;height:24px;border-radius:4px;object-fit:cover;vertical-align:middle"> 24' Flatbed + Winch</h3>
                 <p class="price-desc">3× 7K axles — Electric brakes — Treated wood deck</p>
                 <div class="price-row">
                     <span class="pr-label">Daily Rate</span>
