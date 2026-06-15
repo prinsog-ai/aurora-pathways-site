@@ -1,784 +1,784 @@
-1|<!DOCTYPE html>
-2|<html lang="en">
-3|<head>
-4|    <meta charset="UTF-8">
-5|    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-6|    <title>Forekast — Decentralized Prediction Markets | Predict. Trade. Win.</title>
-7|    <meta name="description" content="Create any prediction market. Trade YES/NO tokens. Multi-oracle resolution. No middleman. No kill switch. Built on Polygon.">
-8|    <meta property="og:title" content="Forekast — Decentralized Prediction Markets">
-9|    <meta property="og:description" content="Bet on outcomes with USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span>. Transparent, transparent and permanent resolution. No house edge.">
-10|    <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-11|    <meta property="og:type" content="website">
-12|    <meta property="og:url" content="https://forekastdao.xyz">
-13|    <meta name="twitter:card" content="summary_large_image">
-14|    <meta name="twitter:title" content="Forekast — Decentralized Prediction Markets">
-15|    <meta name="twitter:description" content="Bet on outcomes with USDC. Transparent, transparent and permanent resolution. No house edge.">
-16|    <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-17|    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
-18|    <link rel="canonical" href="https://forekastdao.xyz/">
-19|    <link rel="preconnect" href="https://fonts.googleapis.com">
-20|    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-21|    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-22|    <style>
-23|        :root {
-24|            --accent2: #4ec9b0;
-25|            --accent-gradient: linear-gradient(135deg, #4ec9b0 0%, #3b82f6 50%, #7c5cfc 100%);
-26|            --bg-primary: #0a0a0f;
-27|            --bg-secondary: #12121a;
-28|            --bg-card: #1a1a25;
-29|            --bg-card-hover: #22222e;
-30|            --text-primary: #ffffff;
-31|            --text-secondary: #a0a0b0;
-32|            --text-muted: #6b6b7b;
-33|            --border-color: #2a2a35;
-34|            --glow-teal: rgba(78, 201, 176, 0.15);
-35|            --glow-blue: rgba(59, 130, 246, 0.1);
-36|        }
-37|
-38|        * {
-39|            margin: 0;
-40|            padding: 0;
-41|            box-sizing: border-box;
-42|        }
-43|
-44|        html {
-45|            scroll-behavior: smooth;
-46|        }
-47|
-48|        body {
-49|            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-50|            background: var(--bg-primary);
-51|            color: var(--text-primary);
-52|            line-height: 1.6;
-53|            overflow-x: hidden;
-54|        }
-55|
-56|        .container {
-57|            max-width: 1200px;
-58|            margin: 0 auto;
-59|            padding: 0 24px;
-60|        }
-61|
-62|        /* Navigation */
-63|        nav {
-64|            position: fixed;
-65|            top: 0;
-66|            left: 0;
-67|            right: 0;
-68|            z-index: 1000;
-69|            background: rgba(10, 10, 15, 0.85);
-70|            backdrop-filter: blur(20px);
-71|            -webkit-backdrop-filter: blur(20px);
-72|            border-bottom: 1px solid rgba(42, 42, 53, 0.5);
-73|        }
-74|
-75|        .nav-inner {
-76|            display: flex;
-77|            align-items: center;
-78|            justify-content: space-between;
-79|            height: 72px;
-80|        }
-81|
-82|        .logo {
-83|            font-size: 24px;
-84|            font-weight: 800;
-85|            background: var(--accent-gradient);
-86|            -webkit-background-clip: text;
-87|            -webkit-text-fill-color: transparent;
-88|            background-clip: text;
-89|            text-decoration: none;
-90|        }
-91|
-92|        .nav-cta {
-93|            display: inline-flex;
-94|            align-items: center;
-95|            gap: 8px;
-96|            padding: 10px 24px;
-97|            background: var(--accent-gradient);
-98|            color: #fff;
-99|            font-weight: 600;
-100|            font-size: 14px;
-101|            border-radius: 8px;
-102|            text-decoration: none;
-103|            transition: transform 0.2s, box-shadow 0.2s;
-104|        }
-105|
-106|        .nav-cta:hover {
-107|            transform: translateY(-1px);
-108|            box-shadow: 0 4px 20px rgba(78, 201, 176, 0.3);
-109|        }
-110|
-111|        /* Hero Section */
-112|        .hero {
-113|            padding: 140px 0 100px;
-114|            text-align: center;
-115|            position: relative;
-116|            overflow: hidden;
-117|        }
-118|
-119|        .hero::before {
-120|            content: '';
-121|            position: absolute;
-122|            top: -200px;
-123|            left: 50%;
-124|            transform: translateX(-50%);
-125|            width: 800px;
-126|            height: 800px;
-127|            background: radial-gradient(ellipse, rgba(78, 201, 176, 0.08) 0%, transparent 70%);
-128|            pointer-events: none;
-129|        }
-130|
-131|        .badge {
-132|            display: inline-flex;
-133|            align-items: center;
-134|            gap: 8px;
-135|            padding: 8px 20px;
-136|            background: rgba(78, 201, 176, 0.1);
-137|            border: 1px solid rgba(78, 201, 176, 0.2);
-138|            border-radius: 100px;
-139|            font-size: 14px;
-140|            font-weight: 500;
-141|            color: var(--accent2);
-142|            margin-bottom: 32px;
-143|        }
-144|
-145|        .badge::before {
-146|            content: '';
-147|            width: 8px;
-148|            height: 8px;
-149|            background: var(--accent2);
-150|            border-radius: 50%;
-151|            animation: pulse 2s infinite;
-152|        }
-153|
-154|        @keyframes pulse {
-155|            0%, 100% { opacity: 1; }
-156|            50% { opacity: 0.4; }
-157|        }
-158|
-159|        .hero h1 {
-160|            font-size: clamp(2.5rem, 6vw, 4.5rem);
-161|            font-weight: 900;
-162|            line-height: 1.1;
-163|            margin-bottom: 24px;
-164|            letter-spacing: -0.03em;
-165|        }
-166|
-167|        .hero h1 .gradient-text {
-168|            background: var(--accent-gradient);
-169|            -webkit-background-clip: text;
-170|            -webkit-text-fill-color: transparent;
-171|            background-clip: text;
-172|        }
-173|
-174|        .hero-sub {
-175|            font-size: 18px;
-176|            color: var(--text-secondary);
-177|            max-width: 600px;
-178|            margin: 0 auto 48px;
-179|            line-height: 1.7;
-180|        }
-181|
-182|        .hero-stats {
-183|            display: flex;
-184|            justify-content: center;
-185|            gap: 48px;
-186|            margin-bottom: 48px;
-187|            flex-wrap: wrap;
-188|        }
-189|
-190|        .hero-stat {
-191|            text-align: center;
-192|        }
-193|
-194|        .hero-stat-value {
-195|            font-size: 20px;
-196|            font-weight: 700;
-197|            color: var(--accent2);
-198|            margin-bottom: 4px;
-199|        }
-200|
-201|        .hero-stat-label {
-202|            font-size: 13px;
-203|            color: var(--text-muted);
-204|            text-transform: uppercase;
-205|            letter-spacing: 0.05em;
-206|        }
-207|
-208|        .hero-ctas {
-209|            display: flex;
-210|            justify-content: center;
-211|            gap: 16px;
-212|            flex-wrap: wrap;
-213|        }
-214|
-215|        .btn-primary {
-216|            display: inline-flex;
-217|            align-items: center;
-218|            gap: 8px;
-219|            padding: 14px 32px;
-220|            background: var(--accent-gradient);
-221|            color: #fff;
-222|            font-weight: 700;
-223|            font-size: 16px;
-224|            border-radius: 10px;
-225|            text-decoration: none;
-226|            transition: transform 0.2s, box-shadow 0.2s;
-227|            border: none;
-228|            cursor: pointer;
-229|        }
-230|
-231|        .btn-primary:hover {
-232|            transform: translateY(-2px);
-233|            box-shadow: 0 8px 30px rgba(78, 201, 176, 0.3);
-234|        }
-235|
-236|        .btn-secondary {
-237|            display: inline-flex;
-238|            align-items: center;
-239|            gap: 8px;
-240|            padding: 14px 32px;
-241|            background: transparent;
-242|            color: var(--text-primary);
-243|            font-weight: 600;
-244|            font-size: 16px;
-245|            border-radius: 10px;
-246|            text-decoration: none;
-247|            border: 1px solid var(--border-color);
-248|            transition: border-color 0.2s, background 0.2s;
-249|        }
-250|
-251|        .btn-secondary:hover {
-252|            border-color: var(--accent2);
-253|            background: rgba(78, 201, 176, 0.05);
-254|        }
-255|
-256|        /* Section Styles */
-257|        section {
-258|            padding: 100px 0;
-259|        }
-260|
-261|        .section-label {
-262|            display: inline-block;
-263|            font-size: 13px;
-264|            font-weight: 600;
-265|            color: var(--accent2);
-266|            text-transform: uppercase;
-267|            letter-spacing: 0.1em;
-268|            margin-bottom: 16px;
-269|        }
-270|
-271|        .section-title {
-272|            font-size: clamp(2rem, 4vw, 3rem);
-273|            font-weight: 800;
-274|            margin-bottom: 16px;
-275|            letter-spacing: -0.02em;
-276|            line-height: 1.2;
-277|        }
-278|
-279|        .section-sub {
-280|            font-size: 18px;
-281|            color: var(--text-secondary);
-282|            max-width: 600px;
-283|            line-height: 1.7;
-284|        }
-285|
-286|        /* Problem Section */
-287|        .problem {
-288|            background: var(--bg-secondary);
-289|            border-top: 1px solid var(--border-color);
-290|            border-bottom: 1px solid var(--border-color);
-291|        }
-292|
-293|        .problem-card {
-294|            background: var(--bg-card);
-295|            border: 1px solid var(--border-color);
-296|            border-radius: 16px;
-297|            padding: 48px;
-298|            max-width: 800px;
-299|            margin: 48px auto 0;
-300|            position: relative;
-301|            overflow: hidden;
-302|        }
-303|
-304|        .problem-card::before {
-305|            content: '';
-306|            position: absolute;
-307|            top: 0;
-308|            left: 0;
-309|            right: 0;
-310|            height: 3px;
-311|            background: linear-gradient(90deg, #ef4444, #f97316);
-312|        }
-313|
-314|        .problem-card h3 {
-315|            font-size: 24px;
-316|            font-weight: 700;
-317|            margin-bottom: 16px;
-318|            color: #f87171;
-319|        }
-320|
-321|        .problem-card p {
-322|            color: var(--text-secondary);
-323|            font-size: 16px;
-324|            line-height: 1.8;
-325|        }
-326|
-327|        /* Features Grid */
-328|        .features-grid {
-329|            display: grid;
-330|            grid-template-columns: repeat(3, 1fr);
-331|            gap: 24px;
-332|            margin-top: 56px;
-333|        }
-334|
-335|        .feature-card {
-336|            background: var(--bg-card);
-337|            border: 1px solid var(--border-color);
-338|            border-radius: 16px;
-339|            padding: 36px;
-340|            transition: transform 0.3s, border-color 0.3s, background 0.3s;
-341|            position: relative;
-342|            overflow: hidden;
-343|        }
-344|
-345|        .feature-card::before {
-346|            content: '';
-347|            position: absolute;
-348|            top: 0;
-349|            left: 0;
-350|            right: 0;
-351|            height: 2px;
-352|            background: var(--accent-gradient);
-353|            opacity: 0;
-354|            transition: opacity 0.3s;
-355|        }
-356|
-357|        .feature-card:hover {
-358|            transform: translateY(-4px);
-359|            border-color: rgba(78, 201, 176, 0.3);
-360|            background: var(--bg-card-hover);
-361|        }
-362|
-363|        .feature-card:hover::before {
-364|            opacity: 1;
-365|        }
-366|
-367|        .feature-icon {
-368|            width: 48px;
-369|            height: 48px;
-370|            border-radius: 12px;
-371|            display: flex;
-372|            align-items: center;
-373|            justify-content: center;
-374|            font-size: 24px;
-375|            margin-bottom: 20px;
-376|            background: rgba(78, 201, 176, 0.1);
-377|        }
-378|
-379|        .feature-card h3 {
-380|            font-size: 18px;
-381|            font-weight: 700;
-382|            margin-bottom: 12px;
-383|        }
-384|
-385|        .feature-card p {
-386|            font-size: 14px;
-387|            color: var(--text-secondary);
-388|            line-height: 1.7;
-389|        }
-390|
-391|        /* How It Works */
-392|        .how-steps {
-393|            display: grid;
-394|            grid-template-columns: repeat(4, 1fr);
-395|            gap: 24px;
-396|            margin-top: 56px;
-397|            position: relative;
-398|        }
-399|
-400|        .how-steps::before {
-401|            content: '';
-402|            position: absolute;
-403|            top: 36px;
-404|            left: 60px;
-405|            right: 60px;
-406|            height: 2px;
-407|            background: var(--accent-gradient);
-408|            opacity: 0.3;
-409|        }
-410|
-411|        .step {
-412|            text-align: center;
-413|            position: relative;
-414|        }
-415|
-416|        .step-number {
-417|            width: 72px;
-418|            height: 72px;
-419|            border-radius: 50%;
-420|            background: rgba(78, 201, 176, 0.1);
-421|            border: 2px solid rgba(78, 201, 176, 0.3);
-422|            display: flex;
-423|            align-items: center;
-424|            justify-content: center;
-425|            font-size: 28px;
-426|            font-weight: 800;
-427|            background: var(--accent-gradient);
-428|            -webkit-background-clip: text;
-429|            -webkit-text-fill-color: transparent;
-430|            background-clip: text;
-431|            margin: 0 auto 20px;
-432|            position: relative;
-433|            z-index: 1;
-434|        }
-435|
-436|        .step h3 {
-437|            font-size: 16px;
-438|            font-weight: 700;
-439|            margin-bottom: 8px;
-440|        }
-441|
-442|        .step p {
-443|            font-size: 14px;
-444|            color: var(--text-secondary);
-445|            line-height: 1.6;
-446|        }
-447|
-448|        /* Comparison Table */
-449|        .comparison {
-450|            background: var(--bg-secondary);
-451|            border-top: 1px solid var(--border-color);
-452|            border-bottom: 1px solid var(--border-color);
-453|        }
-454|
-455|        .compare-table {
-456|            width: 100%;
-457|            margin-top: 48px;
-458|            border-collapse: separate;
-459|            border-spacing: 0;
-460|            background: var(--bg-card);
-461|            border-radius: 16px;
-462|            overflow: hidden;
-463|            border: 1px solid var(--border-color);
-464|        }
-465|
-466|        .compare-table th,
-467|        .compare-table td {
-468|            padding: 20px 24px;
-469|            text-align: left;
-470|            border-bottom: 1px solid var(--border-color);
-471|        }
-472|
-473|        .compare-table th {
-474|            font-size: 14px;
-475|            font-weight: 600;
-476|            color: var(--text-muted);
-477|            text-transform: uppercase;
-478|            letter-spacing: 0.05em;
-479|            background: rgba(0,0,0,0.2);
-480|        }
-481|
-482|        .compare-table th:first-child {
-483|            width: 200px;
-484|        }
-485|
-486|        .compare-table td {
-487|            font-size: 15px;
-488|        }
-489|
-490|        .compare-table td:first-child {
-491|            font-weight: 600;
-492|            color: var(--text-secondary);
-493|        }
-494|
-495|        .compare-table tr:last-child td {
-496|            border-bottom: none;
-497|        }
-498|
-499|        .compare-forekast {
-500|            color: var(--accent2);
-501|            font-weight: 600;
-502|        }
-503|
-504|        .compare-check {
-505|            color: var(--accent2);
-506|        }
-507|
-508|        .compare-x {
-509|            color: #ef4444;
-510|        }
-511|
-512|        .compare-partial {
-513|            color: #f59e0b;
-514|        }
-515|
-516|        /* Why Decentralized */
-517|        .why-cards {
-518|            display: grid;
-519|            grid-template-columns: repeat(3, 1fr);
-520|            gap: 24px;
-521|            margin-top: 56px;
-522|        }
-523|
-524|        .why-card {
-525|            background: var(--bg-card);
-526|            border: 1px solid var(--border-color);
-527|            border-radius: 16px;
-528|            padding: 36px;
-529|            text-align: center;
-530|            transition: transform 0.3s, border-color 0.3s;
-531|        }
-532|
-533|        .why-card:hover {
-534|            transform: translateY(-4px);
-535|            border-color: rgba(78, 201, 176, 0.3);
-536|        }
-537|
-538|        .why-card-icon {
-539|            font-size: 48px;
-540|            margin-bottom: 20px;
-541|        }
-542|
-543|        .why-card h3 {
-544|            font-size: 20px;
-545|            font-weight: 700;
-546|            margin-bottom: 12px;
-547|        }
-548|
-549|        .why-card p {
-550|            font-size: 15px;
-551|            color: var(--text-secondary);
-552|            line-height: 1.7;
-553|        }
-554|
-555|        /* FAQ */
-556|        .faq-list {
-557|            max-width: 720px;
-558|            margin: 48px auto 0;
-559|        }
-560|
-561|        .faq-item {
-562|            border-bottom: 1px solid var(--border-color);
-563|        }
-564|
-565|        .faq-question {
-566|            width: 100%;
-567|            background: none;
-568|            border: none;
-569|            padding: 24px 0;
-570|            display: flex;
-571|            justify-content: space-between;
-572|            align-items: center;
-573|            cursor: pointer;
-574|            text-align: left;
-575|            font-size: 17px;
-576|            font-weight: 600;
-577|            color: var(--text-primary);
-578|            font-family: inherit;
-579|            transition: color 0.2s;
-580|        }
-581|
-582|        .faq-question:hover {
-583|            color: var(--accent2);
-584|        }
-585|
-586|        .faq-arrow {
-587|            font-size: 20px;
-588|            transition: transform 0.3s;
-589|            color: var(--text-muted);
-590|        }
-591|
-592|        .faq-item.open .faq-arrow {
-593|            transform: rotate(180deg);
-594|            color: var(--accent2);
-595|        }
-596|
-597|        .faq-answer {
-598|            max-height: 0;
-599|            overflow: hidden;
-600|            transition: max-height 0.3s ease, padding 0.3s ease;
-601|        }
-602|
-603|        .faq-item.open .faq-answer {
-604|            max-height: 300px;
-605|            padding-bottom: 24px;
-606|        }
-607|
-608|        .faq-answer p {
-609|            font-size: 15px;
-610|            color: var(--text-secondary);
-611|            line-height: 1.8;
-612|        }
-613|
-614|        /* CTA Section */
-615|        .cta-section {
-616|            text-align: center;
-617|            position: relative;
-618|            overflow: hidden;
-619|        }
-620|
-621|        .cta-section::before {
-622|            content: '';
-623|            position: absolute;
-624|            top: 50%;
-625|            left: 50%;
-626|            transform: translate(-50%, -50%);
-627|            width: 600px;
-628|            height: 600px;
-629|            background: radial-gradient(ellipse, rgba(78, 201, 176, 0.06) 0%, transparent 70%);
-630|            pointer-events: none;
-631|        }
-632|
-633|        .cta-section h2 {
-634|            font-size: clamp(2rem, 4vw, 3.5rem);
-635|            font-weight: 900;
-636|            margin-bottom: 20px;
-637|            letter-spacing: -0.03em;
-638|        }
-639|
-640|        .cta-section p {
-641|            font-size: 18px;
-642|            color: var(--text-secondary);
-643|            margin-bottom: 40px;
-644|            max-width: 500px;
-645|            margin-left: auto;
-646|            margin-right: auto;
-647|        }
-648|
-649|        /* Footer */
-650|        footer {
-651|            padding: 40px 0;
-652|            border-top: 1px solid var(--border-color);
-653|            text-align: center;
-654|        }
-655|
-656|        .footer-inner {
-657|            display: flex;
-658|            justify-content: space-between;
-659|            align-items: center;
-660|            flex-wrap: wrap;
-661|            gap: 16px;
-662|        }
-663|
-664|        .footer-left {
-665|            display: flex;
-666|            align-items: center;
-667|            gap: 12px;
-668|        }
-669|
-670|        .footer-brand {
-671|            font-weight: 700;
-672|            background: var(--accent-gradient);
-673|            -webkit-background-clip: text;
-674|            -webkit-text-fill-color: transparent;
-675|            background-clip: text;
-676|        }
-677|
-678|        .footer-sep {
-679|            color: var(--border-color);
-680|        }
-681|
-682|        .footer-aurora {
-683|            font-size: 13px;
-684|            color: var(--text-muted);
-685|        }
-686|
-687|        .footer-right {
-688|            font-size: 13px;
-689|            color: var(--text-muted);
-690|        }
-691|
-692|        .footer-right a {
-693|            color: var(--text-secondary);
-694|            text-decoration: none;
-695|            transition: color 0.2s;
-696|        }
-697|
-698|        .footer-right a:hover {
-699|            color: var(--accent2);
-700|        }
-701|
-702|        /* Animate on scroll */
-703|        .fade-in {
-704|            opacity: 0;
-705|            transform: translateY(30px);
-706|            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-707|        }
-708|
-709|        .fade-in.visible {
-710|            opacity: 1;
-711|            transform: translateY(0);
-712|        }
-713|
-714|        /* Responsive */
-715|        @media (max-width: 1024px) {
-716|            .features-grid {
-717|                grid-template-columns: repeat(2, 1fr);
-718|            }
-719|            .how-steps {
-720|                grid-template-columns: repeat(2, 1fr);
-721|            }
-722|            .how-steps::before {
-723|                display: none;
-724|            }
-725|            .why-cards {
-726|                grid-template-columns: repeat(2, 1fr);
-727|            }
-728|        }
-729|
-730|        @media (max-width: 768px) {
-731|            .hero {
-732|                padding: 120px 0 80px;
-733|            }
-734|            .hero-stats {
-735|                gap: 32px;
-736|            }
-737|            .features-grid,
-738|            .why-cards {
-739|                grid-template-columns: 1fr;
-740|            }
-741|            .how-steps {
-742|                grid-template-columns: 1fr;
-743|                max-width: 400px;
-744|                margin-left: auto;
-745|                margin-right: auto;
-746|            }
-747|            .compare-table {
-748|                font-size: 13px;
-749|            }
-750|            .compare-table th,
-751|            .compare-table td {
-752|                padding: 14px 12px;
-753|            }
-754|            .footer-inner {
-755|                flex-direction: column;
-756|                text-align: center;
-757|            }
-758|            section {
-759|                padding: 70px 0;
-760|            }
-761|        }
-762|
-763|        @media (max-width: 480px) {
-764|            .hero h1 {
-765|                font-size: 2rem;
-766|            }
-767|            .hero-ctas {
-768|                flex-direction: column;
-769|                align-items: center;
-770|            }
-771|            .btn-primary,
-772|            .btn-secondary {
-773|                width: 100%;
-774|                justify-content: center;
-775|            }
-776|            .hero-stats {
-777|                flex-direction: column;
-778|                gap: 24px;
-779|            }
-780|        }
-781|    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forekast — Decentralized Prediction Markets | Predict. Trade. Win.</title>
+    <meta name="description" content="Create any prediction market. Trade YES/NO tokens. Multi-oracle resolution. No middleman. No kill switch. Built on Polygon.">
+    <meta property="og:title" content="Forekast — Decentralized Prediction Markets">
+    <meta property="og:description" content="Bet on outcomes with USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span>. Transparent, transparent and permanent resolution. No house edge.">
+    <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://forekastdao.xyz">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Forekast — Decentralized Prediction Markets">
+    <meta name="twitter:description" content="Bet on outcomes with USDC. Transparent, transparent and permanent resolution. No house edge.">
+    <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+    <link rel="canonical" href="https://forekastdao.xyz/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent2: #4ec9b0;
+            --accent-gradient: linear-gradient(135deg, #4ec9b0 0%, #3b82f6 50%, #7c5cfc 100%);
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --bg-card-hover: #22222e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6b6b7b;
+            --border-color: #2a2a35;
+            --glow-teal: rgba(78, 201, 176, 0.15);
+            --glow-blue: rgba(59, 130, 246, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(42, 42, 53, 0.5);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(78, 201, 176, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse, rgba(78, 201, 176, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(78, 201, 176, 0.1);
+            border: 1px solid rgba(78, 201, 176, 0.2);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent2);
+            margin-bottom: 32px;
+        }
+
+        .badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent2);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-bottom: 4px;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(78, 201, 176, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent2);
+            background: rgba(78, 201, 176, 0.05);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-sub {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 48px;
+            max-width: 800px;
+            margin: 48px auto 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #f97316);
+        }
+
+        .problem-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #f87171;
+        }
+
+        .problem-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 36px;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(78, 201, 176, 0.3);
+            background: var(--bg-card-hover);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: rgba(78, 201, 176, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+            position: relative;
+        }
+
+        .how-steps::before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: var(--accent-gradient);
+            opacity: 0.3;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(78, 201, 176, 0.1);
+            border: 2px solid rgba(78, 201, 176, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .compare-table {
+            width: 100%;
+            margin-top: 48px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .compare-table th,
+        .compare-table td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .compare-table th {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .compare-table th:first-child {
+            width: 200px;
+        }
+
+        .compare-table td {
+            font-size: 15px;
+        }
+
+        .compare-table td:first-child {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-forekast {
+            color: var(--accent2);
+            font-weight: 600;
+        }
+
+        .compare-check {
+            color: var(--accent2);
+        }
+
+        .compare-x {
+            color: #ef4444;
+        }
+
+        .compare-partial {
+            color: #f59e0b;
+        }
+
+        /* Why Decentralized */
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .why-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 36px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(78, 201, 176, 0.3);
+        }
+
+        .why-card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .why-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 720px;
+            margin: 48px auto 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: color 0.2s;
+        }
+
+        .faq-question:hover {
+            color: var(--accent2);
+        }
+
+        .faq-arrow {
+            font-size: 20px;
+            transition: transform 0.3s;
+            color: var(--text-muted);
+        }
+
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+            color: var(--accent2);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-bottom: 24px;
+        }
+
+        .faq-answer p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(78, 201, 176, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-sep {
+            color: var(--border-color);
+        }
+
+        .footer-aurora {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-right {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-right a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-right a:hover {
+            color: var(--accent2);
+        }
+
+        /* Animate on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .how-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .how-steps::before {
+                display: none;
+            }
+            .why-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+            .hero-stats {
+                gap: 32px;
+            }
+            .features-grid,
+            .why-cards {
+                grid-template-columns: 1fr;
+            }
+            .how-steps {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .compare-table {
+                font-size: 13px;
+            }
+            .compare-table th,
+            .compare-table td {
+                padding: 14px 12px;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            section {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+    </style>
 
   <link rel="stylesheet" href="/assets/landing-enhancements.css">
   <style>
@@ -834,54 +834,54 @@
       background: rgba(59,130,246, 0.03);
     }
   </style>
-782|</head>
-783|<body>
-784|    <!-- Navigation -->
-785|    <nav>
-786|        <div class="container nav-inner">
-787|            <a href="https://forekastdao.xyz/" class="logo">Forekast</a>
-788|            <a href="https://forekast-teal.vercel.app" class="nav-cta" target="_blank" rel="noopener">
-789|                Start Trading
-790|                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-791|            </a>
-792|        </div>
-793|    </nav>
-794|
-795|    <!-- Hero -->
-796|    <section class="hero">
-797|        <div class="container">
-798|            <div class="badge">Prediction Markets</div>
-799|            <h1>
-800|                Predict anything.<br>
-801|                <span class="gradient-text">Trust the outcome.</span>
-802|            </h1>
-803|            <p class="hero-sub">
-804|                Decentralized prediction markets with multi-oracle resolution. No middleman. No kill switch. Built on Polygon.
-805|            </p>
-806|            <div class="hero-stats">
-807|                <div class="hero-stat">
-808|                    <div class="hero-stat-value">Any Market</div>
-809|                    <div class="hero-stat-label">Sports · Politics · Crypto · Science</div>
-810|                </div>
-811|                <div class="hero-stat">
-812|                    <div class="hero-stat-value">Multi-Oracle</div>
-813|                    <div class="hero-stat-label">Chainlink · UMA · Custom</div>
-814|                </div>
-815|                <div class="hero-stat">
-816|                    <div class="hero-stat-value">&lt;$0.02</div>
-817|                    <div class="hero-stat-label">Gas per Trade</div>
-818|                </div>
-819|            </div>
-820|            <div class="hero-ctas">
-821|                <a href="https://forekast-teal.vercel.app" class="btn-primary" target="_blank" rel="noopener">
-822|                    Start Predicting
-823|                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-824|                </a>
-825|                <a href="#how-it-works" class="btn-secondary">
-826|                    Learn More
-827|                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-828|                </a>
-829|            </div>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="https://forekastdao.xyz/" class="logo">Forekast</a>
+            <a href="https://forekast-teal.vercel.app" class="nav-cta" target="_blank" rel="noopener">
+                Start Trading
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge">Prediction Markets</div>
+            <h1>
+                Predict anything.<br>
+                <span class="gradient-text">Trust the outcome.</span>
+            </h1>
+            <p class="hero-sub">
+                Decentralized prediction markets with multi-oracle resolution. No middleman. No kill switch. Built on Polygon.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Any Market</div>
+                    <div class="hero-stat-label">Sports · Politics · Crypto · Science</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Multi-Oracle</div>
+                    <div class="hero-stat-label">Chainlink · UMA · Custom</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">&lt;$0.02</div>
+                    <div class="hero-stat-label">Gas per Trade</div>
+                </div>
+            </div>
+            <div class="hero-ctas">
+                <a href="https://forekast-teal.vercel.app" class="btn-primary" target="_blank" rel="noopener">
+                    Start Predicting
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <a href="#how-it-works" class="btn-secondary">
+                    Learn More
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </a>
+            </div>
           <!-- Trust Badges -->
           <div class="trust-badges">
             <div class="trust-badge">
@@ -898,385 +898,384 @@
             </div>
           </div>
 
-830|        </div>
-831|    </section>
-832|
-833|    <!-- Problem Section -->
-834|    <section class="problem">
-835|        <div class="container">
-836|            <div class="fade-in" style="text-align:center;">
-837|                <span class="section-label">The Problem</span>
-838|                <h2 class="section-title">Centralized markets have a kill switch</h2>
-839|                <p class="section-sub" style="margin:0 auto;">
-840|                    Polymarket and Kalshi control what markets you can trade, how outcomes resolve, and when to shut you out.
-841|                </p>
-842|            </div>
-843|            <div class="problem-card fade-in">
-844|                <h3>🚫 They decide what you can predict</h3>
-845|                <p>
-846|                    Centralized prediction platforms can delist any market at will, freeze your positions, or override outcomes based on their terms of service. When regulators knock, your markets disappear overnight. You're not trading on an open protocol — you're using a product that can be switched off at any time.
-847|                </p>
-848|            </div>
-849|        </div>
-850|    </section>
-851|
-852|    <!-- Features -->
-853|    <section id="features">
-854|        <div class="container">
-855|            <div class="fade-in" style="text-align:center;">
-856|                <span class="section-label">Features</span>
-857|                <h2 class="section-title">Built for open prediction markets</h2>
-858|                <p class="section-sub" style="margin:0 auto;">
-859|                    Everything you need to create, trade, and resolve markets — fully transparent and permanent.
-860|                </p>
-861|            </div>
-862|            <div class="features-grid">
-863|                <div class="feature-card fade-in">
-864|                    <div class="feature-icon">📊</div>
-865|                    <h3>Create Any Market</h3>
-866|                    <p>Sports, politics, crypto, science, entertainment — if you can phrase it as a yes/no question, it can be a market. No approval process.</p>
-867|                </div>
-868|                <div class="feature-card fade-in">
-869|                    <div class="feature-icon">🔮</div>
-870|                    <h3>Multi-Oracle Resolution</h3>
-871|                    <p>Chainlink, UMA, and custom oracles reach consensus before any outcome is settled. No single point of failure, no manipulation.</p>
-872|                </div>
-873|                <div class="feature-card fade-in">
-874|                    <div class="feature-icon">🔒</div>
-875|                    <h3>Immutable Settlement</h3>
-876|                    <p>Once oracles agree on an outcome, settlement is final and irreversible. Automated agreements enforce payouts automatically.</p>
-877|                </div>
-878|                <div class="feature-card fade-in">
-879|                    <div class="feature-icon">💧</div>
-880|                    <h3>Liquidity Incentives</h3>
-881|                    <p>Earn rewards for providing liquidity to markets. Deeper books mean better prices for everyone trading.</p>
-882|                </div>
-883|                <div class="feature-card fade-in">
-884|                    <div class="feature-icon">⚖️</div>
-885|                    <h3>Dispute Resolution</h3>
-886|                    <p>Token holders vote on disputed outcomes. If oracles disagree, the community decides — not a centralized company.</p>
-887|                </div>
-888|                <div class="feature-card fade-in">
-889|                    <div class="feature-icon">🎫</div>
-890|                    <h3>Conditional Tokens</h3>
-891|                    <p>YES and NO positions are ERC-20 tokens you can trade, transfer, or use elsewhere. Your positions are fully composable.</p>
-892|                </div>
-893|            </div>
-894|        </div>
-895|    </section>
-896|
-897|    <!-- How It Works -->
-898|    <section id="how-it-works" style="background:var(--bg-secondary);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color);">
-899|        <div class="container">
-900|            <div class="fade-in" style="text-align:center;">
-901|                <span class="section-label">How It Works</span>
-902|                <h2 class="section-title">Four steps to decentralized prediction</h2>
-903|                <p class="section-sub" style="margin:0 auto;">
-904|                    No accounts. No KYC. Just connect your wallet and start.
-905|                </p>
-906|            </div>
-907|            <div class="how-steps fade-in">
-908|                <div class="step">
-909|                    <div class="step-number">1</div>
-910|                    <h3>Create a Market</h3>
-911|                    <p>Define a yes/no question, set a resolution date, and choose your oracles. Market goes live instantly.</p>
-912|                </div>
-913|                <div class="step">
-914|                    <div class="step-number">2</div>
-915|                    <h3>Trade YES / NO</h3>
-916|                    <p>Buy conditional tokens reflecting your prediction. Prices shift with supply and demand.</p>
-917|                </div>
-918|                <div class="step">
-919|                    <div class="step-number">3</div>
-920|                    <h3>Resolution Arrives</h3>
-921|                    <p>Oracles report outcomes independently. Consensus is required before settlement proceeds.</p>
-922|                </div>
-923|                <div class="step">
-924|                    <div class="step-number">4</div>
-925|                    <h3>Winners Get Paid</h3>
-926|                    <p>Correct token holders redeem automatically. Payouts are enforced by automated agreement — no appeals.</p>
-927|                </div>
-928|            </div>
-929|        </div>
-930|    </section>
-931|
-932|    <!-- Comparison -->
-933|    <section class="comparison">
-934|        <div class="container">
-935|            <div class="fade-in" style="text-align:center;">
-936|                <span class="section-label">Comparison</span>
-937|                <h2 class="section-title">How Forekast stacks up</h2>
-938|                <p class="section-sub" style="margin:0 auto;">
-939|                    Not all prediction markets are created equal.
-940|                </p>
-941|            </div>
-942|            <div class="fade-in" style="overflow-x:auto;">
-943|                <table class="compare-table">
-944|                    <thead>
-945|                        <tr>
-946|                            <th>Feature</th>
-947|                            <th class="compare-forekast">Forekast</th>
-948|                            <th>Polymarket</th>
-949|                            <th>Kalshi</th>
-950|                        </tr>
-951|                    </thead>
-952|                    <tbody>
-953|                        <tr>
-954|                            <td>Decentralized</td>
-955|                            <td class="compare-check">✓ Fully transparent and permanent</td>
-956|                            <td class="compare-x">✗ Centralized backend</td>
-957|                            <td class="compare-x">✗ Centralized</td>
-958|                        </tr>
-959|                        <tr>
-960|                            <td>Create Any Market</td>
-961|                            <td class="compare-check">✓ Permissionless</td>
-962|                            <td class="compare-partial">△ Curated list</td>
-963|                            <td class="compare-x">✗ CFTC approved only</td>
-964|                        </tr>
-965|                        <tr>
-966|                            <td>Oracle Resolution</td>
-967|                            <td class="compare-check">✓ Multi-oracle consensus</td>
-968|                            <td class="compare-partial">△ Single resolution source</td>
-969|                            <td class="compare-x">✗ Internal settlement</td>
-970|                        </tr>
-971|                        <tr>
-972|                            <td>Kill Switch</td>
-973|                            <td class="compare-check">✓ None — immutable</td>
-974|                            <td class="compare-x">✗ Can delist markets</td>
-975|                            <td class="compare-x">✗ Can freeze accounts</td>
-976|                        </tr>
-977|                        <tr>
-978|                            <td>Gas Cost</td>
-979|                            <td class="compare-check">&lt;$0.02 on Polygon</td>
-980|                            <td class="compare-partial">△ Off-chain (custodial)</td>
-981|                            <td class="compare-x">✗ Traditional fees</td>
-982|                        </tr>
-983|                        <tr>
-984|                            <td>Composable Tokens</td>
-985|                            <td class="compare-check">✓ ERC-20 conditional</td>
-986|                            <td class="compare-x">✗ Not transferable</td>
-987|                            <td class="compare-x">✗ Not transferable</td>
-988|                        </tr>
-989|                        <tr>
-990|                            <td>Community Governance</td>
-991|                            <td class="compare-check">✓ Token-holder voting</td>
-992|                            <td class="compare-x">✗ Corporate decisions</td>
-993|                            <td class="compare-x">✗ Corporate decisions</td>
-994|                        </tr>
-995|                    </tbody>
-996|                </table>
-997|            </div>
-998|        </div>
-999|    </section>
-1000|
-1001|    <!-- Why Decentralized -->
-1002|    <section id="why">
-1003|        <div class="container">
-1004|            <div class="fade-in" style="text-align:center;">
-1005|                <span class="section-label">Why Decentralized</span>
-1006|                <h2 class="section-title">Markets that can't be shut down</h2>
-1007|                <p class="section-sub" style="margin:0 auto;">
-1008|                    The core principles that make Forekast different.
-1009|                </p>
-1010|            </div>
-1011|            <div class="why-cards">
-1012|                <div class="why-card fade-in">
-1013|                    <div class="why-card-icon">🛡️</div>
-1014|                    <h3>No Kill Switch</h3>
-1015|                    <p>Automated agreements on Polygon can't be paused, censored, or shut off. Once deployed, markets run autonomously forever.</p>
-1016|                </div>
-1017|                <div class="why-card fade-in">
-1018|                    <div class="why-card-icon">🌐</div>
-1019|                    <h3>Oracle Consensus</h3>
-1020|                    <p>Multiple independent oracles must agree before any outcome is resolved. No single oracle can manipulate results.</p>
-1021|                </div>
-1022|                <div class="why-card fade-in">
-1023|                    <div class="why-card-icon">🏛️</div>
-1024|                    <h3>Community Governance</h3>
-1025|                    <p>Token holders vote on disputes, protocol upgrades, and fee changes. Forekast is governed by its users, not a boardroom.</p>
-1026|                </div>
-1027|            </div>
-1028|        </div>
-1029|    </section>
-1030|
-1031|    <!-- FAQ -->
-1032|    <section id="faq" style="background:var(--bg-secondary);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color);">
-1033|        <div class="container">
-1034|            <div class="fade-in" style="text-align:center;">
-1035|                <span class="section-label">FAQ</span>
-1036|                <h2 class="section-title">Frequently asked questions</h2>
-1037|            </div>
-1038|            <div class="faq-list fade-in">
-1039|                <div class="faq-item">
-1040|                    <button class="faq-question">
-1041|                        How do markets resolve?
-1042|                        <span class="faq-arrow">▾</span>
-1043|                    </button>
-1044|                    <div class="faq-answer">
-1045|                        <p>When a market's resolution date arrives, multiple independent oracles (Chainlink, UMA, or custom sources) report the outcome. A consensus mechanism requires agreement among oracles before the automated agreement finalizes the result. Only then are payouts triggered automatically.</p>
-1046|                    </div>
-1047|                </div>
-1048|                <div class="faq-item">
-1049|                    <button class="faq-question">
-1050|                        What if oracles disagree?
-1051|                        <span class="faq-arrow">▾</span>
-1052|                    </button>
-1053|                    <div class="faq-answer">
-1054|                        <p>If oracles report conflicting outcomes, the dispute resolution process activates. Token holders vote to determine the correct outcome. This ensures that no single oracle can unilaterally control market resolution — the community has the final say.</p>
-1055|                    </div>
-1056|                </div>
-1057|                <div class="faq-item">
-1058|                    <button class="faq-question">
-1059|                        Can I create any market?
-1060|                        <span class="faq-arrow">▾</span>
-1061|                    </button>
-1062|                    <div class="faq-answer">
-1063|                        <p>Yes. Forekast is permissionless — anyone can create a market on any topic as long as it can be phrased as a verifiable yes/no question with a clear resolution date and oracle source. Sports, politics, crypto prices, scientific outcomes, entertainment — anything goes.</p>
-1064|                    </div>
-1065|                </div>
-1066|                <div class="faq-item">
-1067|                    <button class="faq-question">
-1068|                        What chains does Forekast support?
-1069|                        <span class="faq-arrow">▾</span>
-1070|                    </button>
-1071|                    <div class="faq-answer">
-1072|                        <p>Forekast is currently deployed on Polygon mainnet, offering gas costs under $0.02 per trade. The protocol is designed to be multi-chain compatible, with additional deployments planned as the ecosystem grows.</p>
-1073|                    </div>
-1074|                </div>
-1075|            </div>
-1076|        </div>
-1077|    </section>
-1078|
-1079|    <!-- Final CTA -->
-1080|    <section class="cta-section">
-1081|        <div class="container fade-in">
-1082|            <h2>Markets without <span class="gradient-text" style="background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">gatekeepers.</span></h2>
-1083|            <p>Trade prediction markets that can't be censored, paused, or shut down.</p>
-1084|            <a href="https://forekast-teal.vercel.app" class="btn-primary" target="_blank" rel="noopener">
-1085|                Launch Forekast
-1086|                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-1087|            </a>
-1088|        </div>
-1089|    </section>
-1090|
-1091|    <!-- Footer -->
-1092|    <footer>
-1093|        <div class="container footer-inner">
-1094|            <div class="footer-left">
-1095|                <span class="footer-brand">Forekast</span>
-1096|                <span class="footer-sep">·</span>
-1097|                <span class="footer-aurora">Backed by Aurora Pathways</span>
-1098|            </div>
-1099|            <div class="footer-right">
-1100|                <a href="https://forekast-teal.vercel.app" target="_blank" rel="noopener">dApp</a>
-1101|                &nbsp;·&nbsp;
-1102|                <a href="https://polygonscan.com/address/0xf6108cc31397933f148982e3e5101d52ac2b177b" target="_blank" rel="noopener">Contract</a>
-1103|                &nbsp;·&nbsp;
-1104|                <span>© 2026 Forekast</span>
-1105|            </div>
-1106|        </div>
-1107|    </footer>
-1108|
-1109|    <script>
-1110|        // IntersectionObserver for fade-in animations
-1111|        document.addEventListener('DOMContentLoaded', () => {
-1112|            const observer = new IntersectionObserver((entries) => {
-1113|                entries.forEach((entry, index) => {
-1114|                    if (entry.isIntersecting) {
-1115|                        setTimeout(() => {
-1116|                            entry.target.classList.add('visible');
-1117|                        }, index * 80);
-1118|                        observer.unobserve(entry.target);
-1119|                    }
-1120|                });
-1121|            }, {
-1122|                threshold: 0.1,
-1123|                rootMargin: '0px 0px -40px 0px'
-1124|            });
-1125|
-1126|            document.querySelectorAll('.fade-in').forEach(el => {
-1127|                observer.observe(el);
-1128|            });
-1129|
-1130|            // FAQ accordion
-1131|            document.querySelectorAll('.faq-question').forEach(btn => {
-1132|                btn.addEventListener('click', () => {
-1133|                    const item = btn.parentElement;
-1134|                    const isOpen = item.classList.contains('open');
-1135|
-1136|                    // Close all
-1137|                    document.querySelectorAll('.faq-item').forEach(i => {
-1138|                        i.classList.remove('open');
-1139|                    });
-1140|
-1141|                    // Toggle clicked
-1142|                    if (!isOpen) {
-1143|                        item.classList.add('open');
-1144|                    }
-1145|                });
-1146|            });
-1147|        });
-1148|    
-1149|// Onboarding modal - show when no wallet detected
-1150|function showOnboarding() {
-1151|  if (typeof window.ethereum === 'undefined') {
-1152|    document.getElementById('onboardingModal').style.display = 'flex';
-1153|    return true;
-1154|  }
-1155|  return false;
-1156|}
-1157|// Override connect wallet buttons
-1158|document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
-1159|  btn.addEventListener('click', function(e) {
-1160|    if (showOnboarding()) {
-1161|      e.preventDefault();
-1162|      e.stopPropagation();
-1163|    }
-1164|  });
-1165|});
-1166|
-1167|</script>
-1168|<!-- Onboarding Modal -->
-1169|<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
-1170|  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
-1171|    <div style="text-align:center;margin-bottom:20px;">
-1172|      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
-1173|      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
-1174|      <p style="color:#888;font-size:0.9rem;">Forekast runs on blockchain — but don't worry, it's simpler than it sounds.</p>
-1175|    </div>
-1176|    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-1177|      <div style="display:flex;gap:14px;align-items:flex-start;">
-1178|        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
-1179|        <div>
-1180|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
-1181|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
-1182|          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
-1183|        </div>
-1184|      </div>
-1185|      <div style="display:flex;gap:14px;align-items:flex-start;">
-1186|        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
-1187|        <div>
-1188|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
-1189|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to trade on prediction markets. You can buy it directly in MetaMask or transfer from Coinbase.</p>
-1190|        </div>
-1191|      </div>
-1192|      <div style="display:flex;gap:14px;align-items:flex-start;">
-1193|        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
-1194|        <div>
-1195|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
-1196|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Trading," and you're in. Browse markets, make predictions, and earn when you're right.</p>
-1197|        </div>
-1198|      </div>
-1199|    </div>
-1200|    <div style="display:flex;gap:10px;">
-1201|      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
-1202|      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
-1203|    </div>
-1204|    <div style="text-align:center;margin-top:16px;">
-1205|      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
-1206|    </div>
-1207|  </div>
-1208|</div>
-1209|</body>
-1210|</html>
-1211|
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">The Problem</span>
+                <h2 class="section-title">Centralized markets have a kill switch</h2>
+                <p class="section-sub" style="margin:0 auto;">
+                    Polymarket and Kalshi control what markets you can trade, how outcomes resolve, and when to shut you out.
+                </p>
+            </div>
+            <div class="problem-card fade-in">
+                <h3>🚫 They decide what you can predict</h3>
+                <p>
+                    Centralized prediction platforms can delist any market at will, freeze your positions, or override outcomes based on their terms of service. When regulators knock, your markets disappear overnight. You're not trading on an open protocol — you're using a product that can be switched off at any time.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">Features</span>
+                <h2 class="section-title">Built for open prediction markets</h2>
+                <p class="section-sub" style="margin:0 auto;">
+                    Everything you need to create, trade, and resolve markets — fully transparent and permanent.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3>Create Any Market</h3>
+                    <p>Sports, politics, crypto, science, entertainment — if you can phrase it as a yes/no question, it can be a market. No approval process.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Multi-Oracle Resolution</h3>
+                    <p>Chainlink, UMA, and custom oracles reach consensus before any outcome is settled. No single point of failure, no manipulation.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Immutable Settlement</h3>
+                    <p>Once oracles agree on an outcome, settlement is final and irreversible. Automated agreements enforce payouts automatically.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💧</div>
+                    <h3>Liquidity Incentives</h3>
+                    <p>Earn rewards for providing liquidity to markets. Deeper books mean better prices for everyone trading.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>Dispute Resolution</h3>
+                    <p>Token holders vote on disputed outcomes. If oracles disagree, the community decides — not a centralized company.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎫</div>
+                    <h3>Conditional Tokens</h3>
+                    <p>YES and NO positions are ERC-20 tokens you can trade, transfer, or use elsewhere. Your positions are fully composable.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" style="background:var(--bg-secondary);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color);">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">How It Works</span>
+                <h2 class="section-title">Four steps to decentralized prediction</h2>
+                <p class="section-sub" style="margin:0 auto;">
+                    No accounts. No KYC. Just connect your wallet and start.
+                </p>
+            </div>
+            <div class="how-steps fade-in">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Create a Market</h3>
+                    <p>Define a yes/no question, set a resolution date, and choose your oracles. Market goes live instantly.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Trade YES / NO</h3>
+                    <p>Buy conditional tokens reflecting your prediction. Prices shift with supply and demand.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Resolution Arrives</h3>
+                    <p>Oracles report outcomes independently. Consensus is required before settlement proceeds.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Winners Get Paid</h3>
+                    <p>Correct token holders redeem automatically. Payouts are enforced by automated agreement — no appeals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="comparison">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">Comparison</span>
+                <h2 class="section-title">How Forekast stacks up</h2>
+                <p class="section-sub" style="margin:0 auto;">
+                    Not all prediction markets are created equal.
+                </p>
+            </div>
+            <div class="fade-in" style="overflow-x:auto;">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="compare-forekast">Forekast</th>
+                            <th>Polymarket</th>
+                            <th>Kalshi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Decentralized</td>
+                            <td class="compare-check">✓ Fully transparent and permanent</td>
+                            <td class="compare-x">✗ Centralized backend</td>
+                            <td class="compare-x">✗ Centralized</td>
+                        </tr>
+                        <tr>
+                            <td>Create Any Market</td>
+                            <td class="compare-check">✓ Permissionless</td>
+                            <td class="compare-partial">△ Curated list</td>
+                            <td class="compare-x">✗ CFTC approved only</td>
+                        </tr>
+                        <tr>
+                            <td>Oracle Resolution</td>
+                            <td class="compare-check">✓ Multi-oracle consensus</td>
+                            <td class="compare-partial">△ Single resolution source</td>
+                            <td class="compare-x">✗ Internal settlement</td>
+                        </tr>
+                        <tr>
+                            <td>Kill Switch</td>
+                            <td class="compare-check">✓ None — immutable</td>
+                            <td class="compare-x">✗ Can delist markets</td>
+                            <td class="compare-x">✗ Can freeze accounts</td>
+                        </tr>
+                        <tr>
+                            <td>Gas Cost</td>
+                            <td class="compare-check">&lt;$0.02 on Polygon</td>
+                            <td class="compare-partial">△ Off-chain (custodial)</td>
+                            <td class="compare-x">✗ Traditional fees</td>
+                        </tr>
+                        <tr>
+                            <td>Composable Tokens</td>
+                            <td class="compare-check">✓ ERC-20 conditional</td>
+                            <td class="compare-x">✗ Not transferable</td>
+                            <td class="compare-x">✗ Not transferable</td>
+                        </tr>
+                        <tr>
+                            <td>Community Governance</td>
+                            <td class="compare-check">✓ Token-holder voting</td>
+                            <td class="compare-x">✗ Corporate decisions</td>
+                            <td class="compare-x">✗ Corporate decisions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Decentralized -->
+    <section id="why">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">Why Decentralized</span>
+                <h2 class="section-title">Markets that can't be shut down</h2>
+                <p class="section-sub" style="margin:0 auto;">
+                    The core principles that make Forekast different.
+                </p>
+            </div>
+            <div class="why-cards">
+                <div class="why-card fade-in">
+                    <div class="why-card-icon">🛡️</div>
+                    <h3>No Kill Switch</h3>
+                    <p>Automated agreements on Polygon can't be paused, censored, or shut off. Once deployed, markets run autonomously forever.</p>
+                </div>
+                <div class="why-card fade-in">
+                    <div class="why-card-icon">🌐</div>
+                    <h3>Oracle Consensus</h3>
+                    <p>Multiple independent oracles must agree before any outcome is resolved. No single oracle can manipulate results.</p>
+                </div>
+                <div class="why-card fade-in">
+                    <div class="why-card-icon">🏛️</div>
+                    <h3>Community Governance</h3>
+                    <p>Token holders vote on disputes, protocol upgrades, and fee changes. Forekast is governed by its users, not a boardroom.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" style="background:var(--bg-secondary);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color);">
+        <div class="container">
+            <div class="fade-in" style="text-align:center;">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-title">Frequently asked questions</h2>
+            </div>
+            <div class="faq-list fade-in">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do markets resolve?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>When a market's resolution date arrives, multiple independent oracles (Chainlink, UMA, or custom sources) report the outcome. A consensus mechanism requires agreement among oracles before the automated agreement finalizes the result. Only then are payouts triggered automatically.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if oracles disagree?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>If oracles report conflicting outcomes, the dispute resolution process activates. Token holders vote to determine the correct outcome. This ensures that no single oracle can unilaterally control market resolution — the community has the final say.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I create any market?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Forekast is permissionless — anyone can create a market on any topic as long as it can be phrased as a verifiable yes/no question with a clear resolution date and oracle source. Sports, politics, crypto prices, scientific outcomes, entertainment — anything goes.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What chains does Forekast support?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Forekast is currently deployed on Polygon mainnet, offering gas costs under $0.02 per trade. The protocol is designed to be multi-chain compatible, with additional deployments planned as the ecosystem grows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+        <div class="container fade-in">
+            <h2>Markets without <span class="gradient-text" style="background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">gatekeepers.</span></h2>
+            <p>Trade prediction markets that can't be censored, paused, or shut down.</p>
+            <a href="https://forekast-teal.vercel.app" class="btn-primary" target="_blank" rel="noopener">
+                Launch Forekast
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <span class="footer-brand">Forekast</span>
+                <span class="footer-sep">·</span>
+                <span class="footer-aurora">Backed by Aurora Pathways</span>
+            </div>
+            <div class="footer-right">
+                <a href="https://forekast-teal.vercel.app" target="_blank" rel="noopener">dApp</a>
+                &nbsp;·&nbsp;
+                <a href="https://polygonscan.com/address/0xf6108cc31397933f148982e3e5101d52ac2b177b" target="_blank" rel="noopener">Contract</a>
+                &nbsp;·&nbsp;
+                <span>© 2026 Forekast</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // IntersectionObserver for fade-in animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 80);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // FAQ accordion
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.parentElement;
+                    const isOpen = item.classList.contains('open');
+
+                    // Close all
+                    document.querySelectorAll('.faq-item').forEach(i => {
+                        i.classList.remove('open');
+                    });
+
+                    // Toggle clicked
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+        });
+    
+// Onboarding modal - show when no wallet detected
+function showOnboarding() {
+  if (typeof window.ethereum === 'undefined') {
+    document.getElementById('onboardingModal').style.display = 'flex';
+    return true;
+  }
+  return false;
+}
+// Override connect wallet buttons
+document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    if (showOnboarding()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+});
+
+</script>
+<!-- Onboarding Modal -->
+<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+      <p style="color:#888;font-size:0.9rem;">Forekast runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to trade on prediction markets. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Trading," and you're in. Browse markets, make predictions, and earn when you're right.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

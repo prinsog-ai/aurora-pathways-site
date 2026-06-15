@@ -1,88 +1,88 @@
-1|<!DOCTYPE html>
-2|<html lang="en">
-3|<head>
-4|<meta charset="UTF-8">
-5|<meta name="viewport" content="width=device-width, initial-scale=1.0">
-6|<title>RideP2P — Drivers Keep 97% | Decentralized Ride Protocol</title>
-7|<link rel="canonical" href="https://ridep2p.xyz/">
-8|<meta property="og:title" content="RideP2P — Decentralized Ride Sharing">
-9|<meta property="og:description" content="Peer-to-peer ride sharing with USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payments. Driver escrow, instant settlement.">
-10|<meta property="og:url" content="https://ridep2p.xyz">
-11|<meta property="og:type" content="website">
-12|<meta property="og:site_name" content="RideP2P">
-13|<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-14|<meta name="twitter:card" content="summary_large_image">
-15|<meta name="twitter:title" content="RideP2P — Decentralized Ride Sharing">
-16|<meta name="twitter:description" content="Peer-to-peer ride sharing with USDC payments. Driver escrow, instant settlement.">
-17|<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-18|<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
-19|<meta name="description" content="Peer-to-peer rides with 3% platform fee. Drivers keep 97% of every fare. Automated agreement escrow. Instant USDC payouts. No corporation skimming 40%.">
-20|<style>
-21|@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-22|*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-23|:root{--bg:#0a0a0f;--surface:#0f0f16;--surface2:#15151f;--text:#e8e8ed;--text2:#8a8a9a;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#e8a840;--gradient:linear-gradient(135deg,#e8a840 0%,#ff6b9d 40%,#7c5cfc 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--radius:20px}
-24|html{scroll-behavior:smooth}
-25|body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;overflow-x:hidden}
-26|.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-27|.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 50% at 30% 20%,rgba(232,168,64,0.07) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 70% 70%,rgba(255,107,157,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 50% 40%,rgba(124,92,252,0.05) 0%,transparent 60%)}
-28|section{padding:100px 0;position:relative}
-29|.section-divider{position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:2px;background:var(--gradient);border-radius:2px;opacity:0.5}
-30|.section-label{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent3);margin-bottom:18px;display:inline-block;padding:6px 14px;background:rgba(232,168,64,0.08);border-radius:100px}
-31|h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.08}
-32|h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-33|h2{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.2}
-34|.section-desc{color:var(--text2);font-size:1.1rem;max-width:560px;margin-bottom:48px;line-height:1.7}
-35|.btn{display:inline-block;padding:15px 34px;border-radius:100px;font-weight:600;font-size:1rem;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
-36|.btn-primary{background:var(--gradient);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(232,168,64,0.35)}
-37|.btn-secondary{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);color:var(--text);backdrop-filter:blur(10px)}.btn-secondary:hover{background:rgba(255,255,255,0.08)}
-38|nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:100;padding:16px 0}
-39|nav .container{display:flex;justify-content:space-between;align-items:center}
-40|.logo{font-size:1.35rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-41|.nav-btn{background:var(--gradient);color:#fff;border:none;padding:9px 22px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
-42|.nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(232,168,64,0.3)}
-43|.hero{min-height:90vh;display:flex;align-items:center;padding-top:80px}
-44|.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,64,0.1);border:1px solid rgba(232,168,64,0.2);padding:8px 18px;border-radius:100px;font-size:0.85rem;color:var(--accent3);margin-bottom:28px;font-weight:500}
-45|.hero-badge::before{content:'';width:7px;height:7px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite}
-46|@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-47|.hero-desc{font-size:1.15rem;color:var(--text2);max-width:540px;margin-bottom:36px;line-height:1.7}
-48|.stat-row{display:flex;gap:40px;flex-wrap:wrap;margin:32px 0}
-49|.stat-item{text-align:left}.stat-value{font-size:2rem;font-weight:800;color:var(--accent3)}.stat-label{font-size:0.85rem;color:var(--text2);margin-top:4px}
-50|.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-51|.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
-52|.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:36px;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s}
-53|.card:hover{transform:translateY(-4px);border-color:rgba(232,168,64,0.2);box-shadow:0 20px 50px rgba(0,0,0,0.2)}
-54|.card-icon{font-size:2rem;margin-bottom:18px}
-55|.card h3{font-size:1.2rem;font-weight:600;margin-bottom:12px}
-56|.card p{color:var(--text2);font-size:0.93rem;line-height:1.65}
-57|.feature-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px;text-align:center;transition:transform 0.3s,border-color 0.3s}
-58|.feature-card:hover{transform:translateY(-4px);border-color:rgba(232,168,64,0.2)}
-59|.feature-card .icon{font-size:2.4rem;margin-bottom:16px}
-60|.feature-card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px}
-61|.feature-card p{color:var(--text2);font-size:0.88rem;line-height:1.6}
-62|.comparison{width:100%;border-collapse:collapse;margin-top:32px}
-63|.comparison th{text-align:left;padding:16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.9rem}
-64|.comparison td{padding:14px 16px;border-bottom:1px solid var(--glass-border);font-size:0.93rem}
-65|.comparison .highlight{color:var(--accent2);font-weight:600}
-66|.comparison .dim{color:#6a6a7a}
-67|.how-step{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px}
-68|.how-num{min-width:44px;height:44px;background:rgba(232,168,64,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--accent3);flex-shrink:0}
-69|.how-content h4{font-size:1.05rem;margin-bottom:6px}
-70|.how-content p{color:var(--text2);font-size:0.9rem;line-height:1.6}
-71|.cta-section{text-align:center;background:var(--surface);padding:80px 0;border-top:1px solid var(--glass-border)}
-72|.faq-item{background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:24px 28px;margin-bottom:16px;cursor:pointer;transition:border-color 0.3s}
-73|.faq-item:hover{border-color:rgba(232,168,64,0.2)}
-74|.faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1rem}
-75|.faq-q::after{content:'+';font-size:1.4rem;color:var(--accent3);transition:transform 0.3s}
-76|.faq-item.open .faq-q::after{transform:rotate(45deg)}
-77|.faq-a{color:var(--text2);font-size:0.93rem;line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;padding-top:0}
-78|.faq-item.open .faq-a{max-height:200px;padding-top:14px}
-79|footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;border-top:1px solid var(--glass-border)}
-80|footer a{color:var(--accent3);text-decoration:none}
-81|footer a:hover{text-decoration:underline}
-82|.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
-83|.reveal.visible{opacity:1;transform:translateY(0)}
-84|@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}.stat-row{gap:24px}.grid3{grid-template-columns:1fr}}
-85|</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideP2P — Drivers Keep 97% | Decentralized Ride Protocol</title>
+<link rel="canonical" href="https://ridep2p.xyz/">
+<meta property="og:title" content="RideP2P — Decentralized Ride Sharing">
+<meta property="og:description" content="Peer-to-peer ride sharing with USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payments. Driver escrow, instant settlement.">
+<meta property="og:url" content="https://ridep2p.xyz">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RideP2P">
+<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RideP2P — Decentralized Ride Sharing">
+<meta name="twitter:description" content="Peer-to-peer ride sharing with USDC payments. Driver escrow, instant settlement.">
+<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+<meta name="description" content="Peer-to-peer rides with 3% platform fee. Drivers keep 97% of every fare. Automated agreement escrow. Instant USDC payouts. No corporation skimming 40%.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#0f0f16;--surface2:#15151f;--text:#e8e8ed;--text2:#8a8a9a;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#e8a840;--gradient:linear-gradient(135deg,#e8a840 0%,#ff6b9d 40%,#7c5cfc 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--radius:20px}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;line-height:1.6;overflow-x:hidden}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 50% at 30% 20%,rgba(232,168,64,0.07) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 70% 70%,rgba(255,107,157,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 50% 40%,rgba(124,92,252,0.05) 0%,transparent 60%)}
+section{padding:100px 0;position:relative}
+.section-divider{position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:2px;background:var(--gradient);border-radius:2px;opacity:0.5}
+.section-label{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent3);margin-bottom:18px;display:inline-block;padding:6px 14px;background:rgba(232,168,64,0.08);border-radius:100px}
+h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.08}
+h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.2}
+.section-desc{color:var(--text2);font-size:1.1rem;max-width:560px;margin-bottom:48px;line-height:1.7}
+.btn{display:inline-block;padding:15px 34px;border-radius:100px;font-weight:600;font-size:1rem;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
+.btn-primary{background:var(--gradient);color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(232,168,64,0.35)}
+.btn-secondary{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);color:var(--text);backdrop-filter:blur(10px)}.btn-secondary:hover{background:rgba(255,255,255,0.08)}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:100;padding:16px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.35rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-btn{background:var(--gradient);color:#fff;border:none;padding:9px 22px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s}
+.nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(232,168,64,0.3)}
+.hero{min-height:90vh;display:flex;align-items:center;padding-top:80px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,64,0.1);border:1px solid rgba(232,168,64,0.2);padding:8px 18px;border-radius:100px;font-size:0.85rem;color:var(--accent3);margin-bottom:28px;font-weight:500}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-desc{font-size:1.15rem;color:var(--text2);max-width:540px;margin-bottom:36px;line-height:1.7}
+.stat-row{display:flex;gap:40px;flex-wrap:wrap;margin:32px 0}
+.stat-item{text-align:left}.stat-value{font-size:2rem;font-weight:800;color:var(--accent3)}.stat-label{font-size:0.85rem;color:var(--text2);margin-top:4px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:36px;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s}
+.card:hover{transform:translateY(-4px);border-color:rgba(232,168,64,0.2);box-shadow:0 20px 50px rgba(0,0,0,0.2)}
+.card-icon{font-size:2rem;margin-bottom:18px}
+.card h3{font-size:1.2rem;font-weight:600;margin-bottom:12px}
+.card p{color:var(--text2);font-size:0.93rem;line-height:1.65}
+.feature-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius);padding:32px;text-align:center;transition:transform 0.3s,border-color 0.3s}
+.feature-card:hover{transform:translateY(-4px);border-color:rgba(232,168,64,0.2)}
+.feature-card .icon{font-size:2.4rem;margin-bottom:16px}
+.feature-card h4{font-size:1.05rem;font-weight:600;margin-bottom:8px}
+.feature-card p{color:var(--text2);font-size:0.88rem;line-height:1.6}
+.comparison{width:100%;border-collapse:collapse;margin-top:32px}
+.comparison th{text-align:left;padding:16px;border-bottom:1px solid var(--glass-border);color:var(--text2);font-weight:500;font-size:0.9rem}
+.comparison td{padding:14px 16px;border-bottom:1px solid var(--glass-border);font-size:0.93rem}
+.comparison .highlight{color:var(--accent2);font-weight:600}
+.comparison .dim{color:#6a6a7a}
+.how-step{display:flex;gap:20px;align-items:flex-start;margin-bottom:28px}
+.how-num{min-width:44px;height:44px;background:rgba(232,168,64,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:var(--accent3);flex-shrink:0}
+.how-content h4{font-size:1.05rem;margin-bottom:6px}
+.how-content p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+.cta-section{text-align:center;background:var(--surface);padding:80px 0;border-top:1px solid var(--glass-border)}
+.faq-item{background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:24px 28px;margin-bottom:16px;cursor:pointer;transition:border-color 0.3s}
+.faq-item:hover{border-color:rgba(232,168,64,0.2)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1rem}
+.faq-q::after{content:'+';font-size:1.4rem;color:var(--accent3);transition:transform 0.3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{color:var(--text2);font-size:0.93rem;line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;padding-top:0}
+.faq-item.open .faq-a{max-height:200px;padding-top:14px}
+footer{padding:40px 0;text-align:center;color:var(--text2);font-size:0.88rem;border-top:1px solid var(--glass-border)}
+footer a{color:var(--accent3);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){.hero{min-height:auto;padding:130px 0 60px}section{padding:60px 0}.stat-row{gap:24px}.grid3{grid-template-columns:1fr}}
+</style>
 
   <link rel="stylesheet" href="/assets/landing-enhancements.css">
   <style>
@@ -138,31 +138,31 @@
       background: rgba(16,185,129, 0.03);
     }
   </style>
-86|</head>
-87|<body>
-88|<div class="aurora-bg"></div>
-89|
-90|<nav>
-91|  <div class="container">
-92|    <a href="https://ridep2p.xyz" class="logo">RideP2P</a>
-93|    <a href="https://ridep2p.vercel.app" class="nav-btn">Find a Ride</a>
-94|  </div>
-95|</nav>
-96|
-97|<section class="hero">
-98|  <div class="container">
-99|    <div class="hero-badge">Peer-to-Peer Rides</div>
-100|    <h1><span>Drivers keep 97%.<br>Uber keeps nothing.</span></h1>
-101|    <p class="hero-desc">The ride protocol where the fare goes straight to the driver. 3% platform fee. Automated agreement escrow. Instant USDC settlement. No corporation skimming 40% off the top.</p>
-102|    <div class="stat-row">
-103|      <div class="stat-item"><div class="stat-value">3%</div><div class="stat-label">Platform fee<br>(vs Uber's ~40%)</div></div>
-104|      <div class="stat-item"><div class="stat-value">Instant</div><div class="stat-label">USDC settlement<br>when ride completes</div></div>
-105|      <div class="stat-item"><div class="stat-value">DAO</div><div class="stat-label">Community governed<br>drivers set the rules</div></div>
-106|    </div>
-107|    <div style="display:flex;gap:14px;flex-wrap:wrap;">
-108|      <a href="https://ridep2p.vercel.app" class="btn btn-primary">🚗 Find a Ride</a>
-109|      <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
-110|    </div>
+</head>
+<body>
+<div class="aurora-bg"></div>
+
+<nav>
+  <div class="container">
+    <a href="https://ridep2p.xyz" class="logo">RideP2P</a>
+    <a href="https://ridep2p.vercel.app" class="nav-btn">Find a Ride</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Peer-to-Peer Rides</div>
+    <h1><span>Drivers keep 97%.<br>Uber keeps nothing.</span></h1>
+    <p class="hero-desc">The ride protocol where the fare goes straight to the driver. 3% platform fee. Automated agreement escrow. Instant USDC settlement. No corporation skimming 40% off the top.</p>
+    <div class="stat-row">
+      <div class="stat-item"><div class="stat-value">3%</div><div class="stat-label">Platform fee<br>(vs Uber's ~40%)</div></div>
+      <div class="stat-item"><div class="stat-value">Instant</div><div class="stat-label">USDC settlement<br>when ride completes</div></div>
+      <div class="stat-item"><div class="stat-value">DAO</div><div class="stat-label">Community governed<br>drivers set the rules</div></div>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="https://ridep2p.vercel.app" class="btn btn-primary">🚗 Find a Ride</a>
+      <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+    </div>
           <!-- Trust Badges -->
           <div class="trust-badges">
             <div class="trust-badge">
@@ -179,249 +179,248 @@
             </div>
           </div>
 
-111|  </div>
-112|</section>
-113|
-114|<section>
-115|  <div class="section-divider"></div>
-116|  <div class="container">
-117|    <div class="section-label reveal">The Problem</div>
-118|    <h2 class="reveal">Uber takes 40% of<br>every single ride</h2>
-119|    <p class="section-desc reveal">On a $25 ride, the driver sees maybe $15. Uber collects billions while drivers maintain their own cars, set their own hours, and bear all the risk. The platform provides a map and a payment button — that's not worth 40%.</p>
-120|    <div class="grid2 reveal">
-121|      <div class="card">
-122|        <div class="card-icon">😤</div>
-123|        <h3>The corporation owns the network</h3>
-124|        <p>Uber controls pricing, surge multipliers, driver ratings, and who gets banned. Drivers are treated as contractors with zero ownership in the platform they built with their cars and their time.</p>
-125|      </div>
-126|      <div class="card">
-127|        <div class="card-icon">🔑</div>
-128|        <h3>RideP2P gives the network to the drivers</h3>
-129|        <p>Drivers and riders govern the protocol. They vote on fees, rules, and upgrades. The 3% fee keeps the lights on. The rest goes to the people doing the actual work.</p>
-130|      </div>
-131|    </div>
-132|  </div>
-133|</section>
-134|
-135|<section style="background:var(--surface);" id="features">
-136|  <div class="section-divider"></div>
-137|  <div class="container">
-138|    <div class="section-label reveal">Features</div>
-139|    <h2 class="reveal">Ridesharing where<br>drivers come first</h2>
-140|    <div class="grid3" style="margin-top:40px;">
-141|      <div class="feature-card reveal">
-142|        <div class="icon">🚗</div>
-143|        <h4>Peer-to-Peer Rides</h4>
-144|        <p>Rider and driver connect directly. Automated agreement holds the fare in escrow. Ride completes → funds release automatically. No middleman.</p>
-145|      </div>
-146|      <div class="feature-card reveal">
-147|        <div class="icon">💰</div>
-148|        <h4>3% Platform Fee</h4>
-149|        <p>Rider pays $25, driver gets $24.25. The 3% keeps the protocol running. Compare that to Uber's $10 take on the same ride.</p>
-150|      </div>
-151|      <div class="feature-card reveal">
-152|        <div class="icon">🔐</div>
-153|        <h4>Automated Agreement Escrow</h4>
-154|        <p>Fare is locked before the ride starts. Released when the ride completes. Both sides are protected. No payment disputes.</p>
-155|      </div>
-156|      <div class="feature-card reveal">
-157|        <div class="icon">🗳️</div>
-158|        <h4>DAO Governance</h4>
-159|        <p>Drivers vote on protocol parameters — base fares, cancellation policies, dispute resolution. The people doing the work make the rules.</p>
-160|      </div>
-161|      <div class="feature-card reveal">
-162|        <div class="icon">⭐</div>
-163|        <h4>Transparent and Permanent Reputation</h4>
-164|        <p>Ratings are permanent and portable. Good drivers build a reputation that follows them everywhere. Can't be deleted. Can't be gamed.</p>
-165|      </div>
-166|      <div class="feature-card reveal">
-167|        <div class="icon">🌐</div>
-168|        <h4>Global Access</h4>
-169|        <p>No regional restrictions. No corporate approval needed. Anyone with a wallet can ride or drive. The protocol doesn't care where you are.</p>
-170|      </div>
-171|    </div>
-172|  </div>
-173|</section>
-174|
-175|<section id="how-it-works">
-176|  <div class="section-divider"></div>
-177|  <div class="container">
-178|    <div class="section-label reveal">How It Works</div>
-179|    <h2 class="reveal">Request. Ride. Release.<br>That's it.</h2>
-180|    <div style="max-width:600px;margin-top:36px;">
-181|      <div class="how-step reveal">
-182|        <div class="how-num">1</div>
-183|        <div class="how-content"><h4>Rider requests a trip</h4><p>Enter pickup and drop-off. The automated agreement calculates the fare. Rider deposits USDC into escrow. Funds are locked and visible to both sides.</p></div>
-184|      </div>
-185|      <div class="how-step reveal">
-186|        <div class="how-num">2</div>
-187|        <div class="how-content"><h4>Driver accepts and picks up</h4><p>Nearby drivers see the request. First to accept gets the fare locked. Rider confirms pickup in the app.</p></div>
-188|      </div>
-189|      <div class="how-step reveal">
-190|        <div class="how-num">3</div>
-191|        <div class="how-content"><h4>Ride completes</h4><p>Arrival confirmed. Automated agreement releases USDC from escrow to the driver's wallet. Instant. No waiting for "weekly payouts."</p></div>
-192|      </div>
-193|      <div class="how-step reveal">
-194|        <div class="how-num">4</div>
-195|        <div class="how-content"><h4>Both rate each other</h4><p>Reviews are permanent and transparent and permanent. Good drivers build trust. Bad actors get filtered by the community. Reputation you can take anywhere.</p></div>
-196|      </div>
-197|    </div>
-198|  </div>
-199|</section>
-200|
-201|<section style="background:var(--surface);">
-202|  <div class="section-divider"></div>
-203|  <div class="container">
-204|    <div class="section-label reveal">Comparison</div>
-205|    <h2 class="reveal">RideP2P vs the giants</h2>
-206|    <div style="overflow-x:auto;">
-207|      <table class="comparison reveal">
-208|        <tr><th></th><th>RideP2P</th><th>Uber</th><th>Lyft</th></tr>
-209|        <tr><td>Platform fee</td><td class="highlight">3%</td><td class="dim">~30-40%</td><td class="dim">~25-35%</td></tr>
-210|        <tr><td>Driver payout</td><td class="highlight">Instant (USDC)</td><td class="dim">Weekly</td><td class="dim">Weekly (instant for a fee)</td></tr>
-211|        <tr><td>Governance</td><td class="highlight">DAO (drivers vote)</td><td class="dim">Corporate board</td><td class="dim">Corporate board</td></tr>
-212|        <tr><td>Driver bans</td><td class="highlight">Community moderation</td><td class="dim">Uber decides</td><td class="dim">Lyft decides</td></tr>
-213|        <tr><td>Ownership</td><td class="highlight">Community-owned</td><td class="dim">Shareholders own it</td><td class="dim">Shareholders own it</td></tr>
-214|        <tr><td>Global access</td><td class="highlight">Anyone with a wallet</td><td class="dim">Region by region</td><td class="dim">US/Canada primarily</td></tr>
-215|      </table>
-216|    </div>
-217|  </div>
-218|</section>
-219|
-220|<section id="why-secure digital infrastructure">
-221|  <div class="section-divider"></div>
-222|  <div class="container">
-223|    <div class="section-label reveal">Why Secure Digital Infrastructure</div>
-224|    <h2 class="reveal">Built so nobody<br>can rig the system</h2>
-225|    <p class="section-desc reveal">Traditional rideshare companies change the rules whenever they want. RideP2P puts the rules in code — transparent, auditable, and enforced by automated agreements.</p>
-226|    <div class="grid3 reveal">
-227|      <div class="card">
-228|        <div class="card-icon">🔒</div>
-229|        <h3>Escrow Protection</h3>
-230|        <p>Your fare is locked in a automated agreement before the ride starts. Nobody can touch it — not the platform, not the driver, not anyone — until the ride is confirmed complete.</p>
-231|      </div>
-232|      <div class="card">
-233|        <div class="card-icon">⚙️</div>
-234|        <h3>Rules as Code</h3>
-235|        <p>Fare calculations, cancellation policies, dispute windows — all in automated agreements. No hidden algorithm. No "surge pricing" that nobody understands.</p>
-236|      </div>
-237|      <div class="card">
-238|        <div class="card-icon">🌍</div>
-239|        <h3>Borderless Payments</h3>
-240|        <p>USDC works everywhere. No currency conversion. No payment processor blocking your country. Same protocol, same rules, every city on Earth.</p>
-241|      </div>
-242|    </div>
-243|  </div>
-244|</section>
-245|
-246|<section style="background:var(--surface);" id="faq">
-247|  <div class="section-divider"></div>
-248|  <div class="container">
-249|    <div class="section-label reveal">FAQ</div>
-250|    <h2 class="reveal">Common questions</h2>
-251|    <div style="max-width:660px;margin-top:36px;">
-252|      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
-253|        <div class="faq-q">How do drivers get paid?</div>
-254|        <div class="faq-a">When a ride completes, the automated agreement instantly releases USDC from escrow to the driver's wallet. No weekly payouts. No minimum threshold. The money is yours the moment the ride ends.</div>
-255|      </div>
-256|      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
-257|        <div class="faq-q">What if there's a dispute?</div>
-258|        <div class="faq-a">If a rider and driver disagree (cancellation, route issue, damage claim), the dispute goes to the DAO. Token holders review the evidence and vote. It's not one person deciding — it's the community.</div>
-259|      </div>
-260|      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
-261|        <div class="faq-q">Do I need to understand crypto?</div>
-262|        <div class="faq-a">You need a wallet and some USDC. The app handles the rest. If you've used Venmo or Cash App, you can use RideP2P. We're building toward fiat on-ramps to make it even easier.</div>
-263|      </div>
-264|      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
-265|        <div class="faq-q">What secure digital infrastructure is this on?</div>
-266|        <div class="faq-a">RideP2P is deployed on Polygon — fast transactions, transaction fees under a penny, and a massive ecosystem. It's compatible with any EVM wallet (MetaMask, Coinbase Wallet, etc.).</div>
-267|      </div>
-268|    </div>
-269|  </div>
-270|</section>
-271|
-272|<section class="cta-section">
-273|  <div class="container">
-274|    <h2 class="reveal">Drivers should own the network.</h2>
-275|    <p class="section-desc reveal" style="margin:16px auto 36px;">The first ride protocol where 97% goes to the driver. 3% fee. Instant USDC. Community-governed. No corporation in between.</p>
-276|    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-277|      <a href="https://ridep2p.vercel.app" class="btn btn-primary reveal">🚗 Launch RideP2P</a>
-278|    </div>
-279|    <p style="margin-top:20px;color:var(--text2);font-size:0.85rem;" class="reveal">ridep2p.xyz</p>
-280|  </div>
-281|</section>
-282|
-283|<footer>
-284|  <div class="container">
-285|    <p>RideP2P — Rides without the middleman. &copy; 2026</p>
-286|    <p style="margin-top:8px;"><a href="https://aurorapathways.xyz">Backed by Aurora Pathways</a></p>
-287|  </div>
-288|</footer>
-289|
-290|<script>
-291|const observer=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.12});
-292|document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
-293|
-294|// Onboarding modal - show when no wallet detected
-295|function showOnboarding() {
-296|  if (typeof window.ethereum === 'undefined') {
-297|    document.getElementById('onboardingModal').style.display = 'flex';
-298|    return true;
-299|  }
-300|  return false;
-301|}
-302|// Override connect wallet buttons
-303|document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
-304|  btn.addEventListener('click', function(e) {
-305|    if (showOnboarding()) {
-306|      e.preventDefault();
-307|      e.stopPropagation();
-308|    }
-309|  });
-310|});
-311|
-312|</script>
-313|<!-- Onboarding Modal -->
-314|<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
-315|  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
-316|    <div style="text-align:center;margin-bottom:20px;">
-317|      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
-318|      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
-319|      <p style="color:#888;font-size:0.9rem;">RideP2P runs on blockchain — but don't worry, it's simpler than it sounds.</p>
-320|    </div>
-321|    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-322|      <div style="display:flex;gap:14px;align-items:flex-start;">
-323|        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
-324|        <div>
-325|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
-326|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
-327|          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
-328|        </div>
-329|      </div>
-330|      <div style="display:flex;gap:14px;align-items:flex-start;">
-331|        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
-332|        <div>
-333|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
-334|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to pay for rides. You can buy it directly in MetaMask or transfer from Coinbase.</p>
-335|        </div>
-336|      </div>
-337|      <div style="display:flex;gap:14px;align-items:flex-start;">
-338|        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
-339|        <div>
-340|          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
-341|          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Find a Ride," and you're in. Find rides, post rides, and pay — all secured by escrow.</p>
-342|        </div>
-343|      </div>
-344|    </div>
-345|    <div style="display:flex;gap:10px;">
-346|      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
-347|      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
-348|    </div>
-349|    <div style="text-align:center;margin-top:16px;">
-350|      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
-351|    </div>
-352|  </div>
-353|</div>
-354|</body>
-355|</html>
-356|
+  </div>
+</section>
+
+<section>
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">The Problem</div>
+    <h2 class="reveal">Uber takes 40% of<br>every single ride</h2>
+    <p class="section-desc reveal">On a $25 ride, the driver sees maybe $15. Uber collects billions while drivers maintain their own cars, set their own hours, and bear all the risk. The platform provides a map and a payment button — that's not worth 40%.</p>
+    <div class="grid2 reveal">
+      <div class="card">
+        <div class="card-icon">😤</div>
+        <h3>The corporation owns the network</h3>
+        <p>Uber controls pricing, surge multipliers, driver ratings, and who gets banned. Drivers are treated as contractors with zero ownership in the platform they built with their cars and their time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔑</div>
+        <h3>RideP2P gives the network to the drivers</h3>
+        <p>Drivers and riders govern the protocol. They vote on fees, rules, and upgrades. The 3% fee keeps the lights on. The rest goes to the people doing the actual work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);" id="features">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Features</div>
+    <h2 class="reveal">Ridesharing where<br>drivers come first</h2>
+    <div class="grid3" style="margin-top:40px;">
+      <div class="feature-card reveal">
+        <div class="icon">🚗</div>
+        <h4>Peer-to-Peer Rides</h4>
+        <p>Rider and driver connect directly. Automated agreement holds the fare in escrow. Ride completes → funds release automatically. No middleman.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">💰</div>
+        <h4>3% Platform Fee</h4>
+        <p>Rider pays $25, driver gets $24.25. The 3% keeps the protocol running. Compare that to Uber's $10 take on the same ride.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔐</div>
+        <h4>Automated Agreement Escrow</h4>
+        <p>Fare is locked before the ride starts. Released when the ride completes. Both sides are protected. No payment disputes.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🗳️</div>
+        <h4>DAO Governance</h4>
+        <p>Drivers vote on protocol parameters — base fares, cancellation policies, dispute resolution. The people doing the work make the rules.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">⭐</div>
+        <h4>Transparent and Permanent Reputation</h4>
+        <p>Ratings are permanent and portable. Good drivers build a reputation that follows them everywhere. Can't be deleted. Can't be gamed.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🌐</div>
+        <h4>Global Access</h4>
+        <p>No regional restrictions. No corporate approval needed. Anyone with a wallet can ride or drive. The protocol doesn't care where you are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="reveal">Request. Ride. Release.<br>That's it.</h2>
+    <div style="max-width:600px;margin-top:36px;">
+      <div class="how-step reveal">
+        <div class="how-num">1</div>
+        <div class="how-content"><h4>Rider requests a trip</h4><p>Enter pickup and drop-off. The automated agreement calculates the fare. Rider deposits USDC into escrow. Funds are locked and visible to both sides.</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">2</div>
+        <div class="how-content"><h4>Driver accepts and picks up</h4><p>Nearby drivers see the request. First to accept gets the fare locked. Rider confirms pickup in the app.</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">3</div>
+        <div class="how-content"><h4>Ride completes</h4><p>Arrival confirmed. Automated agreement releases USDC from escrow to the driver's wallet. Instant. No waiting for "weekly payouts."</p></div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">4</div>
+        <div class="how-content"><h4>Both rate each other</h4><p>Reviews are permanent and transparent and permanent. Good drivers build trust. Bad actors get filtered by the community. Reputation you can take anywhere.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Comparison</div>
+    <h2 class="reveal">RideP2P vs the giants</h2>
+    <div style="overflow-x:auto;">
+      <table class="comparison reveal">
+        <tr><th></th><th>RideP2P</th><th>Uber</th><th>Lyft</th></tr>
+        <tr><td>Platform fee</td><td class="highlight">3%</td><td class="dim">~30-40%</td><td class="dim">~25-35%</td></tr>
+        <tr><td>Driver payout</td><td class="highlight">Instant (USDC)</td><td class="dim">Weekly</td><td class="dim">Weekly (instant for a fee)</td></tr>
+        <tr><td>Governance</td><td class="highlight">DAO (drivers vote)</td><td class="dim">Corporate board</td><td class="dim">Corporate board</td></tr>
+        <tr><td>Driver bans</td><td class="highlight">Community moderation</td><td class="dim">Uber decides</td><td class="dim">Lyft decides</td></tr>
+        <tr><td>Ownership</td><td class="highlight">Community-owned</td><td class="dim">Shareholders own it</td><td class="dim">Shareholders own it</td></tr>
+        <tr><td>Global access</td><td class="highlight">Anyone with a wallet</td><td class="dim">Region by region</td><td class="dim">US/Canada primarily</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="why-secure digital infrastructure">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">Why Secure Digital Infrastructure</div>
+    <h2 class="reveal">Built so nobody<br>can rig the system</h2>
+    <p class="section-desc reveal">Traditional rideshare companies change the rules whenever they want. RideP2P puts the rules in code — transparent, auditable, and enforced by automated agreements.</p>
+    <div class="grid3 reveal">
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Escrow Protection</h3>
+        <p>Your fare is locked in a automated agreement before the ride starts. Nobody can touch it — not the platform, not the driver, not anyone — until the ride is confirmed complete.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Rules as Code</h3>
+        <p>Fare calculations, cancellation policies, dispute windows — all in automated agreements. No hidden algorithm. No "surge pricing" that nobody understands.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>Borderless Payments</h3>
+        <p>USDC works everywhere. No currency conversion. No payment processor blocking your country. Same protocol, same rules, every city on Earth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);" id="faq">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="reveal">Common questions</h2>
+    <div style="max-width:660px;margin-top:36px;">
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">How do drivers get paid?</div>
+        <div class="faq-a">When a ride completes, the automated agreement instantly releases USDC from escrow to the driver's wallet. No weekly payouts. No minimum threshold. The money is yours the moment the ride ends.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What if there's a dispute?</div>
+        <div class="faq-a">If a rider and driver disagree (cancellation, route issue, damage claim), the dispute goes to the DAO. Token holders review the evidence and vote. It's not one person deciding — it's the community.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Do I need to understand crypto?</div>
+        <div class="faq-a">You need a wallet and some USDC. The app handles the rest. If you've used Venmo or Cash App, you can use RideP2P. We're building toward fiat on-ramps to make it even easier.</div>
+      </div>
+      <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What secure digital infrastructure is this on?</div>
+        <div class="faq-a">RideP2P is deployed on Polygon — fast transactions, transaction fees under a penny, and a massive ecosystem. It's compatible with any EVM wallet (MetaMask, Coinbase Wallet, etc.).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 class="reveal">Drivers should own the network.</h2>
+    <p class="section-desc reveal" style="margin:16px auto 36px;">The first ride protocol where 97% goes to the driver. 3% fee. Instant USDC. Community-governed. No corporation in between.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://ridep2p.vercel.app" class="btn btn-primary reveal">🚗 Launch RideP2P</a>
+    </div>
+    <p style="margin-top:20px;color:var(--text2);font-size:0.85rem;" class="reveal">ridep2p.xyz</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>RideP2P — Rides without the middleman. &copy; 2026</p>
+    <p style="margin-top:8px;"><a href="https://aurorapathways.xyz">Backed by Aurora Pathways</a></p>
+  </div>
+</footer>
+
+<script>
+const observer=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+
+// Onboarding modal - show when no wallet detected
+function showOnboarding() {
+  if (typeof window.ethereum === 'undefined') {
+    document.getElementById('onboardingModal').style.display = 'flex';
+    return true;
+  }
+  return false;
+}
+// Override connect wallet buttons
+document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    if (showOnboarding()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+});
+
+</script>
+<!-- Onboarding Modal -->
+<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+      <p style="color:#888;font-size:0.9rem;">RideP2P runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to pay for rides. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Find a Ride," and you're in. Find rides, post rides, and pay — all secured by escrow.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
