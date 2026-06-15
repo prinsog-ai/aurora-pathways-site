@@ -159,6 +159,61 @@
 134|  nav .container{padding:0 16px}
 135|}
 136|</style>
+
+  <link rel="stylesheet" href="/assets/landing-enhancements.css">
+  <style>
+    /* Page-specific accent overrides */
+    :root {
+      --accent: #ff6b9d;
+      --accent2: #ff9a56;
+    }
+    .hero::before {
+      background: radial-gradient(circle, #ff6b9d 0%, transparent 70%);
+    }
+    .hero::after {
+      background: radial-gradient(circle, #ff9a56 0%, transparent 70%);
+    }
+    .badge {
+      background: rgba(255,107,157, 0.1);
+      border-color: rgba(255,107,157, 0.2);
+      color: #ff6b9d;
+    }
+    .badge .dot {
+      background: #ff9a56;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b9d, #ff9a56);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 25px rgba(255,107,157, 0.4), 0 0 60px rgba(255,107,157, 0.15);
+    }
+    .btn-outline:hover {
+      border-color: #ff6b9d;
+      background: rgba(255,107,157, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff9a56 50%, #ff6b9d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .feature-icon {
+      background: rgba(255,107,157, 0.15) !important;
+      border-color: rgba(255,107,157, 0.2);
+    }
+    .step-num {
+      background: linear-gradient(135deg, #ff6b9d, #ff9a56);
+      box-shadow: 0 0 20px rgba(255,107,157, 0.3), 0 0 40px rgba(255,154,86, 0.15);
+    }
+    .feature-card:hover, .security-card:hover {
+      border-color: rgba(255,107,157, 0.25) !important;
+      box-shadow: 0 8px 40px rgba(255,107,157, 0.1), 0 0 80px rgba(255,107,157, 0.05);
+    }
+    .faq-item:hover {
+      border-left-color: #ff6b9d;
+      background: rgba(255,107,157, 0.03);
+    }
+  </style>
 137|</head>
 138|<body>
 139|
