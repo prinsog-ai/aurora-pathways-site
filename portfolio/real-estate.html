@@ -2,480 +2,498 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Estate — Aurora Pathways Portfolio</title>
-<meta name="description" content="Tokenized property listings, smart-contract escrow, fractional ownership via NFTs, and crypto earnest money — real estate on the blockchain.">
-<meta property="og:title" content="Real Estate — Aurora Pathways Portfolio">
-<meta property="og:description" content="Tokenized property listings, smart-contract escrow, fractional ownership via NFTs, and crypto earnest money — real estate on the blockchain.">
-<meta property="og:url" content="https://aurorapathways.xyz/portfolio/real-estate">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Aurora Pathways">
-<meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
-<meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain Solutions for Real Estate — Aurora Pathways</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--surface:#111118;--surface2:#181820;--text:#e8e8ed;--text2:#9898a8;--accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#ff6b9d;--gradient:linear-gradient(135deg,#7c5cfc 0%,#4ec9b0 50%,#3b82f6 100%);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--success:#4ec9b0;--warning:#f0c040;--danger:#ff6b9d}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
-.container{max-width:900px;margin:0 auto;padding:40px 24px}
-.back{color:var(--accent2);text-decoration:none;font-size:0.9rem;display:inline-block;margin-bottom:24px}
-.back:hover{text-decoration:underline}
-.badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin-bottom:16px}
-.badge.portfolio{background:rgba(78,201,176,0.15);color:var(--accent2)}
-h1{font-size:2rem;font-weight:800;margin-bottom:8px}
-.subtitle{color:var(--text2);margin-bottom:40px;max-width:600px}
-.card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:28px;margin-bottom:20px}
-.card h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-input,select,button{font-family:inherit}
-.input{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-size:1rem}
-.input:focus{outline:none;border-color:var(--accent)}
-.btn{padding:12px 28px;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#9370ff}
-.btn-success{background:var(--success);color:#000}
-.btn-outline{background:transparent;border:1px solid var(--glass-border);color:var(--text)}
-.btn-outline:hover{border-color:var(--accent)}
-.code-block{background:var(--surface2);border:1px solid var(--glass-border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem;color:var(--accent2);word-break:break-all;margin-top:8px}
-.status-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:12px;flex-wrap:wrap}
-.status-bar.success{background:rgba(78,201,176,0.1);color:var(--success);border:1px solid rgba(78,201,176,0.2)}
-.status-bar.pending{background:rgba(240,192,64,0.1);color:var(--warning);border:1px solid rgba(240,192,64,0.2)}
-.status-bar.info{background:rgba(124,92,252,0.1);color:var(--accent);border:1px solid rgba(124,92,252,0.2)}
-.record-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--glass-border)}
-.record-row:last-child{border-bottom:none}
-.record-info{flex:1}
-.record-name{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.record-hash{font-family:monospace;font-size:0.8rem;color:var(--text2)}
-.record-meta{display:flex;gap:16px;font-size:0.75rem;color:var(--text2);margin-top:4px;flex-wrap:wrap}
-.record-actions{display:flex;gap:8px}
-.record-actions button{padding:8px 18px;font-size:0.85rem}
-.record-tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.7rem;font-weight:600}
-.record-tag.residential{background:rgba(78,201,176,0.15);color:var(--success)}
-.record-tag.commercial{background:rgba(124,92,252,0.15);color:var(--accent)}
-.record-tag.land{background:rgba(240,192,64,0.15);color:var(--warning)}
-.stat-row{display:flex;gap:20px;margin-bottom:20px}
-.stat-box{flex:1;background:var(--surface2);border-radius:10px;padding:16px;text-align:center}
-.stat-number{font-size:1.3rem;font-weight:800;color:var(--accent2)}
-.stat-label{font-size:0.75rem;color:var(--text2);margin-top:4px}
-.fade-in{animation:fadeIn 0.4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.property-card{display:flex;align-items:center;gap:16px;padding:20px;background:var(--surface2);border-radius:10px;margin-bottom:12px}
-.property-icon{width:56px;height:56px;border-radius:12px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-.property-info{flex:1}
-.property-name{font-weight:700;font-size:1.05rem}
-.property-address{font-family:monospace;font-size:0.8rem;color:var(--accent2);margin-top:2px}
-.property-price{font-size:0.85rem;color:var(--text2);margin-top:4px}
-.nft-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.2);border-radius:8px;color:var(--accent);font-size:0.8rem;font-weight:600}
-.escrow-step{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface2);border-radius:10px;margin-bottom:10px;position:relative}
-.escrow-step.active{border:1px solid rgba(78,201,176,0.3)}
-.escrow-step.completed{border-left:3px solid var(--success)}
-.escrow-step.waiting{border-left:3px solid var(--text2);opacity:0.6}
-.escrow-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
-.escrow-num.active{background:var(--accent);color:#fff}
-.escrow-num.completed{background:var(--success);color:#000}
-.escrow-num.waiting{background:var(--surface);color:var(--text2);border:1px solid var(--glass-border)}
-.token-bar{width:100%;height:8px;background:var(--surface);border-radius:4px;margin-top:8px;overflow:hidden}
-.token-fill{height:100%;background:var(--gradient);border-radius:4px;transition:width 1s ease}
-.timeline-item{display:flex;gap:12px;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--glass-border);position:relative}
-.timeline-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
-.timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--accent2);margin-top:6px;flex-shrink:0}
-.timeline-content{flex:1}
-.timeline-title{font-weight:600;font-size:0.9rem;margin-bottom:2px}
-.timeline-detail{font-size:0.78rem;color:var(--text2)}
-.timeline-hash{font-family:monospace;font-size:0.75rem;color:var(--accent);margin-top:4px}
-.cta-section{text-align:center;padding:60px 40px;background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;margin-top:40px}
-.cta-section h2{font-size:1.5rem;margin-bottom:12px}
-.cta-section p{color:var(--text2);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto}
-@media(max-width:640px){
-.grid2{grid-template-columns:1fr}
-.stat-row{flex-direction:column}
-h1{font-size:1.5rem}
-.record-row{flex-direction:column;align-items:flex-start;gap:12px}
-.record-actions{width:100%}
-.record-actions button{flex:1}
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#a0a0b0;--card:#12121e;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+nav{padding:20px 0;border-bottom:1px solid var(--border)}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.9rem;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.btn{display:inline-block;padding:12px 28px;border-radius:8px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:all .3s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6a4ce0);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.3)}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:8px 18px;font-size:.85rem}
+
+/* Hero */
+.hero{padding:100px 0 80px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.3);font-size:.8rem;color:var(--accent);margin-bottom:28px}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.2;margin-bottom:20px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p.sub{font-size:1.15rem;color:var(--text2);max-width:600px;margin:0 auto 36px;line-height:1.7}
+.hero-quote{font-size:1.25rem;font-style:italic;color:var(--accent2);max-width:650px;margin:0 auto 40px;padding:24px;border-left:3px solid var(--accent);background:rgba(78,201,176,.05);border-radius:0 8px 8px 0;text-align:left}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* Before/After */
+.before-after{padding:80px 0}
+.before-after h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.before-after .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.ba-grid{grid-template-columns:1fr}}
+.ba-card{padding:32px;border-radius:12px;border:1px solid var(--border)}
+.ba-card.before{background:rgba(220,50,50,.05);border-color:rgba(220,50,50,.2)}
+.ba-card.after{background:rgba(78,201,176,.05);border-color:rgba(78,201,176,.2)}
+.ba-card h3{font-size:1.1rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.ba-card.before h3{color:#e55555}
+.ba-card.after h3{color:var(--accent2)}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.ba-card li{padding-left:24px;position:relative;font-size:.95rem;color:var(--text2);line-height:1.5}
+.ba-card.before li::before{content:'✕';position:absolute;left:0;color:#e55555;font-weight:700}
+.ba-card.after li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+
+/* Demo Tabs */
+.demo-section{padding:80px 0}
+.demo-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.demo-section .sub{text-align:center;color:var(--text2);margin-bottom:40px}
+.tabs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.tab-btn{padding:10px 24px;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:8px 8px 0 0;font-family:inherit;font-size:.9rem;transition:all .2s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:32px;min-height:400px}
+.tab-panel.active{display:block}
+.demo-mockup{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.demo-mockup{grid-template-columns:1fr}}
+.stat-card{background:rgba(124,92,252,.05);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:20px}
+.stat-card .label{font-size:.8rem;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.stat-card .value{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-card .change{font-size:.8rem;color:var(--accent2);margin-top:4px}
+.mock-table{width:100%;border-collapse:collapse;margin-top:16px}
+.mock-table th,.mock-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.85rem}
+.mock-table th{color:var(--text2);font-weight:500;text-transform:uppercase;font-size:.75rem;letter-spacing:.05em}
+.mock-table td{color:var(--text)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-purple{background:rgba(124,92,252,.15);color:var(--accent)}
+.badge-yellow{background:rgba(255,200,50,.15);color:#ffc832}
+.mock-input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.9rem;margin-bottom:12px}
+.mock-input:focus{outline:none;border-color:var(--accent)}
+.mock-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;font-size:.85rem}
+.mock-log{background:var(--bg);border-radius:8px;padding:16px;margin-top:16px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent2);line-height:1.8;max-height:200px;overflow-y:auto}
+
+/* ROI Calculator */
+.roi-section{padding:80px 0}
+.roi-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.roi-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.roi-grid{grid-template-columns:1fr}}
+.roi-inputs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px}
+.roi-inputs label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:6px;margin-top:16px}
+.roi-inputs label:first-child{margin-top:0}
+.roi-inputs input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:4px}
+.roi-inputs .range-val{font-size:.9rem;font-weight:600;color:var(--accent)}
+.roi-result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.roi-result .big{font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:16px 0}
+.roi-result .roi-label{font-size:1rem;color:var(--text2)}
+
+/* Pricing */
+.pricing-section{padding:80px 0}
+.pricing-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.pricing-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;position:relative;transition:transform .3s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.featured{border-color:var(--accent);box-shadow:0 0 40px rgba(124,92,252,.15)}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 16px;border-radius:12px;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+.price-card h3{font-size:1.1rem;margin-bottom:8px}
+.price-card .price{font-size:2.5rem;font-weight:800;color:var(--accent);margin:16px 0}
+.price-card .price span{font-size:.9rem;font-weight:400;color:var(--text2)}
+.price-card ul{list-style:none;text-align:left;margin:24px 0}
+.price-card li{padding:8px 0 8px 24px;position:relative;font-size:.9rem;color:var(--text2)}
+.price-card li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+
+/* CTA */
+.cta-section{padding:80px 0;text-align:center}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid rgba(124,92,252,.3);border-radius:16px;padding:60px 40px}
+.cta-box h2{font-size:2rem;margin-bottom:12px}
+.cta-box p{color:var(--text2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:.85rem}
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
 </style>
+<link rel='manifest' href='data:application/json,{"name":"Real Estate Demo","short_name":"Real Estate","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
 </head>
 <body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
+
+<nav>
 <div class="container">
-<a href="../index.html#portfolio" class="back">← Back to Portfolio</a>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-<span class="badge portfolio">Tokenized Real Estate</span>
-<span class="nft-badge">🏠 ERC-721 NFT Titles</span>
-<span class="badge portfolio" style="background:rgba(124,92,252,0.15);color:var(--accent)">⛓ On-Chain Escrow</span>
-<span class="badge portfolio" style="background:rgba(124,92,252,0.1);color:var(--accent)">💰 Fractional Ownership</span>
+<div class="logo">◆ Aurora Pathways</div>
+<div class="nav-links">
+<a href="#demo">Demo</a>
+<a href="#roi">ROI</a>
+<a href="#pricing">Pricing</a>
+<a href="#cta" class="btn btn-sm btn-primary">Book a Call</a>
 </div>
-<h1>Real Estate</h1>
-<p class="subtitle">Tokenized property listings, smart-contract escrow, fractional ownership via NFTs, and crypto earnest money — real estate on the blockchain.</p>
+</div>
+</nav>
 
-<div class="stat-row">
-<div class="stat-box"><div class="stat-number">6</div><div class="stat-label">Properties Listed</div></div>
-<div class="stat-box"><div class="stat-number">$4.2M</div><div class="stat-label">Total Value Locked</div></div>
-<div class="stat-box"><div class="stat-number">142</div><div class="stat-label">Fractional Holders</div></div>
-<div class="stat-box"><div class="stat-number">100%</div><div class="stat-label">Titles On-Chain</div></div>
+<section class="hero">
+<div class="container">
+<div class="hero-badge"><span class="dot"></span> <span class="en-text">Blockchain Solutions for Real Estate</span><span class="es-text">Soluciones Blockchain para Bienes Raíces</span></div>
+<h1><span class="en-text">Your property records,</span><span class="es-text">Tus registros de propiedad,</span><br><em><span class="en-text">immutable by default</span><span class="es-text">inmutables por defecto</span></em></h1>
+<p class="sub"><span class="en-text">Property management companies handle millions of leases across the US &amp; Canada. We make every record tamper-proof, every audit instant, and every dispute solvable in minutes — not weeks.</span><span class="es-text">Las empresas de gestión de propiedades administran millones de contratos en EE.UU. y Canadá. Hacemos que cada registro sea a prueba de manipulaciones, cada auditoría instantánea y cada disputa resoluble en minutos, no semanas.</span></p>
+<div class="hero-quote">"Your tenants trust you with their deposits. The blockchain trusts no one — and that's the point."</div>
+<div class="hero-cta">
+<a href="#demo" class="btn btn-primary"><span class="en-text">See the Demo</span><span class="es-text">Ver la Demo</span></a>
+<a href="#roi" class="btn btn-outline"><span class="en-text">Calculate Your ROI</span><span class="es-text">Calcula tu ROI</span></a>
 </div>
+</div>
+</section>
 
-<!-- Tokenized Property Listings -->
-<div class="card">
-<h3>🏠 Tokenized Property Listings</h3>
+<section class="before-after">
+<div class="container">
+<h2><span class="en-text">What Changes</span><span class="es-text">Lo Que Cambia</span></h2>
+<p class="sub"><span class="en-text">From siloed databases and manual audits to one immutable source of truth</span><span class="es-text">De bases de datos aisladas y auditorías manuales a una fuente inmutable de verdad</span></p>
+<div class="ba-grid">
+<div class="ba-card before">
+<h3>✕ Before Aurora</h3>
+<ul>
+<li>Lease records in one database, maintenance in another, ownership in a third</li>
+<li>Disputes require manual cross-referencing — takes 2–4 weeks on average</li>
+<li>Compliance audits are manual, expensive, and error-prone</li>
+<li>No way to prove a record hasn't been altered after the fact</li>
+<li>Tenant trust erodes with every unresolved dispute</li>
+</ul>
+</div>
+<div class="ba-card after">
+<h3>✓ After Aurora</h3>
+<ul>
+<li>All records linked by cryptographic hashes on an immutable ledger</li>
+<li>Disputes resolved in minutes with verifiable on-chain proof</li>
+<li>One-click compliance reports — every record, every timestamp, tamper-proof</li>
+<li>Any record can be independently verified without exposing private data</li>
+<li>Tenant confidence increases, retention improves</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 
-<div class="property-card">
-<div class="property-icon">🏡</div>
-<div class="property-info">
-<div class="property-name">NFT #2847 — 123 Blockchain Ave</div>
-<div class="property-address">Token: 0x7B2a...c9F1 · ERC-721</div>
-<div class="property-price">Listed: 2.8 ETH ($8,400,000) · Residential · 4 BD / 3 BA</div>
-</div>
-<div class="record-actions" style="flex-direction:column;gap:6px">
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyProperty(this, '#2847')">✓ Verify</button>
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="viewToken('2847')">🔗 View Token</button>
-</div>
-</div>
-
-<div class="property-card">
-<div class="property-icon">🏢</div>
-<div class="property-info">
-<div class="property-name">NFT #1953 — 88 DeFi Plaza</div>
-<div class="property-address">Token: 0x3E4f...b7A2 · ERC-721</div>
-<div class="property-price">Listed: 5.1 ETH ($15,300,000) · Commercial · 12,000 sqft</div>
-</div>
-<div class="record-actions" style="flex-direction:column;gap:6px">
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyProperty(this, '#1953')">✓ Verify</button>
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="viewToken('1953')">🔗 View Token</button>
-</div>
-</div>
-
-<div class="property-card">
-<div class="property-icon">🌳</div>
-<div class="property-info">
-<div class="property-name">NFT #4201 — 456 Satoshi Lane</div>
-<div class="property-address">Token: 0x9D1c...e4F8 · ERC-721</div>
-<div class="property-price">Listed: 1.2 ETH ($3,600,000) · Land · 2.5 acres</div>
-</div>
-<div class="record-actions" style="flex-direction:column;gap:6px">
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="verifyProperty(this, '#4201')">✓ Verify</button>
-<button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem" onclick="viewToken('4201')">🔗 View Token</button>
-</div>
-</div>
-
-<div id="property-result"></div>
-</div>
-
-<!-- Smart Contract Escrow Flow -->
-<div class="card">
-<h3>📜 Smart Contract Escrow</h3>
-<p style="color:var(--text2);font-size:0.9rem;margin-bottom:16px">Escrow for NFT #2847 — 123 Blockchain Ave · Buyer: 0xAb34...9fE2 · Seller: 0xDe78...1cB5</p>
-
-<div class="escrow-step active">
-<div class="escrow-num active">1</div>
-<div style="flex:1">
-<div style="font-weight:600;font-size:0.95rem">Buyer Deposits Funds</div>
-<div style="font-size:0.8rem;color:var(--text2)">2.8 ETH deposited into escrow smart contract</div>
-</div>
-<span class="record-tag residential" style="font-size:0.7rem">✅ Complete</span>
+<section class="demo-section" id="demo">
+<div class="container">
+<h2><span class="en-text">Interactive Demo</span><span class="es-text">Demo Interactiva</span></h2>
+<p class="sub"><span class="en-text">Explore how blockchain integration works for real estate management</span><span class="es-text">Explora cómo funciona la integración blockchain para gestión de bienes raíces</span></p>
+<div class="tabs">
+<button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+<button class="tab-btn" data-tab="lease">Lease Records</button>
+<button class="tab-btn" data-tab="maintenance">Maintenance Log</button>
+<button class="tab-btn" data-tab="audit">Audit Mode</button>
 </div>
 
-<div class="escrow-step active">
-<div class="escrow-num completed">2</div>
-<div style="flex:1">
-<div style="font-weight:600;font-size:0.95rem">Inspection Period</div>
-<div style="font-size:0.8rem;color:var(--text2)">7-day inspection window · Ends: June 12, 2026</div>
+<div class="tab-panel active" id="tab-dashboard">
+<div class="demo-mockup">
+<div class="stat-card">
+<div class="label">Properties Managed</div>
+<div class="value">1,247</div>
+<div class="change">↑ 12% from last quarter</div>
 </div>
-<span class="record-tag land" style="font-size:0.7rem;background:rgba(240,192,64,0.15);color:var(--warning)">⏳ Active</span>
+<div class="stat-card">
+<div class="label">Records On-Chain</div>
+<div class="value">8,391</div>
+<div class="change">100% verified</div>
 </div>
-
-<div class="escrow-step waiting">
-<div class="escrow-num waiting">3</div>
-<div style="flex:1">
-<div style="font-weight:600;font-size:0.95rem">Title Verification</div>
-<div style="font-size:0.8rem;color:var(--text2)">On-chain title check — automated via oracle</div>
+<div class="stat-card">
+<div class="label">Avg Dispute Resolution</div>
+<div class="value">2.1 days</div>
+<div class="change">↓ from 18 days</div>
 </div>
-<span style="font-size:0.75rem;color:var(--text2)">Pending</span>
+<div class="stat-card">
+<div class="label">Compliance Score</div>
+<div class="value">99.8%</div>
+<div class="change">↑ from 84%</div>
 </div>
-
-<div class="escrow-step waiting">
-<div class="escrow-num waiting">4</div>
-<div style="flex:1">
-<div style="font-weight:600;font-size:0.95rem">Auto-Release</div>
-<div style="font-size:0.8rem;color:var(--text2)">Funds released to seller · NFT transferred to buyer · Title deed updated</div>
 </div>
-<span style="font-size:0.75rem;color:var(--text2)">Pending</span>
-</div>
-
-<div id="escrow-result"></div>
-<button class="btn btn-primary" style="margin-top:16px;width:100%" onclick="simulateEscrow()">⚡ Simulate Escrow Completion</button>
-</div>
-
-<!-- Fractional Ownership -->
-<div class="grid2">
-<div class="card">
-<h3>🧩 Fractional Ownership</h3>
-<p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">Own a piece of premium real estate through ERC-1155 fractional tokens</p>
-
-<div style="padding:16px;background:var(--surface2);border-radius:10px;margin-bottom:12px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-<span style="font-weight:600;font-size:0.9rem">123 Blockchain Ave</span>
-<span style="font-family:monospace;font-size:0.8rem;color:var(--accent2)">150 / 1,000 tokens</span>
-</div>
-<div class="token-bar"><div class="token-fill" style="width:15%"></div></div>
-<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.75rem;color:var(--text2)">
-<span>Your share: 15%</span><span>Value: $1,260,000</span>
+<div class="mock-log" style="margin-top:24px">
+[14:02:11] Property #0892 — New lease hash recorded: 0x7a3f...e2c1<br>
+[14:01:45] Maintenance request #4821 — Timestamped and sealed<br>
+[14:01:02] Audit report generated for Region: Northeast (247 properties)<br>
+[13:58:33] Ownership transfer #0034 — Verified on-chain
 </div>
 </div>
 
-<div style="padding:16px;background:var(--surface2);border-radius:10px;margin-bottom:12px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-<span style="font-weight:600;font-size:0.9rem">88 DeFi Plaza</span>
-<span style="font-family:monospace;font-size:0.8rem;color:var(--accent2)">40 / 500 tokens</span>
+<div class="tab-panel" id="tab-lease">
+<div style="max-width:600px">
+<h3 style="margin-bottom:20px;font-size:1.1rem">Create Lease Record</h3>
+<input class="mock-input" type="text" placeholder="Property Address" value="42 Oak Street, Unit 3B, Boston MA">
+<input class="mock-input" type="text" placeholder="Tenant Name" value="Sarah Mitchell">
+<input class="mock-input" type="text" placeholder="Lease Period" value="Jan 1, 2026 — Dec 31, 2026">
+<input class="mock-input" type="text" placeholder="Monthly Rent" value="$2,450">
+<button class="mock-btn" onclick="createLease()">Generate On-Chain Hash</button>
+<div class="mock-log" id="lease-log" style="display:none"></div>
 </div>
-<div class="token-bar"><div class="token-fill" style="width:8%"></div></div>
-<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.75rem;color:var(--text2)">
-<span>Your share: 8%</span><span>Value: $1,224,000</span>
+<div style="margin-top:32px">
+<h3 style="margin-bottom:16px;font-size:1.1rem">Recent Lease Records</h3>
+<table class="mock-table">
+<thead><tr><th>Property</th><th>Tenant</th><th>Hash</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>42 Oak St, 3B</td><td>S. Mitchell</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x7a3f...e2c1</td><td><span class="badge badge-green">Verified</span></td></tr>
+<tr><td>118 Main Ave, 7</td><td>J. Rodriguez</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x9b2d...f4a8</td><td><span class="badge badge-green">Verified</span></td></tr>
+<tr><td>5 Circle Dr, 1A</td><td>T. Nakamura</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x1e8c...d7b3</td><td><span class="badge badge-purple">Pending</span></td></tr>
+<tr><td>200 Elm St, 12</td><td>A. Patel</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x4f6a...c9e2</td><td><span class="badge badge-green">Verified</span></td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
-<div style="padding:16px;background:var(--surface2);border-radius:10px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-<span style="font-weight:600;font-size:0.9rem">456 Satoshi Lane</span>
-<span style="font-family:monospace;font-size:0.8rem;color:var(--accent2)">200 / 2,000 tokens</span>
+<div class="tab-panel" id="tab-maintenance">
+<div class="demo-mockup">
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Log Maintenance Event</h3>
+<input class="mock-input" type="text" placeholder="Property" value="42 Oak Street, Unit 3B">
+<input class="mock-input" type="text" placeholder="Issue" value="HVAC system not heating">
+<button class="mock-btn" onclick="logMaintenance()">Record on Blockchain</button>
+<div class="mock-log" id="maint-log" style="display:none"></div>
 </div>
-<div class="token-bar"><div class="token-fill" style="width:10%"></div></div>
-<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.75rem;color:var(--text2)">
-<span>Your share: 10%</span><span>Value: $360,000</span>
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Maintenance Timeline</h3>
+<div class="mock-log" style="height:auto;max-height:320px">
+<strong style="color:var(--accent)">42 Oak St, Unit 3B</strong><br>
+├─ 2026-01-15 09:12 — HVAC issue reported by tenant<br>
+│  Hash: 0x7a3f...e2c1<br>
+├─ 2026-01-15 11:30 — Work order #4821 dispatched<br>
+│  Hash: 0x8b4e...f3d2<br>
+├─ 2026-01-16 14:00 — Repair completed, parts logged<br>
+│  Hash: 0x2c7d...a1e9<br>
+└─ 2026-01-16 14:15 — Tenant confirmed resolution<br>
+   Hash: 0x5e9f...b8c4<br><br>
+<strong style="color:var(--accent)">118 Main Ave, Unit 7</strong><br>
+├─ 2026-01-10 08:45 — Leaking faucet reported<br>
+│  Hash: 0x9b2d...f4a8<br>
+└─ 2026-01-10 16:20 — Repair completed same day<br>
+   Hash: 0x3a6c...d5e7
+</div>
+</div>
 </div>
 </div>
 
-<div id="fractional-result"></div>
-</div>
-
-<!-- Earnest Money Deposit -->
-<div class="card">
-<h3>💰 Crypto Earnest Money</h3>
-<p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">Deposit earnest money directly to escrow via smart contract</p>
-
-<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Property</label>
-<select class="input" id="earnest-property" style="margin-bottom:12px">
-<option>NFT #2847 — 123 Blockchain Ave</option>
-<option>NFT #1953 — 88 DeFi Plaza</option>
-<option>NFT #4201 — 456 Satoshi Lane</option>
+<div class="tab-panel" id="tab-audit">
+<h3 style="margin-bottom:20px;font-size:1.1rem">One-Click Compliance Report</h3>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+<select class="mock-input" style="width:auto;flex:1">
+<option>All Properties (1,247)</option>
+<option>Northeast Region (247)</option>
+<option>Southeast Region (312)</option>
+<option>Midwest Region (189)</option>
 </select>
+<select class="mock-input" style="width:auto;flex:1">
+<option>Last 12 Months</option>
+<option>Last 6 Months</option>
+<option>Last 30 Days</option>
+</select>
+<button class="mock-btn" onclick="runAudit()">Generate Audit Report</button>
+</div>
+<div class="mock-log" id="audit-log">
+Click "Generate Audit Report" to simulate a compliance audit.
+</div>
+</div>
+</div>
+</section>
 
-<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Amount (ETH)</label>
-<input class="input" type="number" id="earnest-amount" value="0.28" min="0.01" step="0.01" style="margin-bottom:12px" onfocus="this.select()">
+<section class="roi-section" id="roi">
+<div class="container">
+<h2><span class="en-text">Your ROI Calculator</span><span class="es-text">Calculadora de ROI</span></h2>
+<p class="sub"><span class="en-text">Estimate your savings based on your actual property portfolio</span><span class="es-text">Estima tus ahorros según tu portafolio de propiedades real</span></p>
+<div class="roi-grid">
+<div class="roi-inputs">
+<label>Properties Managed</label>
+<input type="range" id="r-props" min="50" max="5000" value="500" oninput="calcROI()">
+<div class="range-val" id="r-props-v">500</div>
 
-<label style="font-size:0.85rem;color:var(--text2);display:block;margin-bottom:6px">Buyer Wallet</label>
-<input class="input" type="text" id="earnest-wallet" value="0xAb34...9fE2" readonly style="margin-bottom:16px;opacity:0.7;cursor:not-allowed">
+<label>Average Cost per Dispute ($)</label>
+<input type="range" id="r-cost" min="500" max="10000" value="3500" step="100" oninput="calcROI()">
+<div class="range-val" id="r-cost-v">$3,500</div>
 
-<div style="padding:14px;background:var(--surface2);border-radius:8px;margin-bottom:16px;font-size:0.85rem">
-<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text2)">Escrow Contract</span><span style="font-family:monospace;color:var(--accent2)">0x1234...abcd</span></div>
-<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text2)">Network Fee</span><span>~0.002 ETH</span></div>
-<div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Total</span><span style="font-weight:700">0.282 ETH</span></div>
-</div>
+<label>Disputes per Year (per 100 properties)</label>
+<input type="range" id="r-disputes" min="1" max="30" value="8" oninput="calcROI()">
+<div class="range-val" id="r-disputes-v">8</div>
 
-<button class="btn btn-primary" style="width:100%" onclick="depositEarnest()">💳 Deposit Earnest Money</button>
-<div id="earnest-result"></div>
+<label>Expected Dispute Reduction (%)</label>
+<input type="range" id="r-reduction" min="20" max="90" value="70" oninput="calcROI()">
+<div class="range-val" id="r-reduction-v">70%</div>
+</div>
+<div class="roi-result">
+<div class="roi-label">Estimated Annual Savings</div>
+<div class="big" id="roi-total">$98,000</div>
+<div class="roi-label" id="roi-detail">Based on 500 properties · 40 disputes/year · 70% reduction</div>
+<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border);width:100%">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Disputes avoided</span>
+<span id="roi-avoided" style="font-weight:600;color:var(--accent2)">28/year</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Hours saved (manual audit)</span>
+<span id="roi-hours" style="font-weight:600;color:var(--accent2)">400+/year</span>
+</div>
+<div style="display:flex;justify-content:space-between">
+<span style="color:var(--text2);font-size:.85rem">Phase 1 investment</span>
+<span style="font-weight:600;color:var(--text)">$8,000</span>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
 
-<!-- On-Chain Title Verification -->
-<div class="card">
-<h3>🔍 On-Chain Title Verification</h3>
-<p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">Verify property title ownership directly from the blockchain — no intermediaries needed</p>
+<section class="pricing-section" id="pricing">
+<div class="container">
+<h2><span class="en-text">Investment Timeline</span><span class="es-text">Cronograma de Inversión</span></h2>
+<p class="sub"><span class="en-text">Phased approach to minimize risk and prove value fast</span><span class="es-text">Enfoque por fases para minimizar riesgo y demostrar valor rápido</span></p>
+<div class="pricing-grid">
+<div class="price-card">
+<h3>Phase 1 — Proof of Value</h3>
+<div class="price">$8,000 <span>one-time</span></div>
+<ul>
+<li>Up to 100 properties on-chain</li>
+<li>Lease record hashing</li>
+<li>Maintenance log immutability</li>
+<li>Basic audit report generation</li>
+<li>8-week delivery timeline</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Start Here</a>
+</div>
+<div class="price-card featured">
+<h3>Phase 2 — Full Platform</h3>
+<div class="price">$20,000 <span>one-time</span></div>
+<ul>
+<li>Unlimited properties</li>
+<li>Full property management API integration</li>
+<li>Dispute resolution portal</li>
+<li>Tenant-facing verification</li>
+<li>Advanced compliance suite</li>
+<li>Custom dashboard</li>
+</ul>
+<a href="#cta" class="btn btn-primary btn-sm" style="margin-top:12px">Book a Call</a>
+</div>
+<div class="price-card">
+<h3>Phase 3 — Ongoing</h3>
+<div class="price">$5,000 <span>/year</span></div>
+<ul>
+<li>Continuous maintenance &amp; updates</li>
+<li>24/7 monitoring</li>
+<li>New property onboarding</li>
+<li>Compliance regulation updates</li>
+<li>Priority support</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Learn More</a>
+</div>
+</div>
+</div>
+</section>
 
-<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
-<input class="input" type="text" id="title-search" placeholder="Enter token ID or address..." style="flex:1" value="NFT #2847">
-<button class="btn btn-primary" style="white-space:nowrap" onclick="verifyTitle()">🔍 Verify Title</button>
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Ready to make your property records immutable?</span><span class="es-text">¿Listo para hacer los registros de tu propiedad inmutables?</span></h2>
+<p><span class="en-text">Let's walk through the demo together and map out a timeline for your portfolio.</span><span class="es-text">Recorramos la demo juntos y definamos un cronograma para tu portafolio.</span></p>
+<a href="mailto:contact@aurorapathways.com?subject=Real%20Estate%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px"><span class="en-text">Book a Call</span><span class="es-text">Agendar Llamada</span> →</a>
 </div>
+</div>
+</section>
 
-<div id="title-result">
-<div style="padding:16px;background:var(--surface2);border-radius:10px">
-<div style="font-weight:600;margin-bottom:8px">Title Status — NFT #2847</div>
-<div class="record-meta" style="flex-direction:column;gap:6px">
-<div><span style="color:var(--text2)">Owner:</span> <span style="font-family:monospace;color:var(--accent2)">0xDe78...1cB5</span></div>
-<div><span style="color:var(--text2)">Minted:</span> <span>2025-11-03</span></div>
-<div><span style="color:var(--text2)">Chain:</span> <span>Ethereum Mainnet</span></div>
-<div><span style="color:var(--text2)">Lien Status:</span> <span style="color:var(--success)">✅ Clear — No Liens</span></div>
-<div><span style="color:var(--text2)">Last Transfer:</span> <span>2026-01-15</span></div>
+<footer>
+<div class="container">
+<p>Aurora Pathways · Blockchain Infrastructure for Real Estate · <a href="mailto:contact@aurorapathways.com" style="color:var(--accent);text-decoration:none">contact@aurorapathways.com</a></p>
 </div>
-</div>
-</div>
-</div>
-
-<!-- Immutable Property History -->
-<div class="card">
-<h3>📋 Immutable Property History</h3>
-<p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">Every event is recorded on-chain — a tamper-proof audit trail for property NFT #2847</p>
-
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-title">Property Minted as NFT</div>
-<div class="timeline-detail">Jun 03, 2025 · Seller: 0xDe78...1cB5 · County recorder oracle verified</div>
-<div class="timeline-hash">tx: 0xa3f8...7d2e · Block #18,204,531</div>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-dot" style="background:var(--accent)"></div>
-<div class="timeline-content">
-<div class="timeline-title">Listed for Sale</div>
-<div class="timeline-detail">Jul 15, 2025 · Asking: 3.2 ETH · Platform: Aurora Pathways Marketplace</div>
-<div class="timeline-hash">tx: 0x4b2c...9e1f · Block #18,312,087</div>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-dot" style="background:var(--warning)"></div>
-<div class="timeline-content">
-<div class="timeline-title">Price Reduction</div>
-<div class="timeline-detail">Oct 22, 2025 · New price: 2.8 ETH (−12.5%)</div>
-<div class="timeline-hash">tx: 0x1d5e...3a8b · Block #18,501,220</div>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-dot" style="background:var(--accent3)"></div>
-<div class="timeline-content">
-<div class="timeline-title">Fractional Tokens Issued</div>
-<div class="timeline-detail">Dec 10, 2025 · 1,000 ERC-1155 tokens created · 850 available</div>
-<div class="timeline-hash">tx: 0x8f2a...5c6d · Block #18,623,409</div>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-dot"></div>
-<div class="timeline-content">
-<div class="timeline-title">Earnest Money Deposited</div>
-<div class="timeline-detail">Jun 01, 2026 · Buyer: 0xAb34...9fE2 · 0.28 ETH locked in escrow</div>
-<div class="timeline-hash">tx: 0xe7c1...2f4a · Block #19,102,844</div>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-dot" style="background:var(--warning)"></div>
-<div class="timeline-content">
-<div class="timeline-title">Full Deposit to Escrow</div>
-<div class="timeline-detail">Jun 05, 2026 · Buyer: 0xAb34...9fE2 · 2.8 ETH deposited · Inspection period started</div>
-<div class="timeline-hash">tx: 0x9b3f...1e7d · Block #19,115,302</div>
-</div>
-</div>
-
-<div id="audit-result"></div>
-</div>
-
-<!-- CTA Section -->
-<div class="cta-section">
-<h2>Ready to Tokenize Your Properties?</h2>
-<p>From fractional ownership to on-chain title deeds, we build the smart contracts and frontend for your real estate platform.</p>
-<a href="../index.html#contact" class="btn btn-primary" style="text-decoration:none;display:inline-block">Get in Touch →</a>
-</div>
-
-</div>
+</footer>
 
 <script>
-function verifyProperty(btn, id) {
-  btn.disabled = true;
-  btn.textContent = '⏳ Verifying...';
-  setTimeout(() => {
-    const ts = new Date().toISOString().replace('T',' ').slice(0,19);
-    const tx = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
-    document.getElementById('property-result').innerHTML =
-      '<div class="status-bar success fade-in">✅ <strong>NFT ' + id + '</strong> — Property verified on-chain · Tx: <code>' + tx + '</code> · Block: #' + Math.floor(Math.random()*900000+18000000) + ' · ' + ts + ' UTC</div>';
-    const card = btn.closest('.property-card');
-    const existing = card.querySelector('.verify-icon');
-    if (!existing) {
-      card.querySelector('.property-name').insertAdjacentHTML('afterbegin','<span class="verify-icon">✅</span> ');
-    }
-    btn.textContent = '✅ Verified';
-    btn.style.color = 'var(--success)';
-    btn.style.borderColor = 'rgba(78,201,176,0.3)';
-    btn.disabled = false;
-  }, 1500);
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ROI Calculator
+function calcROI() {
+  const props = +document.getElementById('r-props').value;
+  const cost = +document.getElementById('r-cost').value;
+  const disputes = +document.getElementById('r-disputes').value;
+  const reduction = +document.getElementById('r-reduction').value;
+  document.getElementById('r-props-v').textContent = props.toLocaleString();
+  document.getElementById('r-cost-v').textContent = '$' + cost.toLocaleString();
+  document.getElementById('r-disputes-v').textContent = disputes;
+  document.getElementById('r-reduction-v').textContent = reduction + '%';
+  const totalDisputes = (props / 100) * disputes;
+  const avoided = Math.round(totalDisputes * (reduction / 100));
+  const savings = avoided * cost;
+  document.getElementById('roi-total').textContent = '$' + savings.toLocaleString();
+  document.getElementById('roi-detail').textContent = `Based on ${props.toLocaleString()} properties · ${Math.round(totalDisputes)} disputes/year · ${reduction}% reduction`;
+  document.getElementById('roi-avoided').textContent = avoided + '/year';
+  document.getElementById('roi-hours').textContent = Math.round(props * 0.8) + '+ hours/year';
 }
+calcROI();
 
-function viewToken(id) {
-  document.getElementById('property-result').innerHTML =
-    '<div class="status-bar info fade-in">🔗 <strong>NFT #' + id + '</strong> — Token URI: <code>ipfs://Qm' + Math.random().toString(36).slice(2,14) + '</code> · Metadata: property details, images, legal docs</div>';
-}
-
-function simulateEscrow() {
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳ Processing escrow...';
-
-  const steps = document.querySelectorAll('.escrow-step');
-  const result = document.getElementById('escrow-result');
-
-  // Step 3: Title verification
+// Demo interactions
+function createLease() {
+  const log = document.getElementById('lease-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Generating cryptographic hash...<br>';
   setTimeout(() => {
-    steps[2].className = 'escrow-step active';
-    steps[2].querySelector('.escrow-num').className = 'escrow-num completed';
-    steps[2].querySelector('.escrow-num').textContent = '✓';
-    steps[2].querySelector('span:last-child').outerHTML = '<span class="record-tag residential" style="font-size:0.7rem">✅ Verified</span>';
-    result.innerHTML = '<div class="status-bar pending fade-in">⏳ Title verification complete — no liens found · Oracle confirmed</div>';
+    log.innerHTML += 'Hashing lease data (address, tenant, period, rent)...<br>';
+  }, 400);
+  setTimeout(() => {
+    const hash = '0x' + Array.from({length:8}, () => Math.floor(Math.random()*16).toString(16)).join('') + '...' + Array.from({length:4}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    log.innerHTML += `Hash generated: <strong>${hash}</strong><br>`;
+  }, 800);
+  setTimeout(() => {
+    log.innerHTML += 'Submitting to blockchain...<br>';
   }, 1200);
-
-  // Step 4: Auto-release
   setTimeout(() => {
-    steps[3].className = 'escrow-step active';
-    steps[3].querySelector('.escrow-num').className = 'escrow-num completed';
-    steps[3].querySelector('.escrow-num').textContent = '✓';
-    steps[3].querySelector('span:last-child').outerHTML = '<span class="record-tag residential" style="font-size:0.7rem">✅ Released</span>';
-    const ts = new Date().toISOString().replace('T',' ').slice(0,19);
-    const tx = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
-    result.innerHTML = '<div class="status-bar success fade-in">✅ <strong>Escrow Complete</strong> — 2.8 ETH released to seller · NFT #2847 transferred to buyer · Title deed updated · Tx: <code>' + tx + '</code> · ' + ts + ' UTC</div>';
-    btn.textContent = '✅ Escrow Completed';
-    btn.style.background = 'var(--success)';
-    btn.style.color = '#000';
-    btn.disabled = false;
-  }, 3000);
-}
-
-function depositEarnest() {
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳ Processing deposit...';
-  const amount = document.getElementById('earnest-amount').value;
-  const prop = document.getElementById('earnest-property').value;
-
-  setTimeout(() => {
-    const ts = new Date().toISOString().replace('T',' ').slice(0,19);
-    const tx = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
-    document.getElementById('earnest-result').innerHTML =
-      '<div class="status-bar success fade-in" style="margin-top:16px">✅ <strong>' + amount + ' ETH</strong> deposited to escrow for <strong>' + prop.split(' — ')[0] + '</strong> · Tx: <code>' + tx + '</code> · Block: #' + Math.floor(Math.random()*900000+18000000) + ' · ' + ts + ' UTC</div>';
-    btn.textContent = '✅ Deposit Confirmed';
-    btn.style.background = 'var(--success)';
-    btn.style.color = '#000';
-    btn.disabled = false;
-  }, 2000);
-}
-
-function verifyTitle() {
-  const btn = event.target.closest('.card').querySelector('.btn-primary');
-  btn.disabled = true;
-  btn.textContent = '⏳ Checking chain...';
-  const query = document.getElementById('title-search').value;
-
-  setTimeout(() => {
-    const ts = new Date().toISOString().replace('T',' ').slice(0,19);
-    const tx = '0x' + Math.random().toString(16).slice(2,10) + '...' + Math.random().toString(16).slice(2,10);
-    document.getElementById('title-result').innerHTML =
-      '<div class="fade-in">' +
-      '<div class="status-bar success" style="margin-bottom:12px">✅ <strong>' + query + '</strong> — Title verified · Ownership confirmed · Tx: <code>' + tx + '</code> · ' + ts + ' UTC</div>' +
-      '<div style="padding:16px;background:var(--surface2);border-radius:10px">' +
-      '<div style="font-weight:600;margin-bottom:8px">Title Status — ' + query + '</div>' +
-      '<div class="record-meta" style="flex-direction:column;gap:6px">' +
-      '<div><span style="color:var(--text2)">Owner:</span> <span style="font-family:monospace;color:var(--accent2)">0xDe78...1cB5</span></div>' +
-      '<div><span style="color:var(--text2)">Minted:</span> <span>2025-11-03</span></div>' +
-      '<div><span style="color:var(--text2)">Chain:</span> <span>Ethereum Mainnet</span></div>' +
-      '<div><span style="color:var(--text2)">Lien Status:</span> <span style="color:var(--success)">✅ Clear — No Liens</span></div>' +
-      '<div><span style="color:var(--text2)">Last Transfer:</span> <span>2026-01-15</span></div>' +
-      '<div><span style="color:var(--text2)">Verification:</span> <span style="color:var(--success)">✅ Oracle Confirmed</span></div>' +
-      '</div></div></div>';
-    btn.textContent = '🔍 Verify Title';
-    btn.disabled = false;
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Lease record sealed. Timestamp: ' + new Date().toISOString() + '</span>';
   }, 1800);
+}
+
+function logMaintenance() {
+  const log = document.getElementById('maint-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Recording maintenance event...<br>';
+  setTimeout(() => {
+    const hash = '0x' + Array.from({length:8}, () => Math.floor(Math.random()*16).toString(16)).join('') + '...' + Array.from({length:4}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    log.innerHTML += `Event hash: <strong>${hash}</strong><br>`;
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Maintenance event recorded. Immutable as of ' + new Date().toISOString() + '</span>';
+  }, 1000);
+}
+
+function runAudit() {
+  const log = document.getElementById('audit-log');
+  log.innerHTML = 'Initializing compliance audit...<br>';
+  const steps = [
+    'Scanning lease records... 1,247 found',
+    'Verifying on-chain hashes... 8,391 records',
+    'Cross-referencing maintenance logs...',
+    'Checking ownership transfer chains...',
+    'Validating tenant deposit records...',
+    'Generating compliance matrix...',
+  ];
+  steps.forEach((s, i) => {
+    setTimeout(() => { log.innerHTML += s + '<br>'; }, (i + 1) * 500);
+  });
+  setTimeout(() => {
+    log.innerHTML += '<br><strong style="color:#4ec9b0">═══ AUDIT COMPLETE ═══</strong><br>';
+    log.innerHTML += 'Records verified: 8,391 / 8,391 (100%)<br>';
+    log.innerHTML += 'Discrepancies found: 0<br>';
+    log.innerHTML += 'Compliance score: 99.8%<br>';
+    log.innerHTML += 'Report hash: 0xf7a2...c8e1<br>';
+    log.innerHTML += 'Generated: ' + new Date().toISOString() + '<br>';
+  }, steps.length * 500 + 500);
 }
 </script>
 </body>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain for Legal — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text-dim:#888;--card:#12121f;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse at 30% 50%,rgba(124,92,252,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(78,201,176,.08) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none}
+.logo span{color:var(--accent)}
+.partner-badge{font-size:.75rem;color:var(--accent2);border:1px solid var(--accent2);padding:2px 10px;border-radius:20px;margin-left:12px}
+nav a.btn{background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;transition:.2s}
+nav a.btn:hover{opacity:.85}
+
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-text h1{font-size:2.6rem;font-weight:800;line-height:1.15;color:#fff;margin-bottom:20px}
+.hero-text h1 em{font-style:normal;color:var(--accent)}
+.hero-text p{font-size:1.15rem;color:var(--text-dim);margin-bottom:32px;max-width:520px}
+.btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;transition:.2s}
+.btn-primary:hover{opacity:.85}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:500;transition:.2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero-visual{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.hv-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.hv-dot{width:10px;height:10px;border-radius:50%}
+.hv-dot.r{background:#ff5f57}.hv-dot.y{background:#febc2e}.hv-dot.g{background:#28c840}
+.hv-body{padding:24px}
+
+/* Contract vault visual */
+.contract-entry{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.contract-entry .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.contract-entry .icon.locked{background:rgba(78,201,176,.12);color:var(--accent2)}
+.contract-entry .icon.pending{background:rgba(254,188,46,.12);color:#febc2e}
+.contract-entry .info{flex:1}
+.contract-entry .info .name{font-size:.9rem;color:#fff;font-weight:600}
+.contract-entry .info .meta{font-size:.75rem;color:var(--text-dim);margin-top:2px}
+.contract-entry .status{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:12px}
+.contract-entry .status.verified{background:rgba(78,201,176,.12);color:var(--accent2)}
+.contract-entry .status.hashing{background:rgba(124,92,252,.12);color:var(--accent)}
+.hash-display{font-family:'Courier New',monospace;font-size:.7rem;color:var(--accent2);background:rgba(78,201,176,.06);padding:8px 12px;border-radius:6px;margin-top:8px;word-break:break-all}
+
+section{position:relative;z-index:1;padding:100px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:600}
+.section-title{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px}
+.section-sub{color:var(--text-dim);max-width:600px;margin-bottom:48px;font-size:1.05rem}
+
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+.ba-card.before{border-color:rgba(255,95,87,.3)}
+.ba-card.after{border-color:rgba(78,201,176,.3)}
+.ba-tag{position:absolute;top:-12px;left:24px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:20px}
+.ba-card.before .ba-tag{background:#ff5f57;color:#fff}
+.ba-card.after .ba-tag{background:var(--accent2);color:#000}
+.ba-card h3{font-size:1.3rem;color:#fff;margin-bottom:16px;margin-top:8px}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ba-card li{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--text-dim)}
+.ba-card li .bi{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+.before .bi{background:rgba(255,95,87,.15);color:#ff5f57}
+.after .bi{background:rgba(78,201,176,.15);color:var(--accent2)}
+
+.tabs-section{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+.tab-nav{display:flex;gap:4px;margin-bottom:32px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:12px 24px;border:none;background:none;color:var(--text-dim);font-family:inherit;font-size:.9rem;font-weight:500;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab-btn.active{background:var(--accent);color:#fff}
+.tab-btn:hover:not(.active){color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tab-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;min-height:400px}
+.tab-content h3{font-size:1.4rem;color:#fff;margin-bottom:8px}
+.tab-content p{color:var(--text-dim);margin-bottom:24px}
+.tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tab-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:20px}
+.tab-item h4{color:#fff;font-size:.95rem;margin-bottom:6px}
+.tab-item p{font-size:.85rem;color:var(--text-dim)}
+.tab-item .item-icon{font-size:1.8rem;margin-bottom:10px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:40px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.timeline-item{position:relative;margin-bottom:24px}
+.timeline-item::before{content:'';position:absolute;left:-30px;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--card)}
+.timeline-item.current::before{background:var(--accent)}
+.timeline-item .tl-time{font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:4px}
+.timeline-item .tl-title{font-size:.95rem;color:#fff;font-weight:600}
+.timeline-item .tl-desc{font-size:.85rem;color:var(--text-dim);margin-top:2px}
+.timeline-item .tl-hash{font-family:'Courier New',monospace;font-size:.7rem;color:var(--accent2);margin-top:4px}
+
+.roi-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.roi-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.roi-inputs{display:flex;flex-direction:column;gap:20px}
+.input-group label{display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+.input-group input{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
+.input-group input:focus{border-color:var(--accent)}
+.roi-result{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border-radius:16px;padding:40px}
+.roi-result .big-number{font-size:3.2rem;font-weight:800;color:var(--accent2);line-height:1}
+.roi-result .big-label{font-size:1rem;color:var(--text-dim);margin-top:8px}
+.roi-breakdown{margin-top:24px;text-align:left;width:100%}
+.roi-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem}
+.roi-row .rl{color:var(--text-dim)}.roi-row .rv{color:#fff;font-weight:600}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:.3s;position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,92,252,.08),var(--card))}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.05em}
+.phase-label{font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff;margin-bottom:4px}
+.price-period{font-size:.85rem;color:var(--text-dim);margin-bottom:20px}
+.price-desc{font-size:.9rem;color:var(--text-dim);margin-bottom:24px;line-height:1.5}
+.price-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.price-features li{font-size:.9rem;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--accent2);font-weight:700}
+.price-btn{display:block;width:100%;padding:14px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;text-align:center;transition:.2s}
+.price-btn.primary{background:var(--accent);color:#fff}
+.price-btn.primary:hover{opacity:.85}
+.price-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.price-btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+.cta-section{text-align:center;padding:100px 0}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid var(--border);border-radius:24px;padding:60px 40px;max-width:700px;margin:0 auto}
+.cta-box h2{font-size:2rem;color:#fff;font-weight:800;margin-bottom:16px}
+.cta-box p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
+
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:768px){
+.hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
+.hero-text h1{font-size:2rem}
+.ba-grid,.roi-wrap{grid-template-columns:1fr}
+.pricing-grid,.tab-grid{grid-template-columns:1fr}
+}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"Legal Demo","short_name":"Legal","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
+<div class="aurora"></div>
+
+<nav>
+<div class="container">
+<div style="display:flex;align-items:center">
+<a href="/" class="logo">Aurora <span>Pathways</span></a>
+<span class="partner-badge">× Legal</span>
+</div>
+<a href="#cta" class="btn">Book a Call</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-text">
+<h1><span class="en-text">Every contract version. Every signature. Every amendment. <em>Immutable. Verifiable. Forever.</em></span><span class="es-text">Cada versión de contrato. Cada firma. Cada enmienda. <em>Inmutable. Verificable. Para siempre.</em></span></h1>
+<p><span class="en-text">Contract platforms manage millions of agreements. But centralized storage means audit trails can be questioned, versions can be altered, and disputes become "he said/she said." On-chain hashing ends that — permanently.</span><span class="es-text">Las plataformas de contratos gestionan millones de acuerdos. Pero el almacenamiento centralizado significa que las auditorías pueden cuestionarse, las versiones pueden alterarse y las disputas se convierten en "él dijo/ella dijo." El hashing en cadena termina con eso — permanentemente.</span></p>
+<div class="btn-group">
+<a href="#cta" class="btn-primary">Book a Strategy Call</a>
+<a href="#demo" class="btn-outline">See the Platform ↓</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="hv-header">
+<div class="hv-dot r"></div><div class="hv-dot y"></div><div class="hv-dot g"></div>
+<span style="font-size:.8rem;color:var(--text-dim);margin-left:8px">Contract Vault — Recent Activity</span>
+</div>
+<div class="hv-body">
+<div class="contract-entry">
+<div class="icon locked">🔒</div>
+<div class="info">
+<div class="name">Series B Term Sheet v3</div>
+<div class="meta">Signed 2 hours ago · 3 parties</div>
+</div>
+<span class="status verified">Verified</span>
+</div>
+<div class="hash-display">0x7f3a…c82e — Block #18,472,931 · Polygon</div>
+<div class="contract-entry" style="margin-top:16px">
+<div class="icon locked">🔒</div>
+<div class="info">
+<div class="name">Vendor MSA — Acme Corp</div>
+<div class="meta">Amendment signed today · 2 parties</div>
+</div>
+<span class="status verified">Verified</span>
+</div>
+<div class="contract-entry" style="margin-top:16px">
+<div class="icon pending">⏳</div>
+<div class="info">
+<div class="name">Employment Agreement — J. Smith</div>
+<div class="meta">Awaiting signature</div>
+</div>
+<span class="status hashing">Hashing…</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">Centralized Contracts Can Be Challenged</span><span class="es-text">Los Contratos Centralizados Pueden Ser Cuestionados</span></div>
+<div class="section-sub">When contract history lives in a single platform, it's only as trustworthy as the platform. Disputes thrive in ambiguity.</div>
+<div class="ba-grid">
+<div class="ba-card before">
+<span class="ba-tag">Before</span>
+<h3>Mutable History</h3>
+<ul>
+<li><span class="bi">✗</span> Version history stored centrally — could be altered</li>
+<li><span class="bi">✗</span> No cryptographic proof of when signatures occurred</li>
+<li><span class="bi">✗</span> Disputes require expensive forensic analysis</li>
+<li><span class="bi">✗</span> Audit trails depend on platform uptime</li>
+<li><span class="bi">✗</span> "He said/she said" over contract versions</li>
+</ul>
+</div>
+<div class="ba-card after">
+<span class="ba-tag">After</span>
+<h3>Immutable Proof</h3>
+<ul>
+<li><span class="bi">✓</span> Every version hashed on-chain — tamper-proof</li>
+<li><span class="bi">✓</span> Timestamped execution proof on public ledger</li>
+<li><span class="bi">✓</span> Disputes resolved in minutes with cryptographic verification</li>
+<li><span class="bi">✓</span> Audit trail exists independent of any platform</li>
+<li><span class="bi">✓</span> One-click integrity verification for any contract</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DEMO TABS -->
+<section class="tabs-section" id="demo">
+<div class="container">
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
+<div class="section-sub">Your legal team's workflow, enhanced — not replaced. Blockchain happens under the hood.</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+<button class="tab-btn" onclick="showTab('vault')">Contract Vault</button>
+<button class="tab-btn" onclick="showTab('history')">Version History</button>
+<button class="tab-btn" onclick="showTab('disputes')">Dispute Resolution</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="tab-content">
+<h3>Contracts Overview</h3>
+<p>All your contracts at a glance — status, verification state, and integrity health.</p>
+<div class="tab-grid">
+<div class="tab-item"><div class="item-icon">📄</div><h4>1,247 Active Contracts</h4><p>All hashed and verified on-chain. 100% integrity status.</p></div>
+<div class="tab-item"><div class="item-icon">✅</div><h4>98.6% Verified</h4><p>Contracts with on-chain proof. Up from 0% before integration.</p></div>
+<div class="tab-item"><div class="item-icon">⏱️</div><h4>2.3s Avg Verification</h4><p>Time to verify any contract's integrity and signing timeline.</p></div>
+<div class="tab-item"><div class="item-icon">🛡️</div><h4>0 Integrity Failures</h4><p>No tampered or disputed contracts since on-chain deployment.</p></div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-vault">
+<div class="tab-content">
+<h3>Contract Vault</h3>
+<p>Hash any contract on-chain with one click. Verify integrity anytime. No crypto knowledge needed.</p>
+<div class="contract-entry">
+<div class="icon locked">🔒</div>
+<div class="info">
+<div class="name">Master Service Agreement — BigTech Inc.</div>
+<div class="meta">v4 · 14 pages · Signed by 5 parties</div>
+<div class="hash-display" style="margin-top:6px">0x8a1f…3d72 — Block #18,473,102 · Verified 4 min ago</div>
+</div>
+<span class="status verified">Verified ✓</span>
+</div>
+<div class="contract-entry" style="margin-top:16px">
+<div class="icon locked">🔒</div>
+<div class="info">
+<div class="name">Data Processing Addendum — EuroCo</div>
+<div class="meta">v2 · 8 pages · GDPR compliant signing</div>
+<div class="hash-display" style="margin-top:6px">0x4c9e…a1b5 — Block #18,472,887 · Verified 1 hr ago</div>
+</div>
+<span class="status verified">Verified ✓</span>
+</div>
+<div style="margin-top:24px;padding:20px;background:rgba(124,92,252,.06);border:1px solid rgba(124,92,252,.15);border-radius:10px">
+<h4 style="color:#fff;font-size:.9rem;margin-bottom:6px">🔐 How It Works</h4>
+<p style="font-size:.85rem;color:var(--text-dim)">When a contract is finalized in your system, we generate a SHA-256 hash of the document and record it on-chain. The document itself stays in your platform — only the fingerprint goes on-chain. Zero data exposure. Tamper-proof proof.</p>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-history">
+<div class="tab-content">
+<h3>Immutable Version History</h3>
+<p>Every version, every change, every signature — recorded with cryptographic timestamps that can never be altered.</p>
+<div class="timeline">
+<div class="timeline-item current">
+<div class="tl-time">June 12, 2026 — 3:42 PM</div>
+<div class="tl-title">v4 — Final Execution</div>
+<div class="tl-desc">All 5 parties signed. Contract fully executed.</div>
+<div class="tl-hash">0x8a1f…3d72 · Block #18,473,102</div>
+</div>
+<div class="timeline-item">
+<div class="tl-time">June 10, 2026 — 11:15 AM</div>
+<div class="tl-title">v3 — Legal Review Complete</div>
+<div class="tl-desc">Redline changes accepted. Ready for final signatures.</div>
+<div class="tl-hash">0x6b2d…9e41 · Block #18,461,220</div>
+</div>
+<div class="timeline-item">
+<div class="tl-time">June 5, 2026 — 9:30 AM</div>
+<div class="tl-title">v2 — Counterparty Redlines</div>
+<div class="tl-desc">BigTech legal submitted markup on Sections 4.2, 7.1, 12.3.</div>
+<div class="tl-hash">0x3f7a…c528 · Block #18,438,774</div>
+</div>
+<div class="timeline-item">
+<div class="tl-time">June 1, 2026 — 2:00 PM</div>
+<div class="tl-title">v1 — Initial Draft</div>
+<div class="tl-desc">Generated from MSA template. Sent to BigTech for review.</div>
+<div class="tl-hash">0x1e9c…a0f3 · Block #18,420,551</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-disputes">
+<div class="tab-content">
+<h3>Dispute Resolution</h3>
+<p>Resolve contract disputes in minutes, not months. Cryptographic proof eliminates "he said/she said."</p>
+<div class="tab-grid">
+<div class="tab-item">
+<div class="item-icon">🔍</div>
+<h4>Verify Signature</h4>
+<p>Enter any contract ID and instantly verify who signed, when, and what version they signed. Takes 2 seconds.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">📋</div>
+<h4>Compare Versions</h4>
+<p>Side-by-side version comparison with on-chain proof of each version's content and timestamp.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">⚖️</div>
+<h4>Generate Evidence Package</h4>
+<p>One-click export of full signing timeline, version history, and on-chain proofs for legal proceedings.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">🕐</div>
+<h4>Before vs After</h4>
+<p>Average dispute resolution: 47 days → 3 hours. Legal costs: $45K avg → under $500 in verification.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ROI -->
+<section class="roi-section">
+<div class="container">
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
+<div class="section-sub">How much are contract disputes costing your organization?</div>
+<div class="roi-wrap">
+<div class="roi-inputs">
+<div class="input-group">
+<label>Contracts Executed per Year</label>
+<input type="number" id="roi-contracts" value="500" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Dispute Rate (%)</label>
+<input type="number" id="roi-disputes" value="5" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Avg Dispute Resolution Cost ($)</label>
+<input type="number" id="roi-cost" value="45000" oninput="calcROI()">
+</div>
+</div>
+<div class="roi-result">
+<div class="big-number" id="roi-total">$1.13M</div>
+<div class="big-label">Estimated Annual Savings</div>
+<div class="roi-breakdown">
+<div class="roi-row"><span class="rl">Contracts/Year</span><span class="rv" id="rb-contracts">500</span></div>
+<div class="roi-row"><span class="rl">Dispute Rate</span><span class="rv" id="rb-disputes">5%</span></div>
+<div class="roi-row"><span class="rl">Disputes/Year</span><span class="rv" id="rb-count">25</span></div>
+<div class="roi-row"><span class="rl">Cost per Dispute</span><span class="rv" id="rb-cost">$45,000</span></div>
+<div class="roi-row"><span class="rl">Total Dispute Cost</span><span class="rv" id="rb-total">$1.13M</span></div>
+<div class="roi-row"><span class="rl">Projected Savings (85%)</span><span class="rv" id="rb-savings" style="color:var(--accent2)">$956K</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
+<div class="section-sub">Start with the vault. Expand to full platform. Your legal team sets the pace.</div>
+<div class="pricing-grid">
+<div class="price-card">
+<div class="phase-label">Phase 1</div>
+<div class="price-amount">$10K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">On-chain contract vault — hash, verify, and prove integrity for every contract.</div>
+<ul class="price-features">
+<li>On-chain contract hashing</li>
+<li>Contract platform integration</li>
+<li>One-click verification</li>
+<li>Integrity dashboard</li>
+<li>API access</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Get Started</a>
+</div>
+<div class="price-card featured">
+<div class="phase-label">Phase 2</div>
+<div class="price-amount">$25K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Full immutable lifecycle — version history, dispute resolution, evidence packages.</div>
+<ul class="price-features">
+<li>Immutable version timeline</li>
+<li>Dispute resolution toolkit</li>
+<li>Evidence package export</li>
+<li>Multi-party signature proofs</li>
+<li>Compliance reporting</li>
+<li>Dedicated success manager</li>
+</ul>
+<a href="#cta" class="price-btn primary">Get Started</a>
+</div>
+<div class="price-card">
+<div class="phase-label">Phase 3</div>
+<div class="price-amount">$6K<span style="font-size:1rem;font-weight:400">/yr</span></div>
+<div class="price-period">Annual maintenance</div>
+<div class="price-desc">Ongoing support, chain upgrades, and new integrations.</div>
+<ul class="price-features">
+<li>Platform maintenance</li>
+<li>New chain support</li>
+<li>Contract platform version updates</li>
+<li>Priority support</li>
+<li>Quarterly reviews</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Contact Us</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Make Every Contract Unchallengeable</span><span class="es-text">Haga Cada Contrato Inimpugnable</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll walk through your contract workflow and show you exactly where on-chain verification eliminates dispute risk.</span><span class="es-text">Reserve una llamada de 30 minutos. Revisaremos su flujo de trabajo de contratos y le mostraremos exactamente dónde la verificación en cadena elimina el riesgo de disputas.</span></p>
+<a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>© 2026 Aurora Pathways. Built for Legal.</p>
+</div>
+</footer>
+
+<script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
+function showTab(id){
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('tab-'+id).classList.add('active');
+}
+function calcROI(){
+const c=parseFloat(document.getElementById('roi-contracts').value)||0;
+const d=parseFloat(document.getElementById('roi-disputes').value)||0;
+const cost=parseFloat(document.getElementById('roi-cost').value)||0;
+const disputes=c*d/100;
+const total=disputes*cost;
+const savings=total*0.85;
+document.getElementById('roi-total').textContent='$'+(total/1000000).toFixed(2)+'M';
+document.getElementById('rb-contracts').textContent=c;
+document.getElementById('rb-disputes').textContent=d+'%';
+document.getElementById('rb-count').textContent=Math.round(disputes);
+document.getElementById('rb-cost').textContent='$'+cost.toLocaleString();
+document.getElementById('rb-total').textContent='$'+(total/1000000).toFixed(2)+'M';
+document.getElementById('rb-savings').textContent='$'+(savings/1000).toFixed(0)+'K';
+}
+</script>
+</body>
+</html>

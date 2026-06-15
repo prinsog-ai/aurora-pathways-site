@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pathways — Sales Demos (Private)</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --border: #1e1e2e;
+  --text: #e0e0e0;
+  --text2: #888;
+  --accent: #7c5cfc;
+  --accent2: #00d4aa;
+  --gold: #ffd700;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  color: var(--text2);
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section h2::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent2);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem;
+  transition: border-color 0.2s;
+}
+.card:hover {
+  border-color: var(--accent);
+}
+.card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+.card .industry {
+  color: var(--text2);
+  font-size: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.card .links {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.card .links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.card .links a:hover {
+  color: var(--accent2);
+}
+.card .links a.platform {
+  color: var(--gold);
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge.live {
+  background: rgba(0, 212, 170, 0.15);
+  color: var(--accent2);
+}
+.badge.demo {
+  background: rgba(124, 92, 252, 0.15);
+  color: var(--accent);
+}
+.note {
+  background: rgba(255, 215, 0, 0.1);
+  border-left: 3px solid var(--gold);
+  padding: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 0.8rem;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>🎯 Sales Demos — Private</h1>
+<p class="subtitle">Company-specific demos for outreach. Keep these separate from the public site.</p>
+
+<div class="section">
+  <h2>Direct Prospects (4)</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Valence <span class="badge demo">Carbon Credits</span></h3>
+      <div class="industry">Oil & Gas — Bakken Formation</div>
+      <div class="links">
+        <a href="https://valence-demo-theta.vercel.app" target="_blank">Demo →</a>
+        <a href="https://valence-platform.vercel.app" target="_blank" class="platform">Platform →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>WES <span class="badge demo">Field Services</span></h3>
+      <div class="industry">Oil & Gas — Bakken Operations</div>
+      <div class="links">
+        <a href="https://wes-demo-ten.vercel.app" target="_blank">Demo →</a>
+        <a href="https://wes-platform-henna.vercel.app" target="_blank" class="platform">Platform →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Acme <span class="badge demo">Cloud ERP</span></h3>
+      <div class="industry">Software — Enterprise</div>
+      <div class="links">
+        <a href="https://acme-demo-two.vercel.app" target="_blank">Demo →</a>
+        <a href="https://acme-platform.vercel.app" target="_blank" class="platform">Platform →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Noble <span class="badge demo">Enterprise</span></h3>
+      <div class="industry">Business Services</div>
+      <div class="links">
+        <a href="https://noble-demo-dusky.vercel.app" target="_blank">Demo →</a>
+        <a href="https://noble-platform-omega.vercel.app" target="_blank" class="platform">Platform →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Cold Prospects (10)</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Drosera <span class="badge demo">Security</span></h3>
+      <div class="industry">Web3 — Honeypot Contracts</div>
+      <div class="links">
+        <a href="https://drosera-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Karsa <span class="badge demo">Supply Chain</span></h3>
+      <div class="industry">Enterprise — Blockchain</div>
+      <div class="links">
+        <a href="https://karsa-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Blaze <span class="badge demo">DeFi</span></h3>
+      <div class="industry">Web3 — Tokenomics</div>
+      <div class="links">
+        <a href="https://blaze-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Pod Network <span class="badge demo">Media</span></h3>
+      <div class="industry">Web3 — Content Platform</div>
+      <div class="links">
+        <a href="https://pod-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Telcoin <span class="badge demo">Payments</span></h3>
+      <div class="industry">Web3 — Remittance</div>
+      <div class="links">
+        <a href="https://telcoin-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>MetaWealth <span class="badge demo">RWA</span></h3>
+      <div class="industry">Web3 — Real Estate Tokenization</div>
+      <div class="links">
+        <a href="https://metawealth-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>ZedAI <span class="badge demo">AI</span></h3>
+      <div class="industry">Web3 — AI Infrastructure</div>
+      <div class="links">
+        <a href="https://zedai-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Estakio <span class="badge demo">Real Estate</span></h3>
+      <div class="industry">Web3 — Property Platform</div>
+      <div class="links">
+        <a href="https://estakio-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Figure <span class="badge demo">Lending</span></h3>
+      <div class="industry">Web3 — DeFi Lending</div>
+      <div class="links">
+        <a href="https://figure-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Perpetuals <span class="badge demo">Trading</span></h3>
+      <div class="industry">Web3 — Derivatives</div>
+      <div class="links">
+        <a href="https://perpetuals-demo.vercel.app" target="_blank">Demo →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Industry Demos (Generic — for public site)</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Real Estate</h3>
+      <div class="industry">Property records, title transfers</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/real-estate.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Healthcare</h3>
+      <div class="industry">HIPAA-compliant records</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/healthcare.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Finance</h3>
+      <div class="industry">DeFi, payments, compliance</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/finance.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Supply Chain</h3>
+      <div class="industry">Provenance, logistics</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/supply-chain.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Art & Entertainment</h3>
+      <div class="industry">Royalties, licensing</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/art.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Gaming</h3>
+      <div class="industry">NFTs, in-game assets</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/gaming.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Education</h3>
+      <div class="industry">Credentials, transcripts</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/education.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Government</h3>
+      <div class="industry">Voting, public records</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/government.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>DAO & Governance</h3>
+      <div class="industry">Voting, treasury</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/dao.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Retail</h3>
+      <div class="industry">Loyalty, supply chain</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/retail.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Legal</h3>
+      <div class="industry">Contracts, compliance</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/legal.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Energy</h3>
+      <div class="industry">Carbon credits, grid</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/energy-carbon.html">View →</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>RWA Tokenization</h3>
+      <div class="industry">Real-world assets</div>
+      <div class="links">
+        <a href="https://aurorapathways.xyz/portfolio/rwa.html">View →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <strong>⚠️ Private page</strong> — Do not share this URL publicly. Company-specific demos are for your sales outreach only. The public site links to generic industry demos.
+</div>
+
+<footer>
+  Aurora Pathways — Prince Sosu-Gbormittah<br>
+  Last updated: June 14, 2026
+</footer>
+
+</body>
+</html>

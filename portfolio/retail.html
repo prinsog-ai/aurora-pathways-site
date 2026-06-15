@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain for Retail — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text-dim:#888;--card:#12121f;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* Aurora glow */
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse at 30% 50%,rgba(124,92,252,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(78,201,176,.08) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(30px,20px) rotate(2deg)}}
+
+/* Nav */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none}
+.logo span{color:var(--accent)}
+.partner-badge{font-size:.75rem;color:var(--accent2);border:1px solid var(--accent2);padding:2px 10px;border-radius:20px;margin-left:12px}
+nav a.btn{background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;transition:.2s}
+nav a.btn:hover{opacity:.85}
+
+/* Hero */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-text h1{font-size:2.8rem;font-weight:800;line-height:1.15;color:#fff;margin-bottom:20px}
+.hero-text h1 em{font-style:normal;color:var(--accent)}
+.hero-text p{font-size:1.15rem;color:var(--text-dim);margin-bottom:32px;max-width:520px}
+.btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;transition:.2s}
+.btn-primary:hover{opacity:.85}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:500;transition:.2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Hero visual */
+.hero-visual{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.hv-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.hv-dot{width:10px;height:10px;border-radius:50%}
+.hv-dot.r{background:#ff5f57}.hv-dot.y{background:#febc2e}.hv-dot.g{background:#28c840}
+.hv-body{padding:24px}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.metric-card{background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:16px}
+.metric-card .label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.metric-card .value{font-size:1.6rem;font-weight:700;color:#fff;margin-top:4px}
+.metric-card .change{font-size:.75rem;color:var(--accent2);margin-top:2px}
+.chart-placeholder{height:140px;background:linear-gradient(180deg,rgba(124,92,252,.1) 0%,transparent 100%);border-radius:8px;position:relative;overflow:hidden}
+.chart-bar{position:absolute;bottom:0;width:30px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--accent),rgba(124,92,252,.3))}
+.chart-bar:nth-child(1){left:10%;height:45%;background:linear-gradient(180deg,var(--accent),rgba(124,92,252,.3))}
+.chart-bar:nth-child(2){left:20%;height:60%}
+.chart-bar:nth-child(3){left:30%;height:52%}
+.chart-bar:nth-child(4){left:40%;height:78%}
+.chart-bar:nth-child(5){left:50%;height:65%}
+.chart-bar:nth-child(6){left:60%;height:85%}
+.chart-bar:nth-child(7){left:70%;height:70%}
+.chart-bar:nth-child(8){left:80%;height:90%;background:linear-gradient(180deg,var(--accent2),rgba(78,201,176,.3))}
+
+/* Problem section */
+section{position:relative;z-index:1;padding:100px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:600}
+.section-title{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px}
+.section-sub{color:var(--text-dim);max-width:600px;margin-bottom:48px;font-size:1.05rem}
+
+/* Before/After */
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+.ba-card.before{border-color:rgba(255,95,87,.3)}
+.ba-card.after{border-color:rgba(78,201,176,.3)}
+.ba-tag{position:absolute;top:-12px;left:24px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:20px}
+.ba-card.before .ba-tag{background:#ff5f57;color:#fff}
+.ba-card.after .ba-tag{background:var(--accent2);color:#000}
+.ba-card h3{font-size:1.3rem;color:#fff;margin-bottom:16px;margin-top:8px}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ba-card li{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--text-dim)}
+.ba-card li .icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+.before .icon{background:rgba(255,95,87,.15);color:#ff5f57}
+.after .icon{background:rgba(78,201,176,.15);color:var(--accent2)}
+
+/* Tabs */
+.tabs-section{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+.tab-nav{display:flex;gap:4px;margin-bottom:32px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:12px 24px;border:none;background:none;color:var(--text-dim);font-family:inherit;font-size:.9rem;font-weight:500;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab-btn.active{background:var(--accent);color:#fff}
+.tab-btn:hover:not(.active){color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tab-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;min-height:400px}
+.tab-content h3{font-size:1.4rem;color:#fff;margin-bottom:8px}
+.tab-content p{color:var(--text-dim);margin-bottom:24px}
+.tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tab-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:20px}
+.tab-item h4{color:#fff;font-size:.95rem;margin-bottom:6px}
+.tab-item p{font-size:.85rem;color:var(--text-dim)}
+.tab-item .item-icon{font-size:1.8rem;margin-bottom:10px}
+
+/* Loyalty specific table mockup */
+.loyalty-table{width:100%;border-collapse:collapse;margin-top:16px}
+.loyalty-table th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-dim);padding:10px 12px;border-bottom:1px solid var(--border)}
+.loyalty-table td{padding:12px;font-size:.9rem;border-bottom:1px solid rgba(255,255,255,.03)}
+.loyalty-table tr:hover{background:rgba(124,92,252,.05)}
+.token-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.token-badge.active{background:rgba(78,201,176,.15);color:var(--accent2)}
+.token-badge.pending{background:rgba(254,188,46,.15);color:#febc2e}
+
+/* Network map */
+.network-map{display:flex;align-items:center;justify-content:center;gap:20px;margin:24px 0;flex-wrap:wrap}
+.brand-node{width:80px;height:80px;border-radius:16px;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:.7rem;color:var(--text-dim);text-align:center;font-weight:600;transition:.3s;cursor:default}
+.brand-node:hover{border-color:var(--accent);transform:translateY(-2px)}
+.brand-node .b-icon{font-size:1.4rem;margin-bottom:4px}
+.network-hub{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;text-align:center}
+.network-line{width:40px;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+/* ROI Calculator */
+.roi-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.roi-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.roi-inputs{display:flex;flex-direction:column;gap:20px}
+.input-group label{display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+.input-group input,.input-group select{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
+.input-group input:focus,.input-group select:focus{border-color:var(--accent)}
+.roi-result{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border-radius:16px;padding:40px}
+.roi-result .big-number{font-size:3.2rem;font-weight:800;color:var(--accent2);line-height:1}
+.roi-result .big-label{font-size:1rem;color:var(--text-dim);margin-top:8px}
+.roi-breakdown{margin-top:24px;text-align:left;width:100%}
+.roi-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem}
+.roi-row .rl{color:var(--text-dim)}.roi-row .rv{color:#fff;font-weight:600}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:.3s;position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,92,252,.08),var(--card))}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.05em}
+.phase-label{font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff;margin-bottom:4px}
+.price-period{font-size:.85rem;color:var(--text-dim);margin-bottom:20px}
+.price-desc{font-size:.9rem;color:var(--text-dim);margin-bottom:24px;line-height:1.5}
+.price-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.price-features li{font-size:.9rem;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--accent2);font-weight:700}
+.price-btn{display:block;width:100%;padding:14px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;text-align:center;transition:.2s}
+.price-btn.primary{background:var(--accent);color:#fff}
+.price-btn.primary:hover{opacity:.85}
+.price-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.price-btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* CTA */
+.cta-section{text-align:center;padding:100px 0}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid var(--border);border-radius:24px;padding:60px 40px;max-width:700px;margin:0 auto}
+.cta-box h2{font-size:2rem;color:#fff;font-weight:800;margin-bottom:16px}
+.cta-box p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
+
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+/* Responsive */
+@media(max-width:768px){
+.hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
+.hero-text h1{font-size:2rem}
+.ba-grid,.roi-wrap{grid-template-columns:1fr}
+.pricing-grid{grid-template-columns:1fr}
+.tab-grid{grid-template-columns:1fr}
+.metric-row{grid-template-columns:1fr}
+}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"Retail Demo","short_name":"Retail","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
+<div class="aurora"></div>
+
+<nav>
+<div class="container">
+<div style="display:flex;align-items:center">
+<a href="/" class="logo">Aurora <span>Pathways</span></a>
+<span class="partner-badge">× Retail</span>
+</div>
+<a href="#cta" class="btn">Book a Call</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-text">
+<h1><span class="en-text">Your loyalty points are a <em>$200B liability</em>. What if they were a liquid asset instead?</span><span class="es-text">Tus puntos de lealtad son un <em>pasivo de $200B</em>. ¿Qué si fueran un activo líquido?</span></h1>
+<p><span class="en-text">Loyalty platforms power rewards for 30,000+ brands. But those points? They're trapped. No portability. No liquidity. Just balance-sheet liability growing every quarter. Aurora Pathways unlocks them.</span><span class="es-text">Las plataformas de lealtad impulsan recompensas de más de 30,000 marcas. ¿Pero esos puntos? Están atrapados. Sin portabilidad. Sin liquidez. Solo un pasivo que crece cada trimestre. Aurora Pathways los libera.</span></p>
+<div class="btn-group">
+<a href="#cta" class="btn-primary">Book a Strategy Call</a>
+<a href="#demo" class="btn-outline">See the Platform ↓</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="hv-header">
+<div class="hv-dot r"></div><div class="hv-dot y"></div><div class="hv-dot g"></div>
+<span style="font-size:.8rem;color:var(--text-dim);margin-left:8px">Loyalty Command Center</span>
+</div>
+<div class="hv-body">
+<div class="metric-row">
+<div class="metric-card">
+<div class="label">Points Outstanding</div>
+<div class="value">847M</div>
+<div class="change">↑ 12% vs last quarter</div>
+</div>
+<div class="metric-card">
+<div class="label">Liability Value</div>
+<div class="value">$24.6M</div>
+<div class="change" style="color:#ff5f57">↑ $2.1M this quarter</div>
+</div>
+</div>
+<div class="chart-placeholder">
+<div class="chart-bar"></div><div class="chart-bar"></div><div class="chart-bar"></div>
+<div class="chart-bar"></div><div class="chart-bar"></div><div class="chart-bar"></div>
+<div class="chart-bar"></div><div class="chart-bar"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM: Before/After -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">Walled Garden Loyalty is Broken</span><span class="es-text">La Lealtad de Jardín Cerrado Está Rota</span></h2></div>
+<div class="section-sub">Points accumulate as liabilities. Customers can't transfer value. Brands can't collaborate. Everyone loses.</div>
+<div class="ba-grid">
+<div class="ba-card before">
+<span class="ba-tag">Before</span>
+<h3>Trapped Points</h3>
+<ul>
+<li><span class="icon">✗</span> Points locked in single-brand silos</li>
+<li><span class="icon">✗</span> Growing balance sheet liability ($200B+ industry-wide)</li>
+<li><span class="icon">✗</span> High breakage rates = unhappy customers</li>
+<li><span class="icon">✗</span> No cross-brand collaboration possible</li>
+<li><span class="icon">✗</span> Points have no real market value</li>
+</ul>
+</div>
+<div class="ba-card after">
+<span class="ba-tag">After</span>
+<h3>Liquid Loyalty Assets</h3>
+<ul>
+<li><span class="icon">✓</span> Tokenized points are portable across brands</li>
+<li><span class="icon">✓</span> Liability converts to traded asset class</li>
+<li><span class="icon">✓</span> Breakage drops 40%+ (happier customers)</li>
+<li><span class="icon">✓</span> Cross-brand redemption network drives new revenue</li>
+<li><span class="icon">✓</span> Secondary market creates price discovery</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- INTERACTIVE DEMO TABS -->
+<section class="tabs-section" id="demo">
+<div class="container">
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
+<div class="section-sub">Explore the platform your loyalty team would actually use — no blockchain PhD required.</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+<button class="tab-btn" onclick="showTab('token')">Token Manager</button>
+<button class="tab-btn" onclick="showTab('network')">Cross-Brand Network</button>
+<button class="tab-btn" onclick="showTab('analytics')">Analytics</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="tab-content">
+<h3>Loyalty Program Overview</h3>
+<p>Real-time view of your tokenized loyalty program — points issued, redeemed, velocity, and liability status.</p>
+<div class="metric-row">
+<div class="metric-card"><div class="label">Active Members</div><div class="value">2.4M</div><div class="change">↑ 8% MoM</div></div>
+<div class="metric-card"><div class="label">Points Redeemed (30d)</div><div class="value">142M</div><div class="change">↑ 34% with cross-brand</div></div>
+<div class="metric-card"><div class="label">Liability Reduction</div><div class="value">-31%</div><div class="change">Since tokenization</div></div>
+<div class="metric-card"><div class="label">Partner Brands</div><div class="value">47</div><div class="change">↑ 12 this quarter</div></div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-token">
+<div class="tab-content">
+<h3>Token Manager</h3>
+<p>Create, configure, and issue tokenized loyalty points — no smart contract expertise needed.</p>
+<div class="tab-grid">
+<div class="tab-item">
+<div class="item-icon">🪙</div>
+<h4>Create Token</h4>
+<p>Define name, symbol, decimals, and total supply. Set earn/burn rules per transaction type.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">⚙️</div>
+<h4>Configure Rules</h4>
+<p>Set earn rates, redemption ratios, expiry policies, and tier multipliers — all from a visual interface.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">📤</div>
+<h4>Bulk Issue</h4>
+<p>Batch-issue tokens to customer segments. Sync with existing loyalty tiers automatically.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">🔗</div>
+<h4>Chain Config</h4>
+<p>Deploy to Polygon, Base, or Arbitrum. Gas costs under $0.01 per transaction. Abstracted from users.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-network">
+<div class="tab-content">
+<h3>Cross-Brand Redemption Network</h3>
+<p>Connect your loyalty program to a network of partner brands. Customers redeem across ecosystems.</p>
+<div class="network-map">
+<div class="brand-node"><span class="b-icon">👟</span>Fashion</div>
+<div class="network-line"></div>
+<div class="brand-node"><span class="b-icon">☕</span>Coffee</div>
+<div class="network-line"></div>
+<div class="network-hub">Loyalty<br>Network</div>
+<div class="network-line"></div>
+<div class="brand-node"><span class="b-icon">🧴</span>Beauty</div>
+<div class="network-line"></div>
+<div class="brand-node"><span class="b-icon">🏋️</span>Fitness</div>
+</div>
+<table class="loyalty-table">
+<thead><tr><th>Partner</th><th>Tokens Redeemed</th><th>Revenue Share</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Glossier</td><td>12.4M</td><td>$186K</td><td><span class="token-badge active">Active</span></td></tr>
+<tr><td>Allbirds</td><td>8.7M</td><td>$130K</td><td><span class="token-badge active">Active</span></td></tr>
+<tr><td>Warby Parker</td><td>5.2M</td><td>$78K</td><td><span class="token-badge pending">Pending</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-analytics">
+<div class="tab-content">
+<h3>Redemption & Liability Analytics</h3>
+<p>Track point velocity, redemption patterns, and liability reduction in real-time.</p>
+<div class="metric-row" style="margin-bottom:24px">
+<div class="metric-card"><div class="label">Point Velocity</div><div class="value">3.2x</div><div class="change">↑ from 1.4x pre-tokenization</div></div>
+<div class="metric-card"><div class="label">Breakage Rate</div><div class="value">18%</div><div class="change" style="color:var(--accent2)">↓ from 42%</div></div>
+</div>
+<div class="tab-grid">
+<div class="tab-item">
+<div class="item-icon">📈</div>
+<h4>Redemption Trends</h4>
+<p>Cross-brand redemptions now account for 38% of all redemptions — up from 0% pre-launch.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">💰</div>
+<h4>Liability Impact</h4>
+<p>Tokenization reduced outstanding liability by $7.6M in the first 90 days through increased redemption velocity.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section class="roi-section">
+<div class="container">
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
+<div class="section-sub">Plug in your numbers. See the financial impact of tokenized loyalty.</div>
+<div class="roi-wrap">
+<div class="roi-inputs">
+<div class="input-group">
+<label>Total Points Issued (millions)</label>
+<input type="number" id="roi-points" value="500" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Current Breakage Rate (%)</label>
+<input type="number" id="roi-breakage" value="40" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Liability Value per 1,000 Points ($)</label>
+<input type="number" id="roi-value" value="10" oninput="calcROI()">
+</div>
+</div>
+<div class="roi-result">
+<div class="big-number" id="roi-total">$2.0M</div>
+<div class="big-label">Estimated Annual Liability Reduction</div>
+<div class="roi-breakdown">
+<div class="roi-row"><span class="rl">Points Outstanding</span><span class="rv" id="rb-points">500M</span></div>
+<div class="roi-row"><span class="rl">Breakage Rate</span><span class="rv" id="rb-breakage">40%</span></div>
+<div class="roi-row"><span class="rl">Liability per 1K Points</span><span class="rv" id="rb-value">$10.00</span></div>
+<div class="roi-row"><span class="rl">Total Liability</span><span class="rv" id="rb-total">$2.0M</span></div>
+<div class="roi-row"><span class="rl">Projected Reduction (35%)</span><span class="rv" id="rb-savings" style="color:var(--accent2)">$700K</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
+<div class="section-sub">Start with tokenized loyalty. Expand to cross-brand. No long-term lock-in.</div>
+<div class="pricing-grid">
+<div class="price-card">
+<div class="phase-label">Phase 1</div>
+<div class="price-amount">$12K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Tokenize your loyalty points on-chain with a fully branded experience.</div>
+<ul class="price-features">
+<li>Custom loyalty token creation</li>
+<li>Loyalty platform integration</li>
+<li>Earn/burn rule engine</li>
+<li>Customer wallet abstraction</li>
+<li>Analytics dashboard</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Get Started</a>
+</div>
+<div class="price-card featured">
+<div class="phase-label">Phase 2</div>
+<div class="price-amount">$30K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Join the cross-brand network. Enable redemption, trading, and partner revenue.</div>
+<ul class="price-features">
+<li>Cross-brand redemption network</li>
+<li>Partner onboarding toolkit</li>
+<li>Revenue sharing engine</li>
+<li>Secondary market access</li>
+<li>Advanced analytics suite</li>
+<li>Dedicated success manager</li>
+</ul>
+<a href="#cta" class="price-btn primary">Get Started</a>
+</div>
+<div class="price-card">
+<div class="phase-label">Phase 3</div>
+<div class="price-amount">$8K<span style="font-size:1rem;font-weight:400">/yr</span></div>
+<div class="price-period">Annual maintenance</div>
+<div class="price-desc">Ongoing support, upgrades, and network expansion.</div>
+<ul class="price-features">
+<li>Platform maintenance & updates</li>
+<li>New chain deployments</li>
+<li>Partner network expansion</li>
+<li>Priority support</li>
+<li>Quarterly business reviews</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Contact Us</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Ready to Turn Liability into Liquidity?</span><span class="es-text">¿Listo para Convertir el Pasivo en Liquidez?</span></h2>
+<p><span class="en-text">Book a 30-minute strategy call. We'll map your loyalty data, model the ROI, and show you exactly what tokenization looks like for your brand network.</span><span class="es-text">Reserva una llamada de estrategia de 30 minutos. Mapearemos tus datos de lealtad, modelaremos el ROI y te mostraremos exactamente cómo se ve la tokenización para tu red de marcas.</span></p>
+<a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>© 2026 Aurora Pathways. Built for Retail.</p>
+</div>
+</footer>
+
+<script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
+function showTab(id){
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('tab-'+id).classList.add('active');
+}
+function calcROI(){
+const pts=parseFloat(document.getElementById('roi-points').value)||0;
+const brk=parseFloat(document.getElementById('roi-breakage').value)||0;
+const val=parseFloat(document.getElementById('roi-value').value)||0;
+const total=(pts*1000000/1000)*val;
+const savings=total*0.35;
+document.getElementById('roi-total').textContent='$'+(total/1000000).toFixed(1)+'M';
+document.getElementById('rb-points').textContent=pts+'M';
+document.getElementById('rb-breakage').textContent=brk+'%';
+document.getElementById('rb-value').textContent='$'+val.toFixed(2);
+document.getElementById('rb-total').textContent='$'+(total/1000000).toFixed(1)+'M';
+document.getElementById('rb-savings').textContent='$'+(savings/1000).toFixed(0)+'K';
+}
+</script>
+</body>
+</html>

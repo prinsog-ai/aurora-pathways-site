@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain for DAOs — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text-dim:#888;--card:#12121f;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse at 30% 50%,rgba(124,92,252,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(78,201,176,.08) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none}
+.logo span{color:var(--accent)}
+.partner-badge{font-size:.75rem;color:var(--accent2);border:1px solid var(--accent2);padding:2px 10px;border-radius:20px;margin-left:12px}
+nav a.btn{background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;transition:.2s}
+nav a.btn:hover{opacity:.85}
+
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-text h1{font-size:2.6rem;font-weight:800;line-height:1.15;color:#fff;margin-bottom:20px}
+.hero-text h1 em{font-style:normal;color:var(--accent)}
+.hero-text p{font-size:1.15rem;color:var(--text-dim);margin-bottom:32px;max-width:520px}
+.btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;transition:.2s}
+.btn-primary:hover{opacity:.85}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:500;transition:.2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero-visual{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.hv-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.hv-dot{width:10px;height:10px;border-radius:50%}
+.hv-dot.r{background:#ff5f57}.hv-dot.y{background:#febc2e}.hv-dot.g{background:#28c840}
+.hv-body{padding:24px}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.metric-card{background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:16px}
+.metric-card .label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.metric-card .value{font-size:1.6rem;font-weight:700;color:#fff;margin-top:4px}
+.metric-card .change{font-size:.75rem;color:var(--accent2);margin-top:2px}
+
+/* Proposal cards */
+.proposal-card{padding:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.proposal-card .prop-title{font-size:.9rem;color:#fff;font-weight:600}
+.proposal-card .prop-meta{font-size:.75rem;color:var(--text-dim);margin-top:4px;display:flex;gap:16px;align-items:center}
+.proposal-card .prop-meta .votes{color:var(--accent2)}
+.prop-status{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:600}
+.prop-status.executed{background:rgba(78,201,176,.12);color:var(--accent2)}
+.prop-status.active{background:rgba(124,92,252,.12);color:var(--accent)}
+.prop-status.pending{background:rgba(254,188,46,.12);color:#febc2e}
+.vote-bar{height:8px;border-radius:4px;background:rgba(255,255,255,.05);margin-top:8px;overflow:hidden;display:flex}
+.vote-bar .for{background:var(--accent2);border-radius:4px 0 0 4px}
+.vote-bar .against{background:#ff5f57;border-radius:0 4px 4px 0}
+
+section{position:relative;z-index:1;padding:100px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:600}
+.section-title{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px}
+.section-sub{color:var(--text-dim);max-width:600px;margin-bottom:48px;font-size:1.05rem}
+
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+.ba-card.before{border-color:rgba(255,95,87,.3)}
+.ba-card.after{border-color:rgba(78,201,176,.3)}
+.ba-tag{position:absolute;top:-12px;left:24px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:20px}
+.ba-card.before .ba-tag{background:#ff5f57;color:#fff}
+.ba-card.after .ba-tag{background:var(--accent2);color:#000}
+.ba-card h3{font-size:1.3rem;color:#fff;margin-bottom:16px;margin-top:8px}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ba-card li{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--text-dim)}
+.ba-card li .bi{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+.before .bi{background:rgba(255,95,87,.15);color:#ff5f57}
+.after .bi{background:rgba(78,201,176,.15);color:var(--accent2)}
+
+.tabs-section{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+.tab-nav{display:flex;gap:4px;margin-bottom:32px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:12px 24px;border:none;background:none;color:var(--text-dim);font-family:inherit;font-size:.9rem;font-weight:500;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab-btn.active{background:var(--accent);color:#fff}
+.tab-btn:hover:not(.active){color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tab-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;min-height:400px}
+.tab-content h3{font-size:1.4rem;color:#fff;margin-bottom:8px}
+.tab-content p{color:var(--text-dim);margin-bottom:24px}
+.tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tab-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:20px}
+.tab-item h4{color:#fff;font-size:.95rem;margin-bottom:6px}
+.tab-item p{font-size:.85rem;color:var(--text-dim)}
+.tab-item .item-icon{font-size:1.8rem;margin-bottom:10px}
+
+/* Execution flow */
+.exec-flow{display:flex;align-items:center;justify-content:center;gap:12px;margin:24px 0;flex-wrap:wrap}
+.exec-step{background:rgba(124,92,252,.06);border:1px solid rgba(124,92,252,.15);border-radius:12px;padding:16px 20px;text-align:center;min-width:120px}
+.exec-step .step-num{font-size:.65rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.exec-step .step-title{font-size:.85rem;color:#fff;font-weight:600;margin-top:4px}
+.exec-step .step-time{font-size:.7rem;color:var(--text-dim);margin-top:2px}
+.exec-arrow{color:var(--accent);font-size:1.2rem}
+
+.roi-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.roi-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.roi-inputs{display:flex;flex-direction:column;gap:20px}
+.input-group label{display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+.input-group input{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
+.input-group input:focus{border-color:var(--accent)}
+.roi-result{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border-radius:16px;padding:40px}
+.roi-result .big-number{font-size:3.2rem;font-weight:800;color:var(--accent2);line-height:1}
+.roi-result .big-label{font-size:1rem;color:var(--text-dim);margin-top:8px}
+.roi-breakdown{margin-top:24px;text-align:left;width:100%}
+.roi-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem}
+.roi-row .rl{color:var(--text-dim)}.roi-row .rv{color:#fff;font-weight:600}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:.3s;position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,92,252,.08),var(--card))}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.05em}
+.phase-label{font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff;margin-bottom:4px}
+.price-period{font-size:.85rem;color:var(--text-dim);margin-bottom:20px}
+.price-desc{font-size:.9rem;color:var(--text-dim);margin-bottom:24px;line-height:1.5}
+.price-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.price-features li{font-size:.9rem;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--accent2);font-weight:700}
+.price-btn{display:block;width:100%;padding:14px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;text-align:center;transition:.2s}
+.price-btn.primary{background:var(--accent);color:#fff}
+.price-btn.primary:hover{opacity:.85}
+.price-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.price-btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+.cta-section{text-align:center;padding:100px 0}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid var(--border);border-radius:24px;padding:60px 40px;max-width:700px;margin:0 auto}
+.cta-box h2{font-size:2rem;color:#fff;font-weight:800;margin-bottom:16px}
+.cta-box p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
+
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:768px){
+.hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
+.hero-text h1{font-size:2rem}
+.ba-grid,.roi-wrap{grid-template-columns:1fr}
+.pricing-grid,.tab-grid{grid-template-columns:1fr}
+.metric-row{grid-template-columns:1fr}
+.exec-flow{flex-direction:column}
+.exec-arrow{transform:rotate(90deg)}
+}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"DAO Demo","short_name":"DAO","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
+<div class="aurora"></div>
+
+<nav>
+<div class="container">
+<div style="display:flex;align-items:center">
+<a href="/" class="logo">Aurora <span>Pathways</span></a>
+<span class="partner-badge">× DAO Governance</span>
+</div>
+<a href="#cta" class="btn">Book a Call</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-text">
+<h1><span class="en-text">Your DAO voted. Now make it <em>execute — automatically, verifiably, on-chain.</em></span><span class="es-text">Tu DAO votó. Ahora haz que <em>ejecute — automáticamente, verificable, en cadena.</em></span></h1>
+<p><span class="en-text">DAO platforms handle 10M+ votes across 10,000+ DAOs. But off-chain votes still need manual multisig execution. Proposals pass, then stall for days. Aurora Pathways bridges the gap — from vote to execution, trustlessly.</span><span class="es-text">Las plataformas DAO manejan más de 10M votos en más de 10,000 DAOs. Pero los votos fuera de cadena aún necesitan ejecución manual con multifirma. Las propuestas pasan, luego se estancan por días. Aurora Pathways cierra la brecha — de voto a ejecución, sin confianza.</span></p>
+<div class="btn-group">
+<a href="#cta" class="btn-primary">Book a Strategy Call</a>
+<a href="#demo" class="btn-outline">See the Platform ↓</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="hv-header">
+<div class="hv-dot r"></div><div class="hv-dot y"></div><div class="hv-dot g"></div>
+<span style="font-size:.8rem;color:var(--text-dim);margin-left:8px">Governance Hub — Live</span>
+</div>
+<div class="hv-body">
+<div class="proposal-card">
+<div class="prop-title">Increase treasury allocation to grants by 15%</div>
+<div class="prop-meta"><span class="votes">4,218 votes</span><span class="prop-status executed">Executed ✓</span></div>
+<div class="vote-bar"><div class="for" style="width:72%"></div><div class="against" style="width:28%"></div></div>
+</div>
+<div class="proposal-card">
+<div class="prop-title">Add Chainlink as approved oracle provider</div>
+<div class="prop-meta"><span class="votes">2,891 votes</span><span class="prop-status active">Voting</span></div>
+<div class="vote-bar"><div class="for" style="width:85%"></div><div class="against" style="width:15%"></div></div>
+</div>
+<div class="proposal-card">
+<div class="prop-title">Reduce quorum threshold to 4%</div>
+<div class="prop-meta"><span class="votes">1,204 votes</span><span class="prop-status pending">Pending</span></div>
+<div class="vote-bar"><div class="for" style="width:51%"></div><div class="against" style="width:49%"></div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">The Governance-to-Action Gap</span><span class="es-text">La Brecha entre Gobernanza y Acción</span></div>
+<div class="section-sub">DAOs vote off-chain, then wait days for multisig holders to manually execute. Votes are suggestions, not guarantees.</div>
+<div class="ba-grid">
+<div class="ba-card before">
+<span class="ba-tag">Before</span>
+<h3>Manual Execution</h3>
+<ul>
+<li><span class="bi">✗</span> Votes pass but execution requires separate multisig</li>
+<li><span class="bi">✗</span> 2-7 day delay between vote and on-chain action</li>
+<li><span class="bi">✗</span> Multisig holders become bottlenecks</li>
+<li><span class="bi">✗</span> No guarantee the voted outcome gets executed</li>
+<li><span class="bi">✗</span> Off-chain votes can't enforce on-chain changes</li>
+</ul>
+</div>
+<div class="ba-card after">
+<span class="ba-tag">After</span>
+<h3>Automated Execution</h3>
+<ul>
+<li><span class="bi">✓</span> Proposals auto-execute on-chain when quorum is met</li>
+<li><span class="bi">✓</span> Vote-to-execution in minutes, not days</li>
+<li><span class="bi">✓</span> Multisig holders sign off automatically via smart contract</li>
+<li><span class="bi">✓</span> 100% execution guarantee for passed proposals</li>
+<li><span class="bi">✓</span> Verifiable vote records linked to on-chain execution</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DEMO TABS -->
+<section class="tabs-section" id="demo">
+<div class="container">
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
+<div class="section-sub">Keep using your current voting platform. We handle the rest — automatically.</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+<button class="tab-btn" onclick="showTab('proposals')">Proposals</button>
+<button class="tab-btn" onclick="showTab('voting')">Voting</button>
+<button class="tab-btn" onclick="showTab('execution')">Execution</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="tab-content">
+<h3>DAO Governance Overview</h3>
+<p>Real-time governance health — proposals, participation, execution status, and treasury impact.</p>
+<div class="metric-row">
+<div class="metric-card"><div class="label">Active Proposals</div><div class="value">7</div><div class="change">3 voting, 4 pending</div></div>
+<div class="metric-card"><div class="label">Participation Rate</div><div class="value">68%</div><div class="change">↑ 12% since auto-execute</div></div>
+<div class="metric-card"><div class="label">Avg Time to Execute</div><div class="value">4min</div><div class="change" style="color:var(--accent2)">↓ from 3.2 days</div></div>
+<div class="metric-card"><div class="label">Proposals Executed</div><div class="value">142</div><div class="change">100% execution rate</div></div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-proposals">
+<div class="tab-content">
+<h3>Create & Track Proposals</h3>
+<p>Same workflow your community knows — but with automatic execution built in.</p>
+<div class="proposal-card">
+<div class="prop-title">Fund Q3 developer grants ($500K from treasury)</div>
+<div class="prop-meta"><span class="votes">3,847 votes · Ends in 2d</span><span class="prop-status active">Voting</span></div>
+<div class="vote-bar"><div class="for" style="width:78%"></div><div class="against" style="width:22%"></div></div>
+</div>
+<div class="proposal-card">
+<div class="prop-title">Deploy protocol v2.1 upgrade on Base</div>
+<div class="prop-meta"><span class="votes">5,102 votes</span><span class="prop-status executed">Executed ✓</span></div>
+<div class="vote-bar"><div class="for" style="width:91%"></div><div class="against" style="width:9%"></div></div>
+</div>
+<div class="proposal-card">
+<div class="prop-title">Add 3 new multisig signers</div>
+<div class="prop-meta"><span class="votes">2,215 votes</span><span class="prop-status executed">Executed ✓</span></div>
+<div class="vote-bar"><div class="for" style="width:88%"></div><div class="against" style="width:12%"></div></div>
+</div>
+<div style="margin-top:20px;padding:16px;background:rgba(124,92,252,.06);border:1px solid rgba(124,92,252,.15);border-radius:10px">
+<p style="font-size:.85rem;color:var(--text-dim)">💡 Proposals include an <strong style="color:#fff">execution payload</strong> — the on-chain transaction that runs automatically when the vote passes. No manual multisig coordination needed.</p>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-voting">
+<div class="tab-content">
+<h3>Gasless Voting with On-Chain Verification</h3>
+<p>Votes happen off-chain (free, fast) but are anchored to on-chain proofs. Best of both worlds.</p>
+<div class="tab-grid">
+<div class="tab-item">
+<div class="item-icon">🗳️</div>
+<h4>Gasless Voting</h4>
+<p>Your community votes for free off-chain — no gas fees, no friction. Same experience they already know.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">⚓</div>
+<h4>On-Chain Anchoring</h4>
+<p>Vote results are cryptographically anchored to the blockchain. Timestamped, tamper-proof, independently verifiable.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">🔍</div>
+<h4>Verifiable Results</h4>
+<p>Anyone can verify the vote count, participation, and outcome against the on-chain anchor. Zero trust required.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">⚡</div>
+<h4>Instant Finality</h4>
+<p>Once the voting period ends and results are anchored, execution is triggered automatically. No waiting.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-execution">
+<div class="tab-content">
+<h3>Automated Smart Contract Execution</h3>
+<p>The core innovation: when a vote passes, the on-chain action happens automatically. No multisig coordination.</p>
+<div class="exec-flow">
+<div class="exec-step"><div class="step-num">Step 1</div><div class="step-title">Vote Ends</div><div class="step-time">Off-chain voting</div></div>
+<div class="exec-arrow">→</div>
+<div class="exec-step"><div class="step-num">Step 2</div><div class="step-title">Results Anchored</div><div class="step-time">On-chain hash</div></div>
+<div class="exec-arrow">→</div>
+<div class="exec-step"><div class="step-num">Step 3</div><div class="step-title">Quorum Check</div><div class="step-time">Smart contract</div></div>
+<div class="exec-arrow">→</div>
+<div class="exec-step"><div class="step-num">Step 4</div><div class="step-title">Auto-Execute</div><div class="step-time">On-chain tx</div></div>
+</div>
+<div class="tab-grid" style="margin-top:24px">
+<div class="tab-item">
+<div class="item-icon">📜</div>
+<h4>Execution Payloads</h4>
+<p>Each proposal includes a pre-defined on-chain transaction. Treasury transfers, parameter changes, contract upgrades — all automated.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">🛡️</div>
+<h4>Safety Guards</h4>
+<p>Configurable timelocks, spending limits, and emergency veto powers. Automation with guardrails.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ROI -->
+<section class="roi-section">
+<div class="container">
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
+<div class="section-sub">How much time does your DAO spend on manual execution?</div>
+<div class="roi-wrap">
+<div class="roi-inputs">
+<div class="input-group">
+<label>Proposals per Year</label>
+<input type="number" id="roi-proposals" value="100" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Avg Manual Execution Time (hours)</label>
+<input type="number" id="roi-time" value="8" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Multisig Coordination Cost ($/hour)</label>
+<input type="number" id="roi-cost" value="150" oninput="calcROI()">
+</div>
+</div>
+<div class="roi-result">
+<div class="big-number" id="roi-total">$120K</div>
+<div class="big-label">Estimated Annual Savings</div>
+<div class="roi-breakdown">
+<div class="roi-row"><span class="rl">Proposals/Year</span><span class="rv" id="rb-proposals">100</span></div>
+<div class="roi-row"><span class="rl">Hours per Execution</span><span class="rv" id="rb-time">8</span></div>
+<div class="roi-row"><span class="rl">Total Hours/Year</span><span class="rv" id="rb-hours">800</span></div>
+<div class="roi-row"><span class="rl">Coordination Cost/Hr</span><span class="rv" id="rb-cost">$150</span></div>
+<div class="roi-row"><span class="rl">Total Cost</span><span class="rv" id="rb-total">$120K</span></div>
+<div class="roi-row"><span class="rl">Projected Savings (90%)</span><span class="rv" id="rb-savings" style="color:var(--accent2)">$108K</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
+<div class="section-sub">Start with execution bridge. Expand to full platform. Your DAO, your pace.</div>
+<div class="pricing-grid">
+<div class="price-card">
+<div class="phase-label">Phase 1</div>
+<div class="price-amount">$8K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Bridge off-chain votes to on-chain execution for your most critical proposal types.</div>
+<ul class="price-features">
+<li>Execution bridge (up to 5 tx types)</li>
+<li>DAO platform integration</li>
+<li>Quorum verification</li>
+<li>Basic safety guards</li>
+<li>Execution dashboard</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Get Started</a>
+</div>
+<div class="price-card featured">
+<div class="phase-label">Phase 2</div>
+<div class="price-amount">$20K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Full governance platform — unlimited execution types, advanced safety, multi-chain support.</div>
+<ul class="price-features">
+<li>Unlimited execution types</li>
+<li>Multi-chain execution</li>
+<li>Advanced safety guards & timelocks</li>
+<li>Emergency veto system</li>
+<li>Vote anchoring & verification</li>
+<li>Dedicated success manager</li>
+</ul>
+<a href="#cta" class="price-btn primary">Get Started</a>
+</div>
+<div class="price-card">
+<div class="phase-label">Phase 3</div>
+<div class="price-amount">$5K<span style="font-size:1rem;font-weight:400">/yr</span></div>
+<div class="price-period">Annual maintenance</div>
+<div class="price-desc">Ongoing support, chain additions, and platform evolution.</div>
+<ul class="price-features">
+<li>Platform maintenance</li>
+<li>New chain deployments</li>
+<li>DAO platform version updates</li>
+<li>Priority support</li>
+<li>Quarterly reviews</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Contact Us</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Close the Governance-to-Action Gap</span><span class="es-text">Cierre la Brecha entre Gobernanza y Acción</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll map your DAO's proposal types and show you exactly how automated execution works — no multisig required.</span><span class="es-text">Reserve una llamada de 30 minutos. Mapearemos los tipos de propuestas de su DAO y le mostraremos exactamente cómo funciona la ejecución automática — sin multifirma requerida.</span></p>
+<a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>© 2026 Aurora Pathways. Built for DAOs.</p>
+</div>
+</footer>
+
+<script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
+function showTab(id){
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('tab-'+id).classList.add('active');
+}
+function calcROI(){
+const p=parseFloat(document.getElementById('roi-proposals').value)||0;
+const t=parseFloat(document.getElementById('roi-time').value)||0;
+const c=parseFloat(document.getElementById('roi-cost').value)||0;
+const hours=p*t;
+const total=hours*c;
+const savings=total*0.9;
+document.getElementById('roi-total').textContent='$'+(total>=1000000?(total/1000000).toFixed(1)+'M':(total/1000).toFixed(0)+'K');
+document.getElementById('rb-proposals').textContent=p;
+document.getElementById('rb-time').textContent=t;
+document.getElementById('rb-hours').textContent=hours;
+document.getElementById('rb-cost').textContent='$'+c;
+document.getElementById('rb-total').textContent='$'+(total>=1000000?(total/1000000).toFixed(1)+'M':(total/1000).toFixed(0)+'K');
+document.getElementById('rb-savings').textContent='$'+(savings>=1000000?(savings/1000000).toFixed(1)+'M':(savings/1000).toFixed(0)+'K');
+}
+</script>
+</body>
+</html>

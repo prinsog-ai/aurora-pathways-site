@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain Solutions for Healthcare — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text2:#a0a0b0;--card:#12121e;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);color:var(--text);min-height:100vh;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+nav{padding:20px 0;border-bottom:1px solid var(--border)}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.9rem;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.btn{display:inline-block;padding:12px 28px;border-radius:8px;font-weight:600;font-size:.95rem;cursor:pointer;border:none;transition:all .3s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6a4ce0);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.3)}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:8px 18px;font-size:.85rem}
+.hero{padding:100px 0 80px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.3);font-size:.8rem;color:var(--accent);margin-bottom:28px}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.2;margin-bottom:20px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p.sub{font-size:1.15rem;color:var(--text2);max-width:620px;margin:0 auto 36px;line-height:1.7}
+.hero-quote{font-size:1.25rem;font-style:italic;color:var(--accent2);max-width:650px;margin:0 auto 40px;padding:24px;border-left:3px solid var(--accent);background:rgba(78,201,176,.05);border-radius:0 8px 8px 0;text-align:left}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.before-after{padding:80px 0}
+.before-after h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.before-after .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.ba-grid{grid-template-columns:1fr}}
+.ba-card{padding:32px;border-radius:12px;border:1px solid var(--border)}
+.ba-card.before{background:rgba(220,50,50,.05);border-color:rgba(220,50,50,.2)}
+.ba-card.after{background:rgba(78,201,176,.05);border-color:rgba(78,201,176,.2)}
+.ba-card h3{font-size:1.1rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.ba-card.before h3{color:#e55555}
+.ba-card.after h3{color:var(--accent2)}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.ba-card li{padding-left:24px;position:relative;font-size:.95rem;color:var(--text2);line-height:1.5}
+.ba-card.before li::before{content:'✕';position:absolute;left:0;color:#e55555;font-weight:700}
+.ba-card.after li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+.demo-section{padding:80px 0}
+.demo-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.demo-section .sub{text-align:center;color:var(--text2);margin-bottom:40px}
+.tabs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.tab-btn{padding:10px 24px;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:8px 8px 0 0;font-family:inherit;font-size:.9rem;transition:all .2s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:32px;min-height:400px}
+.tab-panel.active{display:block}
+.demo-mockup{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.demo-mockup{grid-template-columns:1fr}}
+.stat-card{background:rgba(124,92,252,.05);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:20px}
+.stat-card .label{font-size:.8rem;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.stat-card .value{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-card .change{font-size:.8rem;color:var(--accent2);margin-top:4px}
+.mock-table{width:100%;border-collapse:collapse;margin-top:16px}
+.mock-table th,.mock-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.85rem}
+.mock-table th{color:var(--text2);font-weight:500;text-transform:uppercase;font-size:.75rem;letter-spacing:.05em}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge-green{background:rgba(78,201,176,.15);color:var(--accent2)}
+.badge-purple{background:rgba(124,92,252,.15);color:var(--accent)}
+.badge-red{background:rgba(220,50,50,.15);color:#e55555}
+.badge-yellow{background:rgba(255,200,50,.15);color:#ffc832}
+.mock-input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:.9rem;margin-bottom:12px}
+.mock-input:focus{outline:none;border-color:var(--accent)}
+.mock-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;font-size:.85rem}
+.mock-log{background:var(--bg);border-radius:8px;padding:16px;margin-top:16px;font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent2);line-height:1.8;max-height:250px;overflow-y:auto}
+.roi-section{padding:80px 0}
+.roi-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.roi-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:768px){.roi-grid{grid-template-columns:1fr}}
+.roi-inputs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px}
+.roi-inputs label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:6px;margin-top:16px}
+.roi-inputs label:first-child{margin-top:0}
+.roi-inputs input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:4px}
+.roi-inputs .range-val{font-size:.9rem;font-weight:600;color:var(--accent)}
+.roi-result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.roi-result .big{font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:16px 0}
+.roi-result .roi-label{font-size:1rem;color:var(--text2)}
+.pricing-section{padding:80px 0}
+.pricing-section h2{text-align:center;font-size:2rem;margin-bottom:12px}
+.pricing-section .sub{text-align:center;color:var(--text2);margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;position:relative;transition:transform .3s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.featured{border-color:var(--accent);box-shadow:0 0 40px rgba(124,92,252,.15)}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:4px 16px;border-radius:12px;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+.price-card h3{font-size:1.1rem;margin-bottom:8px}
+.price-card .price{font-size:2.5rem;font-weight:800;color:var(--accent);margin:16px 0}
+.price-card .price span{font-size:.9rem;font-weight:400;color:var(--text2)}
+.price-card ul{list-style:none;text-align:left;margin:24px 0}
+.price-card li{padding:8px 0 8px 24px;position:relative;font-size:.9rem;color:var(--text2)}
+.price-card li::before{content:'✓';position:absolute;left:0;color:var(--accent2);font-weight:700}
+.cta-section{padding:80px 0;text-align:center}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid rgba(124,92,252,.3);border-radius:16px;padding:60px 40px}
+.cta-box h2{font-size:2rem;margin-bottom:12px}
+.cta-box p{color:var(--text2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text2);font-size:.85rem}
+.hipaa-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:6px;background:rgba(78,201,176,.1);border:1px solid rgba(78,201,176,.3);font-size:.75rem;color:var(--accent2);font-weight:600;margin-left:12px}
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:1000;background:rgba(26,26,46,.9);border:1px solid rgba(124,92,252,.3);border-radius:20px;padding:4px 12px;font-size:.75rem;color:var(--text);cursor:pointer;font-family:inherit;display:flex;gap:4px}#lang-toggle span{padding:2px 6px;border-radius:12px;transition:all .2s}#lang-toggle .active-lang{background:var(--accent);color:#fff}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"Healthcare Demo","short_name":"Healthcare","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()"><span class="active-lang">EN</span>|<span>ES</span></button>
+
+<nav>
+<div class="container">
+<div class="logo">◆ Aurora Pathways</div>
+<div class="nav-links">
+<a href="#demo">Demo</a>
+<a href="#roi">ROI</a>
+<a href="#pricing">Pricing</a>
+<a href="#cta" class="btn btn-sm btn-primary">Book a Call</a>
+</div>
+</div>
+</nav>
+
+<section class="hero">
+<div class="container">
+<div class="hero-badge"><span class="dot"></span> <span class="en-text">Blockchain Solutions for Healthcare</span><span class="es-text">Soluciones Blockchain para Salud</span></div>
+<h1><span class="en-text">Stop losing billions</span><span class="es-text">Deja de perder miles de millones</span><br><span class="en-text">to </span><em><span class="en-text">billing you can't verify</span><span class="es-text">en facturas que no puedes verificar</span></em></h1>
+<p class="sub"><span class="en-text">Healthcare providers process millions of claims annually. We make every claim hashable, every record patient-controlled, and every HIPAA audit instant — without exposing a single byte of patient data.</span><span class="es-text">Los proveedores de salud procesan millones de reclamaciones anualmente. Hacemos que cada reclamación sea verificable, cada registro controlado por el paciente y cada auditoría HIPAA instantánea, sin exponer un solo byte de datos del paciente.</span></p>
+<div class="hero-quote"><span class="en-text">"$68 billion lost to duplicate billing every year. One immutable ledger fixes that."</span><span class="es-text">"$68 mil millones perdidos en facturación duplicada cada año. Un libro mayor inmutable soluciona eso."</span></div>
+<div class="hero-cta">
+<a href="#demo" class="btn btn-primary"><span class="en-text">See the Demo</span><span class="es-text">Ver la Demo</span></a>
+<a href="#roi" class="btn btn-outline"><span class="en-text">Calculate Your ROI</span><span class="es-text">Calcula tu ROI</span></a>
+</div>
+</div>
+</section>
+
+<section class="before-after">
+<div class="container">
+<h2><span class="en-text">What Changes</span><span class="es-text">Lo Que Cambia</span></h2>
+<p class="sub"><span class="en-text">From siloed records and manual compliance to verifiable, patient-controlled healthcare data</span><span class="es-text">De registros aislados y cumplimiento manual a datos de salud verificables y controlados por el paciente</span></p>
+<div class="ba-grid">
+<div class="ba-card before">
+<h3>✕ Before Aurora</h3>
+<ul>
+<li>$68B/year lost to duplicate billing across the US healthcare system</li>
+<li>Patient records siloed across providers — no single source of truth</li>
+<li>HIPAA compliance requires manual audits, often weeks of preparation</li>
+<li>Duplicate claims detected only after payment — recovery is expensive</li>
+<li>No way to verify claim integrity without re-processing</li>
+</ul>
+</div>
+<div class="ba-card after">
+<h3>✓ After Aurora</h3>
+<ul>
+<li>Every claim hashed on submission — duplicates caught before payment</li>
+<li>Patient-controlled record sharing via cryptographic permissions</li>
+<li>Automated HIPAA audit trails — always ready, always verifiable</li>
+<li>Claim integrity verifiable in milliseconds without exposing PHI</li>
+<li>Compliance score jumps from manual checklist to continuous monitoring</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="demo-section" id="demo">
+<div class="container">
+<h2><span class="en-text">Interactive Demo</span><span class="es-text">Demo Interactiva</span> <span class="hipaa-badge">🛡 HIPAA-Aware Design</span></h2>
+<p class="sub"><span class="en-text">Explore how blockchain integration protects healthcare data and saves billions</span><span class="es-text">Explora cómo la integración blockchain protege datos de salud y ahorra miles de millones</span></p>
+<div class="tabs">
+<button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+<button class="tab-btn" data-tab="claims">Claims Verification</button>
+<button class="tab-btn" data-tab="records">Patient Records</button>
+<button class="tab-btn" data-tab="compliance">Compliance</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="demo-mockup">
+<div class="stat-card">
+<div class="label">Claims Processed (MTD)</div>
+<div class="value">284,719</div>
+<div class="change">↑ 8% vs last month</div>
+</div>
+<div class="stat-card">
+<div class="label">Duplicates Caught Pre-Payment</div>
+<div class="value">3,842</div>
+<div class="change">$2.4M saved this month</div>
+</div>
+<div class="stat-card">
+<div class="label">HIPAA Audit Readiness</div>
+<div class="value">99.6%</div>
+<div class="change">Continuous — not periodic</div>
+</div>
+<div class="stat-card">
+<div class="label">Avg Claim Verification Time</div>
+<div class="value">0.3s</div>
+<div class="change">Down from 4.2 days</div>
+</div>
+</div>
+<div class="mock-log" style="margin-top:24px">
+[14:02:11] Claim #CLM-284719 — Hash recorded: 0x8f2a...b3d7<br>
+[14:02:10] DUPLICATE ALERT — Claim #CLM-284715 matches existing hash. Blocked.<br>
+[14:01:55] Patient #P-9921 — Record access granted to Dr. Martinez (oncology)<br>
+[14:01:02] HIPAA audit checkpoint — 284,719 claims, 0 anomalies<br>
+[13:58:33] Batch #B-4421 sealed — 1,200 claims, all hashes verified
+</div>
+</div>
+
+<div class="tab-panel" id="tab-claims">
+<div style="max-width:600px">
+<h3 style="margin-bottom:20px;font-size:1.1rem">Verify a Claim</h3>
+<input class="mock-input" type="text" placeholder="Claim ID" value="CLM-284719">
+<input class="mock-input" type="text" placeholder="Patient Reference (hashed)" value="0x9a2f...c4e1">
+<input class="mock-input" type="text" placeholder="Provider" value="Northeast Medical Group">
+<input class="mock-input" type="text" placeholder="Claim Amount" value="$1,247.50">
+<button class="mock-btn" onclick="verifyClaim()">Hash &amp; Verify on Chain</button>
+<div class="mock-log" id="claim-log" style="display:none"></div>
+</div>
+<div style="margin-top:32px">
+<h3 style="margin-bottom:16px;font-size:1.1rem">Recent Claims</h3>
+<table class="mock-table">
+<thead><tr><th>Claim ID</th><th>Amount</th><th>Hash</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>CLM-284719</td><td>$1,247.50</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x8f2a...b3d7</td><td><span class="badge badge-green">Verified</span></td></tr>
+<tr><td>CLM-284718</td><td>$3,890.00</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x3c7d...a2f5</td><td><span class="badge badge-green">Verified</span></td></tr>
+<tr><td>CLM-284715</td><td>$1,247.50</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x8f2a...b3d7</td><td><span class="badge badge-red">Duplicate Blocked</span></td></tr>
+<tr><td>CLM-284712</td><td>$567.25</td><td style="color:var(--accent);font-family:monospace;font-size:.8rem">0x5e9b...c8a1</td><td><span class="badge badge-green">Verified</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-records">
+<div class="demo-mockup">
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Patient Record Access Control</h3>
+<div style="background:var(--bg);border-radius:10px;padding:20px;margin-bottom:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div>
+<div style="font-weight:600">Patient: Jane D.</div>
+<div style="font-size:.8rem;color:var(--text2)">ID: P-9921 · Records: 47 entries</div>
+</div>
+<span class="badge badge-green">Active Consent</span>
+</div>
+<div style="font-size:.85rem;color:var(--text2);line-height:1.7">
+<strong style="color:var(--text)">Authorized Providers:</strong><br>
+✓ Dr. Martinez — Oncology (expires: 2026-12-31)<br>
+✓ Dr. Chen — Primary Care (expires: 2026-06-30)<br>
+✕ Dr. Patel — Cardiology (no access)<br>
+</div>
+</div>
+<button class="mock-btn" onclick="grantAccess()">Simulate Patient Granting Access</button>
+<div class="mock-log" id="access-log" style="display:none"></div>
+</div>
+<div>
+<h3 style="margin-bottom:16px;font-size:1.1rem">Record Sharing Activity</h3>
+<div class="mock-log" style="height:auto;max-height:320px">
+<strong style="color:var(--accent)">Patient P-9921 — Access Log</strong><br>
+├─ 2026-01-15 14:02 — Dr. Martinez accessed oncology records<br>
+│  Hash: 0x8f2a...b3d7 · Scope: ONCOLOGY_ONLY<br>
+├─ 2026-01-14 09:30 — Patient revoked cardiology access<br>
+│  Hash: 0x2b4e...f1c9<br>
+├─ 2026-01-10 11:15 — Dr. Chen accessed primary care records<br>
+│  Hash: 0x7c3d...a8e2 · Scope: PRIMARY_CARE<br>
+└─ 2026-01-08 16:45 — Patient granted access to Dr. Martinez<br>
+   Hash: 0x5e9f...b8c4 · Scope: ONCOLOGY_ONLY<br><br>
+<strong style="color:var(--accent)">All access is patient-controlled.</strong><br>
+No provider can view records without explicit, time-bound consent.
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-compliance">
+<h3 style="margin-bottom:20px;font-size:1.1rem">HIPAA Compliance Dashboard</h3>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+<select class="mock-input" style="width:auto;flex:1">
+<option>All Claims (284,719)</option>
+<option>Last 30 Days</option>
+<option>Last 7 Days</option>
+</select>
+<select class="mock-input" style="width:auto;flex:1">
+<option>Full HIPAA Audit</option>
+<option>Access Control Review</option>
+<option>Data Integrity Check</option>
+</select>
+<button class="mock-btn" onclick="runHIPAA()">Run Compliance Check</button>
+</div>
+<div class="mock-log" id="hipaa-log">
+Click "Run Compliance Check" to simulate a HIPAA audit.
+</div>
+</div>
+</div>
+</section>
+
+<section class="roi-section" id="roi">
+<div class="container">
+<h2><span class="en-text">Your ROI Calculator</span><span class="es-text">Calculadora de ROI</span></h2>
+<p class="sub"><span class="en-text">See how much duplicate billing costs you — and how much you'd save</span><span class="es-text">Cuánto te cuesta la facturación duplicada — y cuánto ahorrarías</span></p>
+<div class="roi-grid">
+<div class="roi-inputs">
+<label>Annual Claims Volume</label>
+<input type="range" id="r-claims" min="100000" max="10000000" value="2000000" step="100000" oninput="calcROI()">
+<div class="range-val" id="r-claims-v">2,000,000</div>
+
+<label>Duplicate Rate (%)</label>
+<input type="range" id="r-dup" min="1" max="15" value="7" step="0.5" oninput="calcROI()">
+<div class="range-val" id="r-dup-v">7%</div>
+
+<label>Average Duplicate Claim Cost ($)</label>
+<input type="range" id="r-dupcost" min="200" max="5000" value="1200" step="50" oninput="calcROI()">
+<div class="range-val" id="r-dupcost-v">$1,200</div>
+
+<label>Recovery Rate — Current (%)</label>
+<input type="range" id="r-recovery" min="5" max="60" value="25" oninput="calcROI()">
+<div class="range-val" id="r-recovery-v">25%</div>
+</div>
+<div class="roi-result">
+<div class="roi-label">Estimated Annual Savings</div>
+<div class="big" id="roi-total">$1,260,000</div>
+<div class="roi-label" id="roi-detail">Based on 2M claims · 7% duplicate rate · $1,200 avg cost</div>
+<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border);width:100%">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Duplicates caught pre-payment</span>
+<span id="roi-caught" style="font-weight:600;color:var(--accent2)">140,000/year</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="color:var(--text2);font-size:.85rem">Waste eliminated</span>
+<span id="roi-waste" style="font-weight:600;color:var(--accent2)">$168M potential</span>
+</div>
+<div style="display:flex;justify-content:space-between">
+<span style="color:var(--text2);font-size:.85rem">Phase 1 investment</span>
+<span style="font-weight:600;color:var(--text)">$15,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="pricing-section" id="pricing">
+<div class="container">
+<h2><span class="en-text">Investment Timeline</span><span class="es-text">Cronograma de Inversión</span></h2>
+<p class="sub"><span class="en-text">Phased approach designed for healthcare compliance requirements</span><span class="es-text">Enfoque por fases diseñado para requisitos de cumplimiento de salud</span></p>
+<div class="pricing-grid">
+<div class="price-card">
+<h3>Phase 1 — Claims Verification</h3>
+<div class="price">$15,000 <span>one-time</span></div>
+<ul>
+<li>Claims hashing &amp; duplicate detection</li>
+<li>Integration with existing billing pipeline</li>
+<li>Real-time duplicate alerts</li>
+<li>Basic audit trail generation</li>
+<li>10-week delivery timeline</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Start Here</a>
+</div>
+<div class="price-card featured">
+<h3>Phase 2 — Full Platform</h3>
+<div class="price">$35,000 <span>one-time</span></div>
+<ul>
+<li>Patient-controlled record sharing</li>
+<li>Full healthcare platform API integration</li>
+<li>Provider access management</li>
+<li>Automated HIPAA audit suite</li>
+<li>Duplicate prevention engine</li>
+<li>Custom compliance dashboard</li>
+</ul>
+<a href="#cta" class="btn btn-primary btn-sm" style="margin-top:12px">Book a Call</a>
+</div>
+<div class="price-card">
+<h3>Phase 3 — Compliance</h3>
+<div class="price">$10,000 <span>/year</span></div>
+<ul>
+<li>Continuous compliance monitoring</li>
+<li>HIPAA regulation updates</li>
+<li>24/7 system monitoring</li>
+<li>Audit report automation</li>
+<li>Priority support &amp; SLA</li>
+</ul>
+<a href="#cta" class="btn btn-outline btn-sm" style="margin-top:12px">Learn More</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Ready to eliminate duplicate billing?</span><span class="es-text">¿Listo para eliminar la facturación duplicada?</span></h2>
+<p><span class="en-text">Let's walk through the demo and show your team how immutable claims verification works.</span><span class="es-text">Recorramos la demo y mostrémosle a tu equipo cómo funciona la verificación inmutable de reclamaciones.</span></p>
+<a href="mailto:contact@aurorapathways.com?subject=Healthcare%20Demo%20Request" class="btn btn-primary" style="font-size:1.05rem;padding:16px 40px"><span class="en-text">Book a Call</span><span class="es-text">Agendar Llamada</span> →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>Aurora Pathways · Blockchain Infrastructure for Healthcare · <a href="mailto:contact@aurorapathways.com" style="color:var(--accent);text-decoration:none">contact@aurorapathways.com</a></p>
+</div>
+</footer>
+
+<script>
+function toggleLang(){const b=document.body;b.classList.toggle('es');const isEs=b.classList.contains('es');const btn=document.getElementById('lang-toggle');btn.innerHTML=isEs?'<span>EN</span>|<span class="active-lang">ES</span>':'<span class="active-lang">EN</span>|<span>ES</span>';localStorage.setItem('lang',isEs?'es':'en')}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{const btn=document.getElementById('lang-toggle');if(btn)btn.innerHTML='<span>EN</span>|<span class="active-lang">ES</span>'},100)}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+function calcROI() {
+  const claims = +document.getElementById('r-claims').value;
+  const dup = +document.getElementById('r-dup').value;
+  const dupcost = +document.getElementById('r-dupcost').value;
+  const recovery = +document.getElementById('r-recovery').value;
+  document.getElementById('r-claims-v').textContent = claims.toLocaleString();
+  document.getElementById('r-dup-v').textContent = dup + '%';
+  document.getElementById('r-dupcost-v').textContent = '$' + dupcost.toLocaleString();
+  document.getElementById('r-recovery-v').textContent = recovery + '%';
+  const duplicates = Math.round(claims * (dup / 100));
+  const currentlyRecovered = Math.round(duplicates * dupcost * (recovery / 100));
+  const totalWaste = duplicates * dupcost;
+  const withAurora = Math.round(duplicates * 0.95 * dupcost); // 95% caught
+  const savings = withAurora - currentlyRecovered;
+  document.getElementById('roi-total').textContent = '$' + savings.toLocaleString();
+  document.getElementById('roi-detail').textContent = `Based on ${(claims/1e6).toFixed(1)}M claims · ${dup}% duplicate rate · $${dupcost.toLocaleString()} avg cost`;
+  document.getElementById('roi-caught').textContent = Math.round(duplicates * 0.95).toLocaleString() + '/year';
+  document.getElementById('roi-waste').textContent = '$' + (totalWaste / 1e6).toFixed(0) + 'M potential';
+}
+calcROI();
+
+function verifyClaim() {
+  const log = document.getElementById('claim-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Hashing claim data (no PHI exposed)...<br>';
+  setTimeout(() => {
+    log.innerHTML += 'Checking against existing claim hashes...<br>';
+  }, 400);
+  setTimeout(() => {
+    const hash = '0x' + Array.from({length:8}, () => Math.floor(Math.random()*16).toString(16)).join('') + '...' + Array.from({length:4}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    log.innerHTML += `Claim hash: <strong>${hash}</strong><br>`;
+  }, 800);
+  setTimeout(() => {
+    log.innerHTML += 'Duplicate check: <span style="color:#4ec9b0">NO MATCHES — Unique claim</span><br>';
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Claim verified and sealed. ' + new Date().toISOString() + '</span>';
+  }, 1400);
+}
+
+function grantAccess() {
+  const log = document.getElementById('access-log');
+  log.style.display = 'block';
+  log.innerHTML = 'Patient P-9921 initiating access grant via secure token...<br>';
+  setTimeout(() => {
+    log.innerHTML += 'Recipient: Dr. Patel — Cardiology<br>';
+  }, 400);
+  setTimeout(() => {
+    log.innerHTML += 'Scope: CARDIOLOGY_ONLY · Expires: 2026-07-15<br>';
+  }, 800);
+  setTimeout(() => {
+    const hash = '0x' + Array.from({length:8}, () => Math.floor(Math.random()*16).toString(16)).join('') + '...' + Array.from({length:4}, () => Math.floor(Math.random()*16).toString(16)).join('');
+    log.innerHTML += `Access grant hash: <strong>${hash}</strong><br>`;
+    log.innerHTML += '<span style="color:#4ec9b0">✓ Access granted. Patient controls revocation at any time.</span>';
+  }, 1200);
+}
+
+function runHIPAA() {
+  const log = document.getElementById('hipaa-log');
+  log.innerHTML = 'Starting HIPAA compliance audit...<br>';
+  const steps = [
+    'Scanning access control logs... 284,719 claims reviewed',
+    'Verifying patient consent records... All consent hashes valid',
+    'Checking data encryption at rest... AES-256 confirmed',
+    'Auditing provider access boundaries... No violations detected',
+    'Reviewing breach notification readiness... Systems nominal',
+    'Generating compliance evidence package...',
+  ];
+  steps.forEach((s, i) => {
+    setTimeout(() => { log.innerHTML += s + '<br>'; }, (i + 1) * 500);
+  });
+  setTimeout(() => {
+    log.innerHTML += '<br><strong style="color:#4ec9b0">═══ HIPAA AUDIT COMPLETE ═══</strong><br>';
+    log.innerHTML += 'Claims audited: 284,719<br>';
+    log.innerHTML += 'Access violations: 0<br>';
+    log.innerHTML += 'Consent gaps: 0<br>';
+    log.innerHTML += 'Compliance score: 99.6%<br>';
+    log.innerHTML += 'Audit hash: 0xf7a2...c8e1<br>';
+    log.innerHTML += 'Generated: ' + new Date().toISOString() + '<br>';
+  }, steps.length * 500 + 500);
+}
+</script>
+</body>
+</html>

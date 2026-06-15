@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain for Government — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--bg2:#12121f;--bg3:#1a1a2e;--bg4:#22223a;
+  --accent:#7c5cfc;--accent2:#4ec9b0;--accent3:#e06c9f;
+  --text:#e8e8f0;--text2:#a0a0b8;--text3:#6a6a80;
+  --border:#2a2a40;--card:#14142a;--glass:rgba(124,92,252,.06);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+
+/* Aurora gradient bg */
+.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 40%,#0d1b2a 70%,#0a0a0f 100%)}
+.aurora-bg::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(124,92,252,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(78,201,176,.06) 0%,transparent 50%);animation:aurora 20s ease-in-out infinite alternate}
+@keyframes aurora{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-5%,3%) rotate(3deg)}}
+
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.logo span{color:var(--accent2);font-weight:400;font-size:.85rem;margin-left:4px}
+nav .cta-sm{padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+nav .cta-sm:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,92,252,.4)}
+
+/* HERO */
+.hero{padding:140px 0 80px;text-align:center}
+.badge{display:inline-block;padding:6px 16px;background:var(--glass);border:1px solid var(--border);border-radius:20px;font-size:.8rem;color:var(--accent2);margin-bottom:24px;font-weight:500}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;line-height:1.15;max-width:800px;margin:0 auto 20px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .subtitle{font-size:1.15rem;color:var(--text2);max-width:640px;margin:0 auto 36px;line-height:1.7}
+.hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-top:40px}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:2rem;font-weight:800;color:var(--accent)}
+.hero-stat .label{font-size:.8rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* SECTIONS */
+section{padding:80px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent2);margin-bottom:12px;font-weight:600}
+.section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;margin-bottom:16px}
+.section-desc{color:var(--text2);max-width:600px;margin-bottom:48px;font-size:1.05rem}
+
+/* PROBLEM */
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.problem-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent3),var(--accent))}
+.problem-card .icon{font-size:2rem;margin-bottom:12px}
+.problem-card h3{font-size:1.05rem;margin-bottom:8px;font-weight:600}
+.problem-card p{color:var(--text2);font-size:.9rem;line-height:1.6}
+.stat-highlight{color:var(--accent3);font-weight:700}
+
+/* BEFORE / AFTER */
+.ba-container{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch}
+@media(max-width:768px){.ba-container{grid-template-columns:1fr;gap:24px}}
+.ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+.ba-card.before{border-color:rgba(224,108,159,.3)}
+.ba-card.after{border-color:rgba(78,201,176,.3)}
+.ba-card h3{font-size:1.2rem;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.ba-card.before h3{color:var(--accent3)}
+.ba-card.after h3{color:var(--accent2)}
+.ba-list{list-style:none}
+.ba-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:.9rem;display:flex;align-items:center;gap:10px}
+.ba-list li:last-child{border:none}
+.ba-list .icon-sm{font-size:1.1rem;flex-shrink:0}
+.ba-card.after .ba-list li{color:var(--accent2)}
+.ba-arrow{display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--accent);padding:0 20px}
+@media(max-width:768px){.ba-arrow{padding:10px 0;transform:rotate(90deg)}}
+
+/* TABS */
+.tabs-nav{display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:32px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-btn{padding:12px 20px;background:none;border:none;color:var(--text3);font-size:.85rem;font-weight:600;cursor:pointer;border-radius:8px;white-space:nowrap;transition:.2s;font-family:inherit}
+.tab-btn.active{background:var(--accent);color:#fff}
+.tab-btn:hover:not(.active){color:var(--text);background:var(--bg3)}
+.tab-content{display:none;min-height:300px}
+.tab-content.active{display:block}
+
+/* Dashboard tab */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.dash-card .dash-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.dash-card .dash-value{font-size:1.8rem;font-weight:800;margin:6px 0}
+.dash-card .dash-change{font-size:.8rem;font-weight:500}
+.dash-change.up{color:var(--accent2)}
+.dash-change.down{color:var(--accent3)}
+.activity-feed{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px}
+.activity-feed h4{margin-bottom:16px;font-size:.95rem}
+.feed-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.feed-item:last-child{border:none}
+.feed-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.feed-dot.green{background:var(--accent2)}
+.feed-dot.purple{background:var(--accent)}
+.feed-dot.pink{background:var(--accent3)}
+.feed-item .feed-text{font-size:.85rem;color:var(--text2)}
+.feed-item .feed-time{font-size:.75rem;color:var(--text3);margin-top:2px}
+
+/* Records tab */
+.search-bar{display:flex;gap:8px;margin-bottom:24px}
+.search-bar input{flex:1;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:.2s}
+.search-bar input:focus{border-color:var(--accent)}
+.search-bar button{padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit}
+.record-table{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.record-table table{width:100%;border-collapse:collapse}
+.record-table th{background:var(--bg3);padding:12px 16px;text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);font-weight:600}
+.record-table td{padding:14px 16px;border-top:1px solid var(--border);font-size:.85rem}
+.hash{font-family:'Courier New',monospace;font-size:.78rem;color:var(--accent);background:rgba(124,92,252,.1);padding:2px 8px;border-radius:4px}
+.status-badge{padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.status-badge.verified{background:rgba(78,201,176,.15);color:var(--accent2)}
+.status-badge.pending{background:rgba(255,200,50,.15);color:#ffc832}
+
+/* Meeting Minutes tab */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-28px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);z-index:1}
+.timeline-item .t-date{font-size:.75rem;color:var(--accent2);font-weight:600;margin-bottom:4px}
+.timeline-item h4{font-size:1rem;margin-bottom:6px}
+.timeline-item p{color:var(--text2);font-size:.85rem;line-height:1.6}
+.timeline-item .t-hash{margin-top:8px;font-family:'Courier New',monospace;font-size:.72rem;color:var(--accent);background:rgba(124,92,252,.08);padding:4px 10px;border-radius:6px;display:inline-block}
+
+/* Permits tab */
+.permit-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.permit-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.permit-header h4{font-size:1rem}
+.permit-steps{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.permit-step{padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;border:1px solid var(--border);color:var(--text3)}
+.permit-step.done{background:rgba(78,201,176,.15);border-color:rgba(78,201,176,.3);color:var(--accent2)}
+.permit-step.current{background:rgba(124,92,252,.15);border-color:rgba(124,92,252,.4);color:var(--accent)}
+.permit-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.permit-meta div{font-size:.8rem}
+.permit-meta .meta-label{color:var(--text3);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px}
+
+/* Citizen Portal tab */
+.portal-search{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;margin-bottom:32px}
+.portal-search h4{margin-bottom:16px}
+.portal-search input{width:100%;max-width:500px;padding:14px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;font-family:inherit;outline:none;text-align:center}
+.portal-search input:focus{border-color:var(--accent)}
+.portal-result{background:var(--card);border:1px solid var(--accent2);border-radius:12px;padding:24px}
+.portal-result .verified-badge{display:flex;align-items:center;gap:8px;color:var(--accent2);font-weight:700;font-size:1.1rem;margin-bottom:16px}
+.portal-result .result-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.portal-result .result-detail div .rlabel{font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.portal-result .result-detail div .rvalue{font-size:.9rem;margin-top:2px}
+
+/* ROI */
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+@media(max-width:768px){.roi-grid{grid-template-columns:1fr}}
+.roi-form{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
+.roi-form label{display:block;margin-bottom:16px}
+.roi-form label span{display:block;font-size:.8rem;color:var(--text3);margin-bottom:6px}
+.roi-form input[type=number]{width:100%;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.95rem;font-family:inherit;outline:none}
+.roi-form input[type=number]:focus{border-color:var(--accent)}
+.roi-result{background:linear-gradient(135deg,rgba(124,92,252,.1),rgba(78,201,176,.1));border:1px solid var(--accent);border-radius:16px;padding:36px;text-align:center}
+.roi-result .roi-num{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--accent2)}
+.roi-result .roi-label{font-size:.85rem;color:var(--text2);margin-top:4px}
+.roi-breakdown{margin-top:20px;text-align:left}
+.roi-breakdown div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.roi-breakdown div:last-child{border:none}
+.roi-breakdown .rb-label{color:var(--text2)}
+.roi-breakdown .rb-value{font-weight:600}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:.3s}
+.pricing-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,92,252,.08),var(--card))}
+.pricing-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:3px 14px;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:1px}
+.pricing-card .phase{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);font-weight:600;margin-bottom:8px}
+.pricing-card .price{font-size:2.2rem;font-weight:800;margin-bottom:4px}
+.pricing-card .price span{font-size:.9rem;font-weight:400;color:var(--text3)}
+.pricing-card .price-desc{font-size:.85rem;color:var(--text2);margin-bottom:20px}
+.pricing-card ul{list-style:none;margin-bottom:24px}
+.pricing-card ul li{padding:8px 0;font-size:.85rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(42,42,64,.5)}
+.pricing-card ul li:last-child{border:none}
+.pricing-card ul li::before{content:'✓';color:var(--accent2);font-weight:700}
+.pricing-btn{display:block;width:100%;padding:12px;text-align:center;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.9rem;transition:.2s}
+.pricing-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pricing-card.featured .pricing-btn{background:var(--accent);border-color:var(--accent);color:#fff}
+.pricing-card.featured .pricing-btn:hover{box-shadow:0 4px 20px rgba(124,92,252,.4)}
+
+/* CTA */
+.cta-section{text-align:center;padding:100px 0}
+.cta-section h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:16px}
+.cta-section p{color:var(--text2);max-width:500px;margin:0 auto 32px;font-size:1.05rem}
+.cta-btn{display:inline-block;padding:16px 40px;background:linear-gradient(135deg,var(--accent),#6a4ce0);color:#fff;border:none;border-radius:12px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.3s;box-shadow:0 4px 24px rgba(124,92,252,.3)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,92,252,.5)}
+.cta-sub{margin-top:16px;font-size:.8rem;color:var(--text3)}
+
+/* FOOTER */
+footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--text3);font-size:.8rem}
+
+/* UTILS */
+.mt-2{margin-top:2rem}
+.flex-center{display:flex;align-items:center;justify-content:center}
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"Government Demo","short_name":"Government","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
+<div class="aurora-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo"><div class="dot"></div>Aurora Pathways <span>× Government</span></div>
+    <button class="cta-sm" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Book a Call</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">🏛️ Trusted by 5,500+ Government Agencies</div>
+    <h1><span class="en-text">Public records should be public — and <em>untamperable</em></span><span class="es-text">Los registros públicos deben ser públicos — e <em>inalterables</em></span></h1>
+    <p class="subtitle"><span class="en-text">That's what the blockchain guarantees. Immutable public records, citizen-verifiable audit trails, and instant FOIA compliance — built for government agencies.</span><span class="es-text">Eso es lo que garantiza la blockchain. Registros públicos inmutables, auditorías verificables por ciudadanos y cumplimiento FOIA instantáneo — diseñado para agencias gubernamentales.</span></p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="cta-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Book a 30-Minute Call</button>
+      <button class="cta-btn" style="background:transparent;border:1px solid var(--accent);box-shadow:none" onclick="document.getElementById('tabs').scrollIntoView({behavior:'smooth'})">Explore the Platform ↓</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">5,500+</div><div class="label"><span class="en-text">Agencies Served</span><span class="es-text">Agencias Atendidas</span></div></div>
+      <div class="hero-stat"><div class="num">300M+</div><div class="label"><span class="en-text">Citizen Subscribers</span><span class="es-text">Suscriptores Ciudadanos</span></div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="label"><span class="en-text">Tamper-Proof</span><span class="es-text">A Prueba de Manipulación</span></div></div>
+      <div class="hero-stat"><div class="num">&lt;5s</div><div class="label"><span class="en-text">Verification Time</span><span class="es-text">Tiempo de Verificación</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section>
+  <div class="container">
+    <div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+    <h2 class="section-title"><span class="en-text">Government records face a trust crisis</span><span class="es-text">Los registros gubernamentales enfrentan una crisis de confianza</span></h2>
+    <p class="section-desc">Siloed databases, slow FOIA processing, and no way for citizens to independently verify record integrity.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">🗄️</div>
+        <h3>Siloed & Vulnerable</h3>
+        <p>Public records sit in disconnected databases across departments. No unified audit trail. Modifications leave no trace.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">⏳</div>
+        <h3>FOIA Bottlenecks</h3>
+        <p>Agencies spend an average of <span class="stat-highlight">$462 per FOIA request</span>. Processing takes weeks. Staff are buried in manual redaction.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">❓</div>
+        <h3>Unverifiable Permits</h3>
+        <p>Citizens and businesses can't independently verify permit status, approval chains, or whether records have been altered post-issuance.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">📋</div>
+        <h3>Meeting Minutes at Risk</h3>
+        <p>Council minutes and votes lack tamper-proof timestamps. No cryptographic proof that what was published matches what was decided.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section>
+  <div class="container">
+    <div class="section-label"><span class="en-text">Transformation</span><span class="es-text">Transformación</span></div>
+    <h2 class="section-title"><span class="en-text">Before & After On-Chain Records</span><span class="es-text">Antes y Después de Registros en Cadena</span></h2>
+    <p class="section-desc">See how blockchain-backed records transform every layer of public accountability.</p>
+    <div class="ba-container">
+      <div class="ba-card before">
+        <h3>❌ Before: Siloed Databases</h3>
+        <ul class="ba-list">
+          <li><span class="icon-sm">🔓</span> Records vulnerable to silent tampering</li>
+          <li><span class="icon-sm">🐌</span> FOIA requests take 20+ business days</li>
+          <li><span class="icon-sm">💸</span> $462 average cost per FOIA response</li>
+          <li><span class="icon-sm">📄</span> Manual compliance reporting</li>
+          <li><span class="icon-sm">🤷</span> No citizen self-service verification</li>
+          <li><span class="icon-sm">🔗</span> Disconnected departmental systems</li>
+          <li><span class="icon-sm">❓</span> No proof of record authenticity</li>
+        </ul>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-card after">
+        <h3>✅ After: On-Chain Records</h3>
+        <ul class="ba-list">
+          <li><span class="icon-sm">🔒</span> Immutable, cryptographically sealed</li>
+          <li><span class="icon-sm">⚡</span> Instant public access & search</li>
+          <li><span class="icon-sm">💰</span> 90% reduction in FOIA processing cost</li>
+          <li><span class="icon-sm">🤖</span> Automated compliance & reporting</li>
+          <li><span class="icon-sm">🌐</span> Public verification portal for all citizens</li>
+          <li><span class="icon-sm">🔗</span> Unified chain across all departments</li>
+          <li><span class="icon-sm">✅</span> Mathematically provable authenticity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM TABS -->
+<section id="tabs">
+  <div class="container">
+    <div class="section-label"><span class="en-text">Platform</span><span class="es-text">Plataforma</span></div>
+    <h2 class="section-title"><span class="en-text">Built for Government Agencies</span><span class="es-text">Diseñado para Agencias Gubernamentales</span></h2>
+    <p class="section-desc">Five integrated modules that connect to your existing government technology stack.</p>
+
+    <div class="tabs-nav" role="tablist">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('records')">📁 Public Records</button>
+      <button class="tab-btn" onclick="switchTab('minutes')">📝 Meeting Minutes</button>
+      <button class="tab-btn" onclick="switchTab('permits')">🏗️ Permits</button>
+      <button class="tab-btn" onclick="switchTab('citizen')">👤 Citizen Portal</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-label">Records On-Chain</div>
+          <div class="dash-value" style="color:var(--accent)">12,847</div>
+          <div class="dash-change up">↑ 342 this month</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">FOIA Requests (MTD)</div>
+          <div class="dash-value" style="color:var(--accent2)">89</div>
+          <div class="dash-change up">↓ 67% fewer (auto-fulfilled)</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">Citizen Verifications</div>
+          <div class="dash-value" style="color:var(--accent3)">4,215</div>
+          <div class="dash-change up">↑ 128% vs last month</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-label">Compliance Score</div>
+          <div class="dash-value" style="color:var(--accent2)">99.7%</div>
+          <div class="dash-change up">Automated reporting active</div>
+        </div>
+      </div>
+      <div class="activity-feed">
+        <h4>🔔 Recent Activity</h4>
+        <div class="feed-item"><div class="feed-dot green"></div><div><div class="feed-text">Building Permit #BP-2024-1847 verified on-chain</div><div class="feed-time">2 minutes ago</div></div></div>
+        <div class="feed-item"><div class="feed-dot purple"></div><div><div class="feed-text">City Council Meeting Minutes (June 10) sealed — hash 0x7f3a…c2d1</div><div class="feed-time">1 hour ago</div></div></div>
+        <div class="feed-item"><div class="feed-dot pink"></div><div><div class="feed-text">FOIA Request #4821 auto-fulfilled from public ledger</div><div class="feed-time">3 hours ago</div></div></div>
+        <div class="feed-item"><div class="feed-dot green"></div><div><div class="feed-text">Department of Planning batch uploaded 47 records</div><div class="feed-time">5 hours ago</div></div></div>
+        <div class="feed-item"><div class="feed-dot purple"></div><div><div class="feed-text">Citizen verification: Zoning variance ZV-2024-033 — confirmed valid</div><div class="feed-time">Yesterday</div></div></div>
+      </div>
+    </div>
+
+    <!-- RECORDS -->
+    <div id="tab-records" class="tab-content">
+      <div class="search-bar">
+        <input type="text" placeholder="Search by record ID, department, or keyword…" id="recordSearch">
+        <button onclick="searchRecords()">Search & Verify</button>
+      </div>
+      <div class="record-table">
+        <table>
+          <thead><tr><th>Record ID</th><th>Type</th><th>Department</th><th>On-Chain Hash</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>PR-2024-0847</td><td>Zoning Variance</td><td>Planning</td><td><span class="hash">0x7f3a…c2d1</span></td><td>Jun 12, 2024</td><td><span class="status-badge verified">✓ Verified</span></td></tr>
+            <tr><td>PR-2024-0846</td><td>Budget Amendment</td><td>Finance</td><td><span class="hash">0x9b2e…a8f3</span></td><td>Jun 11, 2024</td><td><span class="status-badge verified">✓ Verified</span></td></tr>
+            <tr><td>PR-2024-0845</td><td>Environmental Impact</td><td>Public Works</td><td><span class="hash">0x4d1c…e7b9</span></td><td>Jun 10, 2024</td><td><span class="status-badge verified">✓ Verified</span></td></tr>
+            <tr><td>PR-2024-0844</td><td>Contract Award</td><td>Procurement</td><td><span class="hash">0x8e5f…d4a2</span></td><td>Jun 10, 2024</td><td><span class="status-badge verified">✓ Verified</span></td></tr>
+            <tr><td>PR-2024-0843</td><td>Policy Resolution</td><td>City Council</td><td><span class="hash">0x2a9b…f1e6</span></td><td>Jun 9, 2024</td><td><span class="status-badge pending">⏳ Pending</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MINUTES -->
+    <div id="tab-minutes" class="tab-content">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="t-date">June 10, 2024 — City Council Regular Session</div>
+          <h4>Ordinance 2024-42: Affordable Housing Trust Fund</h4>
+          <p>Introduced by Councilmember Rivera. Seconded by Councilmember Park. Vote: 7-2 in favor. Public comment period: 14 speakers, 45 minutes.</p>
+          <div class="t-hash">🔗 0x7f3a8b2c…c2d1e9f4 — Sealed at 9:47 PM EST</div>
+        </div>
+        <div class="timeline-item">
+          <div class="t-date">June 3, 2024 — Planning Commission</div>
+          <h4>Conditional Use Permit: 450 Main Street Mixed-Use Development</h4>
+          <p>Applicant: Greenfield Development LLC. Staff recommendation: Approval with conditions. Commission vote: 5-0 approved with 12 conditions.</p>
+          <div class="t-hash">🔗 0x9b2e4f7a…a8f3c5d2 — Sealed at 8:22 PM EST</div>
+        </div>
+        <div class="timeline-item">
+          <div class="t-date">May 28, 2024 — City Council Work Session</div>
+          <h4>FY2025 Budget Preview & Department Requests</h4>
+          <p>City Manager presented $248M proposed budget. Department heads submitted supplemental requests totaling $12.4M. No votes taken — work session only.</p>
+          <div class="t-hash">🔗 0x4d1c9e3f…e7b9a2c8 — Sealed at 7:15 PM EST</div>
+        </div>
+        <div class="timeline-item">
+          <div class="t-date">May 20, 2024 — Board of Zoning Appeals</div>
+          <h4>Variance Request: 1200 Oak Avenue — Setback Reduction</h4>
+          <p>Owner requests 15ft rear setback reduction. Neighboring property owners notified. Board vote: 4-1 denied. Written decision to follow.</p>
+          <div class="t-hash">🔗 0x8e5f2a7d…d4a2b6c1 — Sealed at 6:30 PM EST</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERMITS -->
+    <div id="tab-permits" class="tab-content">
+      <div class="permit-card">
+        <div class="permit-header">
+          <h4>🏗️ Building Permit #BP-2024-1847</h4>
+          <span class="status-badge verified">✓ Approved & On-Chain</span>
+        </div>
+        <div class="permit-steps">
+          <span class="permit-step done">Application Filed</span>
+          <span class="permit-step done">Plan Review</span>
+          <span class="permit-step done">Fire Marshal Sign-off</span>
+          <span class="permit-step done">Zoning Compliance</span>
+          <span class="permit-step done">Approved & Sealed</span>
+        </div>
+        <div class="permit-meta">
+          <div><div class="meta-label">Applicant</div>Greenfield Development LLC</div>
+          <div><div class="meta-label">Project</div>450 Main St — Mixed-Use (3-story)</div>
+          <div><div class="meta-label">Filed</div>May 15, 2024</div>
+          <div><div class="meta-label">Approved</div>June 12, 2024</div>
+          <div><div class="meta-label">On-Chain Hash</div><span class="hash" style="font-size:.75rem">0xa3f1…8e2d</span></div>
+          <div><div class="meta-label">Total Review Days</div>28 days (14% faster than avg)</div>
+        </div>
+      </div>
+      <div class="permit-card">
+        <div class="permit-header">
+          <h4>🏗️ Electrical Permit #EP-2024-0923</h4>
+          <span class="status-badge pending">⏳ In Review</span>
+        </div>
+        <div class="permit-steps">
+          <span class="permit-step done">Application Filed</span>
+          <span class="permit-step done">Plan Review</span>
+          <span class="permit-step current">Inspector Assignment</span>
+          <span class="permit-step">Final Approval</span>
+        </div>
+        <div class="permit-meta">
+          <div><div class="meta-label">Applicant</div>Sunrise Solar Solutions</div>
+          <div><div class="meta-label">Project</div>Residential Solar — 789 Elm Drive</div>
+          <div><div class="meta-label">Filed</div>June 5, 2024</div>
+          <div><div class="meta-label">Expected Approval</div>June 18, 2024</div>
+        </div>
+      </div>
+      <div class="permit-card">
+        <div class="permit-header">
+          <h4>🏗️ Special Event Permit #SE-2024-0412</h4>
+          <span class="status-badge verified">✓ Approved & On-Chain</span>
+        </div>
+        <div class="permit-steps">
+          <span class="permit-step done">Application Filed</span>
+          <span class="permit-step done">Safety Review</span>
+          <span class="permit-step done">Traffic Plan Approved</span>
+          <span class="permit-step done">Approved & Sealed</span>
+        </div>
+        <div class="permit-meta">
+          <div><div class="meta-label">Applicant</div>Downtown Business Alliance</div>
+          <div><div class="meta-label">Event</div>Summer Street Festival — July 4th</div>
+          <div><div class="meta-label">Filed</div>April 20, 2024</div>
+          <div><div class="meta-label">Approved</div>May 8, 2024</div>
+          <div><div class="meta-label">On-Chain Hash</div><span class="hash" style="font-size:.75rem">0xd7c4…3f9a</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CITIZEN PORTAL -->
+    <div id="tab-citizen" class="tab-content">
+      <div class="portal-search">
+        <h4>🔍 Citizen Verification Portal</h4>
+        <p style="color:var(--text2);font-size:.9rem;margin-bottom:16px">Any citizen can verify any public record — no login, no FOIA request needed.</p>
+        <input type="text" placeholder="Enter record ID or scan QR code…" id="citizenSearch" value="BP-2024-1847">
+        <div style="margin-top:16px">
+          <button class="cta-btn" style="padding:10px 28px;font-size:.9rem" onclick="verifyCitizen()">Verify Record →</button>
+        </div>
+      </div>
+      <div class="portal-result" id="portalResult">
+        <div class="verified-badge">✅ Record Verified on Blockchain</div>
+        <p style="color:var(--text2);font-size:.9rem;margin-bottom:20px">This record has been cryptographically sealed and cannot be altered. Verification timestamped by the network.</p>
+        <div class="result-detail">
+          <div><div class="rlabel">Record ID</div><div class="rvalue">BP-2024-1847</div></div>
+          <div><div class="rlabel">Record Type</div><div class="rvalue">Building Permit</div></div>
+          <div><div class="rlabel">Issuing Agency</div><div class="rvalue">City of Springfield</div></div>
+          <div><div class="rlabel">Date Issued</div><div class="rvalue">June 12, 2024</div></div>
+          <div><div class="rlabel">Blockchain Hash</div><div class="rvalue"><span class="hash">0xa3f18b2c7d4e6f9a1b3c5d7e9f0a2b4c6d8e1f3a5b7c9d0e2f4a6b8c0d2e4f6a8</span></div></div>
+          <div><div class="rlabel">Block Number</div><div class="rvalue">#18,247,391</div></div>
+          <div><div class="rlabel">Confirmations</div><div class="rvalue">2,847</div></div>
+          <div><div class="rlabel">Status</div><div class="rvalue" style="color:var(--accent2);font-weight:600">Immutable & Verified</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section id="roi">
+  <div class="container">
+    <div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+    <h2 class="section-title"><span class="en-text">What are FOIA requests costing you?</span><span class="es-text">¿Cuánto te cuestan las solicitudes FOIA?</span></h2>
+    <p class="section-desc">Calculate your agency's annual savings with on-chain records that eliminate most manual FOIA processing.</p>
+    <div class="roi-grid">
+      <div class="roi-form">
+        <label>
+          <span>FOIA requests per year</span>
+          <input type="number" id="foiaCount" value="2400" oninput="calcROI()">
+        </label>
+        <label>
+          <span>Average processing hours per request</span>
+          <input type="number" id="foiaHours" value="8" step="0.5" oninput="calcROI()">
+        </label>
+        <label>
+          <span>Fully-loaded cost per hour ($)</span>
+          <input type="number" id="foiaCost" value="58" step="1" oninput="calcROI()">
+        </label>
+        <label>
+          <span>% of requests auto-fulfillable from on-chain records</span>
+          <input type="number" id="foiaAuto" value="65" min="0" max="100" oninput="calcROI()">
+        </label>
+      </div>
+      <div class="roi-result">
+        <div style="font-size:.85rem;color:var(--text2);margin-bottom:8px">Estimated Annual Savings</div>
+        <div class="roi-num" id="roiSavings">$723,840</div>
+        <div class="roi-label">per year</div>
+        <div class="roi-breakdown">
+          <div><span class="rb-label">Current annual FOIA cost</span><span class="rb-value" id="roiCurrent">$1,113,600</span></div>
+          <div><span class="rb-label">Requests auto-fulfilled</span><span class="rb-value" id="roiAutoCount">1,560</span></div>
+          <div><span class="rb-label">Hours saved per year</span><span class="rb-value" id="roiHoursSaved">12,480</span></div>
+          <div><span class="rb-label">Platform investment (Phase 2)</span><span class="rb-value">$50,000</span></div>
+          <div><span class="rb-label">Payback period</span><span class="rb-value" id="roiPayback">25 days</span></div>
+          <div><span class="rb-label">3-Year ROI</span><span class="rb-value" id="roi3yr" style="color:var(--accent2)">4,243%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label"><span class="en-text">Investment</span><span class="es-text">Inversión</span></div>
+    <h2 class="section-title"><span class="en-text">Phased rollout, proven results</span><span class="es-text">Implementación por fases, resultados comprobados</span></h2>
+    <p class="section-desc">Start with records, expand to the full platform. Each phase delivers standalone value.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="phase">Phase 1</div>
+        <div class="price">$20K <span>one-time</span></div>
+        <div class="price-desc">Records on-chain foundation</div>
+        <ul>
+          <li>Existing records hashed & anchored on-chain</li>
+          <li>Basic search & verification interface</li>
+          <li>Integration with government records management systems</li>
+          <li>Staff training & onboarding</li>
+          <li>90-day support included</li>
+        </ul>
+        <button class="pricing-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Start Phase 1</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="phase">Phase 2</div>
+        <div class="price">$50K <span>one-time</span></div>
+        <div class="price-desc">Full civic transparency platform</div>
+        <ul>
+          <li>Everything in Phase 1</li>
+          <li>Meeting minutes & agenda immutability</li>
+          <li>Permit approval workflow tracking</li>
+          <li>Citizen public verification portal</li>
+          <li>Automated FOIA response engine</li>
+          <li>Compliance dashboard & reporting</li>
+          <li>6 months of dedicated support</li>
+        </ul>
+        <button class="pricing-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Start Phase 2</button>
+      </div>
+      <div class="pricing-card">
+        <div class="phase">Phase 3</div>
+        <div class="price">$15K <span>/year</span></div>
+        <div class="price-desc">Ongoing maintenance & updates</div>
+        <ul>
+          <li>Infrastructure & chain anchoring</li>
+          <li>Security patches & updates</li>
+          <li>New feature releases</li>
+          <li>Priority technical support</li>
+          <li>Annual compliance audit report</li>
+          <li>Staff refresher training</li>
+        </ul>
+        <button class="pricing-btn" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Learn More</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <h2><span class="en-text">Ready to make your public records<br><em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">truly public?</em></span><span class="es-text">¿Listo para hacer sus registros públicos<br><em style="font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">verdaderamente públicos?</em></span></h2>
+    <p><span class="en-text">Book a 30-minute call with our government solutions team. We'll map your current records stack and show you exactly where on-chain creates value.</span><span class="es-text">Reserve una llamada de 30 minutos con nuestro equipo de soluciones gubernamentales. Mapearemos su sistema actual de registros y le mostraremos exactamente dónde la cadena crea valor.</span></p>
+    <button class="cta-btn" onclick="alert('In production, this opens a Calendly/HubSpot booking widget. For now, email team@aurorapathways.com')">Book a 30-Minute Call</button>
+    <div class="cta-sub">No commitment · Free assessment · Built for government security standards</div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2024 Aurora Pathways · Government Blockchain Solutions · <a href="#">Security</a> · <a href="#">Privacy</a> · <a href="#">Compliance</a></p>
+  </div>
+</footer>
+
+<script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
+// Tab switching
+function switchTab(name){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ROI Calculator
+function calcROI(){
+  const count=parseFloat(document.getElementById('foiaCount').value)||0;
+  const hours=parseFloat(document.getElementById('foiaHours').value)||0;
+  const cost=parseFloat(document.getElementById('foiaCost').value)||0;
+  const auto=parseFloat(document.getElementById('foiaAuto').value)||0;
+  const currentCost=count*hours*cost;
+  const savings=currentCost*(auto/100);
+  const autoCount=Math.round(count*(auto/100));
+  const hoursSaved=Math.round(autoCount*hours);
+  const paybackDays=Math.round((50000/savings)*365);
+  const roi3yr=((savings*3-50000)/50000*100).toFixed(0);
+  document.getElementById('roiSavings').textContent='$'+savings.toLocaleString();
+  document.getElementById('roiCurrent').textContent='$'+currentCost.toLocaleString();
+  document.getElementById('roiAutoCount').textContent=autoCount.toLocaleString();
+  document.getElementById('roiHoursSaved').textContent=hoursSaved.toLocaleString();
+  document.getElementById('roiPayback').textContent=paybackDays+' days';
+  document.getElementById('roi3yr').textContent=Number(roi3yr).toLocaleString()+'%';
+}
+
+// Citizen verification demo
+function verifyCitizen(){
+  const val=document.getElementById('citizenSearch').value.trim();
+  const el=document.getElementById('portalResult');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.style.borderColor='var(--accent2)';
+  setTimeout(()=>el.style.borderColor='var(--border)',2000);
+}
+
+// Record search demo
+function searchRecords(){
+  const q=document.getElementById('recordSearch').value.trim().toLowerCase();
+  const rows=document.querySelectorAll('.record-table tbody tr');
+  let found=false;
+  rows.forEach(r=>{
+    const text=r.textContent.toLowerCase();
+    if(!q||text.includes(q)){r.style.display='';found=true}
+    else{r.style.display='none'}
+  });
+}
+
+// Init ROI on load
+calcROI();
+</script>
+</body>
+</html>

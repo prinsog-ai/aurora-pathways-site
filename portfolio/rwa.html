@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='theme-color' content='#0a0a0f'>
+<title>Blockchain for RWA — Aurora Pathways</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0f;--bg2:#1a1a2e;--accent:#7c5cfc;--accent2:#4ec9b0;--text:#e0e0e0;--text-dim:#888;--card:#12121f;--border:#2a2a3e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+.aurora{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;background:radial-gradient(ellipse at 30% 50%,rgba(124,92,252,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(78,201,176,.08) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.1rem;color:#fff;text-decoration:none}
+.logo span{color:var(--accent)}
+.partner-badge{font-size:.75rem;color:var(--accent2);border:1px solid var(--accent2);padding:2px 10px;border-radius:20px;margin-left:12px}
+nav a.btn{background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;transition:.2s}
+nav a.btn:hover{opacity:.85}
+
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-text h1{font-size:2.6rem;font-weight:800;line-height:1.15;color:#fff;margin-bottom:20px}
+.hero-text h1 em{font-style:normal;color:var(--accent)}
+.hero-text p{font-size:1.15rem;color:var(--text-dim);margin-bottom:32px;max-width:540px}
+.btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;transition:.2s}
+.btn-primary:hover{opacity:.85}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:500;transition:.2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero-visual{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.hv-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.hv-dot{width:10px;height:10px;border-radius:50%}
+.hv-dot.r{background:#ff5f57}.hv-dot.y{background:#febc2e}.hv-dot.g{background:#28c840}
+.hv-body{padding:24px}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.metric-card{background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.15);border-radius:10px;padding:16px}
+.metric-card .label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.metric-card .value{font-size:1.6rem;font-weight:700;color:#fff;margin-top:4px}
+.metric-card .change{font-size:.75rem;color:var(--accent2);margin-top:2px}
+
+/* Asset row */
+.asset-row{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.asset-row .a-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:rgba(124,92,252,.1)}
+.asset-row .a-info{flex:1}
+.asset-row .a-name{font-size:.9rem;color:#fff;font-weight:600}
+.asset-row .a-meta{font-size:.75rem;color:var(--text-dim);margin-top:2px}
+.asset-row .a-chains{display:flex;gap:4px;margin-top:4px}
+.chain-badge{font-size:.6rem;padding:2px 8px;border-radius:10px;font-weight:600;background:rgba(78,201,176,.1);color:var(--accent2)}
+.chain-badge.poly{background:rgba(130,71,229,.15);color:#8247e5}
+.chain-badge.base{background:rgba(0,82,255,.12);color:#3b82f6}
+.chain-badge.arb{background:rgba(40,160,240,.12);color:#28a0f0}
+.asset-row .a-value{font-size:1rem;color:#fff;font-weight:700;text-align:right}
+
+section{position:relative;z-index:1;padding:100px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;font-weight:600}
+.section-title{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px}
+.section-sub{color:var(--text-dim);max-width:620px;margin-bottom:48px;font-size:1.05rem}
+
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ba-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative}
+.ba-card.before{border-color:rgba(255,95,87,.3)}
+.ba-card.after{border-color:rgba(78,201,176,.3)}
+.ba-tag{position:absolute;top:-12px;left:24px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:20px}
+.ba-card.before .ba-tag{background:#ff5f57;color:#fff}
+.ba-card.after .ba-tag{background:var(--accent2);color:#000}
+.ba-card h3{font-size:1.3rem;color:#fff;margin-bottom:16px;margin-top:8px}
+.ba-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ba-card li{display:flex;align-items:flex-start;gap:10px;font-size:.95rem;color:var(--text-dim)}
+.ba-card li .bi{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px}
+.before .bi{background:rgba(255,95,87,.15);color:#ff5f57}
+.after .bi{background:rgba(78,201,176,.15);color:var(--accent2)}
+
+.tabs-section{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
+.tab-nav{display:flex;gap:4px;margin-bottom:32px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:12px 24px;border:none;background:none;color:var(--text-dim);font-family:inherit;font-size:.9rem;font-weight:500;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab-btn.active{background:var(--accent);color:#fff}
+.tab-btn:hover:not(.active){color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tab-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;min-height:400px}
+.tab-content h3{font-size:1.4rem;color:#fff;margin-bottom:8px}
+.tab-content p{color:var(--text-dim);margin-bottom:24px}
+.tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tab-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:20px}
+.tab-item h4{color:#fff;font-size:.95rem;margin-bottom:6px}
+.tab-item p{font-size:.85rem;color:var(--text-dim)}
+.tab-item .item-icon{font-size:1.8rem;margin-bottom:10px}
+
+/* Compliance table */
+.comp-table{width:100%;border-collapse:collapse;margin-top:16px}
+.comp-table th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-dim);padding:10px 12px;border-bottom:1px solid var(--border)}
+.comp-table td{padding:12px;font-size:.9rem;border-bottom:1px solid rgba(255,255,255,.03)}
+.comp-table tr:hover{background:rgba(124,92,252,.05)}
+.check-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.check-badge.pass{background:rgba(78,201,176,.15);color:var(--accent2)}
+.check-badge.review{background:rgba(254,188,46,.15);color:#febc2e}
+.check-badge.fail{background:rgba(255,95,87,.15);color:#ff5f57}
+
+/* Chain distribution */
+.chain-dist{display:flex;gap:12px;margin:20px 0;flex-wrap:wrap}
+.chain-card{flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.chain-card .c-logo{font-size:1.6rem;margin-bottom:8px}
+.chain-card .c-name{font-size:.85rem;color:#fff;font-weight:600}
+.chain-card .c-status{font-size:.7rem;margin-top:4px;font-weight:600}
+.chain-card .c-status.live{color:var(--accent2)}
+.chain-card .c-status.pending{color:#febc2e}
+
+.roi-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.roi-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.roi-inputs{display:flex;flex-direction:column;gap:20px}
+.input-group label{display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+.input-group input{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
+.input-group input:focus{border-color:var(--accent)}
+.roi-result{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(124,92,252,.08),rgba(78,201,176,.08));border-radius:16px;padding:40px}
+.roi-result .big-number{font-size:3.2rem;font-weight:800;color:var(--accent2);line-height:1}
+.roi-result .big-label{font-size:1rem;color:var(--text-dim);margin-top:8px}
+.roi-breakdown{margin-top:24px;text-align:left;width:100%}
+.roi-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem}
+.roi-row .rl{color:var(--text-dim)}.roi-row .rv{color:#fff;font-weight:600}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:.3s;position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,92,252,.08),var(--card))}
+.price-card.featured::before{content:'RECOMMENDED';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.05em}
+.phase-label{font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px}
+.price-amount{font-size:2.4rem;font-weight:800;color:#fff;margin-bottom:4px}
+.price-period{font-size:.85rem;color:var(--text-dim);margin-bottom:20px}
+.price-desc{font-size:.9rem;color:var(--text-dim);margin-bottom:24px;line-height:1.5}
+.price-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.price-features li{font-size:.9rem;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--accent2);font-weight:700}
+.price-btn{display:block;width:100%;padding:14px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.9rem;text-align:center;transition:.2s}
+.price-btn.primary{background:var(--accent);color:#fff}
+.price-btn.primary:hover{opacity:.85}
+.price-btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.price-btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+.cta-section{text-align:center;padding:100px 0}
+.cta-box{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(78,201,176,.1));border:1px solid var(--border);border-radius:24px;padding:60px 40px;max-width:700px;margin:0 auto}
+.cta-box h2{font-size:2rem;color:#fff;font-weight:800;margin-bottom:16px}
+.cta-box p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;position:relative;z-index:1}
+
+/* Language Toggle */
+.en-text{display:inline}.es-text{display:none}.es .en-text{display:none}.es .es-text{display:inline}#lang-toggle{position:fixed;top:12px;right:16px;z-index:200;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}#lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:768px){
+.hero .container{grid-template-columns:1fr;gap:40px;padding-top:40px}
+.hero-text h1{font-size:2rem}
+.ba-grid,.roi-wrap{grid-template-columns:1fr}
+.pricing-grid,.tab-grid{grid-template-columns:1fr}
+.metric-row{grid-template-columns:1fr}
+.chain-dist{flex-direction:column}
+}
+</style>
+<link rel='manifest' href='data:application/json,{"name":"RWA Demo","short_name":"RWA","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#7c5cfc","icons":[]}'  >
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+</head>
+<body>
+<button id="lang-toggle" onclick="toggleLang()">EN | ES</button>
+<div class="aurora"></div>
+
+<nav>
+<div class="container">
+<div style="display:flex;align-items:center">
+<a href="/" class="logo">Aurora <span>Pathways</span></a>
+<span class="partner-badge">× RWA</span>
+</div>
+<a href="#cta" class="btn">Book a Call</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-text">
+<h1><span class="en-text">Tokenize any real-world asset. Stay compliant in every jurisdiction. <em>Launch in days, not months.</em></span><span class="es-text">Tokenice cualquier activo del mundo real. Manténgase conforme en cada jurisdicción. <em>Lance en días, no meses.</em></span></h1>
+<p><span class="en-text">RWA platforms provide infrastructure for on-chain asset management. But navigating KYC/AML, securities regulations, and multi-jurisdiction compliance is still a manual nightmare. Aurora Pathways automates it — from token creation to cross-chain distribution.</span><span class="es-text">Las plataformas RWA proporcionan infraestructura para la gestión de activos en cadena. Pero navegar por KYC/AML, regulaciones de valores y cumplimiento multi-jurisdiccional sigue siendo una pesadilla manual. Aurora Pathways lo automatiza — desde la creación de tokens hasta la distribución entre cadenas.</span></p>
+<div class="btn-group">
+<a href="#cta" class="btn-primary">Book a Strategy Call</a>
+<a href="#demo" class="btn-outline">See the Platform ↓</a>
+</div>
+</div>
+<div class="hero-visual">
+<div class="hv-header">
+<div class="hv-dot r"></div><div class="hv-dot y"></div><div class="hv-dot g"></div>
+<span style="font-size:.8rem;color:var(--text-dim);margin-left:8px">Asset Portfolio — Live</span>
+</div>
+<div class="hv-body">
+<div class="metric-row">
+<div class="metric-card"><div class="label">Assets Tokenized</div><div class="value">$847M</div><div class="change">23 active assets</div></div>
+<div class="metric-card"><div class="label">Avg Time to Market</div><div class="value">6 days</div><div class="change" style="color:var(--accent2)">↓ from 4 months</div></div>
+</div>
+<div class="asset-row">
+<div class="a-icon">🏢</div>
+<div class="a-info">
+<div class="a-name">Commercial Real Estate Fund III</div>
+<div class="a-meta">Tokenized 3 days ago · US, EU, SG</div>
+<div class="a-chains"><span class="chain-badge poly">Polygon</span><span class="chain-badge base">Base</span><span class="chain-badge arb">Arbitrum</span></div>
+</div>
+<div class="a-value">$125M</div>
+</div>
+<div class="asset-row">
+<div class="a-icon">📦</div>
+<div class="a-info">
+<div class="a-name">Trade Receivables Pool #47</div>
+<div class="a-meta">Tokenized 1 week ago · US, UK</div>
+<div class="a-chains"><span class="chain-badge poly">Polygon</span><span class="chain-badge base">Base</span></div>
+</div>
+<div class="a-value">$42M</div>
+</div>
+<div class="asset-row">
+<div class="a-icon">🌱</div>
+<div class="a-info">
+<div class="a-name">Carbon Credit Portfolio</div>
+<div class="a-meta">Tokenized 2 weeks ago · Global</div>
+<div class="a-chains"><span class="chain-badge poly">Polygon</span><span class="chain-badge arb">Arbitrum</span></div>
+</div>
+<div class="a-value">$18M</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">The Problem</span><span class="es-text">El Problema</span></div>
+<div class="section-title"><span class="en-text">Compliance Fragmentation Kills Speed</span><span class="es-text">La Fragmentación del Cumplimiento Mata la Velocidad</span></div>
+<div class="section-sub">Tokenizing real-world assets means navigating a maze of KYC/AML rules, securities regulations, and jurisdiction-specific requirements — manually.</div>
+<div class="ba-grid">
+<div class="ba-card before">
+<span class="ba-tag">Before</span>
+<h3>Months of Compliance Work</h3>
+<ul>
+<li><span class="bi">✗</span> Manual KYC/AML checks per jurisdiction</li>
+<li><span class="bi">✗</span> Securities regs vary country by country</li>
+<li><span class="bi">✗</span> 3-6 month time-to-market per asset</li>
+<li><span class="bi">✗</span> Separate legal teams per jurisdiction</li>
+<li><span class="bi">✗</span> Single-chain deployment limits distribution</li>
+</ul>
+</div>
+<div class="ba-card after">
+<span class="ba-tag">After</span>
+<h3>Days, Not Months</h3>
+<ul>
+<li><span class="bi">✓</span> Automated KYC/AML orchestration</li>
+<li><span class="bi">✓</span> Jurisdiction-aware token templates</li>
+<li><span class="bi">✓</span> 3-7 day time-to-market</li>
+<li><span class="bi">✓</span> One platform, all jurisdictions</li>
+<li><span class="bi">✓</span> Cross-chain distribution in one click</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DEMO TABS -->
+<section class="tabs-section" id="demo">
+<div class="container">
+<div class="section-label"><span class="en-text">Interactive Demo</span><span class="es-text">Demostración Interactiva</span></div>
+<div class="section-title"><span class="en-text">See It In Action</span><span class="es-text">Velo en Acción</span></div>
+<div class="section-sub">From asset selection to cross-chain deployment — the full tokenization workflow.</div>
+<div class="tab-nav">
+<button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+<button class="tab-btn" onclick="showTab('studio')">Token Studio</button>
+<button class="tab-btn" onclick="showTab('compliance')">Compliance Engine</button>
+<button class="tab-btn" onclick="showTab('distribution')">Distribution</button>
+</div>
+
+<div class="tab-panel active" id="tab-dashboard">
+<div class="tab-content">
+<h3>Assets Overview</h3>
+<p>Your tokenized asset portfolio — value, compliance status, and chain distribution at a glance.</p>
+<div class="metric-row">
+<div class="metric-card"><div class="label">Total Value Locked</div><div class="value">$847M</div><div class="change">↑ $125M this month</div></div>
+<div class="metric-card"><div class="label">Active Assets</div><div class="value">23</div><div class="change">Across 12 jurisdictions</div></div>
+<div class="metric-card"><div class="label">Compliance Rate</div><div class="value">100%</div><div class="change">All assets fully compliant</div></div>
+<div class="metric-card"><div class="label">Chains Deployed</div><div class="value">5</div><div class="change">Polygon, Base, Arbitrum, +2</div></div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-studio">
+<div class="tab-content">
+<h3>Token Studio</h3>
+<p>Create and configure tokenized assets with a visual interface. No smart contract development required.</p>
+<div class="tab-grid">
+<div class="tab-item">
+<div class="item-icon">🏗️</div>
+<h4>Asset Templates</h4>
+<p>Pre-built templates for real estate, trade finance, carbon credits, commodities, and more. Just fill in the details.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">⚙️</div>
+<h4>Token Configuration</h4>
+<p>Define supply, decimals, transfer restrictions, investor caps, and lockup periods — all from a visual form.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">📋</div>
+<h4>Legal Wrapper</h4>
+<p>Auto-generated legal documentation aligned with your token configuration. Reviewed by partner law firms.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">🧪</div>
+<h4>Testnet Preview</h4>
+<p>Preview your tokenized asset on testnet before mainnet deployment. Test investor flows and compliance checks.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-compliance">
+<div class="tab-content">
+<h3>Compliance Engine</h3>
+<p>Automated KYC/AML checks, jurisdiction rules, and investor accreditation — all enforced on-chain.</p>
+<table class="comp-table">
+<thead><tr><th>Check</th><th>Jurisdiction</th><th>Status</th><th>Last Verified</th></tr></thead>
+<tbody>
+<tr><td>KYC Verification</td><td>US (SEC Reg D)</td><td><span class="check-badge pass">Passed ✓</span></td><td>2 hours ago</td></tr>
+<tr><td>Accredited Investor</td><td>US (SEC Reg D)</td><td><span class="check-badge pass">Passed ✓</span></td><td>2 hours ago</td></tr>
+<tr><td>AML Screening</td><td>EU (MiCA)</td><td><span class="check-badge pass">Passed ✓</span></td><td>1 day ago</td></tr>
+<tr><td>Prospectus Filing</td><td>UK (FCA)</td><td><span class="check-badge review">Under Review</span></td><td>Pending</td></tr>
+<tr><td>Local Securities Reg</td><td>Singapore (MAS)</td><td><span class="check-badge pass">Passed ✓</span></td><td>3 days ago</td></tr>
+<tr><td>Sanctions Screening</td><td>Global (OFAC)</td><td><span class="check-badge pass">Passed ✓</span></td><td>Real-time</td></tr>
+</tbody>
+</table>
+<div style="margin-top:20px;padding:16px;background:rgba(78,201,176,.06);border:1px solid rgba(78,201,176,.15);border-radius:10px">
+<p style="font-size:.85rem;color:var(--text-dim)">🛡️ <strong style="color:#fff">On-Chain Enforcement:</strong> Transfer restrictions are enforced at the smart contract level. Non-compliant wallets cannot receive or send tokens. No off-chain follow-up needed.</p>
+</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-distribution">
+<div class="tab-content">
+<h3>Cross-Chain Distribution</h3>
+<p>Deploy your tokenized asset to multiple chains in one click. Reach investors wherever they are.</p>
+<div class="chain-dist">
+<div class="chain-card"><div class="c-logo">⬡</div><div class="c-name">Polygon</div><div class="c-status live">● Live</div></div>
+<div class="chain-card"><div class="c-logo">🔵</div><div class="c-name">Base</div><div class="c-status live">● Live</div></div>
+<div class="chain-card"><div class="c-logo">🔷</div><div class="c-name">Arbitrum</div><div class="c-status live">● Live</div></div>
+<div class="chain-card"><div class="c-logo">🟣</div><div class="c-name">Ethereum</div><div class="c-status pending">● Pending</div></div>
+<div class="chain-card"><div class="c-logo">🟤</div><div class="c-name">Avalanche</div><div class="c-status pending">● Pending</div></div>
+</div>
+<div class="tab-grid" style="margin-top:20px">
+<div class="tab-item">
+<div class="item-icon">🌉</div>
+<h4>Bridge & Sync</h4>
+<p>Cross-chain bridges keep token supply synchronized. Mint on one chain, distribute everywhere.</p>
+</div>
+<div class="tab-item">
+<div class="item-icon">💧</div>
+<h4>Liquidity Routing</h4>
+<p>Automatically route investor deposits to the chain with the best liquidity and lowest gas.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ROI -->
+<section class="roi-section">
+<div class="container">
+<div class="section-label"><span class="en-text">ROI Calculator</span><span class="es-text">Calculadora de ROI</span></div>
+<div class="section-title"><span class="en-text">Your Potential Savings</span><span class="es-text">Tus Ahorros Potenciales</span></div>
+<div class="section-sub">How much is slow time-to-market costing your asset launches?</div>
+<div class="roi-wrap">
+<div class="roi-inputs">
+<div class="input-group">
+<label>Assets to Tokenize per Year</label>
+<input type="number" id="roi-assets" value="10" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Avg Time-to-Market (months)</label>
+<input type="number" id="roi-months" value="4" oninput="calcROI()">
+</div>
+<div class="input-group">
+<label>Cost per Month of Delay ($)</label>
+<input type="number" id="roi-cost" value="50000" oninput="calcROI()">
+</div>
+</div>
+<div class="roi-result">
+<div class="big-number" id="roi-total">$2.0M</div>
+<div class="big-label">Estimated Annual Cost of Delay</div>
+<div class="roi-breakdown">
+<div class="roi-row"><span class="rl">Assets/Year</span><span class="rv" id="rb-assets">10</span></div>
+<div class="roi-row"><span class="rl">Months per Asset</span><span class="rv" id="rb-months">4</span></div>
+<div class="roi-row"><span class="rl">Total Delay Months</span><span class="rv" id="rb-total-months">40</span></div>
+<div class="roi-row"><span class="rl">Cost/Month</span><span class="rv" id="rb-cost">$50K</span></div>
+<div class="roi-row"><span class="rl">Total Delay Cost</span><span class="rv" id="rb-total">$2.0M</span></div>
+<div class="roi-row"><span class="rl">With Aurora (30 days total)</span><span class="rv" id="rb-savings" style="color:var(--accent2)">$1.9M saved</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section>
+<div class="container">
+<div class="section-label"><span class="en-text">Pricing</span><span class="es-text">Precios</span></div>
+<div class="section-title"><span class="en-text">Phased Deployment</span><span class="es-text">Implementación por Fases</span></div>
+<div class="section-sub">Start with the token studio. Scale to full compliance and multi-chain. No lock-in.</div>
+<div class="pricing-grid">
+<div class="price-card">
+<div class="phase-label">Phase 1</div>
+<div class="price-amount">$25K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Token studio — create and configure tokenized assets with compliance templates.</div>
+<ul class="price-features">
+<li>Token creation studio</li>
+<li>Asset templates (RE, trade finance, etc.)</li>
+<li>Basic compliance checks</li>
+<li>RWA platform integration</li>
+<li>Single-chain deployment</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Get Started</a>
+</div>
+<div class="price-card featured">
+<div class="phase-label">Phase 2</div>
+<div class="price-amount">$60K</div>
+<div class="price-period">One-time deployment</div>
+<div class="price-desc">Full platform — automated compliance, multi-jurisdiction, cross-chain distribution.</div>
+<ul class="price-features">
+<li>Full compliance engine</li>
+<li>Multi-jurisdiction support</li>
+<li>KYC/AML orchestration</li>
+<li>Cross-chain distribution</li>
+<li>Liquidity routing</li>
+<li>Dedicated success manager</li>
+</ul>
+<a href="#cta" class="price-btn primary">Get Started</a>
+</div>
+<div class="price-card">
+<div class="phase-label">Phase 3</div>
+<div class="price-amount">$20K<span style="font-size:1rem;font-weight:400">/yr</span></div>
+<div class="price-period">Annual maintenance</div>
+<div class="price-desc">Ongoing support, regulatory updates, and chain additions.</div>
+<ul class="price-features">
+<li>Platform maintenance</li>
+<li>Regulatory update monitoring</li>
+<li>New chain deployments</li>
+<li>Compliance rule updates</li>
+<li>Priority support</li>
+</ul>
+<a href="#cta" class="price-btn secondary">Contact Us</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+<div class="container">
+<div class="cta-box">
+<h2><span class="en-text">Tokenize Faster. Stay Compliant Everywhere.</span><span class="es-text">Tokenice Más Rápido. Manténgase Conforme en Todas Partes.</span></h2>
+<p><span class="en-text">Book a 30-minute call. We'll review your asset pipeline and show you exactly how to go from idea to cross-chain token in under a week.</span><span class="es-text">Reserve una llamada de 30 minutos. Revisaremos su pipeline de activos y le mostraremos exactamente cómo ir de idea a token entre cadenas en menos de una semana.</span></p>
+<a href="#" class="btn-primary" style="display:inline-block">Book a Strategy Call →</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>© 2026 Aurora Pathways. Built for RWA.</p>
+</div>
+</footer>
+
+<script>
+function toggleLang(){document.body.classList.toggle('es');const isES=document.body.classList.contains('es');localStorage.setItem('lang',isES?'es':'en');document.getElementById('lang-toggle').textContent=isES?'ES | EN':'EN | ES'}if(localStorage.getItem('lang')==='es'){document.body.classList.add('es');setTimeout(()=>{document.getElementById('lang-toggle').textContent='ES | EN'},0)}
+function showTab(id){
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('tab-'+id).classList.add('active');
+}
+function calcROI(){
+const a=parseFloat(document.getElementById('roi-assets').value)||0;
+const m=parseFloat(document.getElementById('roi-months').value)||0;
+const c=parseFloat(document.getElementById('roi-cost').value)||0;
+const totalMonths=a*m;
+const total=totalMonths*c;
+const newMonths=a*1;
+const newCost=newMonths*c;
+const savings=total-newCost;
+document.getElementById('roi-total').textContent='$'+(total>=1000000?(total/1000000).toFixed(1)+'M':(total/1000).toFixed(0)+'K');
+document.getElementById('rb-assets').textContent=a;
+document.getElementById('rb-months').textContent=m;
+document.getElementById('rb-total-months').textContent=totalMonths;
+document.getElementById('rb-cost').textContent='$'+(c>=1000?(c/1000).toFixed(0)+'K':c);
+document.getElementById('rb-total').textContent='$'+(total>=1000000?(total/1000000).toFixed(1)+'M':(total/1000).toFixed(0)+'K');
+document.getElementById('rb-savings').textContent='$'+(savings>=1000000?(savings/1000000).toFixed(1)+'M saved':(savings/1000).toFixed(0)+'K saved');
+}
+</script>
+</body>
+</html>

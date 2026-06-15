@@ -2,38 +2,50 @@
 
 **Last updated: June 14, 2026**
 
-## Industry Demos (13 total)
-| Industry | File | URL |
+## Public Site (Generic Industry Demos)
+These are on the main site. No company names — just industry use cases.
+
+| Industry | URL |
+|---|---|
+| Real Estate | https://aurorapathways.xyz/portfolio/real-estate.html |
+| Healthcare | https://aurorapathways.xyz/portfolio/healthcare.html |
+| Finance | https://aurorapathways.xyz/portfolio/finance.html |
+| Supply Chain | https://aurorapathways.xyz/portfolio/supply-chain.html |
+| Art & Entertainment | https://aurorapathways.xyz/portfolio/art.html |
+| Gaming | https://aurorapathways.xyz/portfolio/gaming.html |
+| Education | https://aurorapathways.xyz/portfolio/education.html |
+| Government | https://aurorapathways.xyz/portfolio/government.html |
+| DAO & Governance | https://aurorapathways.xyz/portfolio/dao.html |
+| Retail | https://aurorapathways.xyz/portfolio/retail.html |
+| Legal | https://aurorapathways.xyz/portfolio/legal.html |
+| Energy | https://aurorapathways.xyz/portfolio/energy-carbon.html |
+| RWA Tokenization | https://aurorapathways.xyz/portfolio/rwa.html |
+
+## Private Sales Demos (Company-Specific)
+**⚠️ PRIVATE — Do not share publicly.** For Prince's sales outreach only.
+
+| Company | Industry | Demo URL | Platform URL |
+|---|---|---|---|
+| Valence | Oil & Gas (Carbon Credits) | https://valence-demo-theta.vercel.app | https://valence-platform.vercel.app |
+| WES | Oil & Gas (Field Services) | https://wes-demo-ten.vercel.app | https://wes-platform-henna.vercel.app |
+| Acme | Software (Cloud ERP) | https://acme-demo-two.vercel.app | https://acme-platform.vercel.app |
+| Noble | Business Services | https://noble-demo-dusky.vercel.app | https://noble-platform-omega.vercel.app |
+
+**Private sales page:** https://aurorapathways.xyz/sales-demos.html
+
+## Cold Prospects (10)
+| Company | Industry | Status |
 |---|---|---|
-| Real Estate | demos/buildium/ | https://buildium-two.vercel.app |
-| Healthcare | demos/carecloud/ | https://carecloud-lac.vercel.app |
-| Finance | demos/lendingclub/ | https://lendingclub-eta.vercel.app |
-| Supply Chain | demos/buildium/ | https://buildium-two.vercel.app |
-| Art & Entertainment | demos/distrokid/ | https://distrokid.vercel.app |
-| Gaming & Esports | demos/100thieves/ | https://100thieves.vercel.app |
-| Education | demos/credly/ | https://credly-lake.vercel.app |
-| Government | demos/granicus/ | https://granicus.vercel.app |
-| DAO & Governance | demos/snapshot/ | https://snapshot-flax.vercel.app |
-| Retail & Ecommerce | demos/yotpo/ | https://yotpo-flax.vercel.app |
-| Legal | demos/ironclad/ | https://ironclad-lyart.vercel.app |
-| Energy | portfolio/energy-carbon.html | https://aurorapathways.xyz/portfolio/energy-carbon.html |
-| RWA Tokenization | demos/centrifuge/ | https://centrifuge-plum.vercel.app |
-
-## Client Demos (4 total)
-| Client | URL |
-|---|---|
-| Valence | https://valence-demo-theta.vercel.app |
-| WES | https://wes-demo-ten.vercel.app |
-| Acme | https://acme-demo-two.vercel.app |
-| Noble | https://noble-demo-dusky.vercel.app |
-
-## Client Production Platforms (4 total)
-| Client | URL |
-|---|---|
-| Valence | https://valence-platform.vercel.app |
-| WES | https://wes-platform-henna.vercel.app |
-| Acme | https://acme-platform.vercel.app |
-| Noble | https://noble-platform-omega.vercel.app |
+| Drosera | Web3 Security | Pending |
+| Karsa | Enterprise Blockchain | Pending |
+| Blaze | DeFi | Pending |
+| Pod Network | Media | Pending |
+| Telcoin | Payments | Pending |
+| MetaWealth | RWA | Pending |
+| ZedAI | AI Infrastructure | Pending |
+| Estakio | Real Estate | Pending |
+| Figure | Lending | Pending |
+| Perpetuals | Trading | Pending |
 
 ## ERES (Client Prospect — NOT an industry demo)
 | Demo | URL |
@@ -65,13 +77,14 @@
 | ridep2p.xyz | RideP2P landing page |
 
 ## Link Flow (CRITICAL — do not break)
+- Main site "View demo" → goes to generic industry demo (no company names)
 - Main site "Launch dApp" → goes to LANDING PAGE (not directly to dApp)
 - Landing page "Launch App" → goes to dApp
-- Main site "View demo" → goes to industry demo
-- Energy demo lives at /portfolio/energy-carbon.html on main site (NOT on Vercel)
+- Private sales demos → separate page at /sales-demos.html (not linked from main site)
 
 ## What NOT to do
-- Do NOT point industry demos to client pitches (ERES ≠ energy demo)
+- Do NOT link main site to company-specific demos (Buildium, CareCloud, etc.)
+- Do NOT share /sales-demos.html URL publicly
 - Do NOT point "Launch dApp" directly to dApp — must go through landing page first
 - Do NOT deploy landing pages to dApp Vercel projects
 - Do NOT add fake testimonials
