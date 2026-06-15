@@ -136,25 +136,6 @@ submitBooking=function(){
     if(el)el.addEventListener('blur',()=>validateBooking());
 });
 
-// === WEATHER WIDGET ===
-(function(){
-    fetch('https://wttr.in/Williston+ND?format=%t+%C')
-        .then(function(r){return r.text()})
-        .then(function(t){
-            if(t && !t.includes('<!DOCTYPE') && !t.includes('<html')){
-                var parts=t.trim().split('+');
-                document.getElementById('weatherTemp').textContent=parts[0]||'';
-                document.getElementById('weatherDesc').textContent=(parts.slice(1).join('+').trim()||'Williston')+', ND — Cold-weather rated trailers ready';
-            } else {
-                document.getElementById('weatherTemp').textContent='Currently';
-                document.getElementById('weatherDesc').textContent='Cold-weather rated trailers ready in Williston, ND';
-            }
-        })
-        .catch(function(){
-            document.getElementById('weatherTemp').textContent='Currently';
-            document.getElementById('weatherDesc').textContent='Cold-weather rated trailers ready in Williston, ND';
-        });
-})();
 
 // === BEFORE/AFTER SLIDER ===
 const baSlider=document.getElementById('baSlider');
@@ -737,18 +718,6 @@ function shareSite(){
             <div class="trust-item reveal reveal-d1"><div class="trust-icon">❄️</div> Cold-Weather Rated</div>
             <div class="trust-item reveal reveal-d2"><div class="trust-icon">📋</div> Fully Insured</div>
             <div class="trust-item reveal reveal-d3"><div class="trust-icon">⚡</div> Same-Day Response</div>
-        </div>
-    </div>
-</div>
-
-<!-- Weather -->
-<div style="padding:0 0 0 0">
-    <div class="container">
-        <div class="weather-bar reveal">
-            <span>🌡️</span>
-            <span class="temp" id="weatherTemp">--°F</span>
-            <span class="desc" id="weatherDesc">Williston, ND</span>
-            <span style="color:var(--text3);font-size:.78rem">• Cold-weather rated trailers ready</span>
         </div>
     </div>
 </div>
@@ -1503,25 +1472,6 @@ submitBooking=function(){
     if(el)el.addEventListener('blur',()=>validateBooking());
 });
 
-// === WEATHER WIDGET ===
-(function(){
-    fetch('https://wttr.in/Williston+ND?format=%t+%C')
-        .then(function(r){return r.text()})
-        .then(function(t){
-            if(t && !t.includes('<!DOCTYPE') && !t.includes('<html')){
-                var parts=t.trim().split('+');
-                document.getElementById('weatherTemp').textContent=parts[0]||'';
-                document.getElementById('weatherDesc').textContent=(parts.slice(1).join('+').trim()||'Williston')+', ND — Cold-weather rated trailers ready';
-            } else {
-                document.getElementById('weatherTemp').textContent='Currently';
-                document.getElementById('weatherDesc').textContent='Cold-weather rated trailers ready in Williston, ND';
-            }
-        })
-        .catch(function(){
-            document.getElementById('weatherTemp').textContent='Currently';
-            document.getElementById('weatherDesc').textContent='Cold-weather rated trailers ready in Williston, ND';
-        });
-})();
 
 // === BEFORE/AFTER SLIDER ===
 const baSlider=document.getElementById('baSlider');
