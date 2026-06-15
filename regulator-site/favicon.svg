@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
   <defs>
     <linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f59e0b"/>
-      <stop offset="100%" style="stop-color:#d97706"/>
+      <stop offset="0%" style="stop-color:#1e4a73"/>
+      <stop offset="100%" style="stop-color:#0f2840"/>
     </linearGradient>
   </defs>
-  <!-- Shield -->
-  <path d="M10 8 L40 2 L70 8 L70 42 C70 58 57 68 40 75 C23 68 10 58 10 42 Z" fill="url(#a)"/>
-  <!-- R letter -->
-  <text x="40" y="50" font-family="Inter, Arial Black, sans-serif" font-size="36" font-weight="900" fill="#0c0c0e" text-anchor="middle">R</text>
+  <!-- Arrow pointing right -->
+  <polygon points="10,40 35,15 35,30 60,30 60,50 35,50 35,65" fill="url(#a)"/>
+  <!-- R letter overlay -->
+  <text x="35" y="56" font-family="Inter, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#4a8bc2" text-anchor="middle" opacity="0.6">R</text>
 </svg>
