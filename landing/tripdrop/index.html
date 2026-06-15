@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ridep2p — Decentralized Ride Protocol</title>
-<meta name="description" content="Blockchain-powered travel experiences with decentralized booking & crypto payments.">
+<meta name="description" content="Secure Digital Infrastructure-powered travel experiences with decentralized booking & crypto payments.">
 <link rel="canonical" href="https://aurorapathways.xyz/landing/tripdrop/">
 <meta property="og:title" content="Ridep2p — Decentralized Ride Protocol">
-<meta property="og:description" content="Blockchain-powered travel experiences with decentralized booking & crypto payments.">
+<meta property="og:description" content="Secure Digital Infrastructure-powered travel experiences with decentralized booking & crypto payments.">
 <meta property="og:url" content="https://aurorapathways.xyz/landing/tripdrop/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aurora Pathways">
@@ -15,7 +16,7 @@
 <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ridep2p — Decentralized Ride Protocol">
-<meta name="twitter:description" content="Blockchain-powered travel experiences with decentralized booking & crypto payments.">
+<meta name="twitter:description" content="Secure Digital Infrastructure-powered travel experiences with decentralized booking & crypto payments.">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -41,17 +42,77 @@ h1{font-size:3rem;font-weight:800;margin-bottom:12px;background:var(--gradient);
 <div class="container">
 <div class="badge">Built by Aurora Pathways</div>
 <h1>Ridep2p</h1>
-<p class="tagline">Peer-to-peer rides. 0% platform fee. Smart contract escrow. No corporate take rate.</p>
+<p class="tagline">Peer-to-peer rides. 0% platform fee. Automated agreement escrow. No corporate take rate.</p>
 <div class="features">
 <div class="feature"><div class="icon">🚗</div><div class="stat">0%</div><div class="label">Platform Fee</div></div>
 <div class="feature"><div class="icon">⚡</div><div class="stat">P2P</div><div class="label">Direct Payment</div></div>
-<div class="feature"><div class="icon">🔐</div><div class="stat">On-chain</div><div class="label">Escrow</div></div>
+<div class="feature"><div class="icon">🔐</div><div class="stat">Transparent and permanent</div><div class="label">Escrow</div></div>
 </div>
 <a href="https://aurorapathways.xyz/portfolio/ridep2p.html" class="btn btn-primary">View Full Demo</a>
 <a href="https://aurorapathways.xyz" class="btn btn-outline">Aurora Pathways</a>
 <div class="links">
-  ridep2p.xyz · ridep2p.blockchain · aurorapathways.xyz
+  ridep2p.xyz · ridep2p.secure digital infrastructure · aurorapathways.xyz
 </div>
 </div>
+<!-- Onboarding Modal -->
+<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+      <p style="color:#888;font-size:0.9rem;">TripDrop runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to book travel experiences. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Planning," and you're in. Browse destinations, book trips, and pay — all secured by escrow.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+    </div>
+  </div>
+</div>
+<script>
+// Onboarding modal - show when no wallet detected
+function showOnboarding() {
+  if (typeof window.ethereum === 'undefined') {
+    document.getElementById('onboardingModal').style.display = 'flex';
+    return true;
+  }
+  return false;
+}
+// Override connect wallet buttons
+document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    if (showOnboarding()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+});
+</script>
 </body>
 </html>

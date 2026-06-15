@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tasklync — Keep 97% of What You Earn | Freelance Marketplace</title>
-  <meta name="description" content="The freelance marketplace with 3% fees and instant USDC payouts. Escrow protection. No middleman taking 20% of your money.">
+  <meta name="description" content="The freelance marketplace with 3% fees and instant USDC <span style="opacity:.7;font-size:.85em">(a digital dollar)</span> payouts. Escrow protection. No middleman taking 20% of your money.">
   <link rel="canonical" href="https://tasklync.xyz/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tasklync — Decentralized Freelance Escrow">
-  <meta property="og:description" content="Blockchain-powered task marketplace with smart contract escrow. No middlemen, no delays.">
+  <meta property="og:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
   <meta property="og:url" content="https://tasklync.xyz">
   <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tasklync — Decentralized Freelance Escrow">
-  <meta name="twitter:description" content="Blockchain-powered task marketplace with smart contract escrow. No middlemen, no delays.">
+  <meta name="twitter:description" content="Secure Digital Infrastructure-powered task marketplace with automated agreement escrow. No middlemen, no delays.">
   <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -301,7 +301,7 @@
   <nav>
     <div class="container">
       <a href="#" class="logo gradient-text">Tasklync</a>
-      <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Launch App</a>
+      <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener">Start Freelancing</a>
     </div>
   </nav>
 
@@ -352,7 +352,7 @@
         <div class="feature-card reveal">
           <div class="feature-icon">🔒</div>
           <h3>Secure Escrow</h3>
-          <p>Funds are locked in a smart contract before work begins. Neither party can access them until the job is done.</p>
+          <p>Funds are locked in a automated agreement before work begins. Neither party can access them until the job is done.</p>
         </div>
         <div class="feature-card reveal">
           <div class="feature-icon">⚖️</div>
@@ -362,7 +362,7 @@
         <div class="feature-card reveal">
           <div class="feature-icon">🏅</div>
           <h3>Portable Reputation</h3>
-          <p>Your reviews live on-chain. You own them, you take them with you. No platform can hold your reputation hostage.</p>
+          <p>Your reviews live transparent and permanent. You own them, you take them with you. No platform can hold your reputation hostage.</p>
         </div>
         <div class="feature-card reveal">
           <div class="feature-icon">⚡</div>
@@ -470,7 +470,7 @@
   <section class="security" id="security">
     <div class="container">
       <h2 class="section-title reveal">Built for trust</h2>
-      <p class="section-sub reveal">Smart contracts handle the money. People handle the work.</p>
+      <p class="section-sub reveal">Automated agreements handle the money. People handle the work.</p>
       <div class="security-grid">
         <div class="security-card reveal">
           <h3>🔒 Locked Payments</h3>
@@ -482,7 +482,7 @@
         </div>
         <div class="security-card reveal">
           <h3>📝 Permanent Reviews</h3>
-          <p>Reviews are stored on-chain and can't be deleted or manipulated. Your reputation is yours — portable and permanent.</p>
+          <p>Reviews are stored transparent and permanent and can't be deleted or manipulated. Your reputation is yours — portable and permanent.</p>
         </div>
       </div>
     </div>
@@ -520,7 +520,7 @@
       <div class="cta-box reveal">
         <h2><span class="gradient-text">Keep what you earn.</span></h2>
         <p>Join a marketplace that works for freelancers, not against them.</p>
-        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:0.8rem 2.2rem;">Launch App →</a>
+        <a href="https://dapp-zeta-pink.vercel.app" class="btn-primary" target="_blank" rel="noopener" style="font-size:1rem;padding:0.8rem 2.2rem;">Start Freelancing →</a>
       </div>
     </div>
   </section>
@@ -545,6 +545,66 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+  
+// Onboarding modal - show when no wallet detected
+function showOnboarding() {
+  if (typeof window.ethereum === 'undefined') {
+    document.getElementById('onboardingModal').style.display = 'flex';
+    return true;
+  }
+  return false;
+}
+// Override connect wallet buttons
+document.querySelectorAll('[onclick*="connectWallet"], .connect-btn, .btn-connect').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    if (showOnboarding()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+});
+
+</script>
+<!-- Onboarding Modal -->
+<div class="onboarding-overlay" id="onboardingModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;">
+  <div style="background:#12121a;border:1px solid #2a2a3a;border-radius:16px;padding:32px;max-width:520px;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🚀</div>
+      <h3 style="margin-bottom:6px;color:#e0e0e8;">New to Web3? Get started in 3 steps</h3>
+      <p style="color:#888;font-size:0.9rem;">Tasklync runs on blockchain — but don't worry, it's simpler than it sounds.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(124,92,252,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#7c5cfc;flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Install a wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">A wallet is like a digital bank account. MetaMask is the most popular — it's a browser extension that takes 30 seconds to install.</p>
+          <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#7c5cfc;font-weight:600;font-size:0.85rem;">Download MetaMask →</a>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(78,201,176,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4ec9b0;flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Add funds to your wallet</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">You'll need a small amount of USDC (a digital dollar) to post jobs or get paid for freelance work. You can buy it directly in MetaMask or transfer from Coinbase.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="min-width:36px;height:36px;background:rgba(255,107,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#ff6b9d;flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin-bottom:4px;color:#e0e0e8;">Connect and start</h4>
+          <p style="color:#888;font-size:0.85rem;line-height:1.5;">Come back here, click "Start Freelancing," and you're in. Browse jobs, post work, or apply — all payments are protected by escrow.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://metamask.io/download/" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:linear-gradient(135deg,#7c5cfc,#5a3fd4);color:#fff;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🦊 Install MetaMask</a>
+      <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:12px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#e0e0e8;border-radius:100px;font-weight:600;font-size:0.9rem;text-decoration:none;">🔵 Coinbase Wallet</a>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button onclick="document.getElementById('onboardingModal').style.display='none'" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;">I'll do this later</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
