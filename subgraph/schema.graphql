@@ -1,0 +1,111 @@
+type Job @entity {
+  id: Bytes!
+  jobId: BigInt!
+  client: Bytes!
+  freelancer: Bytes
+  token: Bytes!
+  amount: BigInt!
+  description: String!
+  category: String!
+  status: Status!
+  createdAt: BigInt!
+  deadline: BigInt!
+  milestoneCount: BigInt!
+  rated: Boolean!
+  disputeResolved: Boolean!
+  # Milestones stored as separate entity for querying
+  milestones: [Milestone!]! @derivedFrom(field: "job")
+  # Events
+  applications: [Application!]! @derivedFrom(field: "job")
+  createdAtBlock: BigInt!
+  createdAtTx: Bytes!
+}
+
+type Milestone @entity {
+  id: Bytes! # jobId-milestoneIndex
+  job: Job!
+  index: BigInt!
+  description: String!
+  amount: BigInt!
+  status: MilestoneStatus!
+  releasedAt: BigInt
+  releasedTo: Bytes
+}
+
+type Application @entity {
+  id: Bytes! # jobId-applicant
+  job: Job!
+  applicant: Bytes!
+  appliedAt: BigInt!
+}
+
+type Freelancer @entity {
+  id: Bytes! # address
+  address: Bytes!
+  completedJobs: BigInt!
+  totalRating: BigInt!
+  ratingCount: BigInt!
+  averageRating: BigInt! # stored as rating * 100 (e.g., 450 = 4.5)
+  jobs: [Job!]! @derivedFrom(field: "freelancer")
+  applications: [Application!]! @derivedFrom(field: "applicant")
+}
+
+type Dispute @entity {
+  id: Bytes! # jobId
+  job: Job!
+  disputer: Bytes!
+  status: DisputeStatus!
+  votesForFreelancer: BigInt!
+  votesForClient: BigInt!
+  resolvedAt: BigInt
+  payFreelancer: Boolean
+  votes: [DisputeVote!]! @derivedFrom(field: "dispute")
+}
+
+type DisputeVote @entity {
+  id: Bytes! # jobId-juror
+  dispute: Dispute!
+  juror: Bytes!
+  payFreelancer: Boolean!
+  votedAt: BigInt!
+}
+
+type PlatformStats @entity {
+  id: String! # "global"
+  totalJobs: BigInt!
+  openJobs: BigInt!
+  completedJobs: BigInt!
+  totalVolume: BigInt! # total USDC deposited
+  totalFees: BigInt! # total platform fees collected
+  uniqueClients: BigInt!
+  uniqueFreelancers: BigInt!
+  lastUpdated: BigInt!
+}
+
+type DailyStats @entity {
+  id: String! # YYYY-MM-DD
+  date: BigInt!
+  newJobs: BigInt!
+  completedJobs: BigInt!
+  volume: BigInt!
+  fees: BigInt!
+}
+
+enum Status {
+  Open
+  InProgress
+  Completed
+  Cancelled
+  Disputed
+}
+
+enum MilestoneStatus {
+  Pending
+  Released
+  Refunded
+}
+
+enum DisputeStatus {
+  Active
+  Resolved
+}

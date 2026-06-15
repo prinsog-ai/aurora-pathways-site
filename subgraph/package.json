@@ -1,0 +1,20 @@
+{
+  "name": "aurora-pathways-subgraph",
+  "version": "1.0.0",
+  "description": "The Graph subgraph for Aurora Pathways TaskEscrow protocol on Polygon",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ aurora-pathways/tasklync",
+    "deploy:studio": "graph deploy --studio aurora-pathways-tasklync",
+    "create-local": "graph create --node http://localhost:8020/ aurora-pathways/tasklync",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 aurora-pathways/tasklync"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.70.0",
+    "@graphprotocol/graph-ts": "^0.35.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "^0.6.0"
+  }
+}
