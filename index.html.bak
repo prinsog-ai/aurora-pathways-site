@@ -3090,18 +3090,6 @@ function animateCounter(el) {
   }
   requestAnimationFrame(updateCounter);
 }
-
-// Animate counters immediately if they're already in viewport
-function animateVisibleCounters() {
-  document.querySelectorAll('.counter').forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      animateCounter(el);
-    }
-  });
-}
-
-// Set up observer for counters that come into view later
 const counterObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -3109,11 +3097,11 @@ const counterObserver = new IntersectionObserver((entries) => {
       counterObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 }); // Lower threshold
+}, { threshold: 0.3 });
 
 document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-// Also trigger counters when reveal parent becomes visible
+// ── Also trigger counters when reveal parent becomes visible ──
 document.querySelectorAll('.reveal').forEach(el => {
   const counters = el.querySelectorAll('.counter');
   if (counters.length > 0) {
@@ -3127,8 +3115,45 @@ document.querySelectorAll('.reveal').forEach(el => {
   }
 });
 
-// Animate visible counters on page load
-animateVisibleCounters();
+// ── Live test counter (polls test-count.json) ──
+async function pollTestCount() {
+  try {
+    const r = await fetch('/test-count.json?t=' + Date.now());
+    const d = await r.json();
+    // Update ALL counters with data-target="590" (test count)
+    document.querySelectorAll('.counter[data-target]').forEach(counter => {
+      const current = parseInt(counter.getAttribute('data-target'));
+      if (current >= 500 && d.tests !== current) {
+        counter.setAttribute('data-target', d.tests);
+        counter.textContent = '0';
+        animateCounter(counter);
+      }
+    });
+    // Update hero heading
+    const heroH1 = document.querySelector('h1 .en-text');
+    if (heroH1 && heroH1.textContent.includes('tests')) {
+      heroH1.textContent = heroH1.textContent.replace(/\d+\s*tests/, d.tests + ' tests');
+    }
+    const heroEs = document.querySelector('h1 .es-text');
+    if (heroEs && heroEs.textContent.includes('pruebas')) {
+      heroEs.textContent = heroEs.textContent.replace(/\d+\s*pruebas/, d.tests + ' pruebas');
+    }
+    // Update tech-tag
+    document.querySelectorAll('.tech-tag').forEach(tag => {
+      if (tag.textContent.includes('tests')) {
+        tag.textContent = d.tests + ' tests';
+      }
+    });
+    // Update stats display
+    document.querySelectorAll('.stat-value').forEach(el => {
+      if (el.textContent.trim() === '590' || el.textContent.trim() === '547') {
+        el.textContent = d.tests;
+      }
+    });
+  } catch(e) { /* endpoint not yet deployed, will retry */ }
+}
+setInterval(pollTestCount, 30000);
+pollTestCount();
 // ── Hamburger Menu ─────────────────────────
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileMenu = document.getElementById('mobileMenu');

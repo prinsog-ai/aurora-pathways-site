@@ -1,23 +1,13 @@
 {
-  "tests": 590,
-  "passed": 590,
+  "tests": 35,
+  "passed": 35,
   "failed": 0,
-  "updated": "2026-06-14T23:56:45Z",
+  "updated": "2026-06-15T02:57:07Z",
   "suites": {
     "aurora-token": 35,
-    "aurora-payments": 87,
-    "aurora-vesting": 42,
-    "aurora-governance": 56,
-    "tasklync": 78,
-    "pledgly": 65,
-    "forekast": 52,
-    "ridep2p": 48,
-    "valence": 32,
-    "wes": 28,
-    "acme": 35,
-    "noble": 30,
-    "energy": 25,
-    "eres": 12,
-    "integration": 65
+    "aurora-payments": 0,
+    "aurora-vesting": 0,
+    "aurora-governance": 0,
+    "tasklync": 0
   }
 }
