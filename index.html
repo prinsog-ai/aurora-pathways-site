@@ -7,49 +7,78 @@
 <meta name="description" content="We build decentralized websites, smart contracts, and Web3 infrastructure for businesses that want to operate on the next internet — not just talk about it.">
 <link rel="canonical" href="https://aurorapathways.xyz/">
 <meta property="og:title" content="Aurora Pathways — Web3 Consulting & Smart Contract Development">
-<meta property="og:description" content="4 production DAO protocols on Polygon mainnet. 590+ tests. Verified contracts. We build Web3 that works.">
+<meta property="og:description" content="4 shipped DAO protocols on Polygon mainnet. 860+ tests. Verified contracts. Working Web3 that ships.">
 <meta property="og:url" content="https://aurorapathways.xyz">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aurora Pathways">
 <meta property="og:image" content="https://aurorapathways.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Aurora Pathways — Web3 Consulting">
-<meta name="twitter:description" content="4 production DAO protocols on Polygon mainnet. 590+ tests. Verified contracts.">
+<meta name="twitter:description" content="4 shipped DAO protocols on Polygon mainnet. 860+ tests. Verified contracts.">
 <meta name="twitter:image" content="https://aurorapathways.xyz/og-image.png">
 <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://api.coingecko.com">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="7e814b4d-aef7-483c-b947-8b9008ffc3ed" data-domains="aurorapathways.xyz"></script>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Aurora Pathways",
+  "url": "https://aurorapathways.xyz",
+  "description": "Web3 consulting and smart contract development. 4 shipped protocols on Polygon mainnet. 863 tests passing across 20 suites.",
+  "email": "hello@aurorapathways.xyz",
+  "sameAs": ["https://github.com/prinsog-ai/aurora-pathways-site"]
+}
+</script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  /* System font fallback while Inter loads */
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  .fonts-loaded body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #0a0a0f;
-    --surface: #0f0f16;
-    --surface2: #15151f;
-    --surface3: #1a1a28;
-    --text: #e8e8ed;
-    --text2: #8a8a9a;
-    --text3: #5a5a6a;
+    --bg: #060609;
+    --surface: #0c0c14;
+    --surface2: #11111c;
+    --surface3: #181828;
+    --text: #ececf0;
+    --text2: #9494a6;
+    --text3: #606072;
     --accent: #7c5cfc;
     --accent2: #4ec9b0;
     --accent3: #ff6b9d;
-    --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
+    --gradient: linear-gradient(135deg, #7c5cfc 0%, #4ec9b0 60%, #3b82f6 100%);
     --gradient-h: linear-gradient(90deg, #7c5cfc 0%, #4ec9b0 50%, #3b82f6 100%);
-    --glass: rgba(255,255,255,0.03);
-    --glass2: rgba(255,255,255,0.05);
-    --glass-border: rgba(255,255,255,0.06);
-    --glass-border2: rgba(255,255,255,0.1);
-    --glow-purple: rgba(124,92,252,0.15);
-    --glow-teal: rgba(78,201,176,0.1);
+    --glass: rgba(255,255,255,0.025);
+    --glass2: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.05);
+    --glass-border2: rgba(255,255,255,0.08);
+    --glow-purple: rgba(124,92,252,0.12);
+    --glow-teal: rgba(78,201,176,0.08);
     --radius: 20px;
     --radius-sm: 12px;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Type scale */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+    /* Spacing */
+    --space-section: 100px;
+    --space-card: 24px;
+    --leading-tight: 1.15;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.75;
   }
 
   html { scroll-behavior: smooth; }
@@ -58,9 +87,12 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, sans-serif;
-    line-height: 1.6;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
     overflow-x: hidden;
     cursor: default;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ═══════════════════════════════════════════
@@ -180,7 +212,11 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
   }
+  .logo:hover { opacity: 0.85; }
   .nav-links {
     display: flex;
     gap: 28px;
@@ -264,25 +300,26 @@
     50% { opacity: 0.3; transform: scale(0.7); }
   }
   h1 {
-    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.08;
-    margin-bottom: 24px;
-  }
-  h1 span {
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero-desc {
-    font-size: 1.15rem;
-    color: var(--text2);
-    max-width: 540px;
-    margin-bottom: 40px;
-    line-height: 1.7;
-  }
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      margin-bottom: 28px;
+    }
+    h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      font-size: var(--text-lg);
+      color: var(--text2);
+      max-width: 540px;
+      margin-bottom: 40px;
+      line-height: var(--leading-relaxed);
+      letter-spacing: -0.01em;
+    }
   .hero-buttons {
     display: flex;
     gap: 14px;
@@ -454,39 +491,41 @@
   /* ═══════════════════════════════════════════
      SECTIONS
      ═══════════════════════════════════════════ */
-  section { padding: 110px 0; position: relative; }
+  section { padding: var(--space-section) 0; position: relative; }
   .section-divider {
     position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 60px; height: 2px;
+    width: 48px; height: 2px;
     background: var(--gradient-h);
     border-radius: 2px;
-    opacity: 0.5;
+    opacity: 0.4;
   }
   .section-label {
-    font-size: 0.8rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     color: var(--accent);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     display: inline-block;
-    padding: 6px 14px;
-    background: rgba(124,92,252,0.08);
+    padding: 5px 14px;
+    background: rgba(124,92,252,0.06);
+    border: 1px solid rgba(124,92,252,0.1);
     border-radius: 100px;
   }
   h2 {
-    font-size: clamp(2rem, 3.8vw, 2.8rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    line-height: var(--leading-tight);
   }
   .section-desc {
     color: var(--text2);
-    font-size: 1.1rem;
-    max-width: 580px;
-    margin-bottom: 52px;
-    line-height: 1.7;
+    font-size: var(--text-lg);
+    max-width: 560px;
+    margin-bottom: 56px;
+    line-height: var(--leading-relaxed);
+    letter-spacing: -0.01em;
   }
 
   /* ═══════════════════════════════════════════
@@ -757,7 +796,7 @@
   }
 
   /* ═══════════════════════════════════════════
-     CRYPTO TICKER
+     STATS BAR
      ═══════════════════════════════════════════ */
   .ticker-bar {
     background: var(--surface);
@@ -768,28 +807,6 @@
     white-space: nowrap;
     position: relative;
     z-index: 1;
-  }
-  .ticker-track {
-    display: inline-flex;
-    animation: ticker 35s linear infinite;
-    gap: 44px;
-  }
-  .ticker-track:hover { animation-play-state: paused; }
-  .ticker-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.84rem;
-    color: var(--text2);
-    font-weight: 500;
-  }
-  .ticker-item .price { color: var(--accent2); font-weight: 600; }
-  .ticker-item .change { font-size: 0.78rem; }
-  .ticker-item .change.up { color: var(--accent2); }
-  .ticker-item .change.down { color: var(--accent3); }
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
   }
 
   /* ═══════════════════════════════════════════
@@ -1808,12 +1825,90 @@
     margin-top: 12px;
   }
 
+  /* ═══════════════════════════════════════════
+       /* ICON SYSTEM */
+  .ic { display:inline-flex; align-items:center; justify-content:center; width:1.2em; height:1.2em; vertical-align:-0.15em; background-size:contain; background-repeat:no-repeat; background-position:center; flex-shrink:0; }
+  .ic-2x { width:2.4rem; height:2.4rem; }
+  .ic-globe { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M2 12h20'/><path d='M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z'/></svg>") }
+  .ic-shield { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>") }
+  .ic-zap { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6b9d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>") }
+  .ic-cog { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42'/></svg>") }
+  .ic-lock { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0110 0v4'/></svg>") }
+  .ic-code { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='16 18 22 12 16 6'/><polyline points='8 6 2 12 8 18'/></svg>") }
+  .ic-credit { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='1' y='4' width='22' height='16' rx='2' ry='2'/><line x1='1' y1='10' x2='23' y2='10'/></svg>") }
+  .ic-box { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z'/><polyline points='3.27 6.96 12 12.01 20.73 6.96'/><line x1='12' y1='22.08' x2='12' y2='12'/></svg>") }
+  .ic-book { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19.5A2.5 2.5 0 016.5 17H20'/><path d='M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z'/></svg>") }
+  .ic-chart { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>") }
+  .ic-rocket { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z'/><path d='M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z'/><path d='M9 12H4l.5.5L3 14l1 1 1.5-1.5L6 14l2-2z'/></svg>") }
+  .ic-seed { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2v8M12 18v4M4.93 10.93l1.41 1.41M17.66 10.93l-1.41 1.41M2 12h2M20 12h2M6 12a6 6 0 0112 0'/><circle cx='12' cy='12' r='2'/></svg>") }
+  .ic-search { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") }
+  .ic-clipboard { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2'/><rect x='8' y='2' width='8' height='4' rx='1' ry='1'/></svg>") }
+  .ic-wallet { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12V7H5a2 2 0 010-4h14v4'/><path d='M3 5v14a2 2 0 002 2h16v-5'/><path d='M18 12a2 2 0 000 4h4v-4z'/></svg>") }
+  .ic-mail { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z'/><polyline points='22,6 12,13 2,6'/></svg>") }
+  .ic-sun { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='5'/><line x1='12' y1='1' x2='12' y2='3'/><line x1='12' y1='21' x2='12' y2='23'/><line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/><line x1='1' y1='12' x2='3' y2='12'/><line x1='21' y1='12' x2='23' y2='12'/><line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/></svg>") }
+  .ic-moon { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z'/></svg>") }
+  .ic-check { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") }
+  .ic-briefcase { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='7' width='20' height='14' rx='2' ry='2'/><path d='M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2'/></svg>") }
+  .ic-palette { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6b9d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='7' cy='8' r='1.5' fill='%237c5cfc' stroke='none'/><circle cx='17' cy='9' r='1.5' fill='%234ec9b0' stroke='none'/><circle cx='9' cy='16' r='1.5' fill='%23ff6b9d' stroke='none'/><circle cx='15' cy='15' r='1.5' fill='%233b82f6' stroke='none'/></svg>") }
+  .ic-home { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>") }
+  .ic-heart { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'/></svg>") }
+  .ic-landmark { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 21 3 8 6 5 12 5 15 8 21 8 21 21'/><line x1='3' y1='21' x2='21' y2='21'/><line x1='12' y1='5' x2='12' y2='21'/></svg>") }
+  .ic-truck { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='1' y='3' width='15' height='13'/><polygon points='16 8 20 8 23 11 23 16 16 16 16 8'/><circle cx='5.5' cy='18.5' r='2.5'/><circle cx='18.5' cy='18.5' r='2.5'/></svg>") }
+  .ic-gamepad { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='6' y1='12' x2='10' y2='12'/><line x1='8' y1='10' x2='8' y2='14'/><line x1='15' y1='13' x2='15.01' y2='13'/><line x1='18' y1='11' x2='18.01' y2='11'/><rect x='2' y='6' width='20' height='12' rx='2'/></svg>") }
+  .ic-building { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='2' width='16' height='20' rx='2'/><path d='M9 6h1M14 6h1M9 10h1M14 10h1M9 14h1M14 14h1'/><rect x='7' y='18' width='10' height='4'/></svg>") }
+  .ic-shopping-bag { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8e8ed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z'/><line x1='3' y1='6' x2='21' y2='6'/><path d='M16 10a4 4 0 01-8 0'/></svg>") }
+  .ic-scale { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='20' x2='16' y2='20'/><line x1='12' y1='4' x2='12' y2='20'/><line x1='3.5' y1='5.5' x2='8.5' y2='5.5'/><circle cx='6' cy='8.5' r='3'/><line x1='15.5' y1='11.5' x2='20.5' y2='11.5'/><circle cx='18' cy='14.5' r='3'/></svg>") }
+  .ic-film { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6b9d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'/><line x1='7' y1='2' x2='7' y2='22'/><line x1='17' y1='2' x2='17' y2='22'/><line x1='2' y1='12' x2='22' y2='12'/></svg>") }
+  .ic-target { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>") }
+  .ic-car { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M14 16H9m-1.5-5h9M5 8l2-4h10l2 4M4 8h16v9a2 2 0 01-2 2H6a2 2 0 01-2-2V8z'/><circle cx='6.5' cy='17' r='1.5'/><circle cx='17.5' cy='17' r='1.5'/></svg>") }
+  .ic-star { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>") }
+  .ic-gem { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2'/><line x1='12' y1='22' x2='12' y2='15.5'/><polyline points='22 8.5 12 15.5 2 8.5'/></svg>") }
+  .ic-user { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5cfc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>") }
+  .ic-monitor { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='20' height='14' rx='2' ry='2'/><line x1='8' y1='21' x2='16' y2='21'/><line x1='12' y1='17' x2='12' y2='21'/></svg>") }
+  .ic-file-text { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6b9d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='16' y1='13' x2='8' y2='13'/><line x1='16' y1='17' x2='8' y2='17'/><polyline points='10 9 9 9 8 9'/></svg>") }
+  .ic-chevron-right { background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>") }
+
+/* Mobile sticky CTA */
+  @media (max-width: 768px) {
+    .mobile-cta-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(124,92,252,0.2);
+      padding: 12px 16px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      justify-content: center;
+    }
+    .mobile-cta-bar a {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(124,92,252,0.3);
+      text-align: center;
+      width: 100%;
+    }
+    /* Push footer up so content isn't hidden behind sticky bar */
+    footer {
+      padding-bottom: 100px;
+    }
+  }
+  @media (min-width: 769px) {
+    .mobile-cta-bar { display: none; }
+  }
+
 </style>
-  <!-- Vercel Web Analytics -->
-  <script defer src="https://va.vercel-scripts.com/v1/script.debug.js"></script>
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
+
 </head>
 <body class="loading">
 
@@ -1833,20 +1928,17 @@
 <!-- Navigation -->
 <nav id="navbar">
   <div class="container">
-    <div class="logo">Aurora Pathways</div>
+    <a href="/" class="logo" aria-label="Aurora Pathways Home">Aurora Pathways</a>
     <ul class="nav-links">
       <li><a href="#services"><span class="en-text">Services</span><span class="es-text">Servicios</span></a></li>
-      <li><a href="#portfolio"><span class="en-text">Portfolio</span><span class="es-text">Portafolio</span></a></li>
+      <li><a href="#timeline"><span class="en-text">How It Works</span><span class="es-text">Proceso</span></a></li>
+      <li><a href="#portfolio"><span class="en-text">Our Work</span><span class="es-text">Trabajos</span></a></li>
       <li><a href="#pricing"><span class="en-text">Pricing</span><span class="es-text">Precios</span></a></li>
-      <li><a href="#crypto-payments"><span class="en-text">Crypto Pay</span><span class="es-text">Pago Cripto</span></a></li>
-      <li><a href="#timeline"><span class="en-text">Process</span><span class="es-text">Proceso</span></a></li>
-      <li><a href="#faq"><span class="en-text">FAQ</span><span class="es-text">Preguntas</span></a></li>
-      <li><a href="/pitch-deck.html" target="_blank"><span class="en-text">Pitch Deck</span><span class="es-text">Presentación</span></a></li>
     </ul>
     <div class="nav-extras">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="ic ic-moon"></i></button>
       <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN | ES</button>
-      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></button>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="en-text">Free Call</span><span class="es-text">Llamada Gratis</span></button>
     </div>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1855,80 +1947,59 @@
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" onclick="closeMobileMenu()"><span class="en-text">Services</span><span class="es-text">Servicios</span></a>
-  <a href="#portfolio" onclick="closeMobileMenu()"><span class="en-text">Portfolio</span><span class="es-text">Portafolio</span></a>
+  <a href="#timeline" onclick="closeMobileMenu()"><span class="en-text">How It Works</span><span class="es-text">Proceso</span></a>
+  <a href="#portfolio" onclick="closeMobileMenu()"><span class="en-text">Our Work</span><span class="es-text">Trabajos</span></a>
   <a href="#pricing" onclick="closeMobileMenu()"><span class="en-text">Pricing</span><span class="es-text">Precios</span></a>
-  <a href="#crypto-payments" onclick="closeMobileMenu()"><span class="en-text">Crypto Pay</span><span class="es-text">Pago Cripto</span></a>
-  <a href="#timeline" onclick="closeMobileMenu()"><span class="en-text">Process</span><span class="es-text">Proceso</span></a>
-  <a href="#faq" onclick="closeMobileMenu()"><span class="en-text">FAQ</span><span class="es-text">Preguntas</span></a>
-  <a href="/pitch-deck.html" target="_blank"><span class="en-text">Pitch Deck</span><span class="es-text">Presentación</span></a>
-  <a href="#contact" onclick="closeMobileMenu()" style="color:var(--accent2);"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></a>
+  <a href="#contact" onclick="closeMobileMenu()" style="color:var(--accent2);"><span class="en-text">Free Call</span><span class="es-text">Llamada Gratis</span></a>
 </div>
 
 <!-- Hero -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
-      <div class="hero-badge"><span class="en-text">Accepting new clients — Q2 2026</span><span class="es-text">Aceptando nuevos clientes — Q2 2026</span></div>
-      <h1><span class="en-text">4 production protocols. 590 tests.</span><span class="es-text">4 protocolos en producción. 590 pruebas.</span><br><span><span class="en-text">Verified on Polygonscan.</span><span class="es-text">Verificados en Polygonscan.</span></span></h1>
+      <div class="hero-badge"><span class="en-text">Accepting new clients — Q3 2026</span><span class="es-text">Aceptando nuevos clientes — Q3 2026</span></div>
+      <h1><span class="en-text">Business infrastructure<br>that runs on code,<br>not middlemen.</span><span class="es-text">Infraestructura empresarial<br>que funciona con código,<br>no con intermediarios.</span></h1>
       <p class="hero-desc">
-        <span class="en-text">We don't build prototypes. We ship production-grade smart contracts, dApps, and DAO infrastructure — live on Polygon mainnet.</span><span class="es-text">No construimos prototipos. Entregamos contratos inteligentes, dApps e infraestructura DAO de grado productivo — activos en Polygon mainnet.</span>
+        <span class="en-text">Instant settlements. Records that can't be altered. Agreements that enforce themselves. Global by default. No servers. No delays. No single point of failure.</span><span class="es-text">Liquidaciones instantáneas. Registros inalterables. Acuerdos que se ejecutan solos. Global por defecto. Sin servidores. Sin demoras. Sin punto único de fallo.</span>
       </p>
       <div class="hero-buttons">
-        <a href="#portfolio" class="btn-primary"><span class="demo-shimmer"></span><span class="en-text">View Demos</span><span class="es-text">Ver Demos</span></a>
-        <a href="#pricing" class="btn-secondary"><span class="en-text">See Packages</span><span class="es-text">Ver Paquetes</span></a>
-        <a href="#contact" class="btn-tertiary"><span class="en-text">Book a Call</span><span class="es-text">Agendar Llamada</span></a>
+        <a href="#portfolio" class="btn-primary"><span class="demo-shimmer"></span><span class="en-text">View Our Work</span><span class="es-text">Ver Nuestro Trabajo</span></a>
+        <a href="#pricing" class="btn-secondary"><span class="en-text">Pricing</span><span class="es-text">Precios</span></a>
+        <a href="#contact" class="btn-tertiary"><span class="en-text">Book a Free Call</span><span class="es-text">Llamada Gratuita</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Live Crypto Ticker -->
-<div class="ticker-bar">
-  <div class="ticker-track" id="tickerTrack">
-    <div class="ticker-item">🪙 ETH <span class="price" id="ethPrice">—</span> <span class="change" id="ethChange">—</span></div>
-    <div class="ticker-item">💵 USDC <span class="price" id="usdcPrice">—</span></div>
-    <div class="ticker-item">₿ BTC <span class="price" id="btcPrice">—</span> <span class="change" id="btcChange">—</span></div>
-    <div class="ticker-item">🔷 SOL <span class="price" id="solPrice">—</span> <span class="change" id="solChange">—</span></div>
-    <div class="ticker-item">🌐 POL <span class="price" id="maticPrice">—</span></div>
-    <div class="ticker-item">🪙 ETH <span class="price" id="ethPrice2">—</span> <span class="change" id="ethChange2">—</span></div>
-    <div class="ticker-item">💵 USDC <span class="price" id="usdcPrice2">—</span></div>
-    <div class="ticker-item">₿ BTC <span class="price" id="btcPrice2">—</span> <span class="change" id="btcChange2">—</span></div>
-    <div class="ticker-item">🔷 SOL <span class="price" id="solPrice2">—</span> <span class="change" id="solChange2">—</span></div>
-    <div class="ticker-item">🌐 POL <span class="price" id="maticPrice2">—</span></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     WHY WEB3
-     ══════════════════════════════════════════ -->
+<!-- Stats -->
 <section id="why-web3">
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal reveal-up"><span class="en-text">Why Web3</span><span class="es-text">¿Por Qué Web3?</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">The internet is changing.<br>Here's what that means for you.</span><span class="es-text">El internet está cambiando.<br>Esto es lo que significa para ti.</span></h2>
+    <h2 class="reveal reveal-up"><span class="en-text">What if your business ran on infrastructure<br>that no single company controls?</span><span class="es-text">¿Y si tu negocio funcionara con infraestructura<br>que ninguna empresa controla?</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">Three things that actually matter — not jargon, not whitepapers.</span><span class="es-text">Tres cosas que realmente importan — sin jerga, sin libros blancos.</span>
+      <span class="en-text">Three things that change how you operate — no jargon, no whitepapers.</span><span class="es-text">Tres cosas que cambian cómo operas — sin jerga, sin libros blancos.</span>
     </p>
     <div class="pricing-grid" style="margin-top:40px;">
       <div class="pricing-card reveal reveal-scale" style="text-align:center;">
-        <div style="font-size:2.4rem;margin-bottom:16px;">🔐</div>
-        <h3><span class="en-text">You Own It</span><span class="es-text">Tú Lo Controlas</span></h3>
+        <div style="font-size:2.4rem;margin-bottom:16px;"><i class="ic ic-zap ic-2x"></i></div>
+        <h3><span class="en-text">Get Paid Instantly</span><span class="es-text">Cobra al Instante</span></h3>
         <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
-          <span class="en-text">Your site, your data, your money live on a network no single company controls. Nobody can de-platform you. Nobody can freeze your funds. It's yours.</span><span class="es-text">Tu sitio, tus datos, tu dinero viven en una red que ninguna empresa controla. Nadie puede censurarte. Nadie puede congelar tus fondos. Es tuyo.</span>
+          <span class="en-text">Money moves in seconds, not days. No wire fees. No bank holds. No "we'll process that Friday." Your revenue, available the moment it's earned — anywhere in the world.</span><span class="es-text">El dinero se mueve en segundos, no en días. Sin tarifas de transferencia. Sin retenciones bancarias. Tus ingresos, disponibles en el momento en que se generan — en cualquier parte del mundo.</span>
         </p>
       </div>
       <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
-        <div style="font-size:2.4rem;margin-bottom:16px;">⚡</div>
-        <h3><span class="en-text">Instant & Cheap</span><span class="es-text">Instante y Económico</span></h3>
+        <div style="font-size:2.4rem;margin-bottom:16px;"><i class="ic ic-shield ic-2x"></i></div>
+        <h3><span class="en-text">Records That Can't Be Faked</span><span class="es-text">Registros Infalsificables</span></h3>
         <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
-          <span class="en-text">Global payments settle in seconds for under a penny. No wire fees. No three-day holds. No bank skimming 3% on currency conversion.</span><span class="es-text">Pagos globales que se liquidan en segundos por menos de un centavo. Sin tarifas de transferencia. Sin retenciones de tres días. Sin que el banco te cobre 3% por cambio de divisa.</span>
+          <span class="en-text">Every transaction is permanent and public. Nobody — not a vendor, not a partner, not you — can alter what's been recorded. That's not a bug. That's an audit trail that actually works.</span><span class="es-text">Cada transacción es permanente y pública. Nadie — ni un proveedor, ni un socio, ni tú — puede alterar lo registrado. No es un error. Es una pista de auditoría que realmente funciona.</span>
         </p>
       </div>
       <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
-        <div style="font-size:2.4rem;margin-bottom:16px;">🤖</div>
-        <h3><span class="en-text">Runs Itself</span><span class="es-text">Se Ejecuta Solo</span></h3>
+        <div style="font-size:2.4rem;margin-bottom:16px;"><i class="ic ic-cog ic-2x"></i></div>
+        <h3><span class="en-text">Agreements That Enforce Themselves</span><span class="es-text">Acuerdos Que Se Ejecutan Solos</span></h3>
         <p style="color:var(--text2);font-size:0.93rem;line-height:1.65;">
-          <span class="en-text">Smart contracts execute automatically — royalties, escrow, subscriptions. No middleman needed. No one to argue with. Code handles it.</span><span class="es-text">Los contratos inteligentes se ejecutan automáticamente — regalías, depósitos en garantía, suscripciones. Sin intermediarios. Sin con quién discutir. El código lo resuelve.</span>
+          <span class="en-text">Payments release when conditions are met. Royalties split automatically. Escrow unlocks on delivery. No manual approval. No disputes. No "I didn't get the invoice." Code handles it — 24/7, no coffee breaks.</span><span class="es-text">Los pagos se liberan cuando se cumplen las condiciones. Las regalías se dividen automáticamente. El depósito se desbloquea al entregar. Sin aprobación manual. Sin disputas. El código lo maneja — 24/7, sin pausas para café.</span>
         </p>
       </div>
     </div>
@@ -1942,15 +2013,15 @@
   <div class="container">
     <div class="stats-row">
       <div class="stat-item">
-        <div class="stat-value"><span class="counter" data-target="35">0</span></div>
-        <div class="stat-label"><span class="en-text">Production Protocols</span><span class="es-text">Protocolos en Producción</span></div>
+        <div class="stat-value"><span class="counter" data-target="4">0</span></div>
+        <div class="stat-label"><span class="en-text">Shipped Protocols</span><span class="es-text">Protocolos Entregados</span></div>
       </div>
       <div class="stat-item">
-        <div class="stat-value"><span class="counter" data-target="590">0</span></div>
+        <div class="stat-value"><span class="counter" data-target="863">0</span></div>
         <div class="stat-label"><span class="en-text">Tests Passing</span><span class="es-text">Pruebas Aprobadas</span></div>
       </div>
       <div class="stat-item">
-        <div class="stat-value"><span class="counter" data-target="12">0</span></div>
+        <div class="stat-value"><span class="counter" data-target="20">0</span></div>
         <div class="stat-label"><span class="en-text">Test Suites</span><span class="es-text">Suites de Pruebas</span></div>
       </div>
       <div class="stat-item">
@@ -1968,15 +2039,15 @@
   <div class="section-divider"></div>
   <div class="container">
     <div class="section-label reveal reveal-up"><span class="en-text">What We Do</span><span class="es-text">Qué Hacemos</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">The stuff that actually<br>moves your business forward</span><span class="es-text">Lo que realmente impulsa<br>tu negocio hacia adelante</span></h2>
+    <h2 class="reveal reveal-up"><span class="en-text">Every business problem on this page<br>has a solution that runs on code, not people.</span><span class="es-text">Cada problema empresarial en esta página<br>tiene una solución que funciona con código, no con personas.</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">Web3 consulting that ships — not slide decks.</span><span class="es-text">Consultoría Web3 que entrega — no presentaciones.</span>
+      <span class="en-text">We build the infrastructure. You run your business. No blockchain expertise required on your end.</span><span class="es-text">Nosotros construimos la infraestructura. Tú diriges tu negocio. No necesitas experiencia en blockchain.</span>
     </p>
     <div class="services-grid">
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🌐</div>
-        <h3><span class="en-text">Decentralized Websites</span><span class="es-text">Sitios Web Descentralizados</span></h3>
-        <p><span class="en-text">Censorship-resistant hosting on IPFS. Your site doesn't live on someone else's server — it lives on the network. Always accessible. Nobody can take it down.</span><span class="es-text">Hosting resistente a la censura en IPFS. Tu sitio no vive en el servidor de otro — vive en la red. Siempre accesible. Nadie puede eliminarlo.</span></p>
+        <div class="service-icon"><i class="ic ic-globe ic-2x"></i></div>
+        <h3><span class="en-text">Websites Nobody Can Take Down</span><span class="es-text">Sitios Que Nadie Puede Eliminar</span></h3>
+        <p><span class="en-text">Hosted on a global network, not a single server. No hosting company can suspend you. No government can block you. Your site stays online — always.</span><span class="es-text">Alojado en una red global, no en un solo servidor. Ninguna empresa de hosting puede suspenderte. Ningún gobierno puede bloquearte. Tu sitio permanece en línea — siempre.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">IPFS</span>
           <span class="tech-tag">.blockchain</span>
@@ -1984,19 +2055,19 @@
         </div>
       </div>
       <div class="service-card reveal reveal-up" style="transition-delay: 0.1s">
-        <div class="service-icon">💎</div>
-        <h3><span class="en-text">Smart Contracts</span><span class="es-text">Contratos Inteligentes</span></h3>
-        <p><span class="en-text">Automated transactions, tokenized memberships, NFT systems. Contracts that run 24/7 without you. Audited, tested, and deployed on the chains that make sense for your budget.</span><span class="es-text">Transacciones automatizadas, membresías tokenizadas, sistemas NFT. Contratos que funcionan 24/7 sin ti. Auditados, probados y desplegados en las cadenas que convienen a tu presupuesto.</span></p>
+        <div class="service-icon"><i class="ic ic-shield ic-2x"></i></div>
+        <h3><span class="en-text">Self-Executing Agreements</span><span class="es-text">Acuerdos Que Se Ejecutan Solos</span></h3>
+        <p><span class="en-text">Payments, royalties, escrow, subscriptions — all automated. Money moves the moment conditions are met. No manual processing. No "the check is in the mail."</span><span class="es-text">Pagos, regalías, depósitos, suscripciones — todo automatizado. El dinero se mueve en el momento en que se cumplen las condiciones. Sin procesamiento manual. Sin excusas.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">Solidity</span>
           <span class="tech-tag">Foundry</span>
-          <span class="tech-tag">590 tests</span>
+          <span class="tech-tag">860+ tests</span>
         </div>
       </div>
       <div class="service-card reveal reveal-up" style="transition-delay: 0.2s">
-        <div class="service-icon">💳</div>
-        <h3><span class="en-text">Crypto Payments</span><span class="es-text">Pagos con Cripto</span></h3>
-        <p><span class="en-text">Accept USDC, USDT, DAI on Polygon and Base. Pennies in gas. Instant settlement. No chargebacks. Our payment splitter contract routes funds to your team automatically.</span><span class="es-text">Acepta USDC, USDT, DAI en Polygon y Base. Centavos en gas. Liquidación instantánea. Sin contracargos. Nuestro contrato de división de pagos envía fondos a tu equipo automáticamente.</span></p>
+        <div class="service-icon"><i class="ic ic-credit ic-2x"></i></div>
+        <h3><span class="en-text">Global Payments, Instant Settlement</span><span class="es-text">Pagos Globales, Liquidación Instantánea</span></h3>
+        <p><span class="en-text">Accept payments from anywhere. Settle in seconds. Fees under a penny. No chargebacks. Funds route to your team automatically — no payroll department required.</span><span class="es-text">Acepta pagos desde cualquier lugar. Liquida en segundos. Tarifas de menos de un centavo. Sin contracargos. Los fondos se enrutan a tu equipo automáticamente — sin departamento de nómina.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">USDC</span>
           <span class="tech-tag">Polygon</span>
@@ -2004,9 +2075,9 @@
         </div>
       </div>
       <div class="service-card reveal reveal-up" style="transition-delay: 0.15s">
-        <div class="service-icon">🏗️</div>
-        <h3><span class="en-text">Custom dApps</span><span class="es-text">dApps Personalizadas</span></h3>
-        <p><span class="en-text">Decentralized applications built for your exact workflow — supply chain tracking, transparent fundraising, DAO governance. Not templates. Built from the ground up.</span><span class="es-text">Aplicaciones descentralizadas diseñadas para tu flujo de trabajo exacto — seguimiento de cadena de suministro, recaudación transparente, gobernanza DAO. No son plantillas. Construidas desde cero.</span></p>
+        <div class="service-icon"><i class="ic ic-box ic-2x"></i></div>
+        <h3><span class="en-text">Custom Business Applications</span><span class="es-text">Aplicaciones Empresariales Personalizadas</span></h3>
+        <p><span class="en-text">Supply chain tracking. Transparent fundraising. Automated compliance. Whatever your workflow, we build it — no templates, no "good enough." Built for your exact operation.</span><span class="es-text">Seguimiento de cadena de suministro. Recaudación transparente. Cumplimiento automatizado. Sea cual sea tu flujo de trabajo, lo construimos — sin plantillas, sin "suficientemente bueno." Hecho para tu operación exacta.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">React</span>
           <span class="tech-tag">ethers.js</span>
@@ -2014,18 +2085,18 @@
         </div>
       </div>
       <div class="service-card reveal reveal-up" style="transition-delay: 0.25s">
-        <div class="service-icon">🎓</div>
+        <div class="service-icon"><i class="ic ic-book ic-2x"></i></div>
         <h3><span class="en-text">Team Training</span><span class="es-text">Capacitación de Equipos</span></h3>
-        <p><span class="en-text">We get your team Web3-literate. Workshops on blockchain basics, DeFi, smart contract architecture, and what any of this actually means for your business.</span><span class="es-text">Hacemos que tu equipo domine Web3. Talleres sobre fundamentos de blockchain, DeFi, arquitectura de contratos inteligentes y lo que todo esto significa para tu negocio.</span></p>
+        <p><span class="en-text">We'll make sure your team actually understands what they're working with. Workshops, custom curriculum, real examples — no PhD required.</span><span class="es-text">Nos aseguramos de que tu equipo realmente entienda con qué está trabajando. Talleres, plan de estudios personalizado, ejemplos reales — sin necesidad de doctorado.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">Workshops</span>
           <span class="tech-tag">Custom curriculum</span>
         </div>
       </div>
       <div class="service-card reveal reveal-up" style="transition-delay: 0.3s">
-        <div class="service-icon">📊</div>
+        <div class="service-icon"><i class="ic ic-chart ic-2x"></i></div>
         <h3><span class="en-text">Ongoing Management</span><span class="es-text">Gestión Continua</span></h3>
-        <p><span class="en-text">Analytics, security updates, feature additions, technical support. We keep your Web3 stack running and evolving. You focus on your business.</span><span class="es-text">Analíticas, actualizaciones de seguridad, nuevas funciones, soporte técnico. Mantenemos tu infraestructura Web3 funcionando y evolucionando. Tú concéntrate en tu negocio.</span></p>
+        <p><span class="en-text">We keep everything running so you don't have to think about it. Security updates, new features, analytics, support. You focus on your business. We handle the tech.</span><span class="es-text">Mantenemos todo funcionando para que no tengas que pensar en ello. Actualizaciones de seguridad, nuevas funciones, analíticas, soporte. Tú concéntrate en tu negocio. Nosotros manejamos la tecnología.</span></p>
         <div class="tech-tags">
           <span class="tech-tag">Monitoring</span>
           <span class="tech-tag">Updates</span>
@@ -2033,86 +2104,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     PRICING
-     ══════════════════════════════════════════ -->
-<section id="pricing" class="bg-surface">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">Investment</span><span class="es-text">Inversión</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">Clear pricing.<br>No surprises.</span><span class="es-text">Precios claros.<br>Sin sorpresas.</span></h2>
-    <p class="section-desc reveal reveal-up">
-      <span class="en-text">One-time setup. Optional monthly management. Every package includes strategy, design, development, and launch.</span><span class="es-text">Configuración única. Gestión mensual opcional. Cada paquete incluye estrategia, diseño, desarrollo y lanzamiento.</span>
-    </p>
-    <div class="pricing-grid">
-      <div class="pricing-card reveal reveal-scale">
-        <h3>🌱 <span class="en-text">Starter</span><span class="es-text">Inicial</span></h3>
-        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Get your first Web3 win</span><span class="es-text">Tu primer logro Web3</span></p>
-        <div class="price-tag">$1.5K–3K</div>
-        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 1.5K–3K USDC</p>
-        <ul class="pricing-features">
-          <li><span class="en-text">Single crypto payment integration</span><span class="es-text">Integración de pago con cripto</span></li>
-          <li><span class="en-text">OR basic IPFS site migration</span><span class="es-text">O migración básica a IPFS</span></li>
-          <li><span class="en-text">Wallet connect setup</span><span class="es-text">Configuración de conexión de billetera</span></li>
-          <li><span class="en-text">14 days post-launch support</span><span class="es-text">14 días de soporte post-lanzamiento</span></li>
-        </ul>
-        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></a>
-      </div>
-      <div class="pricing-card reveal reveal-scale">
-        <h3>🌐 <span class="en-text">Basic</span><span class="es-text">Básico</span></h3>
-        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Get on-chain</span><span class="es-text">Entra en la blockchain</span></p>
-        <div class="price-tag">$5K–10K</div>
-        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 5K–10K USDC</p>
-        <ul class="pricing-features">
-          <li><span class="en-text">IPFS-hosted website</span><span class="es-text">Sitio web alojado en IPFS</span></li>
-          <li><span class="en-text">Custom Web3 design</span><span class="es-text">Diseño Web3 personalizado</span></li>
-          <li><span class="en-text">Crypto payment gateway</span><span class="es-text">Pasarela de pago con cripto</span></li>
-          <li><span class="en-text">Up to 5 pages</span><span class="es-text">Hasta 5 páginas</span></li>
-          <li><span class="en-text">30 days post-launch support</span><span class="es-text">30 días de soporte post-lanzamiento</span></li>
-        </ul>
-        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></a>
-      </div>
-      <div class="pricing-card featured reveal reveal-scale" style="transition-delay:0.1s;">
-        <div class="pricing-badge"><span class="en-text">Most Popular</span><span class="es-text">Más Popular</span></div>
-        <h3>⚡ <span class="en-text">Advanced</span><span class="es-text">Avanzado</span></h3>
-        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Smart contracts included</span><span class="es-text">Incluye contratos inteligentes</span></p>
-        <div class="price-tag">$10K–20K</div>
-        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 10K–20K USDC</p>
-        <ul class="pricing-features">
-          <li><span class="en-text">Everything in Basic</span><span class="es-text">Todo lo de Básico</span></li>
-          <li><span class="en-text">Smart contract development</span><span class="es-text">Desarrollo de contratos inteligentes</span></li>
-          <li><span class="en-text">NFT marketplace or memberships</span><span class="es-text">Mercado NFT o membresías</span></li>
-          <li><span class="en-text">One custom dApp feature</span><span class="es-text">Una función dApp personalizada</span></li>
-          <li><span class="en-text">Multi-chain deployment</span><span class="es-text">Despliegue multi-cadena</span></li>
-          <li><span class="en-text">60 days post-launch support</span><span class="es-text">60 días de soporte post-lanzamiento</span></li>
-        </ul>
-        <a href="#contact" class="btn-primary" style="display:block;text-align:center;"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></a>
-      </div>
-      <div class="pricing-card reveal reveal-scale" style="transition-delay:0.2s;">
-        <h3>🚀 <span class="en-text">Premium</span><span class="es-text">Premium</span></h3>
-        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Full ecosystem</span><span class="es-text">Ecosistema completo</span></p>
-        <div class="price-tag">$20K+</div>
-        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 20K+ USDC</p>
-        <ul class="pricing-features">
-          <li><span class="en-text">Everything in Advanced</span><span class="es-text">Todo lo de Avanzado</span></li>
-          <li><span class="en-text">Full dApp ecosystem</span><span class="es-text">Ecosistema dApp completo</span></li>
-          <li><span class="en-text">Token economy design</span><span class="es-text">Diseño de economía de tokens</span></li>
-          <li><span class="en-text">DAO governance setup</span><span class="es-text">Configuración de gobernanza DAO</span></li>
-          <li><span class="en-text">Ongoing smart contract maintenance</span><span class="es-text">Mantenimiento continuo de contratos inteligentes</span></li>
-          <li><span class="en-text">Ongoing management included</span><span class="es-text">Gestión continua incluida</span></li>
-        </ul>
-        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;"><span class="en-text">Get Started</span><span class="es-text">Comenzar</span></a>
-      </div>
-    </div>
-    <p style="text-align:center;margin-top:28px;color:var(--text2);font-size:0.88rem;" class="reveal reveal-up">
-      <span class="en-text">Monthly management: $500–$2,000/mo — updates, analytics, dedicated support</span><span class="es-text">Gestión mensual: $500–$2,000/mes — actualizaciones, analíticas, soporte dedicado</span>
-    </p>
-    <p style="text-align:center;margin-top:16px;color:var(--text3);font-size:0.82rem;font-style:italic;" class="reveal reveal-up">
-      <span class="en-text">You're paying for tested code, not slide decks. 590 tests. Real contracts. Deployed today.</span><span class="es-text">Estás pagando por código probado, no por presentaciones. 590 pruebas. Contratos reales. Desplegados hoy.</span>
-    </p>
   </div>
 </section>
 
@@ -2129,22 +2120,22 @@
     </p>
     <div class="timeline">
       <div class="timeline-phase reveal reveal-left">
-        <h3>🔍 Step 1</h3>
+        <h3><i class="ic ic-search"></i> Step 1</h3>
         <h4><span class="en-text">Discover</span><span class="es-text">Descubrir</span></h4>
         <p><span class="en-text">We dig into your business. Goals, bottlenecks, who your customers are. Free 30-minute call. You walk out with a concrete opportunity map whether we work together or not.</span><span class="es-text">Profundizamos en tu negocio. Objetivos, cuellos de botella, quiénes son tus clientes. Llamada gratuita de 30 minutos. Sales con un mapa de oportunidades concreto trabajes con nosotros o no.</span></p>
       </div>
       <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.1s">
-        <h3>📋 Step 2</h3>
+        <h3><i class="ic ic-clipboard"></i> Step 2</h3>
         <h4><span class="en-text">Strategize</span><span class="es-text">Estrategia</span></h4>
         <p><span class="en-text">We build a roadmap specifically for your business. Highest-impact moves first — crypto payments, smart contracts, decentralized hosting — scoped and priced clearly.</span><span class="es-text">Creamos una hoja de ruta específica para tu negocio. Primero las acciones de mayor impacto — pagos con cripto, contratos inteligentes, hosting descentralizado — con alcance y precios claros.</span></p>
       </div>
       <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.2s">
-        <h3>⚡ Step 3</h3>
+        <h3><i class="ic ic-zap"></i> Step 3</h3>
         <h4><span class="en-text">Build</span><span class="es-text">Construir</span></h4>
         <p><span class="en-text">We ship fast. Most projects in 2–4 weeks. AI-augmented testing means smart contracts are battle-tested before they ever touch a blockchain. You get weekly updates and a live preview from day one.</span><span class="es-text">Entregamos rápido. La mayoría de proyectos en 2–4 semanas. Las pruebas potenciadas por IA aseguran que los contratos están probados antes de tocar una blockchain. Recibes actualizaciones semanales y una vista previa desde el primer día.</span></p>
       </div>
       <div class="timeline-phase reveal reveal-left" style="transition-delay: 0.3s">
-        <h3>🚀 Step 4</h3>
+        <h3><i class="ic ic-rocket"></i> Step 4</h3>
         <h4><span class="en-text">Launch & Grow</span><span class="es-text">Lanzar y Crecer</span></h4>
         <p><span class="en-text">Go live with full support. We handle deployment, train your team, and keep everything running. Your Web3 presence evolves as your business does.</span><span class="es-text">Lanza con soporte completo. Nos encargamos del despliegue, capacitamos a tu equipo y mantenemos todo funcionando. Tu presencia Web3 evoluciona junto con tu negocio.</span></p>
       </div>
@@ -2165,13 +2156,13 @@
     </p>
     <div class="services-grid" style="margin-top:40px;">
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏠</div>
+        <div class="service-icon"><i class="ic ic-home ic-2x"></i></div>
         <h3><span class="en-text">Real Estate</span><span class="es-text">Bienes Raíces</span></h3>
         <p><span class="en-text">Crypto earnest money, NFT-gated listings, smart-contract escrow, fractional property ownership via tokenization.</span><span class="es-text">Depósito de garantía en cripto, listados con acceso NFT, depósito en contrato inteligente, propiedad fraccionada mediante tokenización.</span></p>
         <div style="margin-top:14px;"><a href="/portfolio/real-estate.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏥</div>
+        <div class="service-icon"><i class="ic ic-heart ic-2x"></i></div>
         <h3><span class="en-text">Healthcare</span><span class="es-text">Salud</span></h3>
         <p><span class="en-text">Patient-owned medical records on IPFS, verifiable credentials for practitioners, transparent clinical trial data.</span><span class="es-text">Historiales médicos del paciente en IPFS, credenciales verificables para profesionales, datos de ensayos clínicos transparentes.</span></p>
         <div class="tech-tags">
@@ -2181,7 +2172,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/healthcare.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏦</div>
+        <div class="service-icon"><i class="ic ic-landmark ic-2x"></i></div>
         <h3><span class="en-text">Finance</span><span class="es-text">Finanzas</span></h3>
         <p><span class="en-text">Cross-border stablecoin settlements, tokenized assets, on-chain KYC/AML, DeFi treasury management for institutions.</span><span class="es-text">Liquidaciones transfronterizas con stablecoins, activos tokenizados, KYC/AML en cadena, gestión de tesorería DeFi para instituciones.</span></p>
         <div class="tech-tags">
@@ -2191,7 +2182,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/finance.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">📦</div>
+        <div class="service-icon"><i class="ic ic-truck ic-2x"></i></div>
         <h3><span class="en-text">Supply Chain</span><span class="es-text">Cadena de Suministro</span></h3>
         <p><span class="en-text">End-to-end product provenance, immutable audit trails, auto-payment on delivery confirmation, counterfeit prevention.</span><span class="es-text">Trazabilidad de extremo a extremo, auditorías inmutables, pago automático al confirmar entrega, prevención de falsificaciones.</span></p>
         <div class="tech-tags">
@@ -2201,13 +2192,13 @@
         <div style="margin-top:10px;"><a href="/portfolio/supply-chain.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🎨</div>
+        <div class="service-icon"><i class="ic ic-palette ic-2x"></i></div>
         <h3><span class="en-text">Art & Entertainment</span><span class="es-text">Arte y Entretenimiento</span></h3>
         <p><span class="en-text">NFT marketplaces, smart-contract royalty splits, token-gated fan clubs, verifiable digital editions.</span><span class="es-text">Mercados NFT, división de regalías por contrato inteligente, clubes de fans con acceso por token, ediciones digitales verificables.</span></p>
         <div style="margin-top:14px;"><a href="/portfolio/art.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🎮</div>
+        <div class="service-icon"><i class="ic ic-gamepad ic-2x"></i></div>
         <h3><span class="en-text">Gaming & Esports</span><span class="es-text">Gaming y Esports</span></h3>
         <p><span class="en-text">Player-owned in-game assets, cross-game item interoperability, tokenized tournament prizes, DAO-governed communities.</span><span class="es-text">Activos del juego propiedad del jugador, interoperabilidad entre juegos, premios de torneos tokenizados, comunidades gobernadas por DAO.</span></p>
         <div class="tech-tags">
@@ -2217,7 +2208,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/gaming.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🎓</div>
+        <div class="service-icon"><i class="ic ic-book ic-2x"></i></div>
         <h3><span class="en-text">Education</span><span class="es-text">Educación</span></h3>
         <p><span class="en-text">Verifiable diplomas and certificates on-chain, tamper-proof academic records, micro-credentialing, decentralized learning platforms.</span><span class="es-text">Diplomas y certificados verificables en cadena, registros académicos a prueba de manipulación, microcredenciales, plataformas de aprendizaje descentralizadas.</span></p>
         <div class="tech-tags">
@@ -2227,7 +2218,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/education.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏛️</div>
+        <div class="service-icon"><i class="ic ic-building ic-2x"></i></div>
         <h3><span class="en-text">Government</span><span class="es-text">Gobierno</span></h3>
         <p><span class="en-text">Transparent voting systems, immutable public records — land titles, business registries — grant distribution via smart contracts.</span><span class="es-text">Sistemas de votación transparentes, registros públicos inmutables — títulos de propiedad, registros mercantiles — distribución de subvenciones mediante contratos inteligentes.</span></p>
         <div class="tech-tags">
@@ -2237,7 +2228,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/government.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏗️</div>
+        <div class="service-icon"><i class="ic ic-box ic-2x"></i></div>
         <h3><span class="en-text">DAO & Governance</span><span class="es-text">DAO y Gobernanza</span></h3>
         <p><span class="en-text">Community-governed protocols — proposal voting, timelock execution, multi-sig treasuries, token-weighted decisions.</span><span class="es-text">Protocolos gobernados por la comunidad — votación de propuestas, ejecución con timelock, tesorerías multi-firma, decisiones ponderadas por tokens.</span></p>
         <div class="tech-tags">
@@ -2247,7 +2238,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/dao.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🛍️</div>
+        <div class="service-icon"><i class="ic ic-shopping-bag ic-2x"></i></div>
         <h3><span class="en-text">Retail & Ecommerce</span><span class="es-text">Comercio y Ecommerce</span></h3>
         <p><span class="en-text">On-chain loyalty programs, crypto payment gateways, NFT product authentication, token-gated discounts.</span><span class="es-text">Programas de lealtad en cadena, pasarelas de pago con cripto, autenticación de productos NFT, descuentos con acceso por token.</span></p>
         <div class="tech-tags">
@@ -2257,7 +2248,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/retail.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">⚖️</div>
+        <div class="service-icon"><i class="ic ic-scale ic-2x"></i></div>
         <h3><span class="en-text">Legal</span><span class="es-text">Legal</span></h3>
         <p><span class="en-text">Smart contracts as legal agreements, automated escrow, on-chain notarization, immutable evidence chains.</span><span class="es-text">Contratos inteligentes como acuerdos legales, depósito en garantía automatizado, notarización en cadena, cadenas de evidencia inmutables.</span></p>
         <div class="tech-tags">
@@ -2267,7 +2258,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/legal.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">⚡</div>
+        <div class="service-icon"><i class="ic ic-zap ic-2x"></i></div>
         <h3><span class="en-text">Energy</span><span class="es-text">Energía</span></h3>
         <p><span class="en-text">Tokenized carbon credits, peer-to-peer energy trading, verifiable ESG reporting on-chain, automated REC markets.</span><span class="es-text">Créditos de carbono tokenizados, comercio de energía entre pares, reportes ESG verificables en cadena, mercados de REC automatizados.</span></p>
         <div class="tech-tags">
@@ -2277,7 +2268,7 @@
         <div style="margin-top:10px;"><a href="/portfolio/energy-carbon.html" style="color:var(--accent);font-size:0.85rem;font-weight:500;"><span class="en-text">View demo</span><span class="es-text">Ver demo</span> →</a></div>
       </div>
       <div class="service-card reveal reveal-up">
-        <div class="service-icon">🏦</div>
+        <div class="service-icon"><i class="ic ic-gem ic-2x"></i></div>
         <h3><span class="en-text">RWA Tokenization</span><span class="es-text">Tokenización de RWA</span></h3>
         <p><span class="en-text">Tokenize real-world assets — real estate, treasuries, carbon credits, invoices. ERC-3643 security tokens with KYC/AML compliance and Chainlink Proof of Reserve.</span><span class="es-text">Tokeniza activos del mundo real — bienes raíces, bonos, créditos de carbono, facturas. Tokens de seguridad ERC-3643 con cumplimiento KYC/AML y Chainlink Proof of Reserve.</span></p>
         <div class="tech-tags">
@@ -2293,15 +2284,15 @@
     </p>
 
     <!-- ════════ DAO Protocols ════════ -->
-    <div class="section-label reveal reveal-up" style="margin-top:90px;"><span class="en-text">Protocols We've Built</span><span class="es-text">Protocolos Que Hemos Construido</span></div>
-    <h2 class="reveal reveal-up" style="margin-bottom:8px;"><span class="en-text">Full-stack. Auditable. Deployable today.</span><span class="es-text">Stack completo. Auditable. Desplegable hoy.</span></h2>
+    <div class="section-label reveal reveal-up" style="margin-top:90px;"><span class="en-text">Under the Hood</span><span class="es-text">Bajo el Capó</span></div>
+    <h2 class="reveal reveal-up" style="margin-bottom:8px;"><span class="en-text">The technology that makes all of this possible.</span><span class="es-text">La tecnología que hace todo esto posible.</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">Not mockups. Fully tested smart contract suites with frontends — built through our Harvey-Dev pipeline. Each protocol has its own .xyz and .blockchain domain.</span><span class="es-text">No son maquetas. Suites de contratos inteligentes completamente probadas con frontends — construidas a través de nuestro pipeline Harvey-Dev. Cada protocolo tiene su propio dominio .xyz y .blockchain.</span>
+      <span class="en-text">You don't need to understand how it works. Your customers will never see it. But here's what's running underneath — 4 fully tested protocols, 863 automated tests, verified on Polygonscan. This is our proof of execution.</span><span class="es-text">No necesitas entender cómo funciona. Tus clientes nunca lo verán. Pero esto es lo que corre por debajo — 4 protocolos completamente probados, 863 pruebas automatizadas, verificados en Polygonscan. Esta es nuestra prueba de ejecución.</span>
     </p>
     <div class="services-grid" style="margin-top:40px;">
-      <a href="/landing/tasklync/" style="text-decoration:none;color:inherit">
+      <a href="/case-studies/tasklync.html" style="text-decoration:none;color:inherit">
         <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);">
-          <div class="service-icon">💼</div>
+          <div class="service-icon"><i class="ic ic-briefcase ic-2x"></i></div>
           <h3>Tasklync</h3>
           <p style="font-size:0.9rem;"><span class="en-text">Permissionless freelance marketplace. Post jobs, stake to work, USDC escrow. 3% fee vs Upwork's 20%.</span><span class="es-text">Mercado freelance sin permisos. Publica trabajos, haz staking para trabajar, depósito en USDC. Tarifa del 3% vs 20% de Upwork.</span></p>
           <div class="tech-tags">
@@ -2309,14 +2300,16 @@
             <span class="tech-tag">IPFS</span>
             <span class="tech-tag">Polygon</span>
           </div>
-          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;"><span class="en-text">View case study</span><span class="es-text">Ver caso de estudio</span> →</p>
-          <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank" class="polygonscan-badge">✓ Verified on Polygonscan</a>
-          <a href="/landing/tasklync/" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <a href="https://dapp-zeta-pink.vercel.app" target="_blank" style="padding:8px 18px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;"><i class="ic ic-rocket"></i> <span class="en-text">Launch dApp</span><span class="es-text">Abrir dApp</span></a>
+            <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank" class="polygonscan-badge"><i class="ic ic-check"></i> Verified on Polygonscan</a>
+            <a href="/case-studies/tasklync.html" style="color:var(--accent);font-size:0.82rem;font-weight:500;text-decoration:none;margin-left:auto;"><span class="en-text">Case study</span><span class="es-text">Caso de estudio</span> →</a>
+          </div>
         </div>
       </a>
-      <a href="/landing/pledgly/" style="text-decoration:none;color:inherit">
+      <a href="/case-studies/pledgly.html" style="text-decoration:none;color:inherit">
         <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.1s;">
-          <div class="service-icon">🎬</div>
+          <div class="service-icon"><i class="ic ic-film ic-2x"></i></div>
           <h3>Pledgly</h3>
           <p style="font-size:0.9rem;"><span class="en-text">Creator-owned subscriptions. Token-gated content, revenue splits. 3% fee vs Patreon's 12%. Instant USDC payouts.</span><span class="es-text">Suscripciones de creadores. Contenido token-gateado, división de ingresos. Tarifa del 3% vs 12% de Patreon. Pagos USDC instantáneos.</span></p>
           <div class="tech-tags">
@@ -2324,14 +2317,16 @@
             <span class="tech-tag">NFT-gating</span>
             <span class="tech-tag">Polygon</span>
           </div>
-          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;"><span class="en-text">View case study</span><span class="es-text">Ver caso de estudio</span> →</p>
-          <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" class="polygonscan-badge">✓ Verified on Polygonscan</a>
-          <a href="/landing/pledgly/" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent2),#3aa898);color:#000;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <a href="https://pledgly.vercel.app" target="_blank" style="padding:8px 18px;background:linear-gradient(135deg,var(--accent2),#3aa898);color:#000;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;"><i class="ic ic-rocket"></i> <span class="en-text">Launch dApp</span><span class="es-text">Abrir dApp</span></a>
+            <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" class="polygonscan-badge"><i class="ic ic-check"></i> Verified on Polygonscan</a>
+            <a href="/case-studies/pledgly.html" style="color:var(--accent);font-size:0.82rem;font-weight:500;text-decoration:none;margin-left:auto;"><span class="en-text">Case study</span><span class="es-text">Caso de estudio</span> →</a>
+          </div>
         </div>
       </a>
-      <a href="/landing/forekast/" style="text-decoration:none;color:inherit">
+      <a href="/case-studies/forekast.html" style="text-decoration:none;color:inherit">
         <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.2s;">
-          <div class="service-icon">🎯</div>
+          <div class="service-icon"><i class="ic ic-target ic-2x"></i></div>
           <h3>Forekast</h3>
           <p style="font-size:0.9rem;"><span class="en-text">Decentralized prediction markets. Trade YES/NO tokens. Multi-oracle resolution. Nobody can override the outcome.</span><span class="es-text">Mercados de predicción descentralizados. Opera tokens SÍ/NO. Resolución multi-oráculo. Nadie puede alterar el resultado.</span></p>
           <div class="tech-tags">
@@ -2339,14 +2334,16 @@
             <span class="tech-tag">Oracles</span>
             <span class="tech-tag">Polygon</span>
           </div>
-          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;"><span class="en-text">View case study</span><span class="es-text">Ver caso de estudio</span> →</p>
-          <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="polygonscan-badge">✓ Verified on Polygonscan</a>
-          <a href="/landing/forekast/" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent3),#d45a7c);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <a href="https://forekast-teal.vercel.app" target="_blank" style="padding:8px 18px;background:linear-gradient(135deg,var(--accent3),#d45a7c);color:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;"><i class="ic ic-rocket"></i> <span class="en-text">Launch dApp</span><span class="es-text">Abrir dApp</span></a>
+            <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="polygonscan-badge"><i class="ic ic-check"></i> Verified on Polygonscan</a>
+            <a href="/case-studies/forekast.html" style="color:var(--accent);font-size:0.82rem;font-weight:500;text-decoration:none;margin-left:auto;"><span class="en-text">Case study</span><span class="es-text">Caso de estudio</span> →</a>
+          </div>
         </div>
       </a>
-      <a href="/landing/ridep2p/" style="text-decoration:none;color:inherit">
+      <a href="/case-studies/ridep2p.html" style="text-decoration:none;color:inherit">
         <div class="service-card reveal reveal-up" style="cursor:pointer;border:1px solid rgba(124,92,252,0.25);transition-delay:0.3s;">
-          <div class="service-icon">🚗</div>
+          <div class="service-icon"><i class="ic ic-car ic-2x"></i></div>
           <h3>Ridep2p</h3>
           <p style="font-size:0.9rem;"><span class="en-text">Community-owned ride sharing. 3% platform fee vs Uber's 40%. Instant USDC. Hybrid DAO + operating company.</span><span class="es-text">Viajes compartidos de la comunidad. Tarifa del 3% vs 40% de Uber. USDC instantáneo. DAO híbrido + empresa operadora.</span></p>
           <div class="tech-tags">
@@ -2354,9 +2351,11 @@
             <span class="tech-tag">6 Contracts</span>
             <span class="tech-tag">Polygon</span>
           </div>
-          <p style="color:var(--accent);font-size:0.85rem;margin-top:14px;font-weight:500;"><span class="en-text">View case study</span><span class="es-text">Ver caso de estudio</span> →</p>
-          <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="polygonscan-badge">✓ Verified on Polygonscan</a>
-          <a href="/landing/ridep2p/" style="display:inline-block;margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;">🚀 Launch dApp</a>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <a href="https://ridep2p.vercel.app" target="_blank" style="padding:8px 18px;background:linear-gradient(135deg,var(--accent),#5a3fd4);color:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;"><i class="ic ic-rocket"></i> <span class="en-text">Launch dApp</span><span class="es-text">Abrir dApp</span></a>
+            <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="polygonscan-badge"><i class="ic ic-check"></i> Verified on Polygonscan</a>
+            <a href="/case-studies/ridep2p.html" style="color:var(--accent);font-size:0.82rem;font-weight:500;text-decoration:none;margin-left:auto;"><span class="en-text">Case study</span><span class="es-text">Caso de estudio</span> →</a>
+          </div>
         </div>
       </a>
     </div>
@@ -2372,44 +2371,48 @@
     <div class="section-label reveal reveal-up"><span class="en-text">Case Studies</span><span class="es-text">Casos de Éxito</span></div>
     <h2 class="reveal reveal-up"><span class="en-text">Real protocols. Real metrics. Real impact.</span><span class="es-text">Protocolos reales. Métricas reales. Impacto real.</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">Every protocol live on Polygon mainnet with verified contracts and measurable results.</span>
+      <span class="en-text">Every protocol on Polygon mainnet with verified contracts and measurable results.</span>
       <span class="es-text">Cada protocolo en Polygon mainnet con contratos verificados y resultados medibles.</span>
     </p>
     <div class="case-grid">
       <div class="case-card reveal reveal-up">
-        <h3>💼 Tasklync</h3>
+        <h3><i class="ic ic-briefcase"></i> Tasklync</h3>
         <p><span class="en-text">Permissionless freelance marketplace with USDC escrow, staking, and 3% platform fee — vs Upwork's 20%.</span><span class="es-text">Mercado freelance sin permisos con depósito en USDC, staking y tarifa del 3% — vs 20% de Upwork.</span></p>
         <div class="case-metric"><span class="en-text">92% lower fees than Upwork</span><span class="es-text">92% menos comisiones que Upwork</span></div>
         <div class="case-links">
-          <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank" class="ps">📄 Polygonscan</a>
-          <a href="https://dapp-zeta-pink.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank" class="ps"><i class="ic ic-check"></i> Polygonscan</a>
+          <a href="https://dapp-zeta-pink.vercel.app" target="_blank" class="demo"><i class="ic ic-rocket"></i> <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="/case-studies/tasklync.html" class="ps"><i class="ic ic-chevron-right"></i> <span class="en-text">Full case study</span><span class="es-text">Caso completo</span></a>
         </div>
       </div>
       <div class="case-card reveal reveal-up" style="transition-delay:0.1s;">
-        <h3>🎬 Pledgly</h3>
+        <h3><i class="ic ic-film"></i> Pledgly</h3>
         <p><span class="en-text">Creator-owned subscriptions with token-gated content, instant USDC payouts, and 3% fee — vs Patreon's 12%.</span><span class="es-text">Suscripciones de creadores con contenido token-gateado, pagos USDC instantáneos y tarifa del 3% — vs 12% de Patreon.</span></p>
         <div class="case-metric"><span class="en-text">75% lower fees than Patreon</span><span class="es-text">75% menos comisiones que Patreon</span></div>
         <div class="case-links">
-          <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" class="ps">📄 Polygonscan</a>
-          <a href="https://pledgly.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank" class="ps"><i class="ic ic-check"></i> Polygonscan</a>
+          <a href="https://pledgly.vercel.app" target="_blank" class="demo"><i class="ic ic-rocket"></i> <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="/case-studies/pledgly.html" class="ps"><i class="ic ic-chevron-right"></i> <span class="en-text">Full case study</span><span class="es-text">Caso completo</span></a>
         </div>
       </div>
       <div class="case-card reveal reveal-up" style="transition-delay:0.2s;">
-        <h3>🎯 Forekast</h3>
+        <h3><i class="ic ic-target"></i> Forekast</h3>
         <p><span class="en-text">Decentralized prediction markets with multi-oracle resolution and transparent outcome execution.</span><span class="es-text">Mercados de predicción descentralizados con resolución multi-oráculo y ejecución transparente.</span></p>
         <div class="case-metric"><span class="en-text">Multi-oracle resolution — no single point of failure</span><span class="es-text">Resolución multi-oráculo — sin punto único de fallo</span></div>
         <div class="case-links">
-          <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="ps">📄 Polygonscan</a>
-          <a href="https://forekast-teal.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="ps"><i class="ic ic-check"></i> Polygonscan</a>
+          <a href="https://forekast-teal.vercel.app" target="_blank" class="demo"><i class="ic ic-rocket"></i> <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="/case-studies/forekast.html" class="ps"><i class="ic ic-chevron-right"></i> <span class="en-text">Full case study</span><span class="es-text">Caso completo</span></a>
         </div>
       </div>
       <div class="case-card reveal reveal-up" style="transition-delay:0.3s;">
-        <h3>🚗 RideP2P</h3>
+        <h3><i class="ic ic-car"></i> RideP2P</h3>
         <p><span class="en-text">Community-owned ride sharing with 3% platform fee — vs Uber's 40%. Instant USDC payouts and hybrid DAO governance.</span><span class="es-text">Viajes compartidos de la comunidad con tarifa del 3% — vs 40% de Uber. Pagos USDC instantáneos y gobernanza DAO híbrida.</span></p>
         <div class="case-metric"><span class="en-text">93% lower fees than Uber</span><span class="es-text">93% menos comisiones que Uber</span></div>
         <div class="case-links">
-          <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="ps">📄 Polygonscan</a>
-          <a href="https://ridep2p.vercel.app" target="_blank" class="demo">🚀 <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="ps"><i class="ic ic-check"></i> Polygonscan</a>
+          <a href="https://ridep2p.vercel.app" target="_blank" class="demo"><i class="ic ic-rocket"></i> <span class="en-text">View Demo</span><span class="es-text">Ver Demo</span></a>
+          <a href="/case-studies/ridep2p.html" class="ps"><i class="ic ic-chevron-right"></i> <span class="en-text">Full case study</span><span class="es-text">Caso completo</span></a>
         </div>
       </div>
     </div>
@@ -2425,13 +2428,296 @@
     <div class="section-label reveal reveal-up"><span class="en-text">Honesty First</span><span class="es-text">Honestidad Primero</span></div>
     <h2 class="reveal reveal-up"><span class="en-text">No fake testimonials here.</span><span class="es-text">No hay testimonios falsos aquí.</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">When we have clients, you'll hear from them directly. Until then, the code speaks for itself — 590 tests, 4 production protocols, verified on Polygonscan.</span><span class="es-text">Cuando tengamos clientes, los escucharás directamente. Hasta entonces, el código habla por sí solo — 590 pruebas, 4 protocolos de producción, verificados en Polygonscan.</span>
+      <span class="en-text">When we have clients, you'll hear from them directly. Until then, the code speaks for itself — 863 tests, 4 shipped protocols, verified on Polygonscan.</span><span class="es-text">Cuando tengamos clientes, los escucharás directamente. Hasta entonces, el código habla por sí solo — 863 pruebas, 4 protocolos entregados, verificados en Polygonscan.</span>
     </p>
     <div style="text-align:center;margin-top:30px;">
       <a href="#contact" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:12px;font-weight:600;text-decoration:none;font-size:1rem;"><span class="en-text">Be Our First Client</span><span class="es-text">Sé Nuestro Primer Cliente</span> →</a>
     </div>
   </div>
 </section>
+
+<!-- ══════════════════════════════════════════
+     PRICING
+     ══════════════════════════════════════════ -->
+<section id="pricing" class="bg-surface">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Investment</span><span class="es-text">Inversión</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Stop paying middlemen.<br>Start keeping your money.</span><span class="es-text">Deja de pagar intermediarios.<br>Empieza a quedarte con tu dinero.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Every project pays for itself — often in months. Here's the math.</span><span class="es-text">Cada proyecto se paga solo — a menudo en meses. Estas son las cuentas.</span>
+    </p>
+
+    <!-- ════════ PRICING TIERS ════════ -->
+    <div class="pricing-grid">
+      <!-- Tier 1: Foundation -->
+      <div class="pricing-card reveal reveal-scale">
+        <h3><i class="ic ic-zap"></i> <span class="en-text">Foundation</span><span class="es-text">Fundación</span></h3>
+        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Get paid faster. Stay online forever.</span><span class="es-text">Cobra más rápido. Mantente en línea para siempre.</span></p>
+        <div class="price-tag">$5K–10K</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 5K–10K USDC</p>
+        <ul class="pricing-features">
+          <li><span class="en-text">Your website, uncensorable — it cannot be taken down, by anyone</span><span class="es-text">Tu sitio web, incensurable — no puede ser derribado, por nadie</span></li>
+          <li><span class="en-text">Get paid from anywhere, instantly — settle in your currency (USD, EUR, or keep the crypto)</span><span class="es-text">Cobra desde cualquier lugar, al instante — liquida en tu moneda (USD, EUR o conserva la cripto)</span></li>
+          <li><span class="en-text">Up to 5 custom pages, mobile-optimized</span><span class="es-text">Hasta 5 páginas personalizadas, optimizadas para móvil</span></li>
+          <li><span class="en-text">Customer onboarding flow — seamless, no crypto knowledge required</span><span class="es-text">Flujo de incorporación de clientes — fluido, sin necesidad de saber de cripto</span></li>
+          <li><span class="en-text">30 days post-launch support</span><span class="es-text">30 días de soporte post-lanzamiento</span></li>
+        </ul>
+        <p style="color:var(--accent2);font-size:0.82rem;margin:0 0 16px;font-weight:500;text-align:center;">
+          <span class="en-text">vs. $15K–30K at a traditional agency for the same scope</span><span class="es-text">vs. $15K–30K en una agencia tradicional por el mismo alcance</span>
+        </p>
+        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;"><span class="en-text">Book a Free Call</span><span class="es-text">Agendar Llamada Gratuita</span></a>
+      </div>
+
+      <!-- Tier 2: Growth (FEATURED) -->
+      <div class="pricing-card featured reveal reveal-scale" style="transition-delay:0.1s;">
+        <div class="pricing-badge"><span class="en-text">Ships in 2–4 Weeks</span><span class="es-text">Entrega en 2–4 Semanas</span></div>
+        <h3><i class="ic ic-rocket"></i> <span class="en-text">Growth</span><span class="es-text">Crecimiento</span></h3>
+        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Automate your revenue. Remove the middleman.</span><span class="es-text">Automatiza tus ingresos. Elimina al intermediario.</span></p>
+        <div class="price-tag">$15K–30K</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 15K–30K USDC</p>
+        <ul class="pricing-features">
+          <li><span class="en-text"><strong>Everything in Foundation</strong></span><span class="es-text"><strong>Todo lo de Fundación</strong></span></li>
+          <li><span class="en-text">Smart contracts — escrow, subscriptions, royalties, automated payouts</span><span class="es-text">Contratos inteligentes — depósito en garantía, suscripciones, regalías, pagos automáticos</span></li>
+          <li><span class="en-text">Custom business logic — your rules, encoded on-chain, enforced automatically</span><span class="es-text">Lógica de negocio personalizada — tus reglas, codificadas en cadena, aplicadas automáticamente</span></li>
+          <li><span class="en-text">Multi-chain deployment (Polygon, Ethereum, Arbitrum)</span><span class="es-text">Despliegue multi-cadena (Polygon, Ethereum, Arbitrum)</span></li>
+          <li><span class="en-text">Admin dashboard to manage everything without touching code</span><span class="es-text">Panel de administración para gestionar todo sin tocar código</span></li>
+          <li><span class="en-text">60 days post-launch support + priority response</span><span class="es-text">60 días de soporte post-lanzamiento + respuesta prioritaria</span></li>
+        </ul>
+        <p style="color:var(--accent2);font-size:0.82rem;margin:0 0 16px;font-weight:500;text-align:center;">
+          <span class="en-text">vs. $50K–100K at a traditional agency + 3–6 months longer</span><span class="es-text">vs. $50K–100K en una agencia tradicional + 3–6 meses más</span>
+        </p>
+        <a href="#contact" class="btn-primary" style="display:block;text-align:center;"><span class="en-text">Book a Free Call</span><span class="es-text">Agendar Llamada Gratuita</span></a>
+      </div>
+
+      <!-- Tier 3: Scale -->
+      <div class="pricing-card reveal reveal-scale" style="transition-delay:0.2s;">
+        <h3><i class="ic ic-globe"></i> <span class="en-text">Scale</span><span class="es-text">Escala</span></h3>
+        <p style="color:var(--text2);font-size:0.88rem;"><span class="en-text">Your own platform. Your market. Your rules.</span><span class="es-text">Tu propia plataforma. Tu mercado. Tus reglas.</span></p>
+        <div class="price-tag">$30K+</div>
+        <p style="color:var(--accent2);font-size:0.83rem;margin-top:-6px;">≈ 30K+ USDC</p>
+        <ul class="pricing-features">
+          <li><span class="en-text"><strong>Everything in Growth</strong></span><span class="es-text"><strong>Todo lo de Crecimiento</strong></span></li>
+          <li><span class="en-text">Full dApp ecosystem — users, tokens, governance, marketplace</span><span class="es-text">Ecosistema dApp completo — usuarios, tokens, gobernanza, marketplace</span></li>
+          <li><span class="en-text">Token economy design & deployment (if needed)</span><span class="es-text">Diseño y despliegue de economía de tokens (si se necesita)</span></li>
+          <li><span class="en-text">DAO governance structure with voting & treasury</span><span class="es-text">Estructura de gobernanza DAO con votación y tesorería</span></li>
+          <li><span class="en-text">Ongoing smart contract maintenance & upgrades included</span><span class="es-text">Mantenimiento y actualizaciones de contratos inteligentes incluidos</span></li>
+          <li><span class="en-text">Dedicated support channel + quarterly strategy sessions</span><span class="es-text">Canal de soporte dedicado + sesiones estratégicas trimestrales</span></li>
+        </ul>
+        <p style="color:var(--accent2);font-size:0.82rem;margin:0 0 16px;font-weight:500;text-align:center;">
+          <span class="en-text">vs. $150K+ at a traditional agency or $120K+/yr for one in-house dev</span><span class="es-text">vs. $150K+ en una agencia tradicional o $120K+/año por un desarrollador interno</span>
+        </p>
+        <a href="#contact" class="btn-secondary" style="display:block;text-align:center;"><span class="en-text">Book a Free Call</span><span class="es-text">Agendar Llamada Gratuita</span></a>
+      </div>
+    </div>
+
+    <!-- Decision guidance -->
+    <p style="text-align:center;margin-top:32px;color:var(--text2);font-size:0.93rem;" class="reveal reveal-up">
+      <span class="en-text"><strong>Not sure which tier?</strong> Most businesses start with Foundation and upgrade when they see the results. <a href="#contact" style="color:var(--accent2);font-weight:600;">Book a 15-minute call</a> — we'll figure it out together, no pressure.</span>
+      <span class="es-text"><strong>¿No sabes qué nivel elegir?</strong> La mayoría de negocios comienzan con Fundación y escalan cuando ven los resultados. <a href="#contact" style="color:var(--accent2);font-weight:600;">Agenda una llamada de 15 minutos</a> — lo resolvemos juntos, sin presión.</span>
+    </p>
+
+    <!-- ════════ WHAT EVERY PROJECT INCLUDES ════════ -->
+    <div style="margin-top:64px;background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:36px 40px;" class="reveal reveal-up">
+      <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:20px;text-align:center;">
+        <span class="en-text">What Every Project Includes</span><span class="es-text">Lo Que Incluye Cada Proyecto</span>
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>863 automated tests</strong> across our stack — your code is battle-tested before deployment</span><span class="es-text"><strong>863 pruebas automatizadas</strong> en nuestro stack — tu código está probado antes del despliegue</span></span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>Verified contracts</strong> on Polygonscan — fully auditable, fully transparent</span><span class="es-text"><strong>Contratos verificados</strong> en Polygonscan — completamente auditables, completamente transparentes</span></span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>Working prototype in week 1</strong> — see real code, not mockups</span><span class="es-text"><strong>Prototipo funcional en la semana 1</strong> — ve código real, no maquetas</span></span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>Post-launch support</strong> — we don't disappear after delivery</span><span class="es-text"><strong>Soporte post-lanzamiento</strong> — no desaparecemos después de la entrega</span></span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>Documentation & training</strong> — your team knows how everything works</span><span class="es-text"><strong>Documentación y capacitación</strong> — tu equipo sabe cómo funciona todo</span></span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:var(--text2);">
+          <span style="color:var(--accent2);font-weight:700;flex-shrink:0;">✓</span>
+          <span><span class="en-text"><strong>You own everything</strong> — code, contracts, domain. No vendor lock-in.</span><span class="es-text"><strong>Eres dueño de todo</strong> — código, contratos, dominio. Sin dependencia del proveedor.</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ MONTHLY PARTNERSHIP ════════ -->
+    <div style="margin-top:48px;text-align:center;background:linear-gradient(135deg,rgba(124,92,252,0.06),rgba(78,201,176,0.06));border:1px solid rgba(124,92,252,0.2);border-radius:16px;padding:40px 36px;" class="reveal reveal-up">
+      <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);font-weight:600;margin-bottom:8px;">
+        <span class="en-text">Monthly Partnership</span><span class="es-text">Asociación Mensual</span>
+      </div>
+      <h3 style="font-size:1.4rem;font-weight:700;margin-bottom:8px;">
+        <span class="en-text">Keep your system running, evolving, and secure.</span><span class="es-text">Mantén tu sistema funcionando, evolucionando y seguro.</span>
+      </h3>
+      <p style="color:var(--text2);font-size:0.95rem;max-width:600px;margin:0 auto 20px;">
+        <span class="en-text">The project is the beginning. The ongoing partnership is where the real value compounds. Updates, monitoring, priority support — we keep everything running while you run your business.</span><span class="es-text">El proyecto es el comienzo. La asociación continua es donde el valor real se acumula. Actualizaciones, monitoreo, soporte prioritario — mantenemos todo funcionando mientras tú diriges tu negocio.</span>
+      </p>
+      <div style="font-size:2.4rem;font-weight:800;margin-bottom:4px;color:var(--text);">$1,000–$3,000<span style="font-size:1.1rem;font-weight:400;color:var(--text2);">/mo</span></div>
+      <p style="color:var(--accent2);font-size:0.83rem;margin-bottom:24px;">≈ 1K–3K USDC/mo</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;font-size:0.88rem;color:var(--text2);margin-bottom:28px;">
+        <span style="display:flex;align-items:center;gap:6px;"><span style="color:var(--accent2);">✓</span> <span class="en-text">Updates & security patches</span><span class="es-text">Actualizaciones y parches de seguridad</span></span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="color:var(--accent2);">✓</span> <span class="en-text">Analytics & monitoring</span><span class="es-text">Analíticas y monitoreo</span></span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="color:var(--accent2);">✓</span> <span class="en-text">Same-day priority support</span><span class="es-text">Soporte prioritario el mismo día</span></span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="color:var(--accent2);">✓</span> <span class="en-text">Quarterly strategy calls</span><span class="es-text">Llamadas estratégicas trimestrales</span></span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="color:var(--accent2);">✓</span> <span class="en-text">New features at reduced rates</span><span class="es-text">Nuevas funciones a tarifas reducidas</span></span>
+      </div>
+      <a href="#contact" class="btn-primary" style="display:inline-block;padding:14px 36px;"><span class="en-text">Discuss a Partnership</span><span class="es-text">Hablar de una Asociación</span> →</a>
+    </div>
+
+    <!-- ════════ RISK REVERSAL ════════ -->
+    <div style="margin-top:48px;text-align:center;background:var(--surface);border:1px solid var(--glass-border);border-radius:16px;padding:36px 40px;" class="reveal reveal-up">
+      <div style="font-size:2rem;margin-bottom:12px;">🛡️</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">
+        <span class="en-text">You'll see working code in 7 days — or your deposit back. No questions.</span><span class="es-text">Verás código funcionando en 7 días — o te devolvemos tu depósito. Sin preguntas.</span>
+      </h3>
+      <p style="color:var(--text2);font-size:0.93rem;max-width:620px;margin:0 auto 16px;">
+        <span class="en-text">No risk. No "trust me." <strong>50% deposit to start</strong> — the rest on delivery. By day 7, you'll have a working prototype you can actually interact with. If the direction isn't right, we pivot. If we can't make it work, you get your deposit back — no questions, no hard feelings. I'm this confident because the code is already proven: 863 tests, verified contracts on Polygonscan, 4 protocols shipped.</span><span class="es-text">Sin riesgo. Sin "confía en mí." <strong>50% de depósito para comenzar</strong> — el resto al entregar. Para el día 7, tendrás un prototipo funcional con el que puedes interactuar. Si la dirección no es la correcta, pivotamos. Si no podemos hacerlo funcionar, te devolvemos tu depósito — sin preguntas, sin resentimientos. Tengo esta confianza porque el código ya está probado: 863 pruebas, contratos verificados en Polygonscan, 4 protocolos entregados.</span>
+      </p>
+    </div>
+
+    <!-- ════════ WHAT YOU'RE NOT PAYING FOR ════════ -->
+    <div style="margin-top:48px;text-align:center;" class="reveal reveal-up">
+      <h3 style="font-size:1.1rem;font-weight:600;margin-bottom:20px;color:var(--text2);">
+        <span class="en-text">What you're <strong style="color:var(--text);">NOT</strong> paying for</span>
+        <span class="es-text">Por lo que <strong style="color:var(--text);">NO</strong> estás pagando</span>
+      </h3>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;font-size:0.88rem;color:var(--text3);">
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Account managers</span><span class="es-text">Gerentes de cuenta</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Project managers</span><span class="es-text">Gerentes de proyecto</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Office overhead</span><span class="es-text">Gastos de oficina</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Junior dev padding</span><span class="es-text">Relleno de desarrolladores junior</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Agency markup</span><span class="es-text">Margen de agencia</span>
+        </span>
+      </div>
+      <p style="margin-top:16px;color:var(--accent2);font-size:0.88rem;">
+        <span class="en-text">You work directly with the engineer who builds your product. No layers. No markup on markup.</span>
+        <span class="es-text">Trabajas directamente con el ingeniero que construye tu producto. Sin capas. Sin márgenes sobre márgenes.</span>
+      </p>
+    </div>
+
+    <!-- ════════ WHAT YOU'RE NOT PAYING FOR ════════ -->
+    <div style="margin-top:48px;text-align:center;" class="reveal reveal-up">
+      <h3 style="font-size:1.1rem;font-weight:600;margin-bottom:20px;color:var(--text2);">
+        <span class="en-text">What you're <strong style="color:var(--text);">NOT</strong> paying for</span>
+        <span class="es-text">Por lo que <strong style="color:var(--text);">NO</strong> estás pagando</span>
+      </h3>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;font-size:0.88rem;color:var(--text3);">
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Account managers</span><span class="es-text">Gerentes de cuenta</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Project managers</span><span class="es-text">Gerentes de proyecto</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Office overhead</span><span class="es-text">Gastos de oficina</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Junior dev padding</span><span class="es-text">Relleno de desarrolladores junior</span>
+        </span>
+        <span style="background:var(--surface);border:1px solid var(--glass-border);border-radius:8px;padding:8px 16px;text-decoration:line-through;text-decoration-color:rgba(255,107,157,0.4);">
+          <span class="en-text">Agency markup</span><span class="es-text">Margen de agencia</span>
+        </span>
+      </div>
+      <p style="margin-top:16px;color:var(--accent2);font-size:0.88rem;">
+        <span class="en-text">You work directly with the engineer who builds your product. No layers. No markup on markup.</span>
+        <span class="es-text">Trabajas directamente con el ingeniero que construye tu producto. Sin capas. Sin márgenes sobre márgenes.</span>
+      </p>
+    </div>
+
+    <!-- ════════ CAPACITY ════════ -->
+    <div style="margin-top:32px;text-align:center;padding:24px;border:1px dashed rgba(78,201,176,0.3);border-radius:12px;" class="reveal reveal-up">
+      <p style="color:var(--accent2);font-size:0.93rem;font-weight:500;">
+        <span class="en-text"><strong>I take 2 clients at a time.</strong> Solo engineer, not an agency — this means you get my full attention, not a junior dev. Currently booking for next month. If you're serious, let's talk now.</span><span class="es-text"><strong>Acepto 2 clientes a la vez.</strong> Ingeniero independiente, no una agencia — esto significa que recibes mi atención completa, no un desarrollador junior. Actualmente reservando para el próximo mes. Si hablas en serio, hablemos ahora.</span>
+      </p>
+    </div>
+
+    <!-- ════════ FAQ ════════ -->
+    <div id="faq" style="margin-top:64px;" class="reveal reveal-up">
+      <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:28px;text-align:center;">
+        <span class="en-text">Honest Answers to Honest Questions</span><span class="es-text">Respuestas Honestas a Preguntas Honestas</span>
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:20px;">
+        <div style="background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:24px;">
+          <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:8px;color:var(--accent);">
+            <span class="en-text">Do I need to understand crypto?</span><span class="es-text">¿Necesito entender de cripto?</span>
+          </h4>
+          <p style="font-size:0.88rem;color:var(--text2);line-height:1.6;">
+            <span class="en-text">No. You tell us what your business needs. We handle the blockchain part. You interact with a normal dashboard — just like any other business tool.</span><span class="es-text">No. Tú nos dices qué necesita tu negocio. Nosotros manejamos la parte blockchain. Tú interactúas con un panel normal — como cualquier otra herramienta de negocio.</span>
+          </p>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:24px;">
+          <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:8px;color:var(--accent);">
+            <span class="en-text">Why you vs. a traditional dev shop?</span><span class="es-text">¿Por qué tú vs. una agencia tradicional?</span>
+          </h4>
+          <p style="font-size:0.88rem;color:var(--text2);line-height:1.6;">
+            <span class="en-text">Speed and cost. We ship in 2–4 weeks what takes an agency 3–6 months, at 30–50% of the price. You work directly with the engineer who builds your product — no account managers, no junior devs, no markup on markup.</span><span class="es-text">Velocidad y costo. Entregamos en 2–4 semanas lo que una agencia tarda 3–6 meses, al 30–50% del precio. Trabajas directamente con el ingeniero que construye tu producto — sin gerentes de cuenta, sin desarrolladores junior, sin márgenes sobre márgenes.</span>
+          </p>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:24px;">
+          <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:8px;color:var(--accent);">
+            <span class="en-text">What if my customers don't use crypto?</span><span class="es-text">¿Y si mis clientes no usan cripto?</span>
+          </h4>
+          <p style="font-size:0.88rem;color:var(--text2);line-height:1.6;">
+            <span class="en-text">They don't have to. Crypto payment gateways let customers pay normally (card, bank transfer) while you receive settlement in whatever you prefer — USD, EUR, or crypto. The blockchain handles the settlement; the customer sees a normal checkout.</span><span class="es-text">No tienen que hacerlo. Las pasarelas de pago cripto permiten que los clientes paguen normalmente (tarjeta, transferencia) mientras tú recibes la liquidación en lo que prefieras — USD, EUR o cripto. La blockchain maneja la liquidación; el cliente ve un pago normal.</span>
+          </p>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--glass-border);border-radius:12px;padding:24px;">
+          <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:8px;color:var(--accent);">
+            <span class="en-text">What happens after launch?</span><span class="es-text">¿Qué pasa después del lanzamiento?</span>
+          </h4>
+          <p style="font-size:0.88rem;color:var(--text2);line-height:1.6;">
+            <span class="en-text">You own everything — code, contracts, domain. No vendor lock-in. Our monthly partnership covers updates, monitoring, and support so you don't have to think about it. Or we can hand you the keys with full documentation — your choice.</span><span class="es-text">Eres dueño de todo — código, contratos, dominio. Sin dependencia del proveedor. Nuestra asociación mensual cubre actualizaciones, monitoreo y soporte para que no tengas que pensar en ello. O podemos entregarte las llaves con documentación completa — tú eliges.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ FINAL CTA ════════ -->
+    <div style="margin-top:56px;text-align:center;" class="reveal reveal-up">
+      <p style="font-size:1.15rem;color:var(--text2);max-width:560px;margin:0 auto 20px;">
+        <span class="en-text"><strong>Let's build something that makes you money.</strong> 30-minute call. No commitment. You'll walk out with a concrete plan whether we work together or not.</span><span class="es-text"><strong>Construyamos algo que te genere dinero.</strong> Llamada de 30 minutos. Sin compromiso. Saldrás con un plan concreto, trabajemos juntos o no.</span>
+      </p>
+      <a href="#contact" style="display:inline-block;padding:16px 40px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:12px;font-weight:600;text-decoration:none;font-size:1.05rem;box-shadow:0 8px 30px rgba(124,92,252,0.3);">
+        <span class="en-text">Book a Free Call</span><span class="es-text">Agendar Llamada Gratuita</span> →
+      </a>
+      <p style="margin-top:12px;color:var(--text3);font-size:0.82rem;">
+        <span class="en-text">You're paying for tested code, not slide decks. 863 tests. Verified contracts. Shipped today.</span><span class="es-text">Estás pagando por código probado, no por presentaciones. 863 pruebas. Contratos verificados. Entregado hoy.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     BUSINESS SECTION BREAK
+     Everything below is supplementary — blog, technical references, about.
+     Business clients: you've seen what you need. The rest is depth.
+     ══════════════════════════════════════════ -->
+<div style="max-width:720px;margin:60px auto 20px;text-align:center;padding:0 24px;" class="reveal reveal-up">
+  <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(124,92,252,0.2),transparent);margin-bottom:24px;"></div>
+  <span style="font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--text3);"><span class="en-text">Deep Dive</span><span class="es-text">Análisis Técnico</span></span>
+  <p style="color:var(--text3);font-size:0.85rem;margin-top:8px;">
+    <span class="en-text">Blog posts, technical architecture, and developer resources below.<br>For business clients: you've seen the important parts. The rest is here if you're curious.</span>
+    <span class="es-text">Publicaciones del blog, arquitectura técnica y recursos para desarrolladores a continuación.<br>Para clientes de negocio: ya has visto lo importante. El resto está aquí si tienes curiosidad.</span>
+  </p>
+</div>
 
 <!-- ══════════════════════════════════════════
      BLOG PREVIEW (replaces old blog)
@@ -2446,31 +2732,196 @@
       <span class="es-text">Análisis técnicos y lecciones de construir Web3 en producción.</span>
     </p>
     <div class="blog-grid">
-      <a href="#" class="blog-card reveal reveal-up">
-        <h3><span class="en-text">How We Deployed 8 Contracts to Polygon Mainnet</span><span class="es-text">Cómo Desplegamos 8 Contratos en Polygon Mainnet</span></h3>
+      <a href="/blog/deploying-to-polygon.html" style="text-decoration:none;color:inherit;">
+        <div class="blog-card reveal reveal-up" style="cursor:pointer;">
+        <h3><span class="en-text">How We Deployed Smart Contracts to Polygon Mainnet</span><span class="es-text">Cómo Desplegamos Contratos en Polygon Mainnet</span></h3>
         <p><span class="en-text">A behind-the-scenes look at our Foundry pipeline — from spec to verified Polygonscan contracts in production.</span><span class="es-text">Un vistazo detrás de escenas de nuestro pipeline Foundry — de especificación a contratos verificados en producción.</span></p>
         <div class="blog-meta">
           <span class="blog-tag">Deployment</span>
           <span>May 15, 2026</span>
         </div>
+      </div>
       </a>
-      <a href="#" class="blog-card reveal reveal-up" style="transition-delay:0.1s;">
+      <a href="/blog/foundry-over-hardhat.html" style="text-decoration:none;color:inherit;">
+        <div class="blog-card reveal reveal-up" style="transition-delay:0.1s;cursor:pointer;">
         <h3><span class="en-text">Why Foundry Over Hardhat</span><span class="es-text">¿Por Qué Foundry y No Hardhat?</span></h3>
         <p><span class="en-text">Speed, Solidity-native tests, and fuzzing made us switch. Here's the honest comparison after 6 months of daily use.</span><span class="es-text">Velocidad, tests nativos en Solidity y fuzzing nos hicieron cambiar. La comparación honesta tras 6 meses de uso diario.</span></p>
         <div class="blog-meta">
           <span class="blog-tag">Tooling</span>
           <span>Apr 28, 2026</span>
         </div>
+      </div>
       </a>
-      <a href="#" class="blog-card reveal reveal-up" style="transition-delay:0.2s;">
+      <a href="/blog/carbon-credits-blockchain.html" style="text-decoration:none;color:inherit;">
+        <div class="blog-card reveal reveal-up" style="transition-delay:0.2s;cursor:pointer;">
         <h3><span class="en-text">Carbon Credits on Blockchain: A Real Implementation</span><span class="es-text">Créditos de Carbono en Blockchain: Una Implementación Real</span></h3>
         <p><span class="en-text">How we built a tokenized carbon credit system with transparent verification and automated retirement on Polygon.</span><span class="es-text">Cómo construimos un sistema de créditos de carbono tokenizados con verificación transparente y retiro automático en Polygon.</span></p>
         <div class="blog-meta">
           <span class="blog-tag">Case Study</span>
           <span>Apr 10, 2026</span>
         </div>
+      </div>
       </a>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ABOUT SECTION
+     ══════════════════════════════════════════ -->
+<section id="about" class="section reveal">
+  <div class="container">
+    <span class="section-tag"><span class="en-text">WHO WE ARE</span><span class="es-text">QUIÉNES SOMOS</span></span>
+    <h2 class="section-title"><span class="en-text">Built by a builder, not a sales team.</span><span class="es-text">Construido por un creador, no por un equipo de ventas.</span></h2>
+    <p class="section-desc"><span class="en-text">Aurora Pathways was founded by Prince Sosu-Gbormittah — a blockchain developer who ships code, not slide decks. Every protocol in our portfolio was architected, tested, and deployed from his wallet. 863 automated tests. 4 verified contracts on Polygon. Real production code you can audit yourself on Polygonscan.</span><span class="es-text">Aurora Pathways fue fundado por Prince Sosu-Gbormittah — un desarrollador blockchain que entrega código, no presentaciones. Cada protocolo en nuestro portafolio fue diseñado, probado y desplegado desde su billetera. 863 pruebas automatizadas. 4 contratos verificados en Polygon. Código de producción real que puedes auditar tú mismo en Polygonscan.</span></p>
+    <div class="about-stats">
+      <div class="about-stat">
+        <span class="counter" data-target="4">0</span>
+        <span class="about-stat-label"><span class="en-text">Shipped Protocols</span><span class="es-text">Protocolos Entregados</span></span>
+      </div>
+      <div class="about-stat">
+        <span class="counter" data-target="590">0</span>
+        <span class="about-stat-label"><span class="en-text">Automated Tests</span><span class="es-text">Pruebas Automatizadas</span></span>
+      </div>
+      <div class="about-stat">
+        <span class="counter" data-target="12">0</span>
+        <span class="about-stat-label"><span class="en-text">Test Suites</span><span class="es-text">Suites de Pruebas</span></span>
+      </div>
+      <div class="about-stat">
+        <span class="counter" data-target="2">0</span>
+        <span class="about-stat-label"><span class="en-text">Chains Supported</span><span class="es-text">Cadenas Soportadas</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     WHY AURORA PATHWAYS
+     ══════════════════════════════════════════ -->
+<section id="why-us" class="section reveal bg-surface">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Why Us</span><span class="es-text">¿Por Qué Nosotros?</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">Why Aurora Pathways</span><span class="es-text">¿Por Qué Aurora Pathways?</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">We're not a dev shop. We're not freelancers. We're the team that ships verified code.</span><span class="es-text">No somos un taller de desarrollo. No somos freelancers. Somos el equipo que entrega código verificado.</span>
+    </p>
+    <div class="services-grid" style="margin-top:40px;">
+      <div class="service-card reveal reveal-up">
+        <div class="service-icon"><i class="ic ic-rocket ic-2x"></i></div>
+        <h3><span class="en-text">We Ship, Not Consult</span><span class="es-text">Entregamos, No Solo Aconsejamos</span></h3>
+        <p><span class="en-text">Other agencies give you a PDF. We give you verified contracts on Polygonscan. Every deliverable is live, testable, and auditable.</span><span class="es-text">Otras agencias te dan un PDF. Nosotros te damos contratos verificados en Polygonscan. Cada entregable está en vivo, es verificable y auditable.</span></p>
+      </div>
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.1s">
+        <div class="service-icon"><i class="ic ic-cog ic-2x"></i></div>
+        <h3><span class="en-text">AI-Assisted, Human-Directed</span><span class="es-text">Asistido por IA, Dirigido por Humanos</span></h3>
+        <p><span class="en-text">We use AI tools to deliver faster with better test coverage. Every contract is architected, reviewed, and deployed by a human. You get speed without sacrificing quality.</span><span class="es-text">Usamos herramientas de IA para entregar más rápido con mejor cobertura de pruebas. Cada contrato es diseñado, revisado y desplegado por un humano. Obtienes velocidad sin sacrificar calidad.</span></p>
+      </div>
+      <div class="service-card reveal reveal-up" style="transition-delay: 0.2s">
+        <div class="service-icon"><i class="ic ic-search ic-2x"></i></div>
+        <h3><span class="en-text">Transparent by Default</span><span class="es-text">Transparentes por Defecto</span></h3>
+        <p><span class="en-text">Our contracts are verified on Polygonscan. Our tests are open source. Our pricing is on this page. No hidden fees, no mystery markups.</span><span class="es-text">Nuestros contratos están verificados en Polygonscan. Nuestras pruebas son de código abierto. Nuestros precios están en esta página. Sin tarifas ocultas, sin recargos misteriosos.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CRYPTO PAYMENTS
+     ══════════════════════════════════════════ -->
+<section id="crypto-payments">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Pay with Crypto</span><span class="es-text">Paga con Cripto</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">We take stablecoins.<br>No volatility. Near-zero fees.</span><span class="es-text">Aceptamos stablecoins.<br>Sin volatilidad. Comisiones casi cero.</span></h2>
+    <p class="section-desc reveal reveal-up">
+      <span class="en-text">Skip the wires and the credit card fees. Pay invoices in USDC, USDT, or DAI on Polygon or Base. Instant settlement. Pennies in gas.</span><span class="es-text">Olvídate de las transferencias y las comisiones de tarjeta. Paga facturas en USDC, USDT o DAI en Polygon o Base. Liquidación instantánea. Centavos en gas.</span>
+    </p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:12px;"><i class="ic ic-heart ic-2x"></i></div>
+        <h3>Polygon</h3>
+        <p style="color:var(--accent2);font-weight:600;margin:8px 0;"><span class="en-text">Gas: ~$0.01 per tx</span><span class="es-text">Gas: ~$0.01 por tx</span></p>
+        <div style="margin-top:16px;text-align:left;">
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">◇ USDC</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code>
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;margin-top:12px;"><i class="ic ic-credit"></i> USDT</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0xc2132D05D31c914a87C6611C10748AEb04B58e8F</code>
+        </div>
+      </div>
+      <div class="pricing-card featured reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
+        <div style="font-size:2.5rem;margin-bottom:12px;"><i class="ic ic-zap ic-2x"></i></div>
+        <h3>Base</h3>
+        <p style="color:var(--accent2);font-weight:600;margin:8px 0;"><span class="en-text">Gas: ~$0.02 per tx</span><span class="es-text">Gas: ~$0.02 por tx</span></p>
+        <p style="color:var(--text2);font-size:0.84rem;margin-top:12px;"><span class="en-text">Coinbase ecosystem — easy on/off ramp</span><span class="es-text">Ecosistema Coinbase — fácil entrada y salida</span></p>
+        <div style="margin-top:16px;text-align:left;">
+          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">◇ USDC (Native)</p>
+          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
+        <div style="font-size:2.5rem;margin-bottom:12px;"><i class="ic ic-lock ic-2x"></i></div>
+        <h3><span class="en-text">How It Works</span><span class="es-text">Cómo Funciona</span></h3>
+        <p style="color:var(--text2);font-size:0.88rem;line-height:1.7;margin-top:16px;">
+          <span class="en-text">Our <strong style="color:var(--accent2);">AuroraPayments</strong> smart contract auto-splits every payment to the right team members. Transparent, verifiable on-chain, audited.</span><span class="es-text">Nuestro contrato inteligente <strong style="color:var(--accent2);">AuroraPayments</strong> divide automáticamente cada pago a los miembros correctos del equipo. Transparente, verificable en cadena, auditado.</span>
+        </p>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--glass-border);">
+          <p style="color:var(--text2);font-size:0.84rem;"><i class="ic ic-check"></i> <span class="en-text">70/30 auto-split</span><span class="es-text">División automática 70/30</span></p>
+          <p style="color:var(--text2);font-size:0.84rem;"><i class="ic ic-check"></i> <span class="en-text">12/12 tests passing</span><span class="es-text">12/12 pruebas aprobadas</span></p>
+          <p style="color:var(--text2);font-size:0.84rem;"><i class="ic ic-check"></i> <span class="en-text">Reentrancy-protected</span><span class="es-text">Protegido contra reentrancy</span></p>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:32px;color:var(--text2);font-size:0.88rem;" class="reveal reveal-up">
+      <span class="en-text">Prefer another chain or token?</span><span class="es-text">¿Prefieres otra cadena o token?</span> <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);font-weight:600;"><span class="en-text">Let us know</span><span class="es-text">Infórmanos</span></a> — <span class="en-text">we support Arbitrum, Optimism, and custom ERC-20s.</span><span class="es-text">soportamos Arbitrum, Optimism y ERC-20 personalizados.</span>
+    </p>
+  </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════
+     CAPABILITIES — What we've actually built
+     ══════════════════════════════════════════ -->
+<section id="capabilities">
+  <div class="section-divider"></div>
+  <div class="container">
+    <div class="section-label reveal reveal-up"><span class="en-text">Capabilities</span><span class="es-text">Capacidades</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">What we've shipped.<br>Not what we promise.</span><span class="es-text">Lo que hemos entregado.<br>No lo que prometemos.</span></h2>
+    <p class="section-desc reveal reveal-up"><span class="en-text">Real code, real contracts, real test coverage. Here's what's running right now.</span><span class="es-text">Código real, contratos reales, cobertura de pruebas real. Esto es lo que está en producción ahora mismo.</span></p>
+    <div class="pricing-grid" style="margin-top:40px;">
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;"><i class="ic ic-lock ic-2x"></i></div>
+        <h3><span class="en-text">Smart Contract Suite</span><span class="es-text">Suite de Contratos Inteligentes</span></h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          <span class="en-text">20 contract suites — token, escrow, governance, staking, vesting, NFTs, multisig, airdrop, and 4 DAOs. 863 tests. Zero failures. Built with Foundry, deployed on Polygon and Base.</span><span class="es-text">20 suites de contratos — token, depósito, gobernanza, staking, vesting, NFTs, multisig, airdrop y 4 DAOs. 863 pruebas. Cero fallos. Construidos con Foundry, desplegados en Polygon y Base.</span>
+        </p>
+        <div style="margin-top:16px;">
+          <a href="https://github.com/prinsog-ai/aurora-pathways-site" style="color:var(--accent2);font-size:0.88rem;font-weight:600;"><span class="en-text">View contracts</span><span class="es-text">Ver contratos</span> →</a>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
+        <div style="font-size:2rem;margin-bottom:12px;"><i class="ic ic-globe ic-2x"></i></div>
+        <h3><span class="en-text">Decentralized Deployment</span><span class="es-text">Despliegue Descentralizado</span></h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          <span class="en-text">Five live sites across .xyz (Netlify) and .blockchain (IPFS). Every protocol has a dual presence — traditional DNS for everyone, IPFS for the decentralized web.</span><span class="es-text">Cinco sitios en vivo en .xyz (Netlify) y .blockchain (IPFS). Cada protocolo tiene presencia dual — DNS tradicional para todos, IPFS para la web descentralizada.</span>
+        </p>
+        <div style="margin-top:16px;">
+          <a href="#portfolio" style="color:var(--accent2);font-size:0.88rem;font-weight:600;"><span class="en-text">See portfolio</span><span class="es-text">Ver portafolio</span> →</a>
+        </div>
+      </div>
+      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
+        <div style="font-size:2rem;margin-bottom:12px;"><i class="ic ic-cog ic-2x"></i></div>
+        <h3><span class="en-text">Autonomous Pipeline</span><span class="es-text">Pipeline Autónomo</span></h3>
+        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
+          <span class="en-text">Harvey-Dev — our AI agent pipeline — builds, tests, and ships smart contracts autonomously. Daily runs. Task queue. Contracts go from spec to passing tests without human touch.</span><span class="es-text">Harvey-Dev — nuestro pipeline de agentes IA — construye, prueba y entrega contratos inteligentes de forma autónoma. Ejecuciones diarias. Cola de tareas. Los contratos van de especificación a pruebas aprobadas sin intervención humana.</span>
+        </p>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:40px;color:var(--text2);font-size:0.95rem;max-width:560px;margin-left:auto;margin-right:auto;" class="reveal reveal-up">
+      <span class="en-text">No fake testimonials here. When we have clients, you'll hear from them. Until then, the code speaks.</span><span class="es-text">No hay testimonios falsos aquí. Cuando tengamos clientes, los escucharás. Hasta entonces, el código habla.</span> <a href="#contact" style="color:var(--accent2);font-weight:600;"><span class="en-text">Be the first</span><span class="es-text">Sé el primero</span> →</a>
+    </p>
   </div>
 </section>
 
@@ -2480,14 +2931,14 @@
 <section id="live" class="bg-surface live-section">
   <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label reveal reveal-up">⚡ <span class="en-text">Try It Live</span><span class="es-text">Pruébalo en Vivo</span></div>
+    <div class="section-label reveal reveal-up"><i class="ic ic-zap"></i> <span class="en-text">Try It Live</span><span class="es-text">Pruébalo en Vivo</span></div>
     <h2 class="reveal reveal-up"><span class="en-text">Connect your wallet. Read real contracts.</span><span class="es-text">Conecta tu billetera. Lee contratos reales.</span></h2>
     <p class="section-desc reveal reveal-up" style="margin-left:auto;margin-right:auto;">
-      <span class="en-text">All contracts are live on Polygon mainnet. Connect MetaMask to verify, or read contract state directly.</span>
+      <span class="en-text">All contracts are deployed on Polygon mainnet. Connect MetaMask to verify, or read contract state directly.</span>
       <span class="es-text">Todos los contratos están en Polygon mainnet. Conecta MetaMask para verificar, o lee el estado directamente.</span>
     </p>
     <button class="metamask-btn reveal reveal-up" id="connectWallet" onclick="connectMetaMask()">
-      🦊 <span class="en-text">Connect MetaMask</span><span class="es-text">Conectar MetaMask</span>
+      <i class="ic ic-wallet"></i> <span class="en-text">Connect MetaMask</span><span class="es-text">Conectar MetaMask</span>
     </button>
     <div class="wallet-info reveal reveal-up" id="walletInfo" style="display:none;">
       <span class="en-text">Connected:</span><span class="es-text">Conectado:</span> <strong id="walletAddress"></strong>
@@ -2495,25 +2946,25 @@
     </div>
     <div class="contract-grid reveal reveal-up">
       <div class="contract-card">
-        <h4>💼 TaskEscrow</h4>
+        <h4><i class="ic ic-briefcase"></i> TaskEscrow</h4>
         <a href="https://polygonscan.com/address/0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e" target="_blank">0x3462…B30e</a>
         <button class="read-btn" onclick="readContract('0x34623Df95A9F2f48c056BE79d2A65C5B4DE2B30e', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
         <div class="read-result"></div>
       </div>
       <div class="contract-card">
-        <h4>🎬 PledglySubscription</h4>
+        <h4><i class="ic ic-film"></i> PledglySubscription</h4>
         <a href="https://polygonscan.com/address/0x6fC43293a013da29180E229d1728fEA7eBE93149" target="_blank">0x6fC4…93149</a>
         <button class="read-btn" onclick="readContract('0x6fC43293a013da29180E229d1728fEA7eBE93149', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
         <div class="read-result"></div>
       </div>
       <div class="contract-card">
-        <h4>🎯 ForekastMarket</h4>
+        <h4><i class="ic ic-target"></i> ForekastMarket</h4>
         <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank">0xf610…177B</a>
         <button class="read-btn" onclick="readContract('0xf6108Cc31397933f148982e3e5101d52Ac2b177B', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
         <div class="read-result"></div>
       </div>
       <div class="contract-card">
-        <h4>🚗 RideP2PCore</h4>
+        <h4><i class="ic ic-car"></i> RideP2PCore</h4>
         <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank">0x1914…7434</a>
         <button class="read-btn" onclick="readContract('0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434', 'owner', this)"><span class="en-text">Read Owner</span><span class="es-text">Leer Owner</span></button>
         <div class="read-result"></div>
@@ -2536,27 +2987,27 @@
     </p>
     <div class="arch-flow reveal reveal-scale">
       <div class="arch-node">
-        <div class="icon">👤</div>
+        <div class="icon"><i class="ic ic-user ic-2x"></i></div>
         <div class="label">User</div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-node">
-        <div class="icon">🦊</div>
+        <div class="icon"><i class="ic ic-wallet"></i></div>
         <div class="label">MetaMask</div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-node">
-        <div class="icon">🖥️</div>
+        <div class="icon"><i class="ic ic-monitor ic-2x"></i></div>
         <div class="label">Frontend</div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-node">
-        <div class="icon">📜</div>
+        <div class="icon"><i class="ic ic-file-text ic-2x"></i></div>
         <div class="label">Smart Contract</div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-node">
-        <div class="icon">🔍</div>
+        <div class="icon"><i class="ic ic-search"></i></div>
         <div class="label">Polygonscan</div>
       </div>
     </div>
@@ -2569,7 +3020,7 @@
 <section id="developers" class="bg-surface">
   <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label reveal reveal-up">👩‍💻 <span class="en-text">For Developers</span><span class="es-text">Para Desarrolladores</span></div>
+    <div class="section-label reveal reveal-up"><i class="ic ic-code"></i> <span class="en-text">For Developers</span><span class="es-text">Para Desarrolladores</span></div>
     <h2 class="reveal reveal-up"><span class="en-text">Real code, not hand-waving.</span><span class="es-text">Código real, no humo.</span></h2>
     <p class="section-desc reveal reveal-up">
       <span class="en-text">Here's a taste of our TaskEscrowV2 contract and how to interact with it using ethers.js v6.</span>
@@ -2625,240 +3076,63 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
 </section>
 
 <!-- ══════════════════════════════════════════
-     ABOUT SECTION
-     ══════════════════════════════════════════ -->
-<section id="about" class="section reveal">
-  <div class="container">
-    <span class="section-tag"><span class="en-text">WHO WE ARE</span><span class="es-text">QUIÉNES SOMOS</span></span>
-    <h2 class="section-title"><span class="en-text">Built by a builder, not a sales team.</span><span class="es-text">Construido por un creador, no por un equipo de ventas.</span></h2>
-    <p class="section-desc"><span class="en-text">Aurora Pathways was founded by Prince Sosu-Gbormittah — a blockchain developer who ships code, not slide decks. Every protocol in our portfolio was architected, tested, and deployed from his wallet. 590 automated tests. 4 verified contracts on Polygon. Real production code you can audit yourself on Polygonscan.</span><span class="es-text">Aurora Pathways fue fundado por Prince Sosu-Gbormittah — un desarrollador blockchain que entrega código, no presentaciones. Cada protocolo en nuestro portafolio fue diseñado, probado y desplegado desde su billetera. 590 pruebas automatizadas. 4 contratos verificados en Polygon. Código de producción real que puedes auditar tú mismo en Polygonscan.</span></p>
-    <div class="about-stats">
-      <div class="about-stat">
-        <span class="counter" data-target="35">0</span>
-        <span class="about-stat-label"><span class="en-text">Production Protocols</span><span class="es-text">Protocolos en Producción</span></span>
-      </div>
-      <div class="about-stat">
-        <span class="counter" data-target="590">0</span>
-        <span class="about-stat-label"><span class="en-text">Automated Tests</span><span class="es-text">Pruebas Automatizadas</span></span>
-      </div>
-      <div class="about-stat">
-        <span class="counter" data-target="12">0</span>
-        <span class="about-stat-label"><span class="en-text">Test Suites</span><span class="es-text">Suites de Pruebas</span></span>
-      </div>
-      <div class="about-stat">
-        <span class="counter" data-target="2">0</span>
-        <span class="about-stat-label"><span class="en-text">Chains Supported</span><span class="es-text">Cadenas Soportadas</span></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     WHY AURORA PATHWAYS
-     ══════════════════════════════════════════ -->
-<section id="why-us" class="section reveal bg-surface">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">Why Us</span><span class="es-text">¿Por Qué Nosotros?</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">Why Aurora Pathways</span><span class="es-text">¿Por Qué Aurora Pathways?</span></h2>
-    <p class="section-desc reveal reveal-up">
-      <span class="en-text">We're not a dev shop. We're not freelancers. We're the team that ships verified code.</span><span class="es-text">No somos un taller de desarrollo. No somos freelancers. Somos el equipo que entrega código verificado.</span>
-    </p>
-    <div class="services-grid" style="margin-top:40px;">
-      <div class="service-card reveal reveal-up">
-        <div class="service-icon">🚀</div>
-        <h3><span class="en-text">We Ship, Not Consult</span><span class="es-text">Entregamos, No Solo Aconsejamos</span></h3>
-        <p><span class="en-text">Other agencies give you a PDF. We give you verified contracts on Polygonscan. Every deliverable is live, testable, and auditable.</span><span class="es-text">Otras agencias te dan un PDF. Nosotros te damos contratos verificados en Polygonscan. Cada entregable está en vivo, es verificable y auditable.</span></p>
-      </div>
-      <div class="service-card reveal reveal-up" style="transition-delay: 0.1s">
-        <div class="service-icon">🤖</div>
-        <h3><span class="en-text">AI-Assisted, Human-Directed</span><span class="es-text">Asistido por IA, Dirigido por Humanos</span></h3>
-        <p><span class="en-text">We use AI tools to deliver faster with better test coverage. Every contract is architected, reviewed, and deployed by a human. You get speed without sacrificing quality.</span><span class="es-text">Usamos herramientas de IA para entregar más rápido con mejor cobertura de pruebas. Cada contrato es diseñado, revisado y desplegado por un humano. Obtienes velocidad sin sacrificar calidad.</span></p>
-      </div>
-      <div class="service-card reveal reveal-up" style="transition-delay: 0.2s">
-        <div class="service-icon">🔍</div>
-        <h3><span class="en-text">Transparent by Default</span><span class="es-text">Transparentes por Defecto</span></h3>
-        <p><span class="en-text">Our contracts are verified on Polygonscan. Our tests are open source. Our pricing is on this page. No hidden fees, no mystery markups.</span><span class="es-text">Nuestros contratos están verificados en Polygonscan. Nuestras pruebas son de código abierto. Nuestros precios están en esta página. Sin tarifas ocultas, sin recargos misteriosos.</span></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     CRYPTO PAYMENTS
-     ══════════════════════════════════════════ -->
-<section id="crypto-payments">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">Pay with Crypto</span><span class="es-text">Paga con Cripto</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">We take stablecoins.<br>No volatility. Near-zero fees.</span><span class="es-text">Aceptamos stablecoins.<br>Sin volatilidad. Comisiones casi cero.</span></h2>
-    <p class="section-desc reveal reveal-up">
-      <span class="en-text">Skip the wires and the credit card fees. Pay invoices in USDC, USDT, or DAI on Polygon or Base. Instant settlement. Pennies in gas.</span><span class="es-text">Olvídate de las transferencias y las comisiones de tarjeta. Paga facturas en USDC, USDT o DAI en Polygon o Base. Liquidación instantánea. Centavos en gas.</span>
-    </p>
-    <div class="pricing-grid" style="margin-top:40px;">
-      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
-        <div style="font-size:2.5rem;margin-bottom:12px;">💜</div>
-        <h3>Polygon</h3>
-        <p style="color:var(--accent2);font-weight:600;margin:8px 0;"><span class="en-text">Gas: ~$0.01 per tx</span><span class="es-text">Gas: ~$0.01 por tx</span></p>
-        <div style="margin-top:16px;text-align:left;">
-          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">💵 USDC</p>
-          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code>
-          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;margin-top:12px;">💲 USDT</p>
-          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0xc2132D05D31c914a87C6611C10748AEb04B58e8F</code>
-        </div>
-      </div>
-      <div class="pricing-card featured reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
-        <div style="font-size:2.5rem;margin-bottom:12px;">🔷</div>
-        <h3>Base</h3>
-        <p style="color:var(--accent2);font-weight:600;margin:8px 0;"><span class="en-text">Gas: ~$0.02 per tx</span><span class="es-text">Gas: ~$0.02 por tx</span></p>
-        <p style="color:var(--text2);font-size:0.84rem;margin-top:12px;"><span class="en-text">Coinbase ecosystem — easy on/off ramp</span><span class="es-text">Ecosistema Coinbase — fácil entrada y salida</span></p>
-        <div style="margin-top:16px;text-align:left;">
-          <p style="color:var(--text2);font-size:0.84rem;margin-bottom:4px;">💵 USDC (Native)</p>
-          <code style="background:var(--glass);padding:4px 10px;border-radius:6px;font-size:0.74rem;color:var(--accent2);word-break:break-all;">0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code>
-        </div>
-      </div>
-      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
-        <div style="font-size:2.5rem;margin-bottom:12px;">🔐</div>
-        <h3><span class="en-text">How It Works</span><span class="es-text">Cómo Funciona</span></h3>
-        <p style="color:var(--text2);font-size:0.88rem;line-height:1.7;margin-top:16px;">
-          <span class="en-text">Our <strong style="color:var(--accent2);">AuroraPayments</strong> smart contract auto-splits every payment to the right team members. Transparent, verifiable on-chain, audited.</span><span class="es-text">Nuestro contrato inteligente <strong style="color:var(--accent2);">AuroraPayments</strong> divide automáticamente cada pago a los miembros correctos del equipo. Transparente, verificable en cadena, auditado.</span>
-        </p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--glass-border);">
-          <p style="color:var(--text2);font-size:0.84rem;">✓ <span class="en-text">70/30 auto-split</span><span class="es-text">División automática 70/30</span></p>
-          <p style="color:var(--text2);font-size:0.84rem;">✓ <span class="en-text">12/12 tests passing</span><span class="es-text">12/12 pruebas aprobadas</span></p>
-          <p style="color:var(--text2);font-size:0.84rem;">✓ <span class="en-text">Reentrancy-protected</span><span class="es-text">Protegido contra reentrancy</span></p>
-        </div>
-      </div>
-    </div>
-    <p style="text-align:center;margin-top:32px;color:var(--text2);font-size:0.88rem;" class="reveal reveal-up">
-      <span class="en-text">Prefer another chain or token?</span><span class="es-text">¿Prefieres otra cadena o token?</span> <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);font-weight:600;"><span class="en-text">Let us know</span><span class="es-text">Infórmanos</span></a> — <span class="en-text">we support Arbitrum, Optimism, and custom ERC-20s.</span><span class="es-text">soportamos Arbitrum, Optimism y ERC-20 personalizados.</span>
-    </p>
-  </div>
-</section>
-
-
-
-<!-- ══════════════════════════════════════════
-     CAPABILITIES — What we've actually built
-     ══════════════════════════════════════════ -->
-<section id="capabilities">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">Capabilities</span><span class="es-text">Capacidades</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">What we've shipped.<br>Not what we promise.</span><span class="es-text">Lo que hemos entregado.<br>No lo que prometemos.</span></h2>
-    <p class="section-desc reveal reveal-up"><span class="en-text">Real code, real contracts, real test coverage. Here's what's running right now.</span><span class="es-text">Código real, contratos reales, cobertura de pruebas real. Esto es lo que está en producción ahora mismo.</span></p>
-    <div class="pricing-grid" style="margin-top:40px;">
-      <div class="pricing-card reveal reveal-scale" style="text-align:center;">
-        <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
-        <h3><span class="en-text">Smart Contract Suite</span><span class="es-text">Suite de Contratos Inteligentes</span></h3>
-        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
-          <span class="en-text">13 contract suites — token, escrow, governance, staking, vesting, NFTs, multisig, airdrop, and 4 DAOs. 590 tests. Zero failures. Built with Foundry, deployed on Polygon and Base.</span><span class="es-text">13 suites de contratos — token, depósito, gobernanza, staking, vesting, NFTs, multisig, airdrop y 4 DAOs. 590 pruebas. Cero fallos. Construidos con Foundry, desplegados en Polygon y Base.</span>
-        </p>
-        <div style="margin-top:16px;">
-          <a href="https://github.com/prinsog-ai/aurora-pathways-site" style="color:var(--accent2);font-size:0.88rem;font-weight:600;"><span class="en-text">View contracts</span><span class="es-text">Ver contratos</span> →</a>
-        </div>
-      </div>
-      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.1s;">
-        <div style="font-size:2rem;margin-bottom:12px;">🌐</div>
-        <h3><span class="en-text">Decentralized Deployment</span><span class="es-text">Despliegue Descentralizado</span></h3>
-        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
-          <span class="en-text">Five live sites across .xyz (Netlify) and .blockchain (IPFS). Every protocol has a dual presence — traditional DNS for everyone, IPFS for the decentralized web.</span><span class="es-text">Cinco sitios en vivo en .xyz (Netlify) y .blockchain (IPFS). Cada protocolo tiene presencia dual — DNS tradicional para todos, IPFS para la web descentralizada.</span>
-        </p>
-        <div style="margin-top:16px;">
-          <a href="#portfolio" style="color:var(--accent2);font-size:0.88rem;font-weight:600;"><span class="en-text">See portfolio</span><span class="es-text">Ver portafolio</span> →</a>
-        </div>
-      </div>
-      <div class="pricing-card reveal reveal-scale" style="text-align:center;transition-delay:0.2s;">
-        <div style="font-size:2rem;margin-bottom:12px;">🤖</div>
-        <h3><span class="en-text">Autonomous Pipeline</span><span class="es-text">Pipeline Autónomo</span></h3>
-        <p style="color:var(--text2);font-size:0.93rem;line-height:1.6;">
-          <span class="en-text">Harvey-Dev — our AI agent pipeline — builds, tests, and ships smart contracts autonomously. Daily runs. Task queue. Contracts go from spec to passing tests without human touch.</span><span class="es-text">Harvey-Dev — nuestro pipeline de agentes IA — construye, prueba y entrega contratos inteligentes de forma autónoma. Ejecuciones diarias. Cola de tareas. Los contratos van de especificación a pruebas aprobadas sin intervención humana.</span>
-        </p>
-      </div>
-    </div>
-
-    <p style="text-align:center;margin-top:40px;color:var(--text2);font-size:0.95rem;max-width:560px;margin-left:auto;margin-right:auto;" class="reveal reveal-up">
-      <span class="en-text">No fake testimonials here. When we have clients, you'll hear from them. Until then, the code speaks.</span><span class="es-text">No hay testimonios falsos aquí. Cuando tengamos clientes, los escucharás. Hasta entonces, el código habla.</span> <a href="#contact" style="color:var(--accent2);font-weight:600;"><span class="en-text">Be the first</span><span class="es-text">Sé el primero</span> →</a>
-    </p>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     FAQ
-     ══════════════════════════════════════════ -->
-<section id="faq" class="bg-surface">
-  <div class="section-divider"></div>
-  <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">FAQ</span><span class="es-text">Preguntas Frecuentes</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">Questions we get a lot</span><span class="es-text">Preguntas que recibimos frecuentemente</span></h2>
-    <p class="section-desc reveal reveal-up"><span class="en-text">Straight answers. No whitepaper-speak.</span><span class="es-text">Respuestas directas. Sin rodeos.</span></p>
-    <div style="max-width:720px;margin-top:32px;">
-      <details class="faq-item reveal reveal-up">
-        <summary class="faq-question"><span class="en-text">Do I need to understand crypto to work with you?</span><span class="es-text">¿Necesito entender de cripto para trabajar con ustedes?</span></summary>
-        <div class="faq-answer"><p><span class="en-text">No. We handle all the technical parts. You tell us what your business needs, we build it. We'll explain what matters for your workflow — you don't need to know what a Merkle tree is.</span><span class="es-text">No. Nos encargamos de todas las partes técnicas. Tú nos dices qué necesita tu negocio, nosotros lo construimos. Te explicamos lo que importa para tu flujo de trabajo — no necesitas saber qué es un árbol de Merkle.</span></p></div>
-      </details>
-      <details class="faq-item reveal reveal-up">
-        <summary class="faq-question"><span class="en-text">How long does a typical project take?</span><span class="es-text">¿Cuánto tiempo toma un proyecto típico?</span></summary>
-        <div class="faq-answer"><p><span class="en-text">Most projects ship in 2–4 weeks. Basic decentralized websites can go live in under a week. Full dApp ecosystems with smart contracts take longer — we'll give you a clear timeline after the discovery call.</span><span class="es-text">La mayoría de proyectos se entregan en 2–4 semanas. Los sitios descentralizados básicos pueden estar en vivo en menos de una semana. Los ecosistemas dApp completos con contratos inteligentes toman más tiempo — te daremos un cronograma claro después de la llamada de descubrimiento.</span></p></div>
-      </details>
-      <details class="faq-item reveal reveal-up">
-        <summary class="faq-question"><span class="en-text">Is my data actually safe on a blockchain?</span><span class="es-text">¿Mis datos están realmente seguros en una blockchain?</span></summary>
-        <div class="faq-answer"><p><span class="en-text">Different from "safe in a database." Your data is replicated across thousands of nodes — no single point of failure. No company can lose it, delete it, or sell it. For sensitive data, we use encryption and IPFS with access controls. You hold the keys.</span><span class="es-text">Diferente a "seguro en una base de datos." Tus datos se replican en miles de nodos — sin punto único de fallo. Ninguna empresa puede perderlos, eliminarlos o venderlos. Para datos sensibles, usamos cifrado e IPFS con controles de acceso. Tú tienes las llaves.</span></p></div>
-      </details>
-      <details class="faq-item reveal reveal-up">
-        <summary class="faq-question"><span class="en-text">What if I change my mind about Web3 later?</span><span class="es-text">¿Qué pasa si cambio de opinión sobre Web3 después?</span></summary>
-        <div class="faq-answer"><p><span class="en-text">Your site also lives on a regular .xyz domain — customers can access it through any normal browser. The Web3 layer adds capabilities, it doesn't replace the basics. You're not locked into anything.</span><span class="es-text">Tu sitio también vive en un dominio .xyz regular — los clientes pueden acceder desde cualquier navegador normal. La capa Web3 agrega capacidades, no reemplaza lo básico. No estás atado a nada.</span></p></div>
-      </details>
-      <details class="faq-item reveal reveal-up">
-        <summary class="faq-question"><span class="en-text">Why Polygon and Base instead of Ethereum?</span><span class="es-text">¿Por qué Polygon y Base en vez de Ethereum?</span></summary>
-        <div class="faq-answer"><p><span class="en-text">Ethereum mainnet costs $5–50+ per transaction. Polygon and Base cost under a penny. Same security model, same tools, fraction of the price. For business use, it's not even close.</span><span class="es-text">Ethereum mainnet cuesta $5–50+ por transacción. Polygon y Base cuestan menos de un centavo. Mismo modelo de seguridad, mismas herramientas, una fracción del precio. Para uso empresarial, ni se comparan.</span></p></div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
      CONTACT
      ══════════════════════════════════════════ -->
 <section id="contact" class="contact-section">
   <div class="section-divider"></div>
   <div class="container">
-    <div class="section-label reveal reveal-up"><span class="en-text">Let's Build</span><span class="es-text">Construyamos</span></div>
-    <h2 class="reveal reveal-up"><span class="en-text">Ready to go decentralized?</span><span class="es-text">¿Listo para descentralizarte?</span></h2>
+    <div class="section-label reveal reveal-up"><span class="en-text">Let's Talk</span><span class="es-text">Hablemos</span></div>
+    <h2 class="reveal reveal-up"><span class="en-text">30 minutes. No pitch. Just a plan.</span><span class="es-text">30 minutos. Sin discurso. Solo un plan.</span></h2>
     <p class="section-desc reveal reveal-up">
-      <span class="en-text">Book a free 30-minute call. We'll look at your business, find the Web3 plays that make sense, and give you a clear roadmap.</span><span class="es-text">Agenda una llamada gratuita de 30 minutos. Analizaremos tu negocio, encontraremos las oportunidades Web3 que tengan sentido y te daremos una hoja de ruta clara.</span>
+      <span class="en-text">Fill out the form or jump straight to my calendar. You'll walk out with a concrete roadmap — whether we work together or not.</span>
+      <span class="es-text">Llena el formulario o ve directo a mi calendario. Saldrás con una hoja de ruta concreta — trabajemos juntos o no.</span>
     </p>
-    <form name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:32px auto 0;text-align:left;" class="reveal reveal-scale">
-      <input type="hidden" name="form-name" value="consultation">
-      <p hidden><label>Don't fill this: <input name="bot-field"></label></p>
-      <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">Name</span><span class="es-text">Nombre</span></label>
-        <input type="text" name="name" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
+    
+    <div style="max-width:480px;margin:32px auto 0;" class="reveal reveal-scale">
+      <!-- FormSubmit.co — free, no signup, emails directly to hello@aurorapathways.xyz -->
+      <form action="https://formsubmit.co/hello@aurorapathways.xyz" method="POST" style="text-align:left;">
+        <!-- Honeypot -->
+        <input type="text" name="_honey" style="display:none">
+        <!-- Disable captcha -->
+        <input type="hidden" name="_captcha" value="false">
+        <!-- Redirect after submit -->
+        <input type="hidden" name="_next" value="https://aurorapathways.xyz/thanks.html">
+        <!-- Subject line -->
+        <input type="hidden" name="_subject" value="New inquiry from aurorapathways.xyz">
+        
+        <div style="margin-bottom:16px;">
+          <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">Name</span><span class="es-text">Nombre</span></label>
+          <input type="text" name="name" required style="width:100%;padding:13px 16px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'" placeholder="Your name">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">Email</span><span class="es-text">Correo</span></label>
+          <input type="email" name="email" required style="width:100%;padding:13px 16px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'" placeholder="you@company.com">
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">What are you looking to build?</span><span class="es-text">¿Qué quieres construir?</span></label>
+          <textarea name="message" rows="4" required style="width:100%;padding:13px 16px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;resize:vertical;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'" placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button type="submit" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-weight:600;font-size:1rem;font-family:inherit;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 30px rgba(124,92,252,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <span class="en-text">Send Message</span><span class="es-text">Enviar Mensaje</span> →
+        </button>
+      </form>
+      
+      <div style="text-align:center;margin-top:24px;padding-top:24px;border-top:1px solid var(--glass-border);">
+        <p style="color:var(--text2);font-size:0.9rem;margin-bottom:12px;">
+          <span class="en-text">Prefer to skip the form?</span><span class="es-text">¿Prefieres saltarte el formulario?</span>
+        </p>
+        <a href="https://calendly.com/prinsog/30min" target="_blank" style="display:inline-block;padding:12px 28px;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.2);color:var(--accent);border-radius:10px;font-weight:600;font-size:0.9rem;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(124,92,252,0.2)'" onmouseout="this.style.background='rgba(124,92,252,0.1)'">
+          <span class="en-text">Book on Calendly instead</span><span class="es-text">Agendar en Calendly</span> →
+        </a>
+        <p style="color:var(--text2);font-size:0.85rem;margin-top:16px;">
+          <span class="en-text">Or email:</span><span class="es-text">O envía un correo:</span>
+          <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);font-weight:500;">hello@aurorapathways.xyz</a>
+        </p>
+        <p style="color:var(--text3);font-size:0.8rem;margin-top:8px;">
+          <span class="en-text">Response time: under 24 hours</span><span class="es-text">Tiempo de respuesta: menos de 24 horas</span>
+        </p>
       </div>
-      <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">Email</span><span class="es-text">Correo</span></label>
-        <input type="email" name="email" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
-      </div>
-      <div style="margin-bottom:16px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">What do you need help with?</span><span class="es-text">¿Con qué necesitas ayuda?</span></label>
-        <select name="service" style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;">
-          <option>Decentralized Website</option>
-          <option>Smart Contracts / NFTs</option>
-          <option>Crypto Payment Integration</option>
-          <option>Web 3.0 Strategy Consulting</option>
-          <option>Workshop / Training</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div style="margin-bottom:20px;">
-        <label style="display:block;margin-bottom:6px;color:var(--text2);font-size:0.88rem;"><span class="en-text">Tell us about your project</span><span class="es-text">Cuéntanos sobre tu proyecto</span></label>
-        <textarea name="message" rows="3" required style="width:100%;padding:13px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:inherit;font-size:1rem;resize:vertical;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'"></textarea>
-      </div>
-      <button type="submit" class="btn-primary" style="font-size:1.1rem;padding:16px 48px;width:100%;border:none;cursor:pointer;"><span class="en-text">Send</span><span class="es-text">Enviar</span> →</button>
-      <p style="text-align:center;color:var(--text2);font-size:0.82rem;margin-top:14px;"><span class="en-text">Or email us directly at</span><span class="es-text">O envíanos un correo a</span> <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a></p>
-      <p style="text-align:center;color:var(--text2);font-size:0.82rem;margin-top:8px;"><span class="en-text">Or book a</span><span class="es-text">O agenda una</span> <a href="https://calendly.com/prinsog/30min" target="_blank" style="color:var(--accent2);font-weight:600;"><span class="en-text">30-minute call on Calendly</span><span class="es-text">llamada de 30 minutos en Calendly</span></a></p>
-      <p style="text-align:center;color:var(--text3);font-size:0.78rem;margin-top:10px;">⏱ <span class="en-text">Response time: under 24 hours</span><span class="es-text">Tiempo de respuesta: menos de 24 horas</span></p>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -2868,7 +3142,7 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
 <section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
   <div class="container">
     <div style="text-align: center; margin-bottom: 32px;" class="reveal reveal-up">
-      <h3 style="font-size: 1.3rem; margin-bottom: 8px;">📅 <span class="en-text">Book with Prince</span><span class="es-text">Reserva con Prince</span></h3>
+      <h3 style="font-size: 1.3rem; margin-bottom: 8px;"><span class="en-text">Book with Prince</span><span class="es-text">Reserva con Prince</span></h3>
       <p style="color: var(--text2); font-size: 0.93rem; margin-bottom: 28px;">
         <span class="en-text">Founder & Lead Developer — pick a slot that works. No email tag.</span><span class="es-text">Fundador y Desarrollador Principal — elige un horario que te funcione. Sin intercambio de correos.</span>
       </p>
@@ -2883,7 +3157,7 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
 <section style="padding: 60px 0; background: var(--surface); border-top: 1px solid var(--glass-border);">
   <div class="container">
     <div style="text-align: center;">
-      <h3 style="font-size: 1.3rem; margin-bottom: 12px;">🌐 <span class="en-text">Find Us Anywhere</span><span class="es-text">Encuéntranos en Cualquier Lugar</span></h3>
+      <h3 style="font-size: 1.3rem; margin-bottom: 12px;"><i class="ic ic-globe"></i> <span class="en-text">Find Us Anywhere</span><span class="es-text">Encuéntranos en Cualquier Lugar</span></h3>
       <p style="color: var(--text2); font-size: 0.93rem;">
         Web3: <code style="background:var(--surface2);padding:5px 14px;border-radius:8px;color:var(--accent2);font-size:0.9rem;">aurorapathways.blockchain</code>
         &nbsp;|&nbsp;
@@ -2892,7 +3166,7 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
         <code style="background:var(--surface2);padding:5px 14px;border-radius:8px;color:var(--text3);font-size:0.9rem;">aurorapathways.pw</code>
       </p>
       <p style="color: var(--text2); font-size: 0.84rem; margin-top: 10px;">
-        💰 <span class="en-text">Pay invoices: USDC/USDT/DAI on Polygon & Base —</span><span class="es-text">Paga facturas: USDC/USDT/DAI en Polygon y Base —</span> <a href="#crypto-payments" style="color:var(--accent2);"><span class="en-text">contract addresses above</span><span class="es-text">direcciones de contratos arriba</span></a>
+        <i class="ic ic-credit"></i> <span class="en-text">Pay invoices: USDC/USDT/DAI on Polygon & Base —</span><span class="es-text">Paga facturas: USDC/USDT/DAI en Polygon y Base —</span> <a href="#crypto-payments" style="color:var(--accent2);"><span class="en-text">contract addresses above</span><span class="es-text">direcciones de contratos arriba</span></a>
       </p>
     </div>
   </div>
@@ -2913,12 +3187,12 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
         <div class="stat-label"><span class="en-text">Live protocol domains</span><span class="es-text">Dominios de protocolos en vivo</span><br>(.xyz + .blockchain)</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">590</div>
-        <div class="stat-label"><span class="en-text">Smart contract tests<br>passing across 12 suites</span><span class="es-text">Pruebas de contratos inteligentes<br>aprobadas en 12 suites</span></div>
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">863</div>
+        <div class="stat-label"><span class="en-text">Smart contract tests<br>passing across 20 suites</span><span class="es-text">Pruebas de contratos inteligentes<br>aprobadas en 20 suites</span></div>
       </div>
       <div class="stat-item">
-        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);">12</div>
-        <div class="stat-label"><span class="en-text">Industries with<br>live portfolio demos</span><span class="es-text">Industrias con<br>demos en vivo</span></div>
+        <div class="stat-value" style="font-size:1.6rem;color:var(--accent2);"><i class="ic ic-check"></i></div>
+        <div class="stat-label"><span class="en-text"><a href="https://polygonscan.com/address/0x163ca1C87224cc219644b3AA5f758D7D8182a1EE" target="_blank" rel="noopener" style="color:var(--accent2);text-decoration:none;">Tasklync · Pledgly · Forekast</a><br>Verified on Polygonscan</span><span class="es-text"><a href="https://polygonscan.com/address/0x163ca1C87224cc219644b3AA5f758D7D8182a1EE" target="_blank" rel="noopener" style="color:var(--accent2);text-decoration:none;">Tasklync · Pledgly · Forekast</a><br>Verificado en Polygonscan</span></div>
       </div>
     </div>
   </div>
@@ -2931,7 +3205,7 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
      ══════════════════════════════════════════ -->
 <div class="newsletter">
   <div class="container">
-    <h2 class="reveal reveal-up"><span class="en-text">📬 Get Web3 Insights</span><span class="es-text">📬 Recibe Insights Web3</span></h2>
+    <h2 class="reveal reveal-up"><span class="en-text"><i class="ic ic-mail"></i> Get Web3 Insights</span><span class="es-text"><i class="ic ic-mail"></i> Recibe Insights Web3</span></h2>
     <p class="reveal reveal-up"><span class="en-text">Weekly technical deep-dives on smart contracts, DeFi, and blockchain development. No spam. Unsubscribe anytime.</span><span class="es-text">Análisis técnicos semanales sobre contratos inteligentes, DeFi y desarrollo blockchain. Sin spam. Cancela cuando quieras.</span></p>
     <form class="newsletter-form reveal reveal-up" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="newsletter">
@@ -2939,7 +3213,7 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
       <input type="email" name="email" placeholder="you@company.com" required>
       <button type="submit"><span class="en-text">Subscribe</span><span class="es-text">Suscribirse</span> →</button>
     </form>
-    <p class="newsletter-note reveal reveal-up"><span class="en-text">Join 200+ builders. No tracking pixels.</span><span class="es-text">Únete a más de 200 builders. Sin píxeles de rastreo.</span></p>
+    <p class="newsletter-note reveal reveal-up"><span class="en-text">No spam. Unsubscribe anytime.</span><span class="es-text">Sin spam. Cancela cuando quieras.</span></p>
   </div>
 </div>
 
@@ -2963,7 +3237,9 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
       <div>
         <p style="font-weight:600;margin-bottom:10px;font-size:0.9rem;"><span class="en-text">Connect</span><span class="es-text">Contacto</span></p>
         <p><a href="mailto:hello@aurorapathways.xyz" style="color:var(--text2);text-decoration:none;font-size:0.85rem;">hello@aurorapathways.xyz</a></p>
+        <p><a href="#crypto-payments" style="color:var(--text2);text-decoration:none;font-size:0.85rem;"><span class="en-text">Pay with Crypto</span><span class="es-text">Pagar con Cripto</span></a></p>
         <p><a href="/pitch-deck.html" style="color:var(--text2);text-decoration:none;font-size:0.85rem;"><span class="en-text">Pitch Deck</span><span class="es-text">Presentación</span></a></p>
+        <p><a href="/privacy-policy.html" style="color:var(--text2);text-decoration:none;font-size:0.85rem;"><span class="en-text">Privacy</span><span class="es-text">Privacidad</span></a></p>
         <p><a href="https://github.com/prinsog-ai/aurora-pathways-site" style="color:var(--text2);text-decoration:none;font-size:0.85rem;" target="_blank">GitHub</a></p>
       </div>
       <div>
@@ -2983,8 +3259,8 @@ console.<span class="fn">log</span>(<span class="str">'Job created: '</span>, tx
 <!-- ══════════════════════════════════════════
      SCRIPTS
      ══════════════════════════════════════════ -->
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" defer></script>
+<script type="text/javascript" data-src="https://assets.calendly.com/assets/external/widget.js" id="calendlyScript"></script>
+<script data-src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" id="ethersScript"></script>
 
 <script>
 // ── Light/Dark Theme Toggle ─────────────
@@ -2992,13 +3268,13 @@ const themeToggle = document.getElementById('themeToggle');
 const savedTheme = localStorage.getItem('ap-theme');
 if (savedTheme === 'light') {
   document.body.classList.add('light');
-  themeToggle.textContent = '☀️';
+  themeToggle.innerHTML = '<i class="ic ic-sun"></i>';
   document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')?.setAttribute('content', '#ffffff');
 }
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light');
   const isLight = document.body.classList.contains('light');
-  themeToggle.textContent = isLight ? '☀️' : '🌙';
+  themeToggle.innerHTML = isLight ? '<i class="ic ic-sun"></i>' : '<i class="ic ic-moon"></i>';
   localStorage.setItem('ap-theme', isLight ? 'light' : 'dark');
 });
 
@@ -3143,36 +3419,35 @@ hamburgerBtn.addEventListener('click', () => {
   document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
 });
 
-async function fetchPrices() {
-  try {
-    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,solana,polygon-ecosystem-token,usd-coin&vs_currencies=usd&include_24hr_change=true');
-    const d = await r.json();
-    const set = (id, price, change) => {
-      const el = document.getElementById(id); if (el) el.textContent = '$' + price.toLocaleString();
-      const cEl = document.getElementById(id.replace('Price','Change'));
-      if (cEl && change !== undefined) {
-        cEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(1) + '%';
-        cEl.className = 'change ' + (change >= 0 ? 'up' : 'down');
+
+
+
+// ── Lazy-load heavy scripts ─────────────────
+const lazyLoader = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Load ethers when MetaMask section enters viewport
+      const ethers = document.getElementById('ethersScript');
+      if (ethers && ethers.dataset.src) {
+        ethers.src = ethers.dataset.src;
+        ethers.defer = true;
+        delete ethers.dataset.src;
       }
-    };
-    set('ethPrice', d.ethereum.usd, d.ethereum.usd_24h_change);
-    set('btcPrice', d.bitcoin.usd, d.bitcoin.usd_24h_change);
-    set('solPrice', d.solana.usd, d.solana.usd_24h_change);
-    if (d['polygon-ecosystem-token']) set('maticPrice', d['polygon-ecosystem-token'].usd, d['polygon-ecosystem-token'].usd_24h_change);
-    else { const el = document.getElementById('maticPrice'); if (el) el.textContent = '$0.08'; }
-    if (d['usd-coin']) set('usdcPrice', d['usd-coin'].usd, d['usd-coin'].usd_24h_change);
-    else { const el = document.getElementById('usdcPrice'); if (el) el.textContent = '$1.00'; }
-    set('ethPrice2', d.ethereum.usd, d.ethereum.usd_24h_change);
-    set('btcPrice2', d.bitcoin.usd, d.bitcoin.usd_24h_change);
-    set('solPrice2', d.solana.usd, d.solana.usd_24h_change);
-    if (d['polygon-ecosystem-token']) set('maticPrice2', d['polygon-ecosystem-token'].usd, d['polygon-ecosystem-token'].usd_24h_change);
-    else { const el = document.getElementById('maticPrice2'); if (el) el.textContent = '$0.08'; }
-    if (d['usd-coin']) set('usdcPrice2', d['usd-coin'].usd, d['usd-coin'].usd_24h_change);
-    else { const el = document.getElementById('usdcPrice2'); if (el) el.textContent = '$1.00'; }
-  } catch(e) { /* retry on next interval */ }
-}
-fetchPrices();
-setInterval(fetchPrices, 60000);
+      // Load Calendly near the booking section
+      const calendly = document.getElementById('calendlyScript');
+      if (calendly && calendly.dataset.src) {
+        calendly.src = calendly.dataset.src;
+        calendly.async = true;
+        delete calendly.dataset.src;
+      }
+      lazyLoader.disconnect();
+    }
+  });
+}, { rootMargin: '400px' });
+
+// Observe the section containing MetaMask connect and Calendly
+const tryItSection = document.querySelector('[id="contact"]')?.closest('section');
+if (tryItSection) lazyLoader.observe(tryItSection);
 </script>
 
 <!-- Chat Widget -->
@@ -3189,17 +3464,11 @@ setInterval(fetchPrices, 60000);
     </div>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="chat-msg bot">Hey! 👋 I'm the Aurora Pathways assistant. I can answer questions about Web3 technology, our services, pricing, or how blockchain could help your business. What would you like to know?</div>
-  </div>
-  <div class="chat-suggestions" id="chatSuggestions">
-    <button class="chat-suggestion" onclick="sendSuggestion(this)">What is Web3?</button>
-    <button class="chat-suggestion" onclick="sendSuggestion(this)">How much does it cost?</button>
-    <button class="chat-suggestion" onclick="sendSuggestion(this)">What chains do you build on?</button>
-    <button class="chat-suggestion" onclick="sendSuggestion(this)">Can you explain smart contracts?</button>
+    <div class="chat-msg bot">Hey! We're currently upgrading our chat system. In the meantime, reach us at <a href="mailto:hello@aurorapathways.xyz" style="color:var(--accent2);">hello@aurorapathways.xyz</a> or <a href="https://calendly.com/prinsog/30min" target="_blank" style="color:var(--accent2);">book a call</a>. We respond within 24 hours.</div>
   </div>
   <div class="chat-input-area">
     <input type="text" class="chat-input" id="chatInput" placeholder="Ask a question..." autocomplete="off">
-    <button class="chat-send" id="chatSend" onclick="sendMessage()">➤</button>
+    <button class="chat-send" id="chatSend" onclick="sendMessage()"><i class="ic ic-chevron-right"></i></button>
   </div>
 </div>
 
@@ -3323,7 +3592,7 @@ async function connectMetaMask() {
       // Chain not added — user will need to add it manually
     }
 
-    document.getElementById('connectWallet').innerHTML = '🦊 <span class="en-text">Connected</span><span class="es-text">Conectado</span>';
+    document.getElementById('connectWallet').innerHTML = '<i class="ic ic-wallet"></i> <span class="en-text">Connected</span><span class="es-text">Conectado</span>';
   } catch (err) {
     console.error('MetaMask connection error:', err);
   }
@@ -3350,6 +3619,11 @@ async function readContract(address, funcName, btn) {
 </script>
 
 
+
+<!-- Mobile Sticky CTA -->
+<div class="mobile-cta-bar">
+  <a href="#contact"><span class="en-text">Book a Free Call</span><span class="es-text">Agendar Llamada Gratuita</span> →</a>
+</div>
 
 </body>
 </html>

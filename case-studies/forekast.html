@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forekast Case Study — Aurora Pathways</title>
+<meta name="description" content="Decentralized prediction markets on Polygon. Multi-oracle resolution, YES/NO token trading. 33 tests, verified contract. Nobody can override the outcome.">
+<link rel="canonical" href="https://aurorapathways.xyz/case-studies/forekast">
+<meta property="og:title" content="Forekast — Prediction Markets on Polygon">
+<meta property="og:description" content="Multi-oracle resolution. Transparent outcomes. Verified on Polygonscan. 33 tests, 0 failures.">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #060609; color: #ececf0; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  .container { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .back { color: #606072; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; display: inline-block; margin-bottom: 40px; }
+  .back:hover { color: #7c5cfc; }
+  .hero { margin-bottom: 48px; }
+  .hero h1 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  .hero .sub { color: #9494a6; font-size: 1.15rem; max-width: 600px; margin-bottom: 28px; }
+  .metrics { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 48px; }
+  .metric { text-align: center; }
+  .metric .num { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #7c5cfc, #4ec9b0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .metric .label { font-size: 0.85rem; color: #606072; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(78,201,176,0.1); border: 1px solid rgba(78,201,176,0.2); padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; color: #4ec9b0; margin-bottom: 24px; }
+  h2 { font-size: 1.5rem; font-weight: 700; margin: 48px 0 16px; color: #fff; }
+  p { color: #9494a6; margin-bottom: 20px; font-size: 1.02rem; }
+  .highlight { background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(78,201,176,0.06)); border: 1px solid rgba(124,92,252,0.12); border-radius: 16px; padding: 28px; margin: 32px 0; }
+  .highlight h3 { font-size: 1.1rem; margin-bottom: 12px; }
+  .highlight p { margin-bottom: 0; font-size: 0.95rem; }
+  .cta { background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(78,201,176,0.06)); border: 1px solid rgba(124,92,252,0.15); border-radius: 16px; padding: 32px; margin-top: 56px; text-align: center; }
+  .cta h3 { font-size: 1.2rem; margin-bottom: 8px; }
+  .cta p { font-size: 0.95rem; margin-bottom: 20px; }
+  .cta a { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c5cfc, #4ec9b0); color: #fff; border-radius: 12px; font-weight: 600; text-decoration: none; }
+  .ps-link { display: inline-flex; align-items: center; gap: 6px; color: #4ec9b0; font-size: 0.9rem; text-decoration: none; margin-top: 12px; }
+  .ps-link:hover { text-decoration: underline; }
+  .demo-link { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 0.9rem; font-weight: 600; text-decoration: none; margin-top: 12px; margin-left: 16px; padding: 8px 18px; background: linear-gradient(135deg, #7c5cfc, #5a3fd4); border-radius: 8px; transition: opacity 0.2s; }
+  .demo-link:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="back">← Aurora Pathways</a>
+  
+  <div class="hero">
+    <div class="badge">◆ Verified on Polygonscan</div>
+    <h1>Forekast — Prediction Markets on Polygon</h1>
+    <p class="sub">Decentralized YES/NO markets with multi-oracle resolution. Nobody can override the outcome — not even the platform.</p>
+    
+    <div class="metrics">
+      <div class="metric"><div class="num">33</div><div class="label">Tests Passing</div></div>
+      <div class="metric"><div class="num">Multi</div><div class="label">Oracle Resolution</div></div>
+      <div class="metric"><div class="num">0</div><div class="label">Test Failures</div></div>
+    </div>
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+    <a href="https://polygonscan.com/address/0xf6108Cc31397933f148982e3e5101d52Ac2b177B" target="_blank" class="ps-link" style="margin-top:0;">View verified contract on Polygonscan →</a>
+    <a href="https://forekast-teal.vercel.app" target="_blank" class="demo-link" style="margin-top:0;margin-left:16px;">🔗 View Live Demo</a>
+    </div>
+  </div>
+
+  <h2>What It Does</h2>
+  <p>Forekast lets anyone create a prediction market and anyone else trade on it. Create a market: "Will BTC hit $150K by December?" Buy YES tokens if you believe it. Buy NO tokens if you don't. When the event resolves, the contract pays winners automatically.</p>
+  <p>No central authority decides the outcome. Multiple independent oracles report the result. The contract enforces the rules. If someone tries to manipulate the outcome, they'd have to corrupt multiple independent data sources — not just one platform's admin panel.</p>
+
+  <div class="highlight">
+    <h3>Multi-Oracle Resolution</h3>
+    <p>Forekast uses multiple oracle providers to resolve each market. A single oracle could be wrong or compromised. Three oracles must agree — if they don't, the market escalates to community vote. No single point of failure. No single point of corruption.</p>
+  </div>
+
+  <h2>How It Works</h2>
+  <p><strong>Create a market.</strong> Define the question, the resolution date, and stake the initial liquidity. The contract mints YES and NO tokens at equal value.</p>
+  <p><strong>Trade.</strong> Anyone can buy YES or NO tokens. Prices move based on demand — a live prediction of probability, priced by the market, not by an analyst.</p>
+  <p><strong>Resolve.</strong> When the event date arrives, multiple oracles report the outcome. If consensus is reached, the contract distributes winnings. If not, the market escalates to community resolution.</p>
+
+  <h2>Why This Matters for Clients</h2>
+  <p>Prediction markets are the most honest forecasting tool ever invented — people put money behind their beliefs. Businesses use them internally for sales forecasting, project delivery estimates, and risk assessment. Exchanges use them for event contracts. Media companies use them for audience engagement.</p>
+  <p>Forekast proves we can build a prediction market that's transparent, tamper-proof, and self-executing. We can adapt this for your use case.</p>
+
+  <div class="cta">
+    <h3>Need a prediction or event-based market?</h3>
+    <p>33 tests. Verified on Polygonscan. Multi-oracle resolution. Shipped in 2-4 weeks.</p>
+    <a href="/#contact">Book a Free Call →</a>
+  </div>
+</div>
+</body>
+</html>

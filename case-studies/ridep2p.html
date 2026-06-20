@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideP2P Case Study — Aurora Pathways</title>
+<meta name="description" content="Community-owned ride sharing on Polygon. 3% platform fee vs Uber's 40%. 6 contracts, 57 tests, hybrid DAO governance.">
+<link rel="canonical" href="https://aurorapathways.xyz/case-studies/ridep2p">
+<meta property="og:title" content="RideP2P — Community-Owned Ride Sharing on Polygon">
+<meta property="og:description" content="3% fee vs Uber's 40%. 6 contracts. Hybrid DAO governance. Verified on Polygonscan. 57 tests.">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #060609; color: #ececf0; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  .container { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+  .back { color: #606072; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; display: inline-block; margin-bottom: 40px; }
+  .back:hover { color: #7c5cfc; }
+  .hero { margin-bottom: 48px; }
+  .hero h1 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  .hero .sub { color: #9494a6; font-size: 1.15rem; max-width: 600px; margin-bottom: 28px; }
+  .metrics { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 48px; }
+  .metric { text-align: center; }
+  .metric .num { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #7c5cfc, #4ec9b0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .metric .label { font-size: 0.85rem; color: #606072; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(78,201,176,0.1); border: 1px solid rgba(78,201,176,0.2); padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; color: #4ec9b0; margin-bottom: 24px; }
+  h2 { font-size: 1.5rem; font-weight: 700; margin: 48px 0 16px; color: #fff; }
+  p { color: #9494a6; margin-bottom: 20px; font-size: 1.02rem; }
+  ul { color: #9494a6; margin: 16px 0 24px 24px; }
+  li { margin-bottom: 8px; }
+  .highlight { background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(78,201,176,0.06)); border: 1px solid rgba(124,92,252,0.12); border-radius: 16px; padding: 28px; margin: 32px 0; }
+  .highlight h3 { font-size: 1.1rem; margin-bottom: 12px; }
+  .highlight p { margin-bottom: 0; font-size: 0.95rem; }
+  .cta { background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(78,201,176,0.06)); border: 1px solid rgba(124,92,252,0.15); border-radius: 16px; padding: 32px; margin-top: 56px; text-align: center; }
+  .cta h3 { font-size: 1.2rem; margin-bottom: 8px; }
+  .cta p { font-size: 0.95rem; margin-bottom: 20px; }
+  .cta a { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7c5cfc, #4ec9b0); color: #fff; border-radius: 12px; font-weight: 600; text-decoration: none; }
+  .ps-link { display: inline-flex; align-items: center; gap: 6px; color: #4ec9b0; font-size: 0.9rem; text-decoration: none; margin-top: 12px; }
+  .ps-link:hover { text-decoration: underline; }
+  .demo-link { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 0.9rem; font-weight: 600; text-decoration: none; margin-top: 12px; margin-left: 16px; padding: 8px 18px; background: linear-gradient(135deg, #7c5cfc, #5a3fd4); border-radius: 8px; transition: opacity 0.2s; }
+  .demo-link:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="back">← Aurora Pathways</a>
+  
+  <div class="hero">
+    <div class="badge">◆ Verified on Polygonscan</div>
+    <h1>RideP2P — Community-Owned Ride Sharing</h1>
+    <p class="sub">6 contracts, 57 tests, hybrid DAO governance. 3% platform fee vs Uber's 40%. Drivers keep what they earn.</p>
+    
+    <div class="metrics">
+      <div class="metric"><div class="num">57</div><div class="label">Tests Passing</div></div>
+      <div class="metric"><div class="num">6</div><div class="label">Smart Contracts</div></div>
+      <div class="metric"><div class="num">3%</div><div class="label">Platform Fee</div></div>
+    </div>
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+    <a href="https://polygonscan.com/address/0x1914CeAE2f9f13e6DD5717b0200f18Ea09eb7434" target="_blank" class="ps-link" style="margin-top:0;">View verified contract on Polygonscan →</a>
+    <a href="https://ridep2p.vercel.app" target="_blank" class="demo-link" style="margin-top:0;margin-left:16px;">🔗 View Live Demo</a>
+    </div>
+  </div>
+
+  <h2>What It Does</h2>
+  <p>RideP2P is a decentralized ride-sharing protocol. Drivers and riders connect directly. Payment settles in USDC at the end of each ride. The platform takes 3% — vs Uber's 40%. Drivers own the protocol through a DAO and vote on fees, rules, and upgrades.</p>
+  <p>This isn't a theoretical whitepaper. 6 contracts deployed to Polygon mainnet. 57 automated tests. Verified on Polygonscan. The economics work: a $20 ride on Uber nets the driver ~$12. The same ride on RideP2P nets $19.40.</p>
+
+  <div class="highlight">
+    <h3>The Numbers</h3>
+    <p>3% platform fee (vs 40% on Uber/Lyft). Instant USDC settlement after each ride. Hybrid DAO + operating company structure for legal compliance. 57 automated tests, 0 failures. 6 contracts handling escrow, reputation, matching, governance, rewards, and treasury.</p>
+  </div>
+
+  <h2>How It Works</h2>
+  <p><strong>Request a ride.</strong> Rider sets pickup and destination. The contract calculates the fare based on distance and current demand. Funds are locked in escrow.</p>
+  <p><strong>Driver accepts.</strong> Nearby drivers see the request. First to accept gets the ride. The contract timestamps the match and starts tracking.</p>
+  <p><strong>Ride completes.</strong> GPS confirms arrival. Funds release from escrow to driver instantly. Rating recorded on-chain — permanent, transparent reputation.</p>
+  <p><strong>DAO governs.</strong> Token holders vote on protocol parameters: fee percentage, minimum driver ratings, dispute resolution rules. No CEO can unilaterally change your rates.</p>
+
+  <h2>Technical Architecture</h2>
+  <p>Six contracts working together:</p>
+  <ul>
+    <li><strong>RideCore</strong> — Matching engine: rider requests, driver acceptance, fare calculation</li>
+    <li><strong>Escrow</strong> — Non-custodial USDC holding with automated release on ride completion</li>
+    <li><strong>Reputation</strong> — On-chain ratings and review history that can't be deleted or gamed</li>
+    <li><strong>Governance</strong> — DAO with proposal voting, timelock execution, and multi-sig treasury</li>
+    <li><strong>Rewards</strong> — Driver incentive program with token-based rewards for high ratings</li>
+    <li><strong>Treasury</strong> — Protocol-owned funds managed by DAO vote</li>
+  </ul>
+
+  <h2>Why This Matters for Clients</h2>
+  <p>RideP2P isn't just about ride sharing. It's proof that you can build a marketplace protocol where the participants — not a corporation — capture the value. Same architecture applies to delivery services, home services, equipment rental, logistics matching.</p>
+  <p>Any industry where a platform takes 20-40% and gives back a fraction to the people doing the actual work — that's a RideP2P opportunity.</p>
+
+  <div class="cta">
+    <h3>Want to build a marketplace where participants keep the value?</h3>
+    <p>6 contracts. 57 tests. Verified on Polygonscan. Shipped in 2-4 weeks.</p>
+    <a href="/#contact">Book a Free Call →</a>
+  </div>
+</div>
+</body>
+</html>
